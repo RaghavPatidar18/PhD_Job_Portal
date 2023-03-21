@@ -1,0 +1,102 @@
+import React from "react";
+import {useParams} from "react-router-dom";
+import {useState,useEffect} from "react";
+import axios from 'axios';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Button, Container } from "react-bootstrap";
+import {Link} from "react-router-dom";
+import './JobDetails.css'; // import custom styles
+
+function JobDetails() {
+  const { id } = useParams();
+  const [job, setJob] = useState({});
+  const url = `http://localhost:4000/job-details/${id}`;
+
+  useEffect(() => {
+    axios.get(url)
+      .then((response) => {
+        setJob(response.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  return (
+    <div className="job-details-container">
+      <h3 className="job-title" style={{
+    fontFamily: "Times New Roman, serif",
+    fontWeight: "bold",
+    fontSize: "48px",
+    color: "#0077B6",
+    textAlign: "center",
+    textShadow: "1px 1px 1px #fff",
+    letterSpacing: "2px",
+    lineHeight: "1.5"
+}}>
+    {job.title}
+</h3>
+
+
+
+<br />
+      <div className="job-info">
+        <div className="job-info-box">
+          <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#555", fontWeight: "bold" }}>College</h5>
+          <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.college}</p>
+        </div>
+        <div className="job-info-box">
+          <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#555", fontWeight: "bold" }}>Location</h5>
+          <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.location}</p>
+        </div>
+        <div className="job-info-box">
+          <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#555", fontWeight: "bold" }}>Salary</h5>
+          <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.salary}</p>
+        </div>
+      </div>
+      <div className="job-details-box">
+        <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#008080", fontWeight: "bold" }}>Description</h5>
+        <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.description}</p>
+      </div>
+      <div className="job-details-box">
+  <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#008080", fontWeight: "bold" }}>Qualifications</h5>
+  <ul style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>
+    {job.qualifications && job.qualifications.map((qualification, index) => (
+      <ul key={index}>
+        {qualification.split('\n').map((item, i) => (
+          <span key={i}>
+            {`• ${item}`}
+            <br />
+          </span>
+        ))}
+      </ul>
+    ))}
+  </ul>
+</div>
+<div className="job-details-box">
+  <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#008080", fontWeight: "bold" }}>Responsibilities</h5>
+  <ul style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>
+    {job.responsibilities && job.responsibilities.map((responsibility, index) => (
+      <ul key={index}>
+        {responsibility.split('\n').map((item, i) => (
+          <span key={i}>
+            {`• ${item}`}
+            <br />
+          </span>
+        ))}
+      </ul>
+    ))}
+  </ul>
+</div>
+
+      <div className="job-details-box">
+        <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#008080", fontWeight: "bold" }}>Contact us at</h5>
+        <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.contactEmail}</p>
+      </div>
+      <Link to="/" className="job-apply-link" style={{ display: "flex", justifyContent: "center" }}>
+        <button className="job-apply-button" style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#fff", backgroundColor: "#008080", border: "none", borderRadius: "5px", padding: "10px 20px", cursor: "pointer", transition: "background-color 0.3s ease" }}>Apply</button>
+      </Link>
+    </div>
+  );
+
+}
+
+export default JobDetails;

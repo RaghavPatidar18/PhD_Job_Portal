@@ -1,0 +1,130 @@
+/* Global Styles */
+.App {
+  font-family: 'Open Sans', sans-serif;
+  text-align: center;
+}
+
+section {
+  display: grid;
+  place-items: center;
+  height: max-content;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+#about {
+  margin-top: -80px;
+}
+
+#projects,
+#contact {
+  color: #3b3b3c;
+  background: #eaf2fa;
+}
+
+/* Navigation Styles */
+.nav {
+  padding: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: top;
+  position: fixed;
+  top: 10px;
+  width: 20%;
+  margin: 80px 0px;
+}
+
+
+.Profile {
+  margin-top: 40px;
+  padding-top: 0;
+}
+
+.nav__container {
+  background-color: #eaf2fa;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 80px;
+  margin: 0;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav__container__actions {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 50px;
+  flex: 1;
+}
+
+.nav__container__actions a {
+  color: #333;
+  font-size: 18px;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: all 0.3s ease;
+}
+
+.nav__container__actions a:hover {
+  color: #0080ff;
+}
+
+.nav__container__actions button {
+  background-color: #0080ff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav__container__actions button:hover {
+  background-color: #0059b3;
+}
+
+
+ul {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  font-size: 0.9rem;
+  list-style: none;
+  padding: 0;
+}
+
+.active {
+  font-weight: bold;
+}
+
+li {
+  cursor: pointer;
+}
+
+li:hover {
+  text-decoration: none;
+}
+
+/* Degree Card Styles */
+.degree-card h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+p {
+  margin: 5px 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #4f4f4f;
+}
