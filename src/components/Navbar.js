@@ -9,11 +9,9 @@ import axios from 'axios';
 import { useNavigate , NavLink } from "react-router-dom"
 
 function App() {
-  const [isStudent, setIsStudent] = useState(false);
-  const [loggedIn, setLoggedIn]=useState(false);
-  const [usert, setUsert] = useState(null);
+  const [userType, setUserType] = useState("");
   const location = useLocation();
-  const userType = new URLSearchParams(location.search).get("userType");
+  const [loggedIn, setLoggedIn]=useState(false);
 
   const history = useNavigate();
 
@@ -23,21 +21,19 @@ function App() {
   useEffect(() => {
     axios.get("http://localhost:4000/")
     .then((response) => {
+      console.log("here at navbar");
       console.log(response.data);
-      // usert = response.data.userType;
-      // setUsert(response.data.userType);
       if(response.data.email===""){
-        setIsStudent(false);
         setLoggedIn(false);
       }else if(response.data.userType==="student"){
-        setIsStudent(true);
+        setUserType("student");
         setLoggedIn(true);
       }else{
-        setIsStudent(false);
+        setUserType("institute");
         setLoggedIn(true);
       }
     })
-    console.log(usert);
+    //console.log(usert);
   }, []);
 
 
@@ -45,6 +41,7 @@ function App() {
     let token = localStorage.getItem("usersdatatoken");
 
     console.log("inside logout");
+    console.log(token);
     const res = await fetch("/logout", {
         method: "GET",
         headers: {
@@ -54,7 +51,7 @@ function App() {
         },
         credentials: "include"
     });
-
+    //console.log(res);
     console.log("after logout");
 
     const data = await res.json();
@@ -64,8 +61,11 @@ function App() {
     if (data.status == 201) {
         console.log("user logout");
         localStorage.removeItem("usersdatatoken");
-        // setLoginData(false)
+        setLoggedIn(false);
+
         history("/");
+        window.location.href = "/";
+
     } else {
         console.log("error");
     }
@@ -81,19 +81,23 @@ function App() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {/* <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Home</Link></Nav.Link> */}
-              <Nav.Link><Link to="/job-profiles" style={{ color: 'black', textDecoration: 'none' }}>Job Profiles</Link></Nav.Link>
+              <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Job Profiles</Link></Nav.Link>
               {/* Only show Job Post option if user is not a student */}
-              {!isStudent && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none' }}>Job Post</Link></Nav.Link>}
+              {userType==="institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none' }}>Job Post</Link></Nav.Link>}
             </Nav>
 
-            <Nav>
+            {loggedIn && <Nav>
               <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="collasible-nav-dropdown">
                 <NavDropdown.Item><Link to="/profile" style={{ color: 'black', textDecoration: 'none' }}>Profile</Link></NavDropdown.Item>
                 <NavDropdown.Item><Link to="/account" style={{ color: 'black', textDecoration: 'none' }}>Account</Link></NavDropdown.Item>
+                {userType==="student" && <NavDropdown.Item><Link to="/application" style={{ color: 'black', textDecoration: 'none' }}>My Applications</Link></NavDropdown.Item>}
+              {userType==="institute" && <NavDropdown.Item><Link to="/job-postings" style={{ color: 'black', textDecoration: 'none' }}>My Job Posting</Link></NavDropdown.Item>}
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={() => {logoutuser()}}>Logout</NavDropdown.Item>
               </NavDropdown>
-            </Nav>
+            </Nav>}
+
+            {!loggedIn && <Nav.Link><Link to="/choose-profile" style={{ color: 'black', textDecoration: 'none' }}>Login/Signup</Link></Nav.Link>}
 
           </Navbar.Collapse>
         </Container>

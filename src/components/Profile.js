@@ -61,7 +61,7 @@ const [screenWidth] = React.useState(window.innerWidth);
   return (
     <>
     {screenWidth >= 1024 ? (
-        <> 
+        <>
         <header className="nav">
         <nav className="nav__container__actions">
           <ul>
@@ -111,7 +111,7 @@ const [screenWidth] = React.useState(window.innerWidth);
         </>
     ) : <> {alert("Here")} </>
   }
-    <div className="Profile"> 
+    <div className="Profile">
       <section id="personal">
         <Personal/>
       </section>
@@ -123,7 +123,7 @@ const [screenWidth] = React.useState(window.innerWidth);
       <section id="reference"><Refrees/></section>
       <section id="POR"><POR/></section>
       <section id="other"><OtherDetails/></section>
-      
+
     </div>
     </>
   );

@@ -33,12 +33,12 @@ const Login = () => {
     console.log("userdatatoken ki value hai : ");
     console.log(res.result.token);
       localStorage.setItem("usersdatatoken",res.result.token);
-      window.location.href = isStudent ? "/homestudent" : "/homeinstitute";
+      window.location.href = "/";
       // setInpval({...inpval,email:"",password:""});
   }
   };
 
-  
+
 
   const handlePassword = () => {
     window.location.href = `/password-reset?userType=${userType}`;

@@ -12,7 +12,8 @@ const jobSchema = new mongoose.Schema({
   college: { type: String, required: true },
   qualifications: { type: [String], required: true },
   responsibilities: { type: [String], required: true },
-  link: { type: String }
+  link: { type: String },
+  institute_email: {type: String}
 });
 
 const userSchema = new mongoose.Schema({

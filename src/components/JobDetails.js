@@ -9,16 +9,43 @@ import './JobDetails.css'; // import custom styles
 
 function JobDetails() {
   const { id } = useParams();
+  //console.log(id);
   const [job, setJob] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
+const [applied, setApplied]=useState(false);
+const [userIsStudent,setUserIsStudent]=useState(false);
   const url = `http://localhost:4000/job-details/${id}`;
 
   useEffect(() => {
     axios.get(url)
       .then((response) => {
-        setJob(response.data);
+        setJob(response.data.found);
+        console.log("response data is here");
+        console.log(response.data);
+        console.log(job);
+        if(response.data.email!==""){
+          setLoggedIn(true);
+        }
+        if(response.data.applied===true){
+          setApplied(true);
+        }
+        if(response.data.userType==="student"){
+          setUserIsStudent(true);
+        }
       })
       .catch((err) => console.log(err));
   }, []);
+
+  function applyClicked(){
+    console.log("heheheheh");
+    axios.post("http://localhost:4000/apply", {id})
+    .then((res) => {
+      if (res.data.success) {
+        window.location.href = "/";
+      }
+    })
+    .catch((err) => console.error(err));
+  }
 
   return (
     <div className="job-details-container">
@@ -92,7 +119,7 @@ function JobDetails() {
         <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.contactEmail}</p>
       </div>
       <Link to="/" className="job-apply-link" style={{ display: "flex", justifyContent: "center" }}>
-        <button className="job-apply-button" style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#fff", backgroundColor: "#008080", border: "none", borderRadius: "5px", padding: "10px 20px", cursor: "pointer", transition: "background-color 0.3s ease" }}>Apply</button>
+        {loggedIn && !applied && userIsStudent && <button onClick={applyClicked} className="job-apply-button" style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#fff", backgroundColor: "#008080", border: "none", borderRadius: "5px", padding: "10px 20px", cursor: "pointer", transition: "background-color 0.3s ease" }}>Apply</button>}
       </Link>
     </div>
   );

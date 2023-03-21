@@ -44,12 +44,23 @@ const User = models.User;
 const UserInstitute = models.UserInstitute;
 
 
+const applicationSchema = new mongoose.Schema({
+  student_email: String,
+  job_id: String,
+  status: String
+});
+const Application = mongoose.model("application", applicationSchema);
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post('/job-post', (req, res) => {
     console.log(req.body);
-  const job = new Job(req.body);
+    var obj={};
+    obj=req.body;
+    obj.institute_email=session.email;
+  const job = new Job(obj);
   job.save((err) => {
     if (err) {
       res.status(500).send(err);
@@ -71,8 +82,6 @@ app.get('/', (req, res) => {
     if (err) {
       res.status(500).send(err);
     } else {
-      console.log(email);
-      console.log(userType);
       res.status(200).send({
         jobDetails: jobs,
         email:email,
@@ -82,13 +91,31 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/job-details/:id', (req,res) => {
+app.get('/job-details/:id', async(req,res) => {
   const id=req.params.id;
+  var email="";
+  var userType="";
+  var applied=false;
+  //console.log(id);
+  if(session.email!=null){
+    email=session.email;
+    userType=session.userType;
+    const application=await Application.findOne({job_id:id, student_email:email});
+    if(application){
+      applied=true;
+    }
+  }
   Job.findOne({_id:id}, (err,found) => {
     if(err){
       res.status(500).send(err);
     }else{
-      res.status(200).send(found);
+      //console.log(found);
+      res.status(200).send({
+        found:found,
+        email: email,
+        applied: applied,
+        userType: userType
+      });
     }
   })
 })
@@ -234,11 +261,11 @@ app.post("/api/login", async (req, res) => {
     {
 
       // token generate
-      
+
       const token = await userstudent.generateAuthToken();
-      
+
       console.log(userstudent);
-      
+
 
       // cookiegenerate
 
@@ -287,11 +314,11 @@ app.post("/api/login", async (req, res) => {
     else
     {
       // token generate
-      
+
       const token = await userInstitute.generateAuthToken();
-      
+
       // console.log(userInstitute);
-      
+
 
       // cookiegenerate
 
@@ -324,21 +351,7 @@ app.post("/api/login", async (req, res) => {
 // user valid
 app.get("/validuser",authenticate,async(req,res)=>{
   console.log("done");
-
-  // const {userType} = req.body;
-
-  try {
-
-    // if(userType=="student")
-    // {
-    //   const ValidUserOne = await User.findOne({_id:req.userId});
-    //   res.status(201).json({status:201,ValidUserOne});
-    // }
-    // else 
-    // {
-    //   const ValidUserOne = await UserInstitute.findOne({_id:req.userId});
-    //   res.status(201).json({status:201,ValidUserOne});
-    // }
+    try {
 
     let ValidUserOne = await User.findOne({_id:req.userId});
     if(!ValidUserOne)
@@ -346,7 +359,7 @@ app.get("/validuser",authenticate,async(req,res)=>{
       ValidUserOne = await UserInstitute.findOne({_id:req.userId});
     }
       res.status(201).json({status:201,ValidUserOne});
-      
+
   } catch (error) {
       res.status(401).json({status:401,error});
   }
@@ -538,6 +551,7 @@ app.post("/api/:id/:token/:usertype",async(req,res)=>{
 
 
 app.get("/logout",authenticate,async(req,res)=>{
+  console.log("sjbfouwbgro");
   try {
       req.rootUser.tokens =  req.rootUser.tokens.filter((curelem)=>{
           return curelem.token !== req.token
@@ -546,21 +560,142 @@ app.get("/logout",authenticate,async(req,res)=>{
       console.log("logout me aa rha");
 
       res.clearCookie("usercookie",{path:"/"});
+      // delete session.email;
+      // delete session.userType;
 
       req.rootUser.save();
+      session.email="";
+      session.userType="";
+      console.log("save ho rha");
+      //console.log(rootUser);
 
-      // console.log("save ho rha");
 
       res.status(201).json({status:201})
 
-      // console.log("res m data save ho rha");
-
-      // console.log(rootUser);
-
-      // console.log("last chl rhi");
-
   } catch (error) {
       // res.status(401).json({status:401,error})
+  }
+})
+
+
+app.post("/apply", async(req,res) => {
+  console.log("here at apply");
+  console.log(req.body);
+  console.log(req.body.id);
+  const job_id=req.body.id;
+
+  const email=session.email;
+  console.log(email);
+  console.log(session.email);
+  const newApplication=new Application({
+    student_email: email,
+    job_id,
+    status: "Pending"
+  });
+  await newApplication.save();
+})
+
+app.get("/jobStatus", async(req,res) => {
+  //console.log("here at job status");
+  try{
+    const student_email=session.email;
+    const student_applications=await Application.find({student_email:student_email});
+    console.log(student_applications);
+    Promise.all(student_applications.map(async(application) => {
+      const job=await Job.findOne({_id:application.job_id});
+      let obj={};
+      obj.job_id=await job._id;
+      obj.title=await job.title;
+      obj.college=await job.college;
+      obj.application_status=await application.status;
+      return obj;
+    })).then(applicationArray => {
+      res.send(applicationArray);
+    })
+  }catch(error){
+    console.log(error);
+  }
+})
+
+
+app.get("/jobCardApply/:id", async(req,res) => {
+  //console.log("here at job card apply");
+  try{
+    var userType="";
+    if(session.userType!=null){
+      userType=session.userType;
+    }
+    const {id}=req.params;
+    const student_email=session.email;
+    //console.log(student_email);
+    const jobApplication=await Application.findOne({job_id:id, student_email:student_email});
+    //console.log(jobApplication);
+    if(jobApplication){
+      res.send({applied:true,userType:userType});
+    }else{
+      res.send({applied:false,userType:userType});
+    }
+  }catch(err){
+    console.log(err);
+  }
+})
+
+app.get("/jobPostings", async(req,res) => {
+  //console.log("here at job postings");
+  try{
+    const institute_email=session.email;
+    const jobs=await Job.find({institute_email:institute_email});
+    //console.log(jobs);
+    Promise.all(jobs.map(async(job) => {
+      let obj={};
+      obj.title=await job.title;
+      obj._id=await job._id;
+      return obj;
+    })).then(jobArray => {
+      res.send(jobArray);
+    })
+  }catch(error){
+    console.log(error);
+  }
+})
+
+app.get("/jobApplicants/:id", async(req,res) => {
+  //console.log("here at job applicants");
+  try{
+    console.log("yolo");
+    const {id}=req.params;
+    console.log(id);
+    const applications=await Application.find({job_id:id});
+    console.log(applications);
+    Promise.all(applications.map(async(application) => {
+      const student=await User.findOne({email: application.student_email});
+      let obj={};
+      if(student){
+        obj.application_id=await application._id;
+        obj.student_name=await student.name;
+        obj.student_email=await student.email;
+        obj.status=await application.status;
+      }
+      return obj;
+    })).then(applicantArray => {
+      res.send(applicantArray);
+    })
+  }catch(error){
+    console.log(error);
+  }
+})
+
+app.post("/jobApplicantStatusChange", async(req,res)=> {
+  try{
+    const {application_id,newStatus}=req.body;
+    console.log("here at status change");
+    console.log(application_id);
+    console.log(newStatus);
+    const application=await Application.updateOne({_id:application_id}, {$set:{status:newStatus}});
+    res.send("success");
+  }catch(err){
+    console.log(err);
+    res.send(err);
   }
 })
 

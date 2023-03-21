@@ -12,6 +12,9 @@ import Basic from "./components/basic";
 import PasswordReset from "./components/PasswordReset";
 import ForgotPassword from "./components/ForgotPassword";
 import Error from "./components/Error";
+import AppliedJob from "./components/AppliedJob";
+import PostedJobs from "./components/PostedJobs";
+import JobApplicants from "./components/JobApplicants";
 
 
 function Root() {
@@ -38,10 +41,10 @@ function Root() {
 
       if (data.status == 401 || !data) {
         console.log("home page redirect")
-          // navigate("/");
+        //  navigate("/");
       } else {
           console.log("user verify");
-          navigate("/profile");
+          //navigate("/profile");
       }
     }
 
@@ -52,19 +55,24 @@ function Root() {
   return (
     <div>
       <Routes>
-       <Route path="/homeinstitute" element={<><Navbar /> <Job /> </>} />
-        <Route path="/homestudent" element={<><Navbar /> <Job /> </>} />
+
+
+       <Route path="/" element={<><Navbar /> <Job /> </>} />
         <Route path="/profile" element={<><Navbar/> <Profile /></>}/>
         <Route path="/job-details/:id" element={<><Navbar/> <JobDetails/></> }/>
         <Route path="/job-post" element={<><Navbar/> <PostJob/></> }/>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/choose-profile" element={<Basic />} /> */}
-        <Route path="/job-profiles" element={<><Navbar /> <Job /> </>} />
+        <Route path="/choose-profile" element={<Basic />} />
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />
-        <Route path="/" element={<Basic />} />
+
+
+        <Route path="/application" element={<><Navbar /> <AppliedJob /></>} />
+        <Route path="/job-postings" element={<><Navbar /> <PostedJobs /></>} />
+        <Route path="/job-applicants/:id" element={<><Navbar /> <JobApplicants /></>} />
         <Route path="*" element={<Error />} />
+
       </Routes>
       </div>
   );
@@ -78,5 +86,5 @@ export default function App() {
       <Root />
     </BrowserRouter>
   );
-  
+
 }
