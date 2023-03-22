@@ -50,7 +50,14 @@ const applicationSchema = new mongoose.Schema({
   status: String
 });
 const Application = mongoose.model("application", applicationSchema);
-
+// Getting collections from database
+const Academic = require("./model/academicSchema");
+const Experience = require("./model/experienceSchema");
+const OtherDetail = require("./model/personalSchema");
+const Personal = require("./model/personalSchema");
+const Por = require("./model/porSchema");
+const Publication = require("./model/publicationSchema");
+const Reference = require("./model/referenceSchema");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -208,6 +215,16 @@ app.post("/api/verifyOtp", async (req, res) => {
           password: hashedPassword
         });
         await user.save();
+        const personal = new Personal({
+          email: email,
+          name: name,
+          age: null,
+          gender: "",
+          category: "",
+          permanentAddress: "",
+          currentAddress: "",
+        });
+        await personal.save();
       }
       else
       {
@@ -698,6 +715,94 @@ app.post("/jobApplicantStatusChange", async(req,res)=> {
     res.send(err);
   }
 })
+
+app.post("/personal", async(req, res) => {
+  var email = "";
+  if (session.email != null) {
+    email = session.email;
+    userType = session.userType;
+  }
+  const filter = { email: email };
+  const update = {
+    age: req.body.age,
+    gender: req.body.gender,
+    permanentAddress: req.body.permanentAddress,
+    currentAddress: req.body.currentAddress,
+    category : req.body.category,
+  };
+  await Personal.findOneAndUpdate(filter, update);
+
+});
+
+app.get("/personal", (req, res) => {
+  var email = "";
+  var userType = "";
+  console.log('Idhar aaya');
+  console.log("Yha pe h" + session.email);
+  if (session.email == null) {
+    return res.status(400).send({
+      name: "Default",
+        age: null,
+        gender: "",
+        category: "",
+        permanentAddress: "",
+        currentAddress: "",
+    })
+  }
+  email = session.email ;
+  Personal.find({ email : email }, (err, personals) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      console.log('Idhar aaya2');
+      console.log("Name : "+ personals[0].name);
+      return res.status(201).send({
+        name: personals[0].name,
+        age: personals[0].age,
+        gender: personals[0].gender,
+        category: personals[0].category,
+        permanentAddress: personals[0].permanentAddress,
+        currentAddress: personals[0].currentAddress,
+      });
+    }
+  });
+});
+
+app.get("/academic", (req, res) => {
+  var email = "";
+  var userType = "";
+  console.log('Idhar aaya');
+  console.log("Yha pe h" + session.email);
+  if (session.email == null) {
+    return res.status(400).send({
+      name: "Default",
+        age: null,
+        gender: "",
+        category: "",
+        permanentAddress: "",
+        currentAddress: "",
+    })
+  }
+  email = session.email ;
+  Personal.find({ email : email }, (err, personals) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      console.log('Idhar aaya2');
+      console.log("Name : "+ personals[0].name);
+      return res.status(201).send({
+        name: personals[0].name,
+        age: personals[0].age,
+        gender: personals[0].gender,
+        category: personals[0].category,
+        permanentAddress: personals[0].permanentAddress,
+        currentAddress: personals[0].currentAddress,
+      });
+    }
+  });
+});
+
+
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');

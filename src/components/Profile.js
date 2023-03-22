@@ -109,7 +109,7 @@ const [screenWidth] = React.useState(window.innerWidth);
         </nav>
       </header>
         </>
-    ) : <> {alert("Here")} </>
+    ) : <> </>
   }
     <div className="Profile">
       <section id="personal">

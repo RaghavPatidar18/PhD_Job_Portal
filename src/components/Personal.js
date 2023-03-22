@@ -1,18 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
+import axios from 'axios';
 import './Personal.css'; // import the CSS file
 
 export default function UserProfile() {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [name, setName] = useState('John Doe');
-  const [age, setAge] = useState(30);
-  const [gender, setGender] = useState('Male'); 
-  const [category, setCategory] = useState('General');
-  const [permanentAddress, setPermanentAddress] = useState('123 Main St, Anytown');
-  const [currentAddress, setCurrentAddress] = useState('456 Broadway, Anytown');
+  const [name, setName] = useState('');
+  const [age, setAge] = useState();
+  const [gender, setGender] = useState(''); 
+  const [category, setCategory] = useState('');
+  const [permanentAddress, setPermanentAddress] = useState('');
+  const [currentAddress, setCurrentAddress] = useState('');
+  const url = 'http://localhost:4000/personal'
+  useEffect(()=>{
+    axios.get(url)
+    .then((response)=>{
+      console.log("Yha pr h bhai " + response.data);
+      if(response.status === 201){
+        setAge(response.data.age);
+        setGender(response.data.gender);
+        setPermanentAddress(response.data.permanentAddress);
+        setCurrentAddress(response.data.currentAddress);
+        setName(response.data.name);
+        setCategory(response.data.category);
+      }
+    })
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // save user profile data
+    const personal = {
+      age, 
+      gender,
+      permanentAddress, 
+      currentAddress,
+      category,
+    }
+    axios
+      .post("http://localhost:4000/personal", personal)
+      .then(()=>{
+        console.log('Updated');
+      }).catch((err)=>{
+        console.log(err);
+      })
     setIsEditMode(false);
   };
 

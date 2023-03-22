@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Academic.css';
 
 const AcademicDetails = () => {
   const [degrees, setDegrees] = useState([]);
   const [degreeForm, setDegreeForm] = useState(null);
   const [degreeFormError, setDegreeFormError] = useState('');
-
+  const url = 'http://localhost:4000/personal';
   const handleFormSubmit = (event) => {
-    event.preventDefault();
-
     if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
       setDegreeFormError('All fields are required.');
       return;
     }
-
-    setDegrees([...degrees, degreeForm]);
-    setDegreeForm(null);
+    
+    event.preventDefault();
   };
 
   const handleEditSubmit = (event, index) => {
+
     event.preventDefault();
 
     if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
