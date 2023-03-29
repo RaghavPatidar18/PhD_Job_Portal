@@ -13,7 +13,7 @@ const jobSchema = new mongoose.Schema({
   qualifications: { type: [String], required: true },
   responsibilities: { type: [String], required: true },
   link: { type: String },
-  institute_email: {type: String}
+  institute_id: {type: String}
 });
 
 const userSchema = new mongoose.Schema({

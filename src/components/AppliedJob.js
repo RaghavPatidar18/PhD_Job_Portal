@@ -7,12 +7,13 @@ import axios from "axios";
 import {useState,useEffect} from "react";
 import AppliedJobCard from "./AppliedJobCard";
 import { useNavigate , useLocation } from 'react-router-dom';
+import {useParams} from "react-router-dom";
 
-function AppliedJob(){
+function AppliedJob({user,type}){
 
-  //const { id } = useParams();
+  const { id } = useParams();
   const [job, setJob] = useState([]);
-  const url = "http://localhost:4000/jobStatus";
+  const url = `http://localhost:4000/jobStatus/${id}`;
 
   const history = useNavigate();
 
@@ -20,50 +21,23 @@ function AppliedJob(){
   // const userType = new URLSearchParams(location.search).get("userType");
   // // console.log(userType);
 
-  const ProfileValid = async () => {
-    console.log("inside profilevalid");
-      let token = localStorage.getItem("usersdatatoken");
 
-      console.log(token);
-
-      const res = await fetch("/validuser", {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-              "Authorization": token
-          },
-      //     body:JSON.stringify({
-      //       userType
-      //  })
-      });
-
-      const data = await res.json();
-
-      console.log(data);
-
-      if (data.status == 401 || !data) {
-        console.log("error page redirect")
-          history("*");
-      } else {
-          console.log("user verify");
-          // setLoginData(data)
-          history("/application");
-      }
-    }
-
-  useEffect(() => {
-      ProfileValid();
-  }, [])
 
 
   useEffect(() => {
+    if(user.email===undefined || type!="student"){
+      history("*");
+    }else{
     axios.get(url)
       .then((response) => {
-        setJob(response.data);
+        setJob(response.data.applicationArray);
       })
       .catch((err) => console.log(err));
+    }
   }, []);
-  console.log(job);
+
+
+  //console.log(job);
   return(
     <div>
     {job.map(j => (

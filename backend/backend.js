@@ -45,7 +45,7 @@ const UserInstitute = models.UserInstitute;
 
 
 const applicationSchema = new mongoose.Schema({
-  student_email: String,
+  student_id: String,
   job_id: String,
   status: String
 });
@@ -64,15 +64,16 @@ app.use(bodyParser.json());
 
 app.post('/job-post', (req, res) => {
     console.log(req.body);
+    const {job,id}=req.body;
     var obj={};
-    obj=req.body;
-    obj.institute_email=session.email;
-  const job = new Job(obj);
-  job.save((err) => {
+    obj=job;
+    obj.institute_id=id;
+  const postJob = new Job(obj);
+  postJob.save((err) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send({status:500,err});
     } else {
-      res.status(201).send(job);
+      res.status(201).send({status:200});
     }
   });
 });
@@ -80,51 +81,52 @@ app.post('/job-post', (req, res) => {
 app.get('/', (req, res) => {
   var email="";
   var userType="";
-  if(session.email!=null){
-    email=session.email;
-    userType=session.userType;
-  }
-
   Job.find({}, (err, jobs) => {
     if (err) {
-      res.status(500).send(err);
+      res.status(500).send({status:500,err});
     } else {
       res.status(200).send({
+        status:200,
         jobDetails: jobs,
-        email:email,
-        userType: userType
       });
     }
   });
 });
 
-app.get('/job-details/:id', async(req,res) => {
-  const id=req.params.id;
-  var email="";
-  var userType="";
-  var applied=false;
-  //console.log(id);
-  if(session.email!=null){
-    email=session.email;
-    userType=session.userType;
-    const application=await Application.findOne({job_id:id, student_email:email});
+app.get('/job-details/:id/:student_id', async(req,res) => {
+  //console.log(req.userID);
+  console.log("jsgiuf");
+
+  try{
+    const {id,student_id}=req.params;
+    console.log(id);
+    console.log(student_id);
+
+    var applied=false;
+    //console.log(id);
+    const application=await Application.findOne({job_id:id, student_id:student_id});
     if(application){
+      console.log("sbugfiw");
       applied=true;
-    }
-  }
-  Job.findOne({_id:id}, (err,found) => {
-    if(err){
-      res.status(500).send(err);
     }else{
-      //console.log(found);
-      res.status(200).send({
-        found:found,
-        email: email,
-        applied: applied,
-        userType: userType
+      console.log("sbfoie");
+      applied=false;
+    }
+
+    const job=await Job.findOne({_id:id});
+    if(job){
+      console.log("here at job detaisl");
+      console.log(job);
+      res.status(200).json({
+        status:200,
+        job:job,
+        applied: applied
       });
     }
-  })
+  }catch(err){
+    res.status(500).json({status:500,err});
+  }
+
 })
 
 
@@ -149,7 +151,8 @@ app.post("/api/sendOtp", async (req, res) => {
     // Check if the user already exists
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: "User already exists" });
+      console.log("i m hetyfiuwbri");
+      return res.status(200).send({status:400, message: "User already exists" });
     }
   }
   else
@@ -157,7 +160,7 @@ app.post("/api/sendOtp", async (req, res) => {
     // Check if the user already exists
     const user = await UserInstitute.findOne({ email });
     if (user) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(200).send({status:400, message: "User already exists" });
     }
   }
 
@@ -175,12 +178,14 @@ app.post("/api/sendOtp", async (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
-      return res.status(500).send({
+      return res.status(200).send({
+        status:500,
         message: "Failed to send OTP"
       });
     } else {
       console.log("OTP sent: " + info.response);
-      return res.send({
+      return res.status(200).send({
+        status:200,
         message: "OTP sent"
       });
     }
@@ -238,11 +243,13 @@ app.post("/api/verifyOtp", async (req, res) => {
 
       console.log("bn gya");
       return res.status(200).send({
+        status:200,
         success: true,
         message: "OTP verified successfully"
       });
     }
-    else return res.status(400).send({
+    else return res.status(200).send({
+      status:400,
       success: false,
       message: "Invalid OTP"
     });
@@ -299,8 +306,7 @@ app.post("/api/login", async (req, res) => {
 
 
       // console.log("Logged in huehue");
-      session.email=req.body.email;
-      session.userType=req.body.userType;
+
       res.status(201).json({status:201,result})
       // return res.status(200).send({
       //   success: true,
@@ -352,8 +358,7 @@ app.post("/api/login", async (req, res) => {
 
 
       // console.log("Logged in huehue");
-      session.email=req.body.email;
-      session.userType=req.body.userType;
+
       res.status(201).json({status:201,result})
       // return res.status(200).send({
       //   success: true,
@@ -374,8 +379,12 @@ app.get("/validuser",authenticate,async(req,res)=>{
     if(!ValidUserOne)
     {
       ValidUserOne = await UserInstitute.findOne({_id:req.userId});
+      if(ValidUserOne){
+        res.status(201).json({status:201,ValidUserOne,userType:"institute"});
+      }
+    }else{
+      res.status(201).json({status:201,ValidUserOne,userType:"student"});
     }
-      res.status(201).json({status:201,ValidUserOne});
 
   } catch (error) {
       res.status(401).json({status:401,error});
@@ -577,12 +586,10 @@ app.get("/logout",authenticate,async(req,res)=>{
       console.log("logout me aa rha");
 
       res.clearCookie("usercookie",{path:"/"});
-      // delete session.email;
-      // delete session.userType;
+
 
       req.rootUser.save();
-      session.email="";
-      session.userType="";
+
       console.log("save ho rha");
       //console.log(rootUser);
 
@@ -597,26 +604,29 @@ app.get("/logout",authenticate,async(req,res)=>{
 
 app.post("/apply", async(req,res) => {
   console.log("here at apply");
-  console.log(req.body);
-  console.log(req.body.id);
-  const job_id=req.body.id;
+  const id=req.body.id;
+  const student_id=req.body.student_id;
 
-  const email=session.email;
-  console.log(email);
-  console.log(session.email);
   const newApplication=new Application({
-    student_email: email,
-    job_id,
+    student_id: student_id,
+    job_id:id,
     status: "Pending"
   });
-  await newApplication.save();
+  const success=await newApplication.save();
+  if(success){
+    res.status(200).send({status:200});
+  }else{
+    res.status(500).send({status:500});
+  }
 })
 
-app.get("/jobStatus", async(req,res) => {
+
+app.get("/jobStatus/:id", async(req,res) => {
+  const {id}=req.params;
   //console.log("here at job status");
   try{
-    const student_email=session.email;
-    const student_applications=await Application.find({student_email:student_email});
+
+    const student_applications=await Application.find({student_id:id});
     console.log(student_applications);
     Promise.all(student_applications.map(async(application) => {
       const job=await Job.findOne({_id:application.job_id});
@@ -627,52 +637,33 @@ app.get("/jobStatus", async(req,res) => {
       obj.application_status=await application.status;
       return obj;
     })).then(applicationArray => {
-      res.send(applicationArray);
+      res.status(200).send({status:200,applicationArray});
     })
   }catch(error){
     console.log(error);
+    res.status(500).send({status:500,err});
   }
 })
 
 
-app.get("/jobCardApply/:id", async(req,res) => {
-  //console.log("here at job card apply");
-  try{
-    var userType="";
-    if(session.userType!=null){
-      userType=session.userType;
-    }
-    const {id}=req.params;
-    const student_email=session.email;
-    //console.log(student_email);
-    const jobApplication=await Application.findOne({job_id:id, student_email:student_email});
-    //console.log(jobApplication);
-    if(jobApplication){
-      res.send({applied:true,userType:userType});
-    }else{
-      res.send({applied:false,userType:userType});
-    }
-  }catch(err){
-    console.log(err);
-  }
-})
 
-app.get("/jobPostings", async(req,res) => {
+
+app.get("/jobPostings/:id", async(req,res) => {
   //console.log("here at job postings");
   try{
-    const institute_email=session.email;
-    const jobs=await Job.find({institute_email:institute_email});
-    //console.log(jobs);
+    const {id}=req.params;
+    const jobs=await Job.find({institute_id:id});
     Promise.all(jobs.map(async(job) => {
       let obj={};
       obj.title=await job.title;
       obj._id=await job._id;
       return obj;
     })).then(jobArray => {
-      res.send(jobArray);
+      res.status(200).send({status:200,jobArray});
     })
   }catch(error){
     console.log(error);
+    res.status(500).send({status:500,err});
   }
 })
 
@@ -685,20 +676,21 @@ app.get("/jobApplicants/:id", async(req,res) => {
     const applications=await Application.find({job_id:id});
     console.log(applications);
     Promise.all(applications.map(async(application) => {
-      const student=await User.findOne({email: application.student_email});
+      const student=await User.findOne({_id: application.student_id});
       let obj={};
       if(student){
         obj.application_id=await application._id;
         obj.student_name=await student.name;
-        obj.student_email=await student.email;
+        obj.student_id=await student._id;
         obj.status=await application.status;
       }
       return obj;
     })).then(applicantArray => {
-      res.send(applicantArray);
+      res.status(200).send({status:200,applicantArray});
     })
   }catch(error){
     console.log(error);
+    res.status(500).send({status:500,error});
   }
 })
 
@@ -716,12 +708,13 @@ app.post("/jobApplicantStatusChange", async(req,res)=> {
   }
 })
 
-app.post("/personal", async(req, res) => {
-  var email = "";
-  if (session.email != null) {
-    email = session.email;
-    userType = session.userType;
-  }
+app.post("/personal/:email/:userType", async(req, res) => {
+  //var email = "";
+  console.log("here at personal post");
+  var {email,userType}=req.params;
+
+
+  // }
   const filter = { email: email };
   const update = {
     age: req.body.age,
@@ -734,12 +727,13 @@ app.post("/personal", async(req, res) => {
 
 });
 
-app.get("/personal", (req, res) => {
-  var email = "";
-  var userType = "";
+app.get("/personal/:email/:userType", (req, res) => {
+  // var email = "";
+  // var userType = "";
+  var {email,userType}=req.params;
   console.log('Idhar aaya');
-  console.log("Yha pe h" + session.email);
-  if (session.email == null) {
+
+  if (email == null) {
     return res.status(400).send({
       name: "Default",
         age: null,
@@ -749,20 +743,15 @@ app.get("/personal", (req, res) => {
         currentAddress: "",
     })
   }
-  email = session.email ;
-  Personal.find({ email : email }, (err, personals) => {
+
+  Personal.findOne({ email : email }, (err, personals) => {
     if (err) {
       res.status(500).send(err);
     } else {
       console.log('Idhar aaya2');
-      console.log("Name : "+ personals[0].name);
+      //console.log("Name : "+ personals.name);
       return res.status(201).send({
-        name: personals[0].name,
-        age: personals[0].age,
-        gender: personals[0].gender,
-        category: personals[0].category,
-        permanentAddress: personals[0].permanentAddress,
-        currentAddress: personals[0].currentAddress,
+        personals
       });
     }
   });

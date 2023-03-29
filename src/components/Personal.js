@@ -2,26 +2,28 @@ import React, { useState , useEffect} from 'react';
 import axios from 'axios';
 import './Personal.css'; // import the CSS file
 
-export default function UserProfile() {
+export default function UserProfile({user,type}) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [name, setName] = useState('');
   const [age, setAge] = useState();
-  const [gender, setGender] = useState(''); 
+  const [gender, setGender] = useState('');
   const [category, setCategory] = useState('');
   const [permanentAddress, setPermanentAddress] = useState('');
   const [currentAddress, setCurrentAddress] = useState('');
-  const url = 'http://localhost:4000/personal'
+  const url = `http://localhost:4000/personal/${user.email}/${type}`;
   useEffect(()=>{
     axios.get(url)
     .then((response)=>{
-      console.log("Yha pr h bhai " + response.data);
+      console.log("Yha pr h bhai " );
+      console.log(response.data);
       if(response.status === 201){
-        setAge(response.data.age);
-        setGender(response.data.gender);
-        setPermanentAddress(response.data.permanentAddress);
-        setCurrentAddress(response.data.currentAddress);
-        setName(response.data.name);
-        setCategory(response.data.category);
+        console.log(response.data.personals);
+        setAge(response.data.personals.age);
+        setGender(response.data.personals.gender);
+        setPermanentAddress(response.data.personals.permanentAddress);
+        setCurrentAddress(response.data.personals.currentAddress);
+        setName(response.data.personals.name);
+        setCategory(response.data.personals.category);
       }
     })
   }, [])
@@ -30,14 +32,17 @@ export default function UserProfile() {
     event.preventDefault();
     // save user profile data
     const personal = {
-      age, 
+      age,
       gender,
-      permanentAddress, 
+      permanentAddress,
       currentAddress,
       category,
     }
+    console.log("sebgi");
+    console.log(user.email);
+    console.log(type);
     axios
-      .post("http://localhost:4000/personal", personal)
+      .post(`http://localhost:4000/personal/${user.email}/${type}`, personal)
       .then(()=>{
         console.log('Updated');
       }).catch((err)=>{
@@ -62,27 +67,27 @@ export default function UserProfile() {
           <div className="userProfileData">
             <table>
               <tr>
-                <td><strong>Name: </strong></td> 
+                <td><strong>Name: </strong></td>
                 <td>{name}</td>
               </tr>
               <tr>
-                <td><strong>Age: </strong></td> 
+                <td><strong>Age: </strong></td>
                 <td>{age}</td>
               </tr>
               <tr>
-                <td><strong>Gender: </strong></td> 
+                <td><strong>Gender: </strong></td>
                 <td>{gender}</td>
               </tr>
               <tr>
-                <td><strong>Category: </strong></td> 
+                <td><strong>Category: </strong></td>
                 <td>{category}</td>
               </tr>
               <tr>
-                <td><strong>Permanent Address: </strong></td> 
+                <td><strong>Permanent Address: </strong></td>
                 <td>{permanentAddress}</td>
               </tr>
               <tr>
-                <td><strong>Current Address: </strong></td> 
+                <td><strong>Current Address: </strong></td>
                 <td>{currentAddress}</td>
               </tr>
             </table>

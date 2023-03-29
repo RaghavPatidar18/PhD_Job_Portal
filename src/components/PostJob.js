@@ -5,8 +5,9 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import "./PostJob.css";
+import { useNavigate , useLocation } from 'react-router-dom';
 
-function PostJob() {
+function PostJob({user,type}) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -17,36 +18,50 @@ function PostJob() {
   const [responsibilities, setResponsibilities] = useState("");
   const [jobs, setJobs] = useState([]);
 
+const history=useNavigate();
+
+  useEffect(()=> {
+    if(type!="institute"){
+      history("*");
+    }
+  })
+
   function handleSubmit(event) {
     event.preventDefault();
-    const job = { 
-      title, 
-      description, 
-      location, 
-      salary, 
-      contactEmail, 
-      college, 
-      qualifications, 
-      responsibilities 
+    const job = {
+      title,
+      description,
+      location,
+      salary,
+      contactEmail,
+      college,
+      qualifications,
+      responsibilities
     };
     console.log(job);
+    const id=user._id
     axios
-      .post("http://localhost:4000/job-post", job)
-      .then(() => {
+      .post("http://localhost:4000/job-post", {job,id})
+      .then((response) => {
         console.log("Job submitted");
         console.log("Job submitted");
-        // Update the jobs state with the new job
-        setJobs([...jobs, job]);
-        // Clear the form inputs
-        setTitle("");
-        setDescription("");
-        setLocation("");
-        setSalary("");
-        setContactEmail("");
-        setCollege("");
-        setQualifications("");
-        setResponsibilities("");
-        window.location.reload();
+        if(response.data.status===200){
+
+          // Update the jobs state with the new job
+          setJobs([...jobs, job]);
+          // Clear the form inputs
+          setTitle("");
+          setDescription("");
+          setLocation("");
+          setSalary("");
+          setContactEmail("");
+          setCollege("");
+          setQualifications("");
+          setResponsibilities("");
+          window.location.reload();
+        }else{
+          console.log(response.data.err);
+        }
       })
       .catch((err) => {
         console.log(err);

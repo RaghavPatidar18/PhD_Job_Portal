@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import './Signup.css';
+import Alert from 'react-bootstrap/Alert';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,6 +11,8 @@ const Login = () => {
   const [isStudent, setIsStudent] = useState(true); // default value
   const location = useLocation();
   const userType = new URLSearchParams(location.search).get("userType");
+  const [showInvalidUserAlert, setShowInvalidUserAlert]=useState(false);
+  const [showLogInAlert,setShowLogInAlert]=useState(false);
 
   useEffect(() => {
     setIsStudent(userType !== "institute");
@@ -33,8 +36,12 @@ const Login = () => {
     console.log("userdatatoken ki value hai : ");
     console.log(res.result.token);
       localStorage.setItem("usersdatatoken",res.result.token);
+      setShowLogInAlert(true);
       window.location.href = "/";
       // setInpval({...inpval,email:"",password:""});
+  }
+  if(res.success===false){
+    setShowInvalidUserAlert(true);
   }
   };
 
@@ -46,6 +53,8 @@ const Login = () => {
 
   return (
     <div className="signup-container">
+    {showInvalidUserAlert && <Alert variant="danger" onClose={()=> {setEmail(""); setPassword(""); setShowInvalidUserAlert(false);}} dismissible>User does not exist</Alert>}
+    {showLogInAlert && <Alert variant="success" >Logged In successfully</Alert>}
       <h1>Login</h1>
       <div className="form-group">
         <label className="form-label">Email:</label>

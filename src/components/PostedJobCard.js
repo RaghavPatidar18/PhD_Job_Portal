@@ -7,11 +7,11 @@ import './JobCard.css';
 
 function PostedJobCard({title,id}) {
   return (
-    <div className="job-card-wrapper" style={{ display: 'inline-block', width: '50%' }}>
-      <Container className="job-card">
-          <h1 className="job-title">{title}</h1>
-          <Link to={`/job-details/${id}`}><Button>View Details</Button></Link>
-          <Link to={`/job-applicants/${id}`}><Button>View Applicants</Button></Link>
+    <div style={{marginTop:'30px', boxShadow:'1px 1px 1px 1px', padding:'20px', backgroundColor:'white'}}>
+      <Container>
+          <h4 style={{color:'black', width:'50%', margin:'0', display:'inline-block', alignContent:'center', textAlign:'center'}}>{title}</h4>
+          <Link to={`/job-details/${id}`}><Button variant="primary" style={{marginRight:'20px'}}>View Details</Button></Link>
+          <Link to={`/job-applicants/${id}`}><Button variant="primary">View Applicants</Button></Link>
       </Container>
     </div>
   );

@@ -12,7 +12,7 @@ import React, { useContext, useEffect ,useState} from 'react'
 import { useNavigate , useLocation } from 'react-router-dom';
 import "./Profile.css";
 
-export default function Profile() {
+export default function Profile({user,type}) {
 
 const [screenWidth] = React.useState(window.innerWidth);
 
@@ -23,39 +23,12 @@ const [screenWidth] = React.useState(window.innerWidth);
     // const userType = new URLSearchParams(location.search).get("userType");
     // // console.log(userType);
 
-    const ProfileValid = async () => {
-      console.log("inside profilevalid");
-        let token = localStorage.getItem("usersdatatoken");
 
-        console.log(token);
-
-        const res = await fetch("/validuser", {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
-            },
-        //     body:JSON.stringify({
-        //       userType
-        //  })
-        });
-
-        const data = await res.json();
-
-        console.log(data);
-
-        if (data.status == 401 || !data) {
-          console.log("error page redirect")
-            history("*");
-        } else {
-            console.log("user verify");
-            // setLoginData(data)
-            history("/profile");
-        }
-      }
 
     useEffect(() => {
-        ProfileValid();
+      if(type===""){
+        history("*");
+      }
     }, [])
 
   return (
@@ -113,10 +86,10 @@ const [screenWidth] = React.useState(window.innerWidth);
   }
     <div className="Profile">
       <section id="personal">
-        <Personal/>
+        <Personal user={user} type={type}/>
       </section>
       <section id="academic">
-        <Academic/>
+        <Academic user={user} type={type}/>
         </section>
       <section id="experience"><Experience/></section>
       <section id="publication"><Publication/></section>

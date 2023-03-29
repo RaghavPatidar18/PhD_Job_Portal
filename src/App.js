@@ -20,12 +20,15 @@ import JobApplicants from "./components/JobApplicants";
 function Root() {
   const [data, setData] = useState(false);
   const navigate = useNavigate();
+  const [user,setUser]=useState({});
+  const[userType,setUserType]=useState();
+  const [hasRecievedData,setHasRecievedData]=useState(false);
 
   const ProfileValid = async () => {
-    console.log("inside profilevalid");
+    //console.log("inside profilevalid");
       let token = localStorage.getItem("usersdatatoken");
 
-      console.log(token);
+      //console.log(token);
 
       const res = await fetch("/validuser", {
           method: "GET",
@@ -37,13 +40,21 @@ function Root() {
 
       const data = await res.json();
 
-      console.log(data);
+      //console.log(data);
 
       if (data.status == 401 || !data) {
-        console.log("home page redirect")
+        console.log("home page redirect");
+        setUser({});
+        setUserType("");
+        setHasRecievedData(true);
         //  navigate("/");
       } else {
           console.log("user verify");
+          setUser(data.ValidUserOne);
+          setUserType(data.userType);
+          setHasRecievedData(true);
+          //console.log(data.userType);
+
           //navigate("/profile");
       }
     }
@@ -54,26 +65,26 @@ function Root() {
 
   return (
     <div>
-      <Routes>
+      {hasRecievedData && <Routes>
 
 
-       <Route path="/" element={<><Navbar /> <Job /> </>} />
-        <Route path="/profile" element={<><Navbar/> <Profile /></>}/>
-        <Route path="/job-details/:id" element={<><Navbar/> <JobDetails/></> }/>
-        <Route path="/job-post" element={<><Navbar/> <PostJob/></> }/>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/choose-profile" element={<Basic />} />
+       <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /> </>} />
+      <Route path="/profile" element={<><Navbar user={user} type={userType}/> <Profile user={user} type={userType}/></>}/>
+      <Route path="/job-details/:id" element={<><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></> }/>
+        <Route path="/job-post" element={<><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></> }/>
+    <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/choose-profile" element={<Basic />} />
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />
 
 
-        <Route path="/application" element={<><Navbar /> <AppliedJob /></>} />
-        <Route path="/job-postings" element={<><Navbar /> <PostedJobs /></>} />
-        <Route path="/job-applicants/:id" element={<><Navbar /> <JobApplicants /></>} />
+        <Route path="/application/:id" element={<><Navbar user={user} type={userType}/> <AppliedJob user={user} type={userType}/></>} />
+        <Route path="/job-postings" element={<><Navbar user={user} type={userType}/> <PostedJobs user={user._id} type={userType}/></>} />
+        <Route path="/job-applicants/:id" element={<><Navbar user={user} type={userType}/> <JobApplicants user={user._id} type={userType}/></>} />
         <Route path="*" element={<Error />} />
 
-      </Routes>
+      </Routes>}
       </div>
   );
 }

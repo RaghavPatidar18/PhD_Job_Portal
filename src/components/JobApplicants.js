@@ -9,7 +9,7 @@ import JobApplicantCard from "./JobApplicantCard";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 
-function JobApplicants(){
+function JobApplicants({user,type}){
 
   const { id } = useParams();
   const [applicants, setApplicants] = useState([]);
@@ -17,55 +17,25 @@ function JobApplicants(){
 
   const history = useNavigate();
 
-  // const location = useLocation();
-  // const userType = new URLSearchParams(location.search).get("userType");
-  // // console.log(userType);
+  useEffect(() => {
+    if(type!=="institute"){
+      history("*");
+    }else{
+      axios.get(url)
+        .then((response) => {
+          if(response.data.status===200){
+            setApplicants(response.data.applicantArray);
+          }
 
-  const ProfileValid = async () => {
-    console.log("inside profilevalid");
-      let token = localStorage.getItem("usersdatatoken");
-
-      console.log(token);
-
-      const res = await fetch("/validuser", {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json",
-              "Authorization": token
-          },
-      //     body:JSON.stringify({
-      //       userType
-      //  })
-      });
-
-      const data = await res.json();
-
-      console.log(data);
-
-      if (data.status == 401 || !data) {
-        console.log("error page redirect")
-          history("*");
-      } else {
-          console.log("user verify");
-          // setLoginData(data)
-          history(`/job-applicants/${id}`);
-      }
+        })
+        .catch((err) => console.log(err));
     }
-
-  useEffect(() => {
-      ProfileValid();
-  }, [])
-
-  useEffect(() => {
-    axios.get(url)
-      .then((response) => {
-        setApplicants(response.data);
-      })
-      .catch((err) => console.log(err));
   }, []);
-  console.log(applicants);
+
+
+  //console.log(applicants);
   return(
-    <div>
+    <div style={{width:'75%', margin:'auto', alignItems:'center', padding:'30px'}}>
     {applicants.map(applicant => (
       <JobApplicantCard
       student_name={applicant.student_name}

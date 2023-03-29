@@ -6,48 +6,103 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import {Link} from "react-router-dom";
 import './JobDetails.css'; // import custom styles
+import { useNavigate , useLocation } from 'react-router-dom';
+import Modal from "react-bootstrap/Modal";
 
-function JobDetails() {
+function JobDetails({user,type}) {
+
   const { id } = useParams();
-  //console.log(id);
+
   const [job, setJob] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
 const [applied, setApplied]=useState(false);
-const [userIsStudent,setUserIsStudent]=useState(false);
-  const url = `http://localhost:4000/job-details/${id}`;
+const [buttonText,setButtonText]=useState();
+
+
+const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+const history = useNavigate();
+
+const LoginCheck = async() => {
+  let url;
+  console.log(user);
+  console.log(user.email);
+  if(user.email===undefined){
+    console.log("here at email null");
+    setButtonText("Login/Register to Apply");
+    url=`http://localhost:4000/job-details/${id}/""`;
+  }else{
+    console.log("sdfbioe");
+    url = `http://localhost:4000/job-details/${id}/${user._id}`;
+  }
+
+  const res=await fetch(url,{
+    method: "GET",
+    headers: {"Content-Type": "application/json",}
+  });
+  const data=await res.json();
+  if(data.status===200){
+    setJob(data.job);
+    setApplied(data.applied);
+
+    if(data.applied===true && type==="student"){
+      //console.log("here");
+      setButtonText("Applied");
+    }else if(data.applied===false && type==="student"){
+      setButtonText("Apply");
+    }
+  }
+
+
+}
 
   useEffect(() => {
-    axios.get(url)
-      .then((response) => {
-        setJob(response.data.found);
-        console.log("response data is here");
-        console.log(response.data);
-        console.log(job);
-        if(response.data.email!==""){
-          setLoggedIn(true);
-        }
-        if(response.data.applied===true){
-          setApplied(true);
-        }
-        if(response.data.userType==="student"){
-          setUserIsStudent(true);
-        }
-      })
-      .catch((err) => console.log(err));
+    LoginCheck();
+
   }, []);
 
   function applyClicked(){
     console.log("heheheheh");
-    axios.post("http://localhost:4000/apply", {id})
-    .then((res) => {
-      if (res.data.success) {
-        window.location.href = "/";
+    if(buttonText==="Login/Register to Apply"){
+      history("/choose-profile");
+    }else if(buttonText==="Apply"){
+      console.log("rgi");
+      const student_id=user._id;
+      axios.post("http://localhost:4000/apply", {id,student_id})
+        .then((res) => {
+          console.log(res.data);
+          if (res.data.status===200) {
+            console.log("abgoi");
+            history("/");
+          }
+        })
+        .catch((err) => console.error(err));
       }
-    })
-    .catch((err) => console.error(err));
   }
 
   return (
+
+    <>
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{job.title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Are you sure you wish to apply for this job?</Modal.Body>
+      <Modal.Footer>
+        <Button variant="danger" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="success" onClick={applyClicked}>
+          Apply
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+
+
     <div className="job-details-container">
       <h3 className="job-title" style={{
     fontFamily: "Times New Roman, serif",
@@ -118,10 +173,11 @@ const [userIsStudent,setUserIsStudent]=useState(false);
         <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#008080", fontWeight: "bold" }}>Contact us at</h5>
         <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.contactEmail}</p>
       </div>
-      <Link to="/" className="job-apply-link" style={{ display: "flex", justifyContent: "center" }}>
-        {loggedIn && !applied && userIsStudent && <button onClick={applyClicked} className="job-apply-button" style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#fff", backgroundColor: "#008080", border: "none", borderRadius: "5px", padding: "10px 20px", cursor: "pointer", transition: "background-color 0.3s ease" }}>Apply</button>}
-      </Link>
+
+        {type!=="institute" && <button onClick={()=> {buttonText==="Apply" ? handleShow(): applyClicked()}} className="job-apply-button" style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#fff", backgroundColor: "#008080", border: "none", borderRadius: "5px", padding: "10px 20px", cursor: "pointer", transition: "background-color 0.3s ease" }}>{buttonText}</button>}
+
     </div>
+    </>
   );
 
 }
