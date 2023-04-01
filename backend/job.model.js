@@ -13,13 +13,15 @@ const jobSchema = new mongoose.Schema({
   qualifications: { type: [String], required: true },
   responsibilities: { type: [String], required: true },
   link: { type: String },
-  institute_id: {type: String}
+  institute_id: {type: String},
+  createdAt: { type: Date, default: Date.now }
 });
 
 const userSchema = new mongoose.Schema({
   name : String ,
   email: { type: String, unique: true },
   password: String,
+  subscribedToJobAlerts: { type: Boolean, default: false },
   tokens: [
     {
         token: {

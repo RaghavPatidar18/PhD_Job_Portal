@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useNavigate , NavLink } from "react-router-dom"
 import Modal from "react-bootstrap/Modal";
+import SubscribePopup from "./popup.js";
 
 function App({user,type}) {
 
@@ -16,9 +17,20 @@ function App({user,type}) {
   const history = useNavigate();
 
   const [show, setShow] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleSubscribeClick = () => {
+    setShowPopup(true);
+  };
+
+  const handlePopupClose = () => {
+    setShowPopup(false);
+  };
+  
 
   const logoutuser = async () => {
     setShow(false);
@@ -85,8 +97,9 @@ function App({user,type}) {
               <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Job Profiles</Link></Nav.Link>
               {/* Only show Job Post option if user is not a student */}
               {type==="institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none' }}>Job Post</Link></Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscribe</Nav.Link>}
             </Nav>
-
+            <SubscribePopup show={showPopup} onClose={handlePopupClose} />
             {type!=="" && <Nav>
               <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="collasible-nav-dropdown">
                 <NavDropdown.Item><Link to="/profile" style={{ color: 'black', textDecoration: 'none' }}>Profile</Link></NavDropdown.Item>

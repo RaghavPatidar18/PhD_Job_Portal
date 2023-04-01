@@ -12,6 +12,8 @@ var bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookiParser = require("cookie-parser");
 const authenticate = require("../middleware/authenticate");
+const auth = require("../middleware/auth");
+const cron = require('node-cron');
 
 app.use(cors()) ;// Use this after the variable declaration
 app.use(cookiParser());
@@ -790,6 +792,96 @@ app.get("/academic", (req, res) => {
     }
   });
 });
+
+
+// getting self email ID
+
+app.get('/api/me', auth, async (req, res) => {
+  const { _id } = req.user;
+
+  try {
+    let user = await User.findById(_id);
+    if (!user) {
+      user = await UserInstitute.findById(_id);
+      // return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ email: user.email });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/api/subscribe', (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+  User.findOneAndUpdate(
+    { email },
+    { subscribedToJobAlerts: true },
+    { upsert: true, new: true },
+    (error, user) => {
+      if (error) res.status(400).send(error);
+      else res.status(200).send(user);
+    }
+  );
+});
+
+// for subscribtion and email notification
+
+const lastCheckTime = new Date();
+
+function sendJobNotification(job) {
+  User.find({ subscribedToJobAlerts: true })
+    .exec((error, users) => {
+      if (error) console.error(error);
+      else {
+        const emailAddresses = users.map(user => user.email);
+        const mailOptions = {
+          from: 'noreply@example.com',
+          to: emailAddresses,
+          subject: `New job posted: ${job.title}`,
+          text: `A new job has been posted in ${job.location}.`,
+          html: `<p>A new job has been posted in ${job.location}.</p>`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info) {
+          if (error) {
+            console.error(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+
+      }
+    });
+}
+
+let emailSent = false;
+
+function checkForNewJobs() {
+  if (emailSent) return; // stop checking if email has already been sent
+
+  Job.find({ createdAt: { $gt: lastCheckTime } })
+    .sort({ createdAt: 'desc' })
+    .exec((error, jobs) => {
+      if (error) console.error(error);
+      else {
+        if (jobs.length > 0) {
+          var i = 0;
+          for(i=0;i<jobs.length;i++)
+          {
+            sendJobNotification(jobs[i]);
+          }
+          emailSent = true; // set emailSent flag to true
+        }
+      }
+    });
+
+  lastCheckTime = new Date(); // update lastCheckTime to current time
+}
+
+cron.schedule('* * * * *', checkForNewJobs); // run every minute
+
 
 
 
