@@ -46,6 +46,8 @@ const LoginCheck = async() => {
   const data=await res.json();
   if(data.status===200){
     setJob(data.job);
+    console.log("sdnio");
+    console.log(job);
     setApplied(data.applied);
 
     if(data.applied===true && type==="student"){
@@ -71,15 +73,16 @@ const LoginCheck = async() => {
     }else if(buttonText==="Apply"){
       console.log("rgi");
       const student_id=user._id;
-      axios.post("http://localhost:4000/apply", {id,student_id})
-        .then((res) => {
-          console.log(res.data);
-          if (res.data.status===200) {
-            console.log("abgoi");
-            history("/");
-          }
-        })
-        .catch((err) => console.error(err));
+      history(`/application-form/${id}/${student_id}`);
+      // axios.post("http://localhost:4000/apply", {id,student_id})
+      //   .then((res) => {
+      //     console.log(res.data);
+      //     if (res.data.status===200) {
+      //       console.log("abgoi");
+      //
+      //     }
+      //   })
+      //   .catch((err) => console.error(err));
       }
   }
 
