@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import "./PostJob.css";
 import { useNavigate , useLocation } from 'react-router-dom';
+import CustomizableForm from "./CustomizableForm.js";
 
 function PostJob({user,type}) {
   const [title, setTitle] = useState("");
@@ -17,6 +18,7 @@ function PostJob({user,type}) {
   const [qualifications, setQualifications] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
   const [jobs, setJobs] = useState([]);
+  const [showCustomForm,setShowCustomForm]=useState(false);
 
 const history=useNavigate();
 
@@ -26,8 +28,14 @@ const history=useNavigate();
     }
   })
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(personalData,educationData,experienceData,publicationsData) {
+    const fields={
+      personal: personalData,
+      education: educationData,
+      experience: experienceData,
+      publications: publicationsData
+    };
+    console.log(fields)
     const job = {
       title,
       description,
@@ -36,7 +44,8 @@ const history=useNavigate();
       contactEmail,
       college,
       qualifications,
-      responsibilities
+      responsibilities,
+      fields
     };
     console.log(job);
     const id=user._id
@@ -68,22 +77,31 @@ const history=useNavigate();
       });
   }
 
+
+
+
   return (
+    <>
     <div className="postJob">
       <div className="formDiv">
-        <form onSubmit={handleSubmit}>
+        <form className="postJobForm">
           <h3>Post a Job</h3>
           <div className="inputField">
+
             <input
+              className="postJobInput"
               type="text"
               placeholder="Job title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              name="Job Title"
               required
             />
+
           </div>
           <div className="inputField">
             <input
+              className="postJobInput"
               type="text"
               placeholder="College Name"
               value={college}
@@ -93,6 +111,7 @@ const history=useNavigate();
           </div>
           <div className="inputField">
             <input
+              className="postJobInput"
               type="text"
               placeholder="Job Location"
               value={location}
@@ -102,6 +121,7 @@ const history=useNavigate();
           </div>
           <div className="inputField">
             <input
+              className="postJobInput"
               type="number"
               placeholder="Salary"
               value={salary}
@@ -111,6 +131,7 @@ const history=useNavigate();
           </div>
           <div className="inputField">
             <input
+              className="postJobInput"
               type="email"
               placeholder="Contact email"
               value={contactEmail}
@@ -120,6 +141,7 @@ const history=useNavigate();
           </div>
           <div className="inputField">
             <textarea
+              className="postJobInput"
               type="text"
               placeholder="Job Description"
               value={description}
@@ -128,6 +150,7 @@ const history=useNavigate();
             />
           </div>
           <textarea
+          className="postJobInput"
   type="text"
   placeholder="Qualifications"
   value={qualifications}
@@ -138,6 +161,7 @@ const history=useNavigate();
 />
 
 <textarea
+  className="postJobInput"
   type="text"
   placeholder="Responsibilities"
   value={responsibilities}
@@ -147,14 +171,20 @@ const history=useNavigate();
   cols={50}
 />
 
-          <div className="buttonContainer">
-            <Button variant="primary" type="submit">
-              Submit
+        {!showCustomForm &&   <div className="buttonContainer">
+            <Button type="submit" variant="primary" onClick={()=> setShowCustomForm(true)}>
+              Next
             </Button>
-          </div>
+          </div>}
         </form>
       </div>
     </div>
+
+
+    {showCustomForm &&
+      <CustomizableForm handleSubmit={handleSubmit}/>
+    }
+</>
   );
 }
 

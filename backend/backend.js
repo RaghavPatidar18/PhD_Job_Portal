@@ -17,11 +17,14 @@ const cron = require('node-cron');
 
 app.use(cors()) ;// Use this after the variable declaration
 app.use(cookiParser());
+app.use(bodyParser.json({limit:'50mb'}));
 app.use(express.static("public"));
+app.use(bodyParser.json({limit:'50mb'}));
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: true,
+    limit:'50mb'
   }));
-app.use(bodyParser.json());
+
 app.use(cors());
 app.use(session({
     secret: 'secret',
@@ -52,7 +55,13 @@ const UserInstitute = models.UserInstitute;
 const applicationSchema = new mongoose.Schema({
   student_id: String,
   job_id: String,
-  status: String
+  status: String,
+  student_details: {
+    personal: {name: String,email:String,age: String,gender: String,category:String,permanentAddress:String,currentAddress:String},
+    experience: {companyName: String,jobProfile: String,location: String,startYear: String,endYear: String},
+    education: {degreeName: String,degreeStudy: String,gradingScale: String,grade: String,startYear: String,endYear: String},
+    publication: {title: String,authorList: String,journal: String,summary: String,startYear: String,endYear: String}
+  }
 });
 const Application = mongoose.model("application", applicationSchema);
 // Getting collections from database
@@ -665,10 +674,11 @@ app.get("/jobApplicants/:id", async(req,res) => {
     //console.log(applications);
     Promise.all(applications.map(async(application) => {
       const student=await User.findOne({_id: application.student_id});
+      //const job=await Job.findOne({_id:id});
       let obj={};
       if(student){
         obj.application_id=await application._id;
-        obj.student_name=await student.name;
+        obj.student_name=await application.student_details.personal.name;
         obj.student_id=await student._id;
         obj.status=await application.status;
       }
@@ -783,6 +793,96 @@ function checkForNewJobs() {
 }
 
 cron.schedule('* * * * *', checkForNewJobs); // run every minute
+
+
+app.get("/application-form/:job_id/:user_id", async(req,res)=> {
+
+
+  console.log("right herefyviubriu")
+  const {job_id,user_id}=req.params;
+  const job=await Job.findOne({_id:job_id});
+  console.log(job);
+  const user=await User.findOne({_id:user_id});
+  console.log(user);
+  if(job && user){
+
+    const academic=await Academic.findOne({email:user.email});
+    const experience=await Experience.findOne({email:user.email});
+    const personal=await Personal.findOne({email:user.email});
+    const publications=await Publication.findOne({email:user.email});
+
+    let obj={};
+    if(academic && experience && personal && publications){
+      console.log("brgi");
+      obj.personal=personal;
+      obj.education=academic;
+      obj.experience=experience;
+      obj.publication=publications;
+      obj.jobFields=job.fields;
+      console.log(obj);
+      res.json({status:200, dataObject: obj});
+    }else{
+      res.json({status:500});
+    }
+  }else{
+    res.json({status:500});
+  }
+})
+
+app.post("/application-form/:job_id/:user_id", async(req,res)=> {
+  console.log("posting at application form");
+  const {job_id,user_id}=req.params;
+  const {jobFields}=req.body;
+  const obj={};
+  obj.personal=jobFields.personal;
+  obj.education=jobFields.education;
+  obj.experience=jobFields.experience;
+  obj.publication=jobFields.publication;
+
+  console.log("the created obj is");
+  console.log(obj);
+
+  const new_application= new Application({
+    student_id:user_id,
+    job_id:job_id,
+    status:"Pending",
+    student_details:obj
+  });
+  const saved=await new_application.save();
+  if(saved){
+    console.log("done");
+    res.send({status:200});
+  }else{
+    res.send({status:500});
+
+  }
+})
+
+
+app.get("/applicant-details/:id", async(req,res)=> {
+  const {id}=req.params;
+  const application=await Application.findOne({_id:id});
+  if(application){
+    const job_id=application.job_id;
+    const job=await Job.findOne({_id:job_id});
+    if(job){
+      let obj={};
+      obj.fields=job.fields;
+      obj.student_details=application.student_details;
+      obj.institute_id=job.institute_id;
+      res.send({status:200,details:obj});
+    }else{
+      res.send({status:500});
+    }
+  }else{
+    res.send({status:500});
+  }
+})
+
+
+
+
+
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');

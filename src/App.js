@@ -15,6 +15,9 @@ import Error from "./components/Error";
 import AppliedJob from "./components/AppliedJob";
 import PostedJobs from "./components/PostedJobs";
 import JobApplicants from "./components/JobApplicants";
+import CustomizableForm from "./components/CustomizableForm";
+import ApplicationForm from "./components/ApplicationForm";
+import ApplicantDetails from "./components/ApplicantDetails";
 
 
 function Root() {
@@ -83,6 +86,8 @@ function Root() {
         <Route path="/job-postings" element={<><Navbar user={user} type={userType}/> <PostedJobs user={user._id} type={userType}/></>} />
         <Route path="/job-applicants/:id" element={<><Navbar user={user} type={userType}/> <JobApplicants user={user._id} type={userType}/></>} />
         <Route path="*" element={<Error />} />
+        <Route path="/application-form/:job_id/:user_id" element={<><Navbar user={user} type={userType}/> <ApplicationForm type={userType}/></>} />
+        <Route path="/applicant-detail/:id" element={<><Navbar user={user} type={userType}/><ApplicantDetails user={user} type={userType}/></>} />
 
       </Routes>}
       </div>

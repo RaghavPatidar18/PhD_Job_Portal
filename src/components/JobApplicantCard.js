@@ -7,11 +7,13 @@ import './JobCard.css';
 import axios from 'axios';
 import {useState,useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
+import { useNavigate , useLocation } from 'react-router-dom';
 
 function JobApplicantCard({student_name,student_email,status,application_id,id}) {
 
   //const [status,setStatus]=useState(status);
 
+  const history = useNavigate();
 
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
@@ -94,7 +96,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id})
             <h4 style={{color:'black'}}>Status : {status}</h4>
           </div>
           <div style={{display:'inline-block', alignItems:'center', width:'45%', marginTop:'auto', marginRight:'20px'}}>
-            <Link to="/"><Button variant="primary" style={{ marginRight:'20px'}}>View details</Button></Link>
+            <Link to={`/applicant-detail/${application_id}`}><Button variant="primary" style={{ marginRight:'20px'}} >View details</Button></Link>
             <Button variant="success" style={{marginRight:'20px'}} onClick={handleShowAccept}>Accept</Button>
             <Button variant="danger" style={{marginRight:'20px'}} onClick={handleShowReject}>Reject</Button>
 

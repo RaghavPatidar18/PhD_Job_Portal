@@ -14,7 +14,41 @@ const jobSchema = new mongoose.Schema({
   responsibilities: { type: [String], required: true },
   link: { type: String },
   institute_id: {type: String},
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  fields: {
+    personal: {
+      name: {type: Boolean, default:false},
+      email:{type: Boolean, default:false},
+      age: {type: Boolean, default:false},
+      gender: {type: Boolean, default:false},
+      category:{type: Boolean, default:false},
+      permanentAddress:{type: Boolean, default:false},
+      currentAddress:{type: Boolean, default:false}
+    },
+    experience: {
+      companyName: {type: Boolean, default:false},
+      jobProfile: {type: Boolean, default:false},
+      location: {type: Boolean, default:false},
+      startYear: {type: Boolean, default:false},
+      endYear: {type: Boolean, default:false}
+    },
+    education: {
+      degreeName: {type: Boolean, default:false},
+      degreeStudy: {type: Boolean, default:false},
+      gradingScale: {type: Boolean, default:false},
+      grade: {type: Boolean, default:false},
+      startYear: {type: Boolean, default:false},
+      endYear: {type: Boolean, default:false}
+    },
+    publications: {
+      title: {type: Boolean, default:false},
+      authorList: {type: Boolean, default:false},
+      journal: {type: Boolean, default:false},
+      summary: {type: Boolean, default:false},
+      startYear: {type: Boolean, default:false},
+      endYear: {type: Boolean, default:false}
+    }
+  }
 });
 
 const userSchema = new mongoose.Schema({
