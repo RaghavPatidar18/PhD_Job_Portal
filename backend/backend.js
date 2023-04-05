@@ -29,6 +29,9 @@ app.use(session({
     saveUninitialized: true
   }));
 
+app.use('/', require(__dirname + '/routes/profilePage'));
+
+
 const keysecret = "secret";
 
 
@@ -53,19 +56,12 @@ const applicationSchema = new mongoose.Schema({
 });
 const Application = mongoose.model("application", applicationSchema);
 // Getting collections from database
-const Academic = require("./model/academicSchema");
-const Experience = require("./model/experienceSchema");
-const OtherDetail = require("./model/personalSchema");
-const Personal = require("./model/personalSchema");
-const Por = require("./model/porSchema");
-const Publication = require("./model/publicationSchema");
-const Reference = require("./model/referenceSchema");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post('/job-post', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const {job,id}=req.body;
     var obj={};
     obj=job;
@@ -96,29 +92,29 @@ app.get('/', (req, res) => {
 });
 
 app.get('/job-details/:id/:student_id', async(req,res) => {
-  //console.log(req.userID);
-  console.log("jsgiuf");
+  ////console.log(req.userID);
+  //console.log("jsgiuf");
 
   try{
     const {id,student_id}=req.params;
-    console.log(id);
-    console.log(student_id);
+    //console.log(id);
+    //console.log(student_id);
 
     var applied=false;
-    //console.log(id);
+    ////console.log(id);
     const application=await Application.findOne({job_id:id, student_id:student_id});
     if(application){
-      console.log("sbugfiw");
+      //console.log("sbugfiw");
       applied=true;
     }else{
-      console.log("sbfoie");
+      //console.log("sbfoie");
       applied=false;
     }
 
     const job=await Job.findOne({_id:id});
     if(job){
-      console.log("here at job detaisl");
-      console.log(job);
+      //console.log("here at job detaisl");
+      //console.log(job);
       res.status(200).json({
         status:200,
         job:job,
@@ -146,14 +142,14 @@ app.post("/api/sendOtp", async (req, res) => {
   const email = req.body.email;
   const userType = req.body.userType;
 
-  console.log(userType);
+  //console.log(userType);
 
   if(userType=="student")
   {
     // Check if the user already exists
     let user = await User.findOne({ email });
     if (user) {
-      console.log("i m hetyfiuwbri");
+      //console.log("i m hetyfiuwbri");
       return res.status(200).send({status:400, message: "User already exists" });
     }
   }
@@ -179,13 +175,13 @@ app.post("/api/sendOtp", async (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.log(error);
+      //console.log(error);
       return res.status(200).send({
         status:500,
         message: "Failed to send OTP"
       });
     } else {
-      console.log("OTP sent: " + info.response);
+      //console.log("OTP sent: " + info.response);
       return res.status(200).send({
         status:200,
         message: "OTP sent"
@@ -206,32 +202,22 @@ app.post("/api/verifyOtp", async (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, 1);
   req.session.hashedPassword = hashedPassword;
 
-  console.log(req.body);
-  console.log("aa gya");
+  //console.log(req.body);
+  //console.log("aa gya");
 
-  console.log(req.body.userType);
+  //console.log(req.body.userType);
 
   if(otp==otpEntered)
     {
       if(req.body.userType=="student"){
 
-        console.log("student hu vai");
+        //console.log("student hu vai");
         const user = new User({
           name: name,
           email: email,
           password: hashedPassword
         });
         await user.save();
-        const personal = new Personal({
-          email: email,
-          name: name,
-          age: null,
-          gender: "",
-          category: "",
-          permanentAddress: "",
-          currentAddress: "",
-        });
-        await personal.save();
       }
       else
       {
@@ -243,7 +229,7 @@ app.post("/api/verifyOtp", async (req, res) => {
         await userInstitute.save();
       }
 
-      console.log("bn gya");
+      //console.log("bn gya");
       return res.status(200).send({
         status:200,
         success: true,
@@ -259,20 +245,20 @@ app.post("/api/verifyOtp", async (req, res) => {
 
 app.post("/api/login", async (req, res) => {
 
-  console.log("idhr aa gya");
+  //console.log("idhr aa gya");
   const {
     email,
     password,
     userType
   } = req.body;
-  // console.log(userType);
+  // //console.log(userType);
   if(userType==="student")
   {
     const userstudent = await User.findOne({
       email : email
     });
-    // console.log("login m aa gya");
-  //   console.log(res.data);
+    // //console.log("login m aa gya");
+  //   //console.log(res.data);
     if (!userstudent) return res.status(400).send({
       success: false,
       message: "Invalid Email or Password"
@@ -290,7 +276,7 @@ app.post("/api/login", async (req, res) => {
 
       const token = await userstudent.generateAuthToken();
 
-      console.log(userstudent);
+      //console.log(userstudent);
 
 
       // cookiegenerate
@@ -307,7 +293,7 @@ app.post("/api/login", async (req, res) => {
     // res.status(201).json({status:201,result})
 
 
-      // console.log("Logged in huehue");
+      // //console.log("Logged in huehue");
 
       res.status(201).json({status:201,result})
       // return res.status(200).send({
@@ -323,9 +309,9 @@ app.post("/api/login", async (req, res) => {
       email
     });
 
-    // console.log("login m aa gya : institute");
-    // console.log(userInstitute);
-  //   console.log(res.data);
+    // //console.log("login m aa gya : institute");
+    // //console.log(userInstitute);
+  //   //console.log(res.data);
     if (!userInstitute) return res.status(400).send({
       success: false,
       message: "Invalid Email or Password"
@@ -342,7 +328,7 @@ app.post("/api/login", async (req, res) => {
 
       const token = await userInstitute.generateAuthToken();
 
-      // console.log(userInstitute);
+      // //console.log(userInstitute);
 
 
       // cookiegenerate
@@ -359,7 +345,7 @@ app.post("/api/login", async (req, res) => {
     // res.status(201).json({status:201,result})
 
 
-      // console.log("Logged in huehue");
+      // //console.log("Logged in huehue");
 
       res.status(201).json({status:201,result})
       // return res.status(200).send({
@@ -374,7 +360,7 @@ app.post("/api/login", async (req, res) => {
 
 // user valid
 app.get("/validuser",authenticate,async(req,res)=>{
-  console.log("done");
+  //console.log("done");
     try {
 
     let ValidUserOne = await User.findOne({_id:req.userId});
@@ -396,7 +382,7 @@ app.get("/validuser",authenticate,async(req,res)=>{
 
 // send email Link For reset Password
 app.post("/api/sendpasswordlink",async(req,res)=>{
-  console.log(req.body)
+  //console.log(req.body)
 
   const {email , userType } = req.body;
 
@@ -426,10 +412,10 @@ app.post("/api/sendpasswordlink",async(req,res)=>{
 
         transporter.sendMail(mailOptions,(error,info)=>{
             if(error){
-                console.log("error",error);
+                //console.log("error",error);
                 res.status(401).json({status:401,message:"email not send"})
             }else{
-                console.log("Email sent",info.response);
+                //console.log("Email sent",info.response);
                 res.status(201).json({status:201,message:"Email sent Succsfully"})
             }
         })
@@ -457,10 +443,10 @@ app.post("/api/sendpasswordlink",async(req,res)=>{
 
         transporter.sendMail(mailOptions,(error,info)=>{
             if(error){
-                console.log("error",error);
+                //console.log("error",error);
                 res.status(401).json({status:401,message:"email not send"})
             }else{
-                console.log("Email sent",info.response);
+                //console.log("Email sent",info.response);
                 res.status(201).json({status:201,message:"Email sent Succsfully"})
             }
         })
@@ -480,8 +466,8 @@ app.post("/api/sendpasswordlink",async(req,res)=>{
 app.get("/forgotpassword/:id/:token/:usertype",async(req,res)=>{
   const {id,token,usertype} = req.params;
 
-  console.log(usertype);
-  console.log("link ke baad ka get pe hu");
+  //console.log(usertype);
+  //console.log("link ke baad ka get pe hu");
 
 
   try {
@@ -489,13 +475,13 @@ app.get("/forgotpassword/:id/:token/:usertype",async(req,res)=>{
     if(usertype=="student")
     {
 
-      console.log("student hu omk ?");
+      //console.log("student hu omk ?");
 
       const validuser = await User.findOne({_id:id,verifytoken:token});
 
       const verifyToken = jwt.verify(token,keysecret);
 
-      console.log(verifyToken)
+      //console.log(verifyToken)
 
       if(validuser && verifyToken._id){
           res.status(201).json({status:201,validuser})
@@ -509,7 +495,7 @@ app.get("/forgotpassword/:id/:token/:usertype",async(req,res)=>{
 
       const verifyToken = jwt.verify(token,keysecret);
 
-      console.log(verifyToken)
+      //console.log(verifyToken)
 
       if(validuser && verifyToken._id){
           res.status(201).json({status:201,validuser})
@@ -535,7 +521,7 @@ app.post("/api/:id/:token/:usertype",async(req,res)=>{
   try {
     if(usertype=="student")
     {
-      console.log("student after password reset");
+      //console.log("student after password reset");
       const validuser = await User.findOne({_id:id,verifytoken:token});
 
       const verifyToken = jwt.verify(token,keysecret);
@@ -579,21 +565,21 @@ app.post("/api/:id/:token/:usertype",async(req,res)=>{
 
 
 app.get("/logout",authenticate,async(req,res)=>{
-  console.log("sjbfouwbgro");
+  //console.log("sjbfouwbgro");
   try {
       req.rootUser.tokens =  req.rootUser.tokens.filter((curelem)=>{
           return curelem.token !== req.token
       });
 
-      console.log("logout me aa rha");
+      //console.log("logout me aa rha");
 
       res.clearCookie("usercookie",{path:"/"});
 
 
       req.rootUser.save();
 
-      console.log("save ho rha");
-      //console.log(rootUser);
+      //console.log("save ho rha");
+      ////console.log(rootUser);
 
 
       res.status(201).json({status:201})
@@ -605,7 +591,7 @@ app.get("/logout",authenticate,async(req,res)=>{
 
 
 app.post("/apply", async(req,res) => {
-  console.log("here at apply");
+  //console.log("here at apply");
   const id=req.body.id;
   const student_id=req.body.student_id;
 
@@ -625,11 +611,11 @@ app.post("/apply", async(req,res) => {
 
 app.get("/jobStatus/:id", async(req,res) => {
   const {id}=req.params;
-  //console.log("here at job status");
+  ////console.log("here at job status");
   try{
 
     const student_applications=await Application.find({student_id:id});
-    console.log(student_applications);
+    //console.log(student_applications);
     Promise.all(student_applications.map(async(application) => {
       const job=await Job.findOne({_id:application.job_id});
       let obj={};
@@ -642,7 +628,7 @@ app.get("/jobStatus/:id", async(req,res) => {
       res.status(200).send({status:200,applicationArray});
     })
   }catch(error){
-    console.log(error);
+    //console.log(error);
     res.status(500).send({status:500,err});
   }
 })
@@ -651,7 +637,7 @@ app.get("/jobStatus/:id", async(req,res) => {
 
 
 app.get("/jobPostings/:id", async(req,res) => {
-  //console.log("here at job postings");
+  ////console.log("here at job postings");
   try{
     const {id}=req.params;
     const jobs=await Job.find({institute_id:id});
@@ -664,19 +650,19 @@ app.get("/jobPostings/:id", async(req,res) => {
       res.status(200).send({status:200,jobArray});
     })
   }catch(error){
-    console.log(error);
+    //console.log(error);
     res.status(500).send({status:500,err});
   }
 })
 
 app.get("/jobApplicants/:id", async(req,res) => {
-  //console.log("here at job applicants");
+  ////console.log("here at job applicants");
   try{
-    console.log("yolo");
+    //console.log("yolo");
     const {id}=req.params;
-    console.log(id);
+    //console.log(id);
     const applications=await Application.find({job_id:id});
-    console.log(applications);
+    //console.log(applications);
     Promise.all(applications.map(async(application) => {
       const student=await User.findOne({_id: application.student_id});
       let obj={};
@@ -691,7 +677,7 @@ app.get("/jobApplicants/:id", async(req,res) => {
       res.status(200).send({status:200,applicantArray});
     })
   }catch(error){
-    console.log(error);
+    //console.log(error);
     res.status(500).send({status:500,error});
   }
 })
@@ -699,100 +685,16 @@ app.get("/jobApplicants/:id", async(req,res) => {
 app.post("/jobApplicantStatusChange", async(req,res)=> {
   try{
     const {application_id,newStatus}=req.body;
-    console.log("here at status change");
-    console.log(application_id);
-    console.log(newStatus);
+    //console.log("here at status change");
+    //console.log(application_id);
+    //console.log(newStatus);
     const application=await Application.updateOne({_id:application_id}, {$set:{status:newStatus}});
     res.send("success");
   }catch(err){
-    console.log(err);
+    //console.log(err);
     res.send(err);
   }
 })
-
-app.post("/personal/:email/:userType", async(req, res) => {
-  //var email = "";
-  console.log("here at personal post");
-  var {email,userType}=req.params;
-
-
-  // }
-  const filter = { email: email };
-  const update = {
-    age: req.body.age,
-    gender: req.body.gender,
-    permanentAddress: req.body.permanentAddress,
-    currentAddress: req.body.currentAddress,
-    category : req.body.category,
-  };
-  await Personal.findOneAndUpdate(filter, update);
-
-});
-
-app.get("/personal/:email/:userType", (req, res) => {
-  // var email = "";
-  // var userType = "";
-  var {email,userType}=req.params;
-  console.log('Idhar aaya');
-
-  if (email == null) {
-    return res.status(400).send({
-      name: "Default",
-        age: null,
-        gender: "",
-        category: "",
-        permanentAddress: "",
-        currentAddress: "",
-    })
-  }
-
-  Personal.findOne({ email : email }, (err, personals) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      console.log('Idhar aaya2');
-      //console.log("Name : "+ personals.name);
-      return res.status(201).send({
-        personals
-      });
-    }
-  });
-});
-
-app.get("/academic", (req, res) => {
-  var email = "";
-  var userType = "";
-  console.log('Idhar aaya');
-  console.log("Yha pe h" + session.email);
-  if (session.email == null) {
-    return res.status(400).send({
-      name: "Default",
-        age: null,
-        gender: "",
-        category: "",
-        permanentAddress: "",
-        currentAddress: "",
-    })
-  }
-  email = session.email ;
-  Personal.find({ email : email }, (err, personals) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      console.log('Idhar aaya2');
-      console.log("Name : "+ personals[0].name);
-      return res.status(201).send({
-        name: personals[0].name,
-        age: personals[0].age,
-        gender: personals[0].gender,
-        category: personals[0].category,
-        permanentAddress: personals[0].permanentAddress,
-        currentAddress: personals[0].currentAddress,
-      });
-    }
-  });
-});
-
 
 // getting self email ID
 
@@ -807,14 +709,14 @@ app.get('/api/me', auth, async (req, res) => {
     }
     res.json({ email: user.email });
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     res.status(500).json({ error: 'Server error' });
   }
 });
 
 app.post('/api/subscribe', (req, res) => {
   const { email } = req.body;
-  console.log(email);
+  //console.log(email);
   User.findOneAndUpdate(
     { email },
     { subscribedToJobAlerts: true },
@@ -846,9 +748,9 @@ function sendJobNotification(job) {
 
         transporter.sendMail(mailOptions, function(error, info) {
           if (error) {
-            console.error(error);
+            //console.error(error);
           } else {
-            console.log('Email sent: ' + info.response);
+            //console.log('Email sent: ' + info.response);
           }
         });
 
@@ -881,9 +783,6 @@ function checkForNewJobs() {
 }
 
 cron.schedule('* * * * *', checkForNewJobs); // run every minute
-
-
-
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');

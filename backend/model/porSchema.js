@@ -3,12 +3,12 @@ const { Schema } = mongoose;
 
 const porSchema = new Schema({
     email : String,
+    title : String, 
     organization : String,
-    type : String,
-    position : String,
-    responsibility : String,
-    startYear : String, 
-    endYear : String,
+    location : String,
+    start_date : Date,
+    end_date : Date,
+    description : String,
 });
 
 

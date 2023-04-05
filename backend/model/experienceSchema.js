@@ -3,11 +3,12 @@ const { Schema } = mongoose;
 
 const experienceSchema = new Schema({
     email : String,
-    companyName : String,
-    jobProfile : String,
+    profile : String, 
+    organization : String,
+    start_date : Date,
+    end_date : Date,
+    description : String,
     location : String,
-    startYear : String, 
-    endYear : String, 
 });
 
 

@@ -4,11 +4,12 @@ const { Schema } = mongoose;
 const referenceSchema = new Schema({
     email : String,
     name : String,
-    workProfile : String,
-    relation : String,
-    relationEmail : String,
-    relationPhone : String, 
-    additional : String,
+    title : String,
+    affliliation : String,
+    reference_email : String,
+    reference_phone : String,
+    relationship : String,
+    description : String,
 });
 
 

@@ -14,7 +14,6 @@ export default function UserProfile({user,type}) {
   useEffect(()=>{
     axios.get(url)
     .then((response)=>{
-      console.log("Yha pr h bhai " );
       console.log(response.data);
       if(response.status === 201){
         console.log(response.data.personals);
@@ -38,7 +37,6 @@ export default function UserProfile({user,type}) {
       currentAddress,
       category,
     }
-    console.log("sebgi");
     console.log(user.email);
     console.log(type);
     axios

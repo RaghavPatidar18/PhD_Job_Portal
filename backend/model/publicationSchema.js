@@ -4,11 +4,19 @@ const { Schema } = mongoose;
 const publicationSchema = new Schema({
     email : String,
     title : String,
-    authorList : String,
+    authorList : [
+        {
+            author : String,
+            author_id : String,
+        }
+    ],
+    abstract : String,
     journal : String,
-    summary : String, 
-    startYear : String, 
-    endYear : String,  
+    volume : String,
+    pages : String, 
+    publisher : String,
+    doi : String, 
+    url : String, 
 });
 
 
