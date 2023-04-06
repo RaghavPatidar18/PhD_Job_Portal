@@ -131,6 +131,7 @@ export default function Profile({ user, type }) {
           mobile: myData.mobile === "-" ? "" : myData.mobile,
           altmobile: myData.altmobile === "-" ? "" : myData.altMobile,
           disability: myData.disability === "-" ? "" : myData.disablity,
+          married : myData.married === "-" ? "" : myData.married,
         });
       }
     });
@@ -153,6 +154,7 @@ export default function Profile({ user, type }) {
       }
     })
     setIsEditMode(false);
+    window.location.reload();
   };
   const handleEdit = () => {
     setIsEditMode(true);
@@ -624,7 +626,7 @@ export default function Profile({ user, type }) {
                     </select>
                   </td>
                 </tr>
-
+              {console.log("hello"+formValues.dob)}
                 <tr>
                   <td>
                     <label htmlFor="married">Marital Status:</label>
