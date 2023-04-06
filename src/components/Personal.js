@@ -218,6 +218,8 @@ export default function Profile({ user, type }) {
           <>
             <div className="userProfileData">
               <table>
+                <h5>About</h5>
+                <hr />
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>Full Name : </td>
                   <td>{name}</td>
@@ -242,6 +244,16 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Father's Name :{" "}
+                  </td>
+                  <td>{fatherName}</td>
+                </tr>
+                <br/>
+                <br/>
+                <h5>Communication</h5>
+                <hr />
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
                     Permanent Address :{" "}
                   </td>
                   <td>{permanentAddress}</td>
@@ -253,12 +265,7 @@ export default function Profile({ user, type }) {
                   <td>{currentAddress}</td>
                 </tr>
 
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Father's Name :{" "}
-                  </td>
-                  <td>{fatherName}</td>
-                </tr>
+                
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
                     Mobile Number :{" "}
@@ -275,6 +282,10 @@ export default function Profile({ user, type }) {
                   <td style={{ color: "rgb(83, 86, 101)" }}>Nationality : </td>
                   <td>{nationality}</td>
                 </tr>
+                <br />
+                <br />
+                <h5>Additional Details</h5>
+                <hr />
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
                     Martial Status :{" "}
