@@ -14,7 +14,6 @@ const personalSchema = new Schema({
     married : String,
     nationality : String,
     gender : String,
-    category : String,
     // Communication Details
     communication_address : String,
     communication_city : String,

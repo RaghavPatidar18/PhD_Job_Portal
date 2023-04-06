@@ -144,7 +144,14 @@ export default function Profile({ user, type }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     // save into database
-    
+    axios.post("http://localhost:4000/personal", {formValues, user})
+    .then((response)=>{
+      if(response.data.status === 200){
+        alert("Your data was saved")
+      }else{
+        alert("Please try again later!")
+      }
+    })
     setIsEditMode(false);
   };
   const handleEdit = () => {
