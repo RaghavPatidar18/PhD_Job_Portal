@@ -5,7 +5,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import {Link} from "react-router-dom";
-import './JobDetails.css'; // import custom styles
+import './css/JobDetails.css'; // import custom styles
 import { useNavigate , useLocation } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 

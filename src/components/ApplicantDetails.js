@@ -8,7 +8,7 @@ import {useState,useEffect} from "react";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 import ModalTemplate from "./ModalTemplate.js";
-import "./ApplicantDetails.css";
+import "./css/ApplicantDetails.css";
 
 function ApplicantDetails({user,type}){
   console.log(user);

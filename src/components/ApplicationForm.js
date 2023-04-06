@@ -8,7 +8,7 @@ import {useState,useEffect} from "react";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 import ModalTemplate from "./ModalTemplate.js";
-import "./ApplicationForm.css"
+import "./css/ApplicationForm.css"
 import Modal from "react-bootstrap/Modal";
 
 function ApplicationForm({type}){

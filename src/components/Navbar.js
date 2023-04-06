@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
-import "./Navbar.css"
+import "./css/Navbar.css"
 import { Link, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useNavigate , NavLink } from "react-router-dom"

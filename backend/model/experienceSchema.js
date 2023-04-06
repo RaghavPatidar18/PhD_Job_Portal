@@ -5,8 +5,8 @@ const experienceSchema = new Schema({
     email : String,
     profile : String, 
     organization : String,
-    start_date : Date,
-    end_date : Date,
+    startdate : Date,
+    enddate : Date,
     description : String,
     location : String,
 });

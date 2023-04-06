@@ -8,7 +8,7 @@ import {useState,useEffect} from "react";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 import CustomFormField from "./CustomFormField";
-import "./customForm.css";
+import "./css/customForm.css";
 import ModalTemplate from "./ModalTemplate.js";
 
 

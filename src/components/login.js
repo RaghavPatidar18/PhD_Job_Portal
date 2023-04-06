@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import './Signup.css';
+import './css/Signup.css';
 import Alert from 'react-bootstrap/Alert';
 
 const Login = () => {

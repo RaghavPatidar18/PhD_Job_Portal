@@ -14,17 +14,18 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Popup from "reactjs-popup";
 import AutoFillData from "./AutoFillData";
-import "./Profile.css";
+import "./css/Profile.css";
 
 export default function Profile({ user, type }) {
   const [screenWidth] = React.useState(window.innerWidth);
+  const [activeComponent, setActiveComponent] = useState("personal");
 
   const [data, setData] = useState(false);
   const history = useNavigate();
-
-  // const location = useLocation();
-  // const userType = new URLSearchParams(location.search).get("userType");
-  // // console.log(userType);
+  const handleButtonClick = (componentName) => {
+    setActiveComponent(componentName);
+    console.log(activeComponent);
+  };
 
   useEffect(() => {
     if (type === "") {
@@ -40,75 +41,39 @@ export default function Profile({ user, type }) {
             <nav className="nav__container__actions">
               <ul>
                 <li>
-                  <Link
-                    activeClass="active"
-                    smooth
-                    spy
-                    to="personal"
-                    duration={200}
-                  >
+                  <button style = {{ color: activeComponent === 'personal' ? 'rgba(59, 50, 179)' : 'black' , backgroundColor: '#e7e7e7',  width : '10rem', border: activeComponent === 'personal' ? '1px solid rgba(59, 50, 179' : 'none'}}onClick={ () =>  handleButtonClick("personal")}>
                     Personal
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    activeClass="active"
-                    smooth
-                    spy
-                    to="academic"
-                    duration={200}
-                  >
-                    Academic
-                  </Link>
+                  <button style = {{color: activeComponent === 'academic' ? 'rgba(59, 50, 179)' : 'black' ,backgroundColor: '#e7e7e7', width : '10rem', border: activeComponent === 'academic' ? '1px solid rgba(59, 50, 179' : 'none'}}onClick={() =>  handleButtonClick("academic")}>
+                    Academics
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    activeClass="active"
-                    smooth
-                    spy
-                    to="experience"
-                    duration={200}
-                  >
+                <button style = {{color: activeComponent === 'experience' ? 'rgba(59, 50, 179)' : 'black' ,backgroundColor: '#e7e7e7', width : '10rem', border: activeComponent === 'experience' ? '1px solid rgba(59, 50, 179' : 'none'}} onClick={() => handleButtonClick("experience")}>
                     Experience
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    activeClass="active"
-                    smooth
-                    spy
-                    to="publication"
-                    duration={200}
-                  >
+                <button style = {{color: activeComponent === 'publication' ? 'rgba(59, 50, 179)' : 'black' ,backgroundColor: '#e7e7e7',  width : '10rem', border: activeComponent === 'publication' ? '1px solid rgba(59, 50, 179' : 'none'}} onClick={() => handleButtonClick("publication")}>
                     Publications
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    activeClass="active"
-                    smooth
-                    spy
-                    to="reference"
-                    duration={200}
-                  >
+                <button style = {{color: activeComponent === 'reference' ? 'rgba(59, 50, 179)' : 'black' ,backgroundColor: '#e7e7e7', width : '10rem', border: activeComponent === 'reference' ? '1px solid rgba(59, 50, 179' : 'none'}} onClick={() => handleButtonClick("reference")}>
                     References
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link activeClass="active" smooth spy to="POR" duration={200}>
+                <button style = {{color: activeComponent === 'por' ? 'rgba(59, 50, 179)' : 'black' ,backgroundColor: '#e7e7e7', width : '10rem', border: activeComponent === 'por' ? '1px solid rgba(59, 50, 179' : 'none'}} onClick={() => handleButtonClick("por")}>
                     POR
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    activeClass="active"
-                    smooth
-                    spy
-                    to="other"
-                    duration={200}
-                  >
-                    Other Details
-                  </Link>
+                <button style = {{color: activeComponent === 'doc' ? 'rgba(59, 50, 179)' : 'black' ,backgroundColor: '#e7e7e7',  width : '10rem', border: activeComponent === 'doc' ? '1px solid rgba(59, 50, 179' : 'none'}} onClick={() => handleButtonClick("doc")}>
+                    Documents
+                  </button>
                 </li>
               </ul>
             </nav>
@@ -120,7 +85,19 @@ export default function Profile({ user, type }) {
       <div className="Profile">
         <section id="resume-uploader">
           <Popup
-            trigger={<button style = {{  backgroundColor: 'var(--primary-color)', color : 'white', border : 'none', borderRadius : '4px', fontSize : 'x-large'}}>Click Here for magic</button>}
+            trigger={
+              <button
+                style={{
+                  backgroundColor: "var(--primary-color)",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  fontSize: "x-large",
+                }}
+              >
+                Click Here for magic
+              </button>
+            }
             modal
             closeOnDocumentClick
             overlayStyle={{ background: "rgba(0, 0, 0, 0.7)", zIndex: 1000 }}
@@ -142,65 +119,16 @@ export default function Profile({ user, type }) {
             )}
           </Popup>
         </section>
-        <section id="personal">
-          <Personal user={user} type={type} />
-        </section>
-        <section id="academic">
-          <Academic user={user} type={type} />
-        </section>
-        <section id="experience">
-          <Experience />
-        </section>
-        <section id="publication">
-          <Publication />
-        </section>
-        <section id="reference">
-          <Refrees />
-        </section>
-        <section id="POR">
-          <POR />
-        </section>
-        <section id="other">
-          <OtherDetails />
+        <section className="renderComponent">
+        {activeComponent === "personal" ? <><Personal user= {user} type = {type}/></> : <></>}
+        {/* {activeComponent === "academic" ? <Academic/> : <></>}
+        {activeComponent === "experience" ? <Experience/> : <></>}
+        {activeComponent === "por" ? <POR/> : <></>}
+        {activeComponent === "publication" ? <Publication/> : <></>}
+        {activeComponent === "doc" ? <OtherDetails/> : <></>} */}
+      
         </section>
       </div>
     </>
   );
 }
-
-const backdropStyles = {
-  backgroundColor: "rgba(0, 0, 0, 0.5)", // Add a semi-transparent black background
-  position: "fixed",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  zIndex: 9998,
-};
-
-// Define styles for the popup container
-const modalStyles = {
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  zIndex: 9999,
-  width: "60%",
-  height: "60%",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
-
-const Modal = ({ onClose }) => (
-  <>
-    {/* Add the background styles as a separate element */}
-    <div style={backdropStyles}></div>
-
-    {/* Add the popup container */}
-    <div style={modalStyles}>
-      <button onClick={onClose}>Close</button>
-      <AutoFillData onClose={onClose} />
-    </div>
-  </>
-);

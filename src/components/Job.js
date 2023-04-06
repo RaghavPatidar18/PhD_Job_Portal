@@ -2,7 +2,7 @@ import React from "react";
 import JobCard from "./JobCard";
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import './Job.css';
+import './css/Job.css';
 
 import 'animate.css';
 
@@ -29,7 +29,7 @@ function Job() {
     setSalaryFilter(event.target.value);
   };
 
-  const filteredJobs = jobs.filter((job) => {
+  const filteredJobs = jobs?.filter((job) => {
     if (locationFilter && job.location.toLowerCase().indexOf(locationFilter.toLowerCase()) === -1) {
       return false;
     }
@@ -108,7 +108,7 @@ function Job() {
 
       </div>
       <div className="job-cards">
-        {filteredJobs.map(job => (
+        {filteredJobs?.map(job => (
           <JobCard
           key={job._id}
           _id={job._id}

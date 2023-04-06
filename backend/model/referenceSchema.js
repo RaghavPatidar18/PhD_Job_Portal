@@ -6,8 +6,8 @@ const referenceSchema = new Schema({
     name : String,
     title : String,
     affliliation : String,
-    reference_email : String,
-    reference_phone : String,
+    referenceemail : String,
+    referencephone : String,
     relationship : String,
     description : String,
 });

@@ -7,7 +7,7 @@ import axios from "axios";
 import {useState,useEffect} from "react";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
-import "./customForm.css";
+import "./css/customForm.css";
 
 function CustomFormField({label,fieldChosen}){
 

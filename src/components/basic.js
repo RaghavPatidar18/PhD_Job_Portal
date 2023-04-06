@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-import "./Basic.css";
+import "./css/Basic.css";
 
 const Basic = () => {
   const [message, setMessage] = useState("");

@@ -4,31 +4,32 @@ const { Schema } = mongoose;
 const personalSchema = new Schema({
     email : String,
     // Personal Details
-    full_name : String,
-    fathers_name : String,
+    name : String,
+    fathername : String,
+    age : String,
     profile_image_url : String,
-    date_of_birth : String,
-    aadhar_card_number : String,
+    dob : String,
     category : String,
-    category_certificate_url : String,
-    is_pwd : String,
-    marital_status : String,
+    disablity : String,
+    married : String,
     nationality : String,
     gender : String,
-
+    category : String,
     // Communication Details
     communication_address : String,
     communication_city : String,
     communication_state : String,
     communication_pincode : String,
+    communication_country : String,
 
     permanent_address : String,
     permanent_city : String,
     permanent_state : String,
     permanent_pincode : String,
+    permanent_country : String,
 
-    mobile_number : String,
-    alternate_mobile_number : String,
+    mobile : String,
+    altmobile : String,
 });
 
 

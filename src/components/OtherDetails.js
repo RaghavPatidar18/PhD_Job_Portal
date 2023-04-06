@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./OtherDetails.css";
+import "./css/OtherDetails.css";
 
 function ResumeUploader() {
 const [resume, setResume] = useState(null);

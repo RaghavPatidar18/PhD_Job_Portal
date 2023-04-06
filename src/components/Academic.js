@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './Academic.css';
+import './css/Academic.css';
 
 const AcademicDetails = ({user,type}) => {
   const [degrees, setDegrees] = useState([]);

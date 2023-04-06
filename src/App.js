@@ -72,7 +72,7 @@ function Root() {
 
 
        <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /> </>} />
-      <Route path="/profile" element={<><Navbar user={user} type={userType}/> <Profile user={user} type={userType}/></>}/>
+      <Route path="/profile" element={<><Navbar user={user} type={userType}/> <Profile user={user.email} type={userType}/></>}/>
       <Route path="/job-details/:id" element={<><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></> }/>
         <Route path="/job-post" element={<><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></> }/>
     <Route path="/signup" element={<Signup />} />

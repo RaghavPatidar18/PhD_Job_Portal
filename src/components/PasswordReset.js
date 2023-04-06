@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import './Signup.css';
+import './css/Signup.css';
 
 const PasswordReset = () => {
   const [email, setEmail] = useState("");

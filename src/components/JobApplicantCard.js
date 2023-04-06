@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
-import './JobCard.css';
+import './css/JobCard.css';
 import axios from 'axios';
 import {useState,useEffect} from "react";
 import Modal from "react-bootstrap/Modal";

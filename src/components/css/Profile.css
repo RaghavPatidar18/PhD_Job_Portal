@@ -6,7 +6,9 @@ section {
   font-weight: bold;
   margin-bottom: 40px;
 }
-
+.renderComponent{
+  padding-right: 20rem;
+}
 #about {
   margin-top: -80px;
 }
@@ -96,7 +98,8 @@ ul {
 .active {
   color: blue !important;
   border: solid 1px #0059b3;
-    width: 9rem;
+  padding: 15px;  
+  width: 9rem;
 }
 
 

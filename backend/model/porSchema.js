@@ -6,8 +6,8 @@ const porSchema = new Schema({
     title : String, 
     organization : String,
     location : String,
-    start_date : Date,
-    end_date : Date,
+    startdate : Date,
+    enddate : Date,
     description : String,
 });
 

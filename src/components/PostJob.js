@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
-import "./PostJob.css";
+import "./css/PostJob.css";
 import { useNavigate , useLocation } from 'react-router-dom';
 import CustomizableForm from "./CustomizableForm.js";
 
