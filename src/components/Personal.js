@@ -97,7 +97,7 @@ export default function Profile({ user, type }) {
           dob: myData.dob === "-" ? "" : myData.dob,
           gender: myData.gender === "-" ? "" : myData.gender,
           category: myData.category === "-" ? "" : myData.category,
-          fathername: myData.fathername === "-" ? "" : myData.fatherName,
+          fathername: myData.fathername === "-" ? "" : myData.fathername,
           nationality: myData.nationality === "-" ? "" : myData.nationality,
           communication_address:
             myData.communication_address === "-"
