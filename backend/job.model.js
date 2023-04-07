@@ -68,6 +68,15 @@ verifytoken:{
     type: String,
 }
 });
+
+
+const commentSchema = new mongoose.Schema({
+  text: { type: String, required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  jobPosting: { type: mongoose.Schema.Types.ObjectId, ref: 'JobPosting', required: true },
+}, { timestamps: true });
+
+
 // token generate
 userSchema.methods.generateAuthToken = async function () {
 
@@ -89,5 +98,6 @@ userSchema.methods.generateAuthToken = async function () {
 module.exports = {
   Job: mongoose.model('Job', jobSchema),
   User: mongoose.model('User', userSchema),
-  UserInstitute: mongoose.model('UserInstitute', userSchema)
+  UserInstitute: mongoose.model('UserInstitute', userSchema),
+  Comment: mongoose.model('Comment',commentSchema)
 };

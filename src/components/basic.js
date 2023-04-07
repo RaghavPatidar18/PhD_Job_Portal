@@ -4,21 +4,21 @@ import { useLocation } from "react-router-dom";
 
 import "./css/Basic.css";
 
-const Basic = () => {
+const Basic = () => { 
   const [message, setMessage] = useState("");
 
-  const handleSignup = (userType) => {
-    window.location.href = `/signup?userType=${userType}`;
+  const handleLogin = (userType) => {
+    window.location.href = `/login?userType=${userType}`;
   };
 
   return (
     <div className="wrapper">
       <div className="card">
         <div className="choose-role">Choose Your Role</div>
-        <button className="button" onClick={() => handleSignup("institute")}>
+        <button className="button" onClick={() => handleLogin("institute")}>
           INSTITUTE
         </button>
-        <button className="button" onClick={() => handleSignup("student")}>
+        <button className="button" onClick={() => handleLogin("student")}>
           STUDENT
         </button>
       </div>

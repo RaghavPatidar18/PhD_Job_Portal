@@ -30,6 +30,10 @@ function App({user,type}) {
   const handlePopupClose = () => {
     setShowPopup(false);
   };
+
+  const handleAlumni = () => {
+    window.location.href = "/";
+  };
   
 
   const logoutuser = async () => {
@@ -98,6 +102,8 @@ function App({user,type}) {
               {/* Only show Job Post option if user is not a student */}
               {type==="institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none' }}>Job Post</Link></Nav.Link>}
               {type==="student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscribe</Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleAlumni} style={{ color: 'black', textDecoration: 'none' }}>Alumni Experience</Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleAlumni} style={{ color: 'black', textDecoration: 'none' }}>Interview Tips</Nav.Link>}
             </Nav>
             <SubscribePopup show={showPopup} onClose={handlePopupClose} />
             {type!=="" && <Nav>

@@ -18,6 +18,7 @@ import JobApplicants from "./components/JobApplicants";
 import CustomizableForm from "./components/CustomizableForm";
 import ApplicationForm from "./components/ApplicationForm";
 import ApplicantDetails from "./components/ApplicantDetails";
+import CommentSection from "./components/comments";
 
 
 function Root() {
@@ -88,6 +89,8 @@ function Root() {
         <Route path="*" element={<Error />} />
         <Route path="/application-form/:job_id/:user_id" element={<><Navbar user={user} type={userType}/> <ApplicationForm type={userType}/></>} />
         <Route path="/applicant-detail/:id" element={<><Navbar user={user} type={userType}/><ApplicantDetails user={user} type={userType}/></>} />
+
+        <Route path="/comment/:jobPostingId" element={<CommentSection />} />
 
       </Routes>}
       </div>

@@ -52,6 +52,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/db", {
 const Job = models.Job;
 const User = models.User;
 const UserInstitute = models.UserInstitute;
+const Comment = models.Comment;
 
 const applicationSchema = new mongoose.Schema({
   student_id: String,
@@ -907,6 +908,61 @@ app.get("/applicant-details/:id", async (req, res) => {
   } else {
     res.send({ status: 500 });
   }
+});
+
+
+// POST /api/comments
+app.post('/api/comments', async (req, res) => {
+
+  console.log("inside backend after submit");
+  
+  const { text, user, jobPosting } = req.body;
+  // console.log(text);
+  // console.log(user);
+  // console.log(jobPosting);
+  const comment = new Comment({ text, user, jobPosting });
+  // console.log("1");
+  
+  try {
+    const savedComment = await comment.save();
+    // console.log("2");
+    res.json(savedComment);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// GET /api/comments?jobPostingId=<jobPostingId>
+app.get('/api/getcomments', async (req, res) => {
+  const { jobPostingId } = req.query;
+  console.log("3");
+  try {
+    const comments = await Comment.find({ jobPosting: jobPostingId }).populate('user');
+    console.log(comments);
+    res.json(comments);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// get me ID
+
+app.get('/api/meid', auth, async (req, res) => {
+  const { _id } = req.user;
+
+  res.json({ _id });
+
+  // try {
+  //   let user = await User.findById(_id);
+  //   if (!user) {
+  //     user = await UserInstitute.findById(_id);
+  //     // return res.status(404).json({ error: 'User not found' });
+  //   }
+  //   res.json({ email: user.email });
+  // } catch (error) {
+  //   //console.error(error);
+  //   res.status(500).json({ error: 'Server error' });
+  // }
 });
 
 app.listen(4000, () => {
