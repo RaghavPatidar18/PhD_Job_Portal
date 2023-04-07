@@ -22,10 +22,12 @@ function FileUpload() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
+      <label htmlFor="resume">
         Upload Resume:
-        <input type="file" accept=".pdf,.doc,.docx" onChange={handleFileUpload} />
       </label>
+      <span style={{ paddingLeft: "0.3rem" }}></span>
+      <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" onChange={handleFileUpload} />
+      <hr/>
       <button type="submit">Submit</button>
     </form>
   );

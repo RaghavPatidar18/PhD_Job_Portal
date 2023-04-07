@@ -1,117 +1,714 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import './css/Academic.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./css/Academic.css"; // import the CSS file
+import { FaEdit } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+export default function Profile({ user, type }) {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [board10, setBoard10] = useState("");
+  const [percentageFormat10, setPercentageFormat10] = useState("");
+  const [percentage10, setPercentage10] = useState("");
+  const [year10, setYear10] = useState();
+  const [remarks10, setRemarks10] = useState("");
 
-const AcademicDetails = ({user,type}) => {
-  const [degrees, setDegrees] = useState([]);
-  const [degreeForm, setDegreeForm] = useState(null);
-  const [degreeFormError, setDegreeFormError] = useState('');
-  const url = `http://localhost:4000/personal/${user.email}/${type}`;
-  const handleFormSubmit = (event) => {
-    if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
-      setDegreeFormError('All fields are required.');
-      return;
-    }
+  const [board12, setBoard12] = useState("");
+  const [percentageFormat12, setPercentageFormat12] = useState("");
+  const [percentage12, setPercentage12] = useState("");
+  const [year12, setYear12] = useState();
+  const [remarks12, setRemarks12] = useState("");
 
+  const [collegeBtech, setCollegeBtech] = useState("");
+  const [branchBtech, setBranchBtech] = useState("");
+  const [percentageFormatBtech, setPercentageFormatBtech] = useState("");
+  const [percentageBtech, setPercentageBtech] = useState("");
+  const [yearBtech, setYearBtech] = useState("");
+  const [remarksBtech, setRemarksBtech] = useState("");
+
+  const [collegeMtech, setCollegeMtech] = useState("");
+  const [branchMtech, setBranchMtech] = useState("");
+  const [percentageFormatMtech, setPercentageFormatMtech] = useState("");
+  const [percentageMtech, setPercentageMtech] = useState("");
+  const [yearMtech, setYearMtech] = useState("");
+  const [remarksMtech, setRemarksMtech] = useState("");
+
+  const [isPhdCompleted, setIsPhdCompleted] = useState("");
+  const [phdRemarks, setPhdRemarks] = useState("");
+
+  const url = `http://localhost:4000/academic/${user}`;
+  useEffect(() => {
+    axios.get(url).then((response) => {
+      console.log(response.data);
+      if (response.status === 200) {
+        const mydata = response.data.academics[0];
+        setBoard10(mydata.board10);
+        setPercentageFormat10(mydata.percentageformat10);
+        setPercentage10(mydata.percentage10);
+        setYear10(mydata.year10);
+        setRemarks10(mydata.remarks10);
+
+        setBoard12(mydata.board12);
+        setPercentageFormat12(mydata.percentageformat12);
+        setPercentage12(mydata.percentage12);
+        setYear12(mydata.year12);
+        setRemarks12(mydata.remarks12);
+
+        setCollegeBtech(mydata.collegebtech);
+        setBranchBtech(mydata.branchbtech);
+        setPercentageFormatBtech(mydata.percentageformatbtech);
+        setPercentageBtech(mydata.percentagebtech);
+        setYearBtech(mydata.yearbtech);
+        setRemarksBtech(mydata.remarksbtech);
+
+        setCollegeMtech(mydata.collegemtech);
+        setBranchMtech(mydata.branchmtech);
+        setPercentageFormatMtech(mydata.percentageformatmtech);
+        setPercentageMtech(mydata.percentagemtech);
+        setYearMtech(mydata.yearmtech);
+        setRemarksMtech(mydata.remarksmtech);
+
+        setIsPhdCompleted(mydata.isphdcompleted);
+        setPhdRemarks(mydata.phdremarks);
+
+        setFormValues({
+            board10: mydata.board10 === '-' ? '' : mydata.board10,
+            percentageformat10: mydata.percentageformat10==='-' ? '' : mydata.percentageformat10,
+            percentage10: mydata.percentage10==='-' ? '' : mydata.percentage10,
+            year10: mydata.year10==='-' ? '' : mydata.year10,
+            remarks10: mydata.remarks10==='-' ? '' : mydata.remarks10,
+  
+            board12: mydata.board12==='-' ? '' : mydata.board12,
+            percentageformat12: mydata.percentageformat12==='-' ? '' : mydata.percentageformat12,
+            percentage12: mydata.percentage12==='-' ? '' : mydata.percentage12,
+            year12: mydata.year12==='-' ? '' : mydata.year12,
+            remarks12: mydata.remarks12==='-' ? '' : mydata.remarks12,
+  
+            collegebtech: mydata.collegebtech==='-' ? '' : mydata.collegebtech,
+            branchbtech: mydata.branchbtech==='-' ? '' : mydata.branchbtech,
+            percentageformatbtech: mydata.percentageformatbtech==='-' ? '' : mydata.percentageformatbtech,
+            percentagebtech: mydata.percentagebtech==='-' ? '' : mydata.percentagebtech,
+            yearbtech: mydata.yearbtech==='-' ? '' : mydata.yearbtech,
+            remarksbtech: mydata.remarksbtech==='-' ? '' : mydata.remarksbtech,
+            
+  
+            collegemtech: mydata.collegemtech==='-' ? '' : mydata.collegemtech,
+            branchmtech: mydata.branchmtech==='-' ? '' : mydata.branchmtech,
+            percentageformatmtech: mydata.percentageformatmtech==='-' ? '' : mydata.percentageformatmtech,
+            percentagemtech: mydata.percentagemtech==='-' ? '' : mydata.percentagemtech,
+            yearmtech: mydata.yearmtech==='-' ? '' : mydata.yearmtech,
+            remarksmtech: mydata.remarksmtech==='-' ? '' : mydata.remarksmtech,
+  
+            isphdcompleted: mydata.isphdcompleted==='-' ? '' : mydata.isphdcompleted,
+            phdremarks: mydata.phdremarks==='-' ? '' : mydata.phdremarks,
+        });
+      }
+    });
+  }, []);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
+    // save into database
+    axios
+      .post("http://localhost:4000/academic", { formValues, user })
+      .then((response) => {
+        if (response.data.status === 200) {
+          alert("Your data was saved");
+        } else {
+          alert("Please try again later!");
+        }
+      });
+    setIsEditMode(false);
+    // window.location.reload();
   };
-
-  const handleEditSubmit = (event, index) => {
-
-    event.preventDefault();
-
-    if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
-      setDegreeFormError('All fields are required.');
-      return;
-    }
-
-    const updatedDegrees = [...degrees];
-    updatedDegrees[index] = degreeForm;
-
-    setDegrees(updatedDegrees);
-    setDegreeForm(null);
+  const handleEdit = () => {
+    setIsEditMode(true);
   };
-
-  const handleDeleteClick = (index) => {
-    const updatedDegrees = [...degrees];
-    updatedDegrees.splice(index, 1);
-
-    setDegrees(updatedDegrees);
+  const handleClose = () => {
+    setIsEditMode(false);
   };
+  const [formValues, setFormValues] = useState({
+    board10: board10,
+    percentageformat10: percentageFormat10,
+    percentage10: percentage10,
+    year10: year10,
+    remarks10: remarks10,
 
-  const handleEditClick = (index) => {
-    setDegreeForm(degrees[index]);
-  };
+    board12: board12,
+    percentageformat12: percentageFormat12,
+    percentage12: percentage12,
+    year12: year12,
+    remarks12: remarks12,
 
-  const renderDegreeForm = () => {
-    if (!degreeForm) {
-      return null;
-    }
+    collegebtech: collegeBtech,
+    branchbtech: branchBtech,
+    percentageformatbtech: percentageFormatBtech,
+    percentagebtech: percentageBtech,
+    yearbtech: yearBtech,
+    remarksbtech: remarksBtech,
 
-    return (
-      <div className="form-container">
-        <h2>{degreeForm.id ? 'Edit Degree' : <span>Add Degree</span>}</h2>
-        <form onSubmit={degreeForm.id ? ((event) => handleEditSubmit(event, degreeForm.id)) : handleFormSubmit}>
-          {degreeFormError && <p className="form-error">{degreeFormError}</p>}
-          <div className="form-group">
-            <label htmlFor="degree-name">Degree Name:</label>
-            <input type="text" id="degree-name" name="degreeName" value={degreeForm.degreeName} onChange={(event) => setDegreeForm({ ...degreeForm, degreeName: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-study">Degree Study:</label>
-            <input type="text" id="degree-study" name="degreeStudy" value={degreeForm.degreeStudy} onChange={(event) => setDegreeForm({ ...degreeForm, degreeStudy: event.target.value })} required />
-          </div>
-          <div className="form-group">
-  <label htmlFor="grading-scale">Grading Scale:</label>
-  <select id="grading-scale" name="gradingScale" value={degreeForm.gradingScale} onChange={(event) => setDegreeForm({ ...degreeForm, gradingScale: event.target.value })} required>
-    <option value="">Select grading scale</option>
-    <option value="4">4-point scale</option>
-    <option value="10">Out of 10</option>
-    <option value="100">Out of 100</option>
-  </select>
-</div>
-          <div className="form-group">
-            <label htmlFor="grade-obtained">Grade Obtained:</label>
-            <input type="text" id="grade-obtained" name="gradeObtained" value={degreeForm.gradeObtained} onChange={(event) => setDegreeForm({ ...degreeForm, gradeObtained: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-start-year">Degree Start Year:</label>
-            <input type="text" id="degree-start-year" name="degreeStartYear" value={degreeForm.degreeStartYear} onChange={(event) => setDegreeForm({ ...degreeForm, degreeStartYear: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-end-year">Degree End Year:</label>
-            <input type="text" id="degree-end-year" name="degreeEndYear" value={degreeForm.degreeEndYear} onChange={(event) => setDegreeForm({ ...degreeForm, degreeEndYear: event.target.value })} required />
-          </div>
-          <button type="submit">{degreeForm.id ? 'Save Changes' : 'Add Degree'}</button>
-        </form>
-      </div>
-    );
-  };
+    collegemtech: collegeMtech,
+    branchmtech: branchMtech,
+    percentageformatmtech: percentageFormatMtech,
+    percentagemtech: percentageMtech,
+    yearmtech: yearMtech,
+    remarksmtech: remarksMtech,
 
+    isphdcompleted: isPhdCompleted,
+    phdremarks: phdRemarks,
+  });
   return (
-    <div className="academic-details-container">
-      {/* <h2>Academic Details</h2> */}
-      <div className="degrees-container">
-        {degrees.map((degree, index) => (
-          <div key={index} className="degree-card">
-            <div className="degree-info">
-              <h2>{degree.degreeName}</h2>
-              <p>{degree.degreeStudy}</p>
-              <p>{degree.gradingScale}</p>
-              <p>{degree.gradeObtained}</p>
-              <p>{degree.degreeStartYear} - {degree.degreeEndYear}</p>
-            </div>
-            <div className="degree-actions">
-              <button onClick={() => handleEditClick(index)}>Edit</button>
-              <button onClick={() => handleDeleteClick(index)}>Delete</button>
-            </div>
+    <>
+      <div className="userProfile">
+        <div className="parent">
+          <div className="left">
+            <h4 className="basic">Academic Details</h4>
           </div>
-        ))}
-      </div>
-      {renderDegreeForm()}
-      <button className="add-degree-button" onClick={() => setDegreeForm({})}>Add Degree</button>
-    </div>
-  );
-};
+          <div className="right">
+            {isEditMode ? (
+              <>
+                <button className="closeButton" onClick={handleClose}>
+                  {" "}
+                  <IoClose />
+                  <span style={{ paddingLeft: "0.5rem" }}></span>Close
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="editButton" onClick={handleEdit}>
+                  {" "}
+                  <FaEdit />
+                  <span style={{ paddingLeft: "0.5rem" }}></span>Edit
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+        <hr style={{ borderWidth: "2px" }} />
+        {!isEditMode ? (
+          <>
+            <div className="userProfileData">
+              <table>
+                <h5>Mtech</h5>
+                <hr />
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>College : </td>
+                  <td>{collegeMtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Branch : </td>
+                  <td>{branchMtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Percentage Format :{" "}
+                  </td>
+                  <td>{percentageFormatMtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Percentage obtained : </td>
+                  <td>{percentageMtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Year of completion : </td>
+                  <td>{yearMtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Remarks (if any): </td>
+                  <td>{remarksMtech}</td>
+                </tr>
 
-export default AcademicDetails;
+                {/* BTECH */}
+                <br />
+                <br />
+                <h5>B Tech</h5>
+                <hr />
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    College :{" "}
+                  </td>
+                  <td>{collegeBtech}</td>
+                </tr>
+                
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Branch :{" "}
+                  </td>
+                  <td>{branchBtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Percentage Format :{" "}
+                  </td>
+                  <td>{percentageFormatBtech}</td>
+                </tr>
+
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Percentage Obtained :{" "}
+                  </td>
+                  <td>{percentageBtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Year of completion :{" "}
+                  </td>
+                  <td>{yearBtech}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Remarks (if any) :{" "}
+                  </td>
+                  <td>{remarksBtech}</td>
+                </tr>
+
+                <br />
+                <br />
+                <h5>Class 12</h5>
+                <hr />
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Board :{" "}
+                  </td>
+                  <td>{board12}</td>
+                </tr>
+                
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Percentage Format :{" "}
+                  </td>
+                  <td>{percentageFormat12}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Percentage Obtained :{" "}
+                  </td>
+                  <td>{percentage12}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Year of completion :{" "}
+                  </td>
+                  <td>{year12}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Remarks (if any) :{" "}
+                  </td>
+                  <td>{remarks12}</td>
+                </tr>
+                <br />
+                <br />
+                <h5>Class 10</h5>
+                <hr />
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Board :{" "}
+                  </td>
+                  <td>{board10}</td>
+                </tr>
+                
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Percentage Format :{" "}
+                  </td>
+                  <td>{percentageFormat10}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Percentage Obtained :{" "}
+                  </td>
+                  <td>{percentage10}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Year of completion :{" "}
+                  </td>
+                  <td>{year10}</td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>
+                    Remarks (if any) :{" "}
+                  </td>
+                  <td>{remarks10}</td>
+                </tr>
+                
+              </table>
+            </div>
+          </>
+        ) : (
+          <div id="popup-form">
+            <form className="userProfileData" onSubmit={handleSubmit}>
+              <table>
+                <hr />
+                <h4>M Tech</h4>
+                <hr />
+                <tr>
+                  <td>
+                    <label htmlFor="collegemtech">College:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="collegemtech"
+                      name="collegemtech"
+                      required
+                      value={formValues.collegemtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="branchmtech">Branch:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="branchmtech"
+                      name="branchmtech"
+                      required
+                      value={formValues.branchmtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentageformatmtech">Percentage Format:</label>
+                  </td>
+                  <td>
+                  <select
+                      id="percentageformatmtech"
+                      name="percentageformatmtech"
+                      required
+                      value={formValues.percentageformatmtech}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Please select</option>
+                      <option value="4">Scale of 4.0</option>
+                      <option value="10">Scale of 10.0</option>
+                      <option value="100">Scale of 100 (%)</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentagemtech">Percentage Obtained:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="percentagemtech"
+                      name="percentagemtech"
+                      required
+                      value={formValues.percentagemtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="yearmtech">Year of completion:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="yearmtech"
+                      name="yearmtech"
+                      required
+                      value={formValues.yearmtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="remarksmtech">Add remarks (if any):</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="remarksmtech"
+                      name="remarksmtech"
+                      required
+                      value={formValues.remarksmtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <hr />
+                <h4>B Tech</h4>
+                <hr />
+                <tr>
+                  <td>
+                    <label htmlFor="collegebtech">College:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="collegebtech"
+                      name="collegebtech"
+                      required
+                      value={formValues.collegebtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="branchbtech">Branch:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="branchbtech"
+                      name="branchbtech"
+                      required
+                      value={formValues.branchbtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentageformatbtech">Percentage Format:</label>
+                  </td>
+                  <td>
+                  <select
+                      id="percentageformatbtech"
+                      name="percentageformatbtech"
+                      required
+                      value={formValues.percentageformatbtech}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Please select</option>
+                      <option value="4">Scale of 4.0</option>
+                      <option value="10">Scale of 10.0</option>
+                      <option value="100">Scale of 100 (%)</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentagebtech">Percentage Obtained:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="percentagebtech"
+                      name="percentagebtech"
+                      required
+                      value={formValues.percentagebtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="yearmtech">Year of completion:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="yearbtech"
+                      name="yearbtech"
+                      required
+                      value={formValues.yearbtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="remarksbtech">Add remarks (if any):</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="remarksbtech"
+                      name="remarksbtech"
+                      required
+                      value={formValues.remarksbtech}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <hr />
+                <h4>Class 12</h4>
+                <hr />
+                <tr>
+                  <td>
+                    <label htmlFor="board12">Board:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="board12"
+                      name="board12"
+                      required
+                      value={formValues.board12}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentageformat12">Percentage Format:</label>
+                  </td>
+                  <td>
+                  <select
+                      id="percentageformat12"
+                      name="percentageformat12"
+                      required
+                      value={formValues.percentageformat12}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Please select</option>
+                      <option value="4">Scale of 4.0</option>
+                      <option value="10">Scale of 10.0</option>
+                      <option value="100">Scale of 100 (%)</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentage12">Percentage Obtained:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="percentage12"
+                      name="percentage12"
+                      required
+                      value={formValues.percentage12}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="year12">Year of completion:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="year12"
+                      name="year12"
+                      required
+                      value={formValues.year12}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="remarks12">Add remarks (if any):</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="remarks12"
+                      name="remarks12"
+                      required
+                      value={formValues.remarks12}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <br/>
+                <hr />
+                <h4>Class 10</h4>
+                <hr />
+                <tr>
+                  <td>
+                    <label htmlFor="board10">Board:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      id="board10"
+                      name="board10"
+                      required
+                      value={formValues.board10}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentageformat10">Percentage Format:</label>
+                  </td>
+                  <td>
+                  <select
+                      id="percentageformat10"
+                      name="percentageformat10"
+                      required
+                      value={formValues.percentageformat10}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Please select</option>
+                      <option value="4">Scale of 4.0</option>
+                      <option value="10">Scale of 10.0</option>
+                      <option value="100">Scale of 100 (%)</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="percentage10">Percentage Obtained:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="percentage10"
+                      name="percentage10"
+                      required
+                      value={formValues.percentage10}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="year10">Year of completion:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="year10"
+                      name="year10"
+                      required
+                      value={formValues.year10}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="remarks10">Add remarks (if any):</label>
+                  </td>
+                  <td>
+                  <input
+                      type="text"
+                      id="remarks10"
+                      name="remarks10"
+                      required
+                      value={formValues.remarks10}
+                      onChange={handleInputChange}
+                    />
+                  </td>
+                </tr>
+                <hr />
+                <button type="submit">Submit</button>
+              </table>
+            </form>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}

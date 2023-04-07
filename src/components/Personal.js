@@ -46,10 +46,10 @@ export default function Profile({ user, type }) {
             myData.permanent_city +
             ", " +
             myData.permanent_state +
-            " (" +
-            myData.permanent_pincode +
             ", " +
             myData.permanent_country +
+            " (" +
+            myData.permanent_pincode +
             ")";
         }
         if (myData.communication_address === "-") {
@@ -187,7 +187,6 @@ export default function Profile({ user, type }) {
   });
   return (
     <>
-      {console.log("acha" + user)}
       <div className="userProfile">
         <div className="parent">
           <div className="left">
@@ -196,7 +195,7 @@ export default function Profile({ user, type }) {
           <div className="right">
             {isEditMode ? (
               <>
-                <button className="editButtonDisabled" onClick={handleClose}>
+                <button className="closeButton" onClick={handleClose}>
                   {" "}
                   <IoClose />
                   <span style={{ paddingLeft: "0.5rem" }}></span>Close
@@ -637,7 +636,6 @@ export default function Profile({ user, type }) {
                     </select>
                   </td>
                 </tr>
-              {console.log("hello"+formValues.dob)}
                 <tr>
                   <td>
                     <label htmlFor="married">Marital Status:</label>
