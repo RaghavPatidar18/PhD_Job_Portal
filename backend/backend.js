@@ -40,6 +40,7 @@ app.use(
 
 app.use("/", require(__dirname + "/routes/UserProfile/resumeParser.js"));
 app.use("/", require(__dirname + "/routes/UserProfile/personalDetails.js"));
+app.use("/", require(__dirname + "/routes/UserProfile/academicDetails.js"));
 
 const keysecret = "secret";
 
@@ -259,7 +260,7 @@ app.post("/api/verifyOtp", async (req, res) => {
         name: name,
         fathername: "-",
         dob: "-",
-        age : "-",
+        age: "-",
         category: "-",
         disablity: "-",
         married: "-",
@@ -276,11 +277,47 @@ app.post("/api/verifyOtp", async (req, res) => {
         permanent_city: "-",
         permanent_state: "-",
         permanent_pincode: "-",
-        communication_country : "-",
-        permanent_country : "-",
+        communication_country: "-",
+        permanent_country: "-",
         mobile: "-",
         altmobile: "-",
       });
+      const academics = new Academic({
+        email: email,
+        board10: '-',
+        percentageformat10: '-',
+        percentage10: '-',
+        year10: '-',
+        remarks10: '-',
+        marksheet10: '-',
+
+        board12: '-',
+        percentageformat12: '-',
+        percentage12: '-',
+        year12: '-',
+        remarks12: '-',
+        marksheet12: '-',
+
+        collegebtech: '-',
+        branchbtech: '-',
+        percentageformatbtech: '-',
+        percentagebtech: '-',
+        yearbtech: '-',
+        remarksbtech: '-',
+        marksheetbtechurl: '-',
+
+        collegemtech: '-',
+        branchmtech: '-',
+        percentageformatmtech: '-',
+        percentagemtech: '-',
+        yearmtech: '-',
+        remarksmtech: '-',
+        marksheetmtech: '-',
+
+        isphdcompleted: '-',
+        phdremarks: '-',
+      });
+      await academics.save();
       await personals.save();
       await user.save();
     } else {

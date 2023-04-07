@@ -96,8 +96,8 @@ ul {
 }
 
 .active {
-  color: blue !important;
-  border: solid 1px #0059b3;
+  color: rgba(59, 50, 179) !important;
+  border: solid 1px rgba(59, 50, 179);
   padding: 15px;  
   width: 9rem;
 }
