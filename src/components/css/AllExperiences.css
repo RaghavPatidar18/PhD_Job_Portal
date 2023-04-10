@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+input, textarea {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.experience-card {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    }
+    
+    .experience-card__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    }
+    
+    .experience-card__header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    }
+    
+    .experience-card__header__likes-dislikes {
+    display: flex;
+    align-items: center;
+    }
+    
+    .experience-card__header__likes-dislikes__button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    }
+    
+    .experience-card__header__likes-dislikes__button__icon {
+    margin-right: 0.5rem;
+    }
+    
+    .experience-card__body {
+    margin-bottom: 1rem;
+    }
+    
+    .experience-card__body p {
+    margin: 0;
+    line-height: 1.5;
+    }
+    
+    .experience-card__comments {
+    margin-bottom: 1rem;
+    }
+    
+    .experience-card__comments__header {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    }
+    
+    .experience-card__comments__list {
+    margin: 0;
+    padding: 0;
+    }
+    
+    .experience-card__comments__list__item {
+    margin-bottom: 0.5rem;
+    }
+    
+    .experience-card__comments__list__item p {
+    margin: 0;
+    }
+    
+    .comment-form {
+    margin-top: 1rem;
+    }
+    
+    .comment-form__input {
+    margin-bottom: 1rem;
+    }

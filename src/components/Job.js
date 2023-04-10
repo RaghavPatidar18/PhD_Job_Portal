@@ -112,7 +112,7 @@ function Job() {
           <JobCard
           key={job._id}
           _id={job._id}
-          title={job.title}
+          title={job.title} 
           college={job.college}
           location={job.location}
           salary={job.salary}

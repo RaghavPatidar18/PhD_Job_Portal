@@ -21,6 +21,9 @@ const Basic = () => {
         <button className="button" onClick={() => handleLogin("student")}>
           STUDENT
         </button>
+        {/* <button className="button" onClick={() => handleLogin("alumni")}>
+          ALUMNI
+        </button> */}
       </div>
       <p>{message}</p>
     </div>

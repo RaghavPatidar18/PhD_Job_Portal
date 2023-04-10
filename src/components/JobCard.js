@@ -20,7 +20,7 @@ function JobCard({ _id, title, college, location, salary }) {
 
           <h4 className="job-college">College : {college}</h4>
           <p className="job-location">Location :  {location}</p>
-          <p className="job-salary"> Salary :  {salary}</p>
+          <p className="job-salary"> Salary :  {salary}</p> 
 
         </Link>
       </Container>
