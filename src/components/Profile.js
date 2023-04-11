@@ -15,6 +15,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Popup from "reactjs-popup";
 import AutoFillData from "./AutoFillData";
 import "./css/Profile.css";
+import Reference from "./Refrees";
 
 export default function Profile({ user, type }) {
   const [screenWidth] = React.useState(window.innerWidth);
@@ -37,7 +38,9 @@ export default function Profile({ user, type }) {
     <>
       {screenWidth >= 1024 ? (
         <>
-          <header className="nav">
+          {
+            type === 'student' ? (<>
+               <header className="nav">
             <nav className="nav__container__actions">
               <ul>
                 <li>
@@ -216,11 +219,24 @@ export default function Profile({ user, type }) {
               </ul>
             </nav>
           </header>
+            </>): (<>
+            
+            {/* INSTITUE PROFILE NAVBAR */}
+            
+            </>)
+          }
+         
         </>
       ) : (
-        <> </>
+        <> 
+        
+        {/* INSTITUTE PROFILE SECTION */}
+        
+        </>
       )}
-      <div className="Profile">
+      {
+        type==='student' ? (
+          <div className="Profile">
         <section className="renderComponent">
           {activeComponent === "personal" ? (
             <>
@@ -230,12 +246,16 @@ export default function Profile({ user, type }) {
             <></>
           )}
           {activeComponent === "academic" ? <Academic user = {user} type = {type}/> : <></>}
-        {/* {activeComponent === "experience" ? <Experience/> : <></>}
-        {activeComponent === "por" ? <POR/> : <></>}
-        {activeComponent === "publication" ? <Publication/> : <></>}
-        {activeComponent === "doc" ? <OtherDetails/> : <></>} */}
+        {activeComponent === "experience" ? <Experience user = {user} type = {type}/> : <></>}
+        {activeComponent === "publication" ? <Publication user = {user} type = {type}/> : <></>}
+        {activeComponent === "reference" ? <Reference user = {user} type = {type}/> : <></>}
+        {activeComponent === "por" ? <POR user = {user} type = {type}/> : <></>}
+        {activeComponent === "doc" ? <OtherDetails/> : <></>}
         </section>
       </div>
+        ) : (<></>)
+      }
+      
     </>
   );
 }

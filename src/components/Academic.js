@@ -33,6 +33,7 @@ export default function Profile({ user, type }) {
 
   const [isPhdCompleted, setIsPhdCompleted] = useState("");
   const [phdRemarks, setPhdRemarks] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const url = `http://localhost:4000/academic/${user}`;
   useEffect(() => {
@@ -41,27 +42,27 @@ export default function Profile({ user, type }) {
       if (response.status === 200) {
         const mydata = response.data.academics[0];
         setBoard10(mydata.board10);
-        setPercentageFormat10(mydata.percentageformat10);
+        setPercentageFormat10(mydata.percentageformat10==='-'?'-':"Scale of " + mydata.percentageformat10);
         setPercentage10(mydata.percentage10);
         setYear10(mydata.year10);
         setRemarks10(mydata.remarks10);
 
         setBoard12(mydata.board12);
-        setPercentageFormat12(mydata.percentageformat12);
+        setPercentageFormat12(mydata.percentageformat12==='-'?'-':"Scale of " + mydata.percentageformat12);
         setPercentage12(mydata.percentage12);
         setYear12(mydata.year12);
         setRemarks12(mydata.remarks12);
 
         setCollegeBtech(mydata.collegebtech);
         setBranchBtech(mydata.branchbtech);
-        setPercentageFormatBtech(mydata.percentageformatbtech);
+        setPercentageFormatBtech(mydata.percentageformatbtech==='-'?'-':"Scale of " + mydata.percentageformatbtech);
         setPercentageBtech(mydata.percentagebtech);
         setYearBtech(mydata.yearbtech);
         setRemarksBtech(mydata.remarksbtech);
 
         setCollegeMtech(mydata.collegemtech);
         setBranchMtech(mydata.branchmtech);
-        setPercentageFormatMtech(mydata.percentageformatmtech);
+        setPercentageFormatMtech(mydata.percentageformatmtech==='-'?'-':"Scale of " + mydata.percentageformatmtech);
         setPercentageMtech(mydata.percentagemtech);
         setYearMtech(mydata.yearmtech);
         setRemarksMtech(mydata.remarksmtech);
@@ -102,7 +103,7 @@ export default function Profile({ user, type }) {
         });
       }
     });
-  }, []);
+  }, [refreshKey, isEditMode]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -116,12 +117,14 @@ export default function Profile({ user, type }) {
       .post("http://localhost:4000/academic", { formValues, user })
       .then((response) => {
         if (response.data.status === 200) {
-          alert("Your data was saved");
+          // alert("Your data was saved");
         } else {
-          alert("Please try again later!");
+          // alert("Please try again later!");
         }
       });
     setIsEditMode(false);
+    setRefreshKey(oldKey => oldKey +1);
+    window.scrollTo(0, 0)
     // window.location.reload();
   };
   const handleEdit = () => {
@@ -195,29 +198,35 @@ export default function Profile({ user, type }) {
                 <h5>Mtech</h5>
                 <hr />
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>College : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>College</td>
+                  <td>:</td>
                   <td>{collegeMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Branch : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Branch</td>
+                  <td>:</td>
                   <td>{branchMtech}</td>
                 </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Percentage Format :{" "}
+                    Percentage Format{" "}
                   </td>
+                  <td>:</td>
                   <td>{percentageFormatMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Percentage obtained : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Percentage obtained</td>
+                  <td>:</td>
                   <td>{percentageMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Year of completion : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Year of completion</td>
+                  <td>:</td>
                   <td>{yearMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Remarks (if any): </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Remarks (if any)</td>
+                  <td>:</td>
                   <td>{remarksMtech}</td>
                 </tr>
 
