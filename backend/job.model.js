@@ -68,6 +68,81 @@ verifytoken:{
     type: String,
 }
 });
+
+// const experienceSchema = new mongoose.Schema({
+//   name : String ,
+//   email: { type: String, unique: true },
+//   college : string,
+//   description : string,
+// });
+
+// const commentSchemaNew = new mongoose.Schema({
+//   experience: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'Experience',
+//     required: true,
+//   },
+//   comment: {
+//     type: String,
+//     required: true,
+//   },
+// }, {
+//   timestamps: true,
+// });
+
+const commentSchemaNew = new mongoose.Schema({
+  experience: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Experience',
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: String, // assuming user's email is stored as string
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  }
+});
+
+const commentSchema = new mongoose.Schema({
+  text: { type: String, required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  jobPosting: { type: mongoose.Schema.Types.ObjectId, ref: 'JobPosting', required: true },
+}, { timestamps: true });
+
+
+
+const experienceSchema = new mongoose.Schema({
+  companyName: {
+    type: String,
+    required: true,
+  },
+  experience: {
+    type: String,
+    required: true,
+  },
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comment',
+  }],
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  dislikes: {
+    type: Number,
+    default: 0,
+  },
+}, {
+  timestamps: true,
+});
+
 // token generate
 userSchema.methods.generateAuthToken = async function () {
 
@@ -89,5 +164,9 @@ userSchema.methods.generateAuthToken = async function () {
 module.exports = {
   Job: mongoose.model('Job', jobSchema),
   User: mongoose.model('User', userSchema),
-  UserInstitute: mongoose.model('UserInstitute', userSchema)
+  UserInstitute: mongoose.model('UserInstitute', userSchema),
+  Alumni: mongoose.model('Alumni', userSchema),
+  Comment: mongoose.model('Comment',commentSchema),
+  CommentNew: mongoose.model('CommentNew',commentSchemaNew),
+  Experience: mongoose.model('Experience',experienceSchema)
 };

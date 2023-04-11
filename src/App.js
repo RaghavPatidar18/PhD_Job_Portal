@@ -18,6 +18,9 @@ import JobApplicants from "./components/JobApplicants";
 import CustomizableForm from "./components/CustomizableForm";
 import ApplicationForm from "./components/ApplicationForm";
 import ApplicantDetails from "./components/ApplicantDetails";
+import CommentSection from "./components/comments";
+import AllExperiences from "./components/AllExperiences";
+import ExpComments from "./components/ExpComment";
 
 
 function Root() {
@@ -81,6 +84,7 @@ function Root() {
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />
 
+      <Route path="/experiences" element={<AllExperiences />} />
 
         <Route path="/application/:id" element={<><Navbar user={user} type={userType}/> <AppliedJob user={user} type={userType}/></>} />
         <Route path="/job-postings" element={<><Navbar user={user} type={userType}/> <PostedJobs user={user._id} type={userType}/></>} />
@@ -88,6 +92,9 @@ function Root() {
         <Route path="*" element={<Error />} />
         <Route path="/application-form/:job_id/:user_id" element={<><Navbar user={user} type={userType}/> <ApplicationForm type={userType}/></>} />
         <Route path="/applicant-detail/:id" element={<><Navbar user={user} type={userType}/><ApplicantDetails user={user} type={userType}/></>} />
+
+        <Route path="/comment/:jobPostingId" element={<CommentSection />} />
+        <Route path="/allcomment/:exp_id" element={<ExpComments />} />
 
       </Routes>}
       </div>

@@ -9,6 +9,20 @@ import './css/JobDetails.css'; // import custom styles
 import { useNavigate , useLocation } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 
+
+// async function getId() {
+//   const token = localStorage.getItem('usersdatatoken');
+//   // console.log(token);
+//   const response = await fetch('/api/meid', {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+//   const data = await response.json();
+//   // console.log(data);
+//   return data;
+// }
+
 function JobDetails({user,type}) {
 
   const { id } = useParams();
@@ -84,6 +98,14 @@ const LoginCheck = async() => {
       //   })
       //   .catch((err) => console.error(err));
       }
+  }
+
+  async function commentSection()
+  {
+    console.log("heheheheh");
+    // const id = await getId();
+    // console.log(id);
+    history(`/comment/${id}`);
   }
 
   return (
@@ -178,7 +200,9 @@ const LoginCheck = async() => {
       </div>
 
         {type!=="institute" && <button onClick={()=> {buttonText==="Apply" ? handleShow(): applyClicked()}} className="job-apply-button" style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#fff", backgroundColor: "#008080", border: "none", borderRadius: "5px", padding: "10px 20px", cursor: "pointer", transition: "background-color 0.3s ease" }}>{buttonText}</button>}
-
+        <button className="button" onClick={() => commentSection()}>
+          Comments
+        </button>
     </div>
     </>
   );

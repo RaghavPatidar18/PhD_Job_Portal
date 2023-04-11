@@ -51,6 +51,10 @@ const Login = () => {
     window.location.href = `/password-reset?userType=${userType}`;
   };
 
+  const handleSignup = () => {
+    window.location.href = `/signup?userType=${userType}`;
+  };
+
   return (
     <div className="signup-container">
     {showInvalidUserAlert && <Alert variant="danger" onClose={()=> {setEmail(""); setPassword(""); setShowInvalidUserAlert(false);}} dismissible>User does not exist</Alert>}
@@ -79,6 +83,9 @@ const Login = () => {
       </div>
       <div className="form-group">
         <button className="btn-primary" onClick={handlePassword}>Forgot Password</button>
+      </div>
+      <div className="form-group">
+        <button className="btn-primary" onClick={handleSignup}>New User ?</button>
       </div>
       <p className="message">{message}</p>
     </div>
