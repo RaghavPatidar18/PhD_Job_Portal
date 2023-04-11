@@ -37,10 +37,13 @@ app.use(
     saveUninitialized: true,
   })
 );
-
 app.use("/", require(__dirname + "/routes/UserProfile/resumeParser.js"));
 app.use("/", require(__dirname + "/routes/UserProfile/personalDetails.js"));
 app.use("/", require(__dirname + "/routes/UserProfile/academicDetails.js"));
+app.use("/", require(__dirname + "/routes/UserProfile/experienceDetails.js"));
+app.use("/", require(__dirname + "/routes/UserProfile/referenceDetails.js"));
+app.use("/", require(__dirname + "/routes/UserProfile/publicationDetails.js"));
+app.use("/", require(__dirname + "/routes/UserProfile/porDetails.js"));
 
 const keysecret = "secret";
 

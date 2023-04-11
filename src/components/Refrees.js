@@ -1,113 +1,422 @@
-import React, { useState } from 'react';
-import './css/Academic.css';
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import "./css/Experience.css";
+const ExperienceTable = ({ user, type }) => {
+  const bottomRef = useRef(null);
+  const [references, setReferences] = useState([]);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedReferences, setSelectedReferences] = useState(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    title: "",
+    affliliation: "",
+    referenceemail: "",
+    referencephone: "",
+    relationship: "",
+    description: "",
+  });
+  const [formData2, setFormData2] = useState({
+    name: "",
+    title: "",
+    affliliation: "",
+    referenceemail: "",
+    referencephone: "",
+    relationship: "",
+    description: "",
+  });
 
-const AcademicDetails = () => {
-  const [degrees, setDegrees] = useState([]);
-  const [degreeForm, setDegreeForm] = useState(null);
-  const [degreeFormError, setDegreeFormError] = useState('');
+  // Fetch all experiences on component mount
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/references/${user}`)
+      .then((res) => {
+        console.log(res);
+        setReferences(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-
-    if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
-      setDegreeFormError('All fields are required.');
-      return;
-    }
-
-    setDegrees([...degrees, degreeForm]);
-    setDegreeForm(null);
+  // Handler for form input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleChange2 = (e) => {
+    setFormData2({
+      ...formData2,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleEditSubmit = (event, index) => {
-    event.preventDefault();
-
-    if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
-      setDegreeFormError('All fields are required.');
-      return;
-    }
-
-    const updatedDegrees = [...degrees];
-    updatedDegrees[index] = degreeForm;
-
-    setDegrees(updatedDegrees);
-    setDegreeForm(null);
+  // Handler for submitting add experience form
+  const handleAddSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:4000/references/${user}`, formData2)
+      .then((res) => {
+        setReferences([...references, res.data]);
+        setShowAddForm(false);
+        setFormData2({
+          email: "",
+          profile: "",
+          organization: "",
+          startdate: "",
+          enddate: "",
+          description: "",
+          location: "",
+        });
+      })
+      .catch((err) => console.error(err));
   };
 
-  const handleDeleteClick = (index) => {
-    const updatedDegrees = [...degrees];
-    updatedDegrees.splice(index, 1);
-
-    setDegrees(updatedDegrees);
+  // Handler for submitting edit experience form
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put(
+        `http://localhost:4000/references/${selectedReferences._id}`,
+        formData
+      )
+      .then((res) => {
+        const index = references.findIndex((ref) => ref._id === res.data._id);
+        setReferences([
+          ...references.slice(0, index),
+          res.data,
+          ...references.slice(index + 1),
+        ]);
+        setShowEditForm(false);
+        setSelectedReferences(null);
+        setFormData({
+          name: "",
+          title: "",
+          affliliation: "",
+          referenceemail: "",
+          referencephone: "",
+          relationship: "",
+          description: "",
+        });
+      })
+      .catch((err) => console.error(err));
   };
 
-  const handleEditClick = (index) => {
-    setDegreeForm(degrees[index]);
+  // Handler for deleting an experience
+  const handleAdd = () => {
+    setShowAddForm(true);
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
-  const renderDegreeForm = () => {
-    if (!degreeForm) {
-      return null;
-    }
-
-    return (
-      <div className="form-container">
-        <h2>{degreeForm.id ? 'Edit' : 'Add Reference'}</h2>
-        <form onSubmit={degreeForm.id ? ((event) => handleEditSubmit(event, degreeForm.id)) : handleFormSubmit}>
-          {degreeFormError && <p className="form-error">{degreeFormError}</p>}
-          <div className="form-group">
-            <label htmlFor="degree-name">Refrence Name:</label>
-            <input type="text" id="degree-name" name="degreeName" value={degreeForm.degreeName} onChange={(event) => setDegreeForm({ ...degreeForm, degreeName: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-study">Refernce Work profile:</label>
-            <input type="text" id="degree-study" name="degreeStudy" value={degreeForm.degreeStudy} onChange={(event) => setDegreeForm({ ...degreeForm, degreeStudy: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="grading-scale">Relation with reference:</label>
-            <input type="text" id="grading-scale" name="gradingScale" value={degreeForm.gradingScale} onChange={(event) => setDegreeForm({ ...degreeForm, gradingScale: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="grade-obtained">Email address :</label>
-            <input type="text" id="grade-obtained" name="gradeObtained" value={degreeForm.gradeObtained} onChange={(event) => setDegreeForm({ ...degreeForm, gradeObtained: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-start-year">Phone number:</label>
-            <input type="text" id="degree-start-year" name="degreeStartYear" value={degreeForm.degreeStartYear} onChange={(event) => setDegreeForm({ ...degreeForm, degreeStartYear: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-end-year">Additional details:</label>
-            <input type="text" id="degree-end-year" name="degreeEndYear" value={degreeForm.degreeEndYear} onChange={(event) => setDegreeForm({ ...degreeForm, degreeEndYear: event.target.value })} required />
-          </div>
-          <button type="submit">{degreeForm.id ? 'Save Changes' : 'Add Reference'}</button>
-        </form>
-      </div>
-    );
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:4000/references/${id}`)
+      .then((res) => {
+        const updatedReferences = references.filter((ref) => ref._id !== id);
+        setReferences(updatedReferences);
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
-    <div className="academic-details-container">
-      {/* <h2>Academic Details</h2> */}
-      <div className="degrees-container">
-        {degrees.map((degree, index) => (
-          <div key={index} className="degree-card">
-            <div className="degree-info">
-              <h2>{degree.degreeName}</h2>
-              <p>{degree.degreeStudy}</p>
-              <p>{degree.gradingScale}</p>
-              <p>{degree.gradeObtained}</p>
-              <p>{degree.degreeStartYear} - {degree.degreeEndYear}</p>
-            </div>
-            <div className="degree-actions">
-              <button onClick={() => handleEditClick(index)}>Edit</button>
-              <button onClick={() => handleDeleteClick(index)}>Delete</button>
-            </div>
-          </div>
-        ))}
+    <div className="userProfile">
+      <div className="parent">
+        <div className="left">
+          <h3 className="basic">References</h3>
+        </div>
+        <div className="right">
+          <button className="addNewButton" onClick={handleAdd}>
+            Add Reference
+          </button>
+        </div>
       </div>
-      {renderDegreeForm()}
-      <button className="add-degree-button" onClick={() => setDegreeForm({})}>Add References</button>
+      <br />
+      {showAddForm && (
+        <form className="userProfileData" onSubmit={handleAddSubmit}>
+          <table>
+            <h4>Add Reference</h4>
+            <tr>
+              <td>
+                <label htmlFor="profile">Name:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData2.name}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="title">Title:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData2.title}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="affliliation">Affliliation:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="affliliation"
+                  value={formData2.affliliation}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="referenceemail">Email:</label>
+              </td>
+              <td>
+                <input
+                  type="email"
+                  name="referenceemail"
+                  value={formData2.referenceemail}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="referencephone">Phone:</label>
+              </td>
+              <td>
+                <input
+                type="number"
+                  name="referencephone"
+                  value={formData2.referencephone}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="relationship">Relation:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="relationship"
+                  value={formData2.relationship}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="description">Description:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="description"
+                  value={formData2.description}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button
+                  className="closeButton"
+                  onClick={() => setShowAddForm(false)}
+                >
+                  Cancel
+                </button>
+              </td>
+              <td>
+                <button className="addNewButton" type="submit">
+                  Save
+                </button>
+              </td>
+            </tr>
+          </table>
+        </form>
+      )}
+      
+      {references.map((ref) =>
+        selectedReferences === ref && showEditForm ? (
+          <>
+            <form className="userProfileData" onSubmit={handleEditSubmit}>
+              <table>
+                <h4>Edit Experience</h4>
+                <tr>
+                  <td>
+                    <label htmlFor="profile">Name:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="title">Title:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="affliliation">Affliliation:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      name="affliliation"
+                      value={formData.affliliation}
+                      onChange={handleChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="referenceemail">Email ID :</label>
+                  </td>
+                  <td>
+                    <input
+                      type="email"
+                      name="referenceemail"
+                      value={formData.referenceemail}
+                      onChange={handleChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="referencephone">Contact Number:</label>
+                  </td>
+                  <td>
+                  <input
+                      type="number"
+                      name="referencephone"
+                      value={formData.referencephone}
+                      onChange={handleChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="relationship">Relationship:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="relationship"
+                      value={formData.relationship}
+                      onChange={handleChange}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="description">Description:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                    />
+                  </td>
+                </tr>
+                <button type="submit">Save</button>
+                <button type="button" onClick={() => setShowEditForm(false)}>
+                  Cancel
+                </button>
+              </table>
+            </form>
+          </>
+        ) : (
+          <>
+            <div className="parent">
+              <div className="left">
+                <h4>{ref.name}</h4>
+              </div>
+              <div className="right">
+                <button
+                  className="editButton"
+                  onClick={() => {
+                    setSelectedReferences(ref);
+                    setFormData(ref);
+                    setShowEditForm(true);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="closeButton"
+                  onClick={() => handleDelete(ref._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+            <hr />
+            <div className="userProfileData">
+              <table>
+                <tr>
+                  <td>Title </td>
+                  <td>:</td>
+                  <td>{ref.title}</td>
+                </tr>
+                <tr>
+                  <td>Affliliation </td>
+                  <td>:</td>
+                  <td>{ref.affliliation}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>:</td>
+                  <td>{ref.referenceemail}</td>
+                </tr>
+                <tr>
+                  <td>Phone Number</td>
+                  <td>:</td>
+                  <td>{ref.referencephone}</td>
+                </tr>
+                <tr>
+                  <td>Relation</td>
+                  <td>:</td>
+                  <td>{ref.relationship}</td>
+                </tr>
+                <tr>
+                  <td>Description</td>
+                  <td>:</td>
+                  <td>{ref.description}</td>
+                </tr>
+              </table>
+            </div>
+            <br/>
+            <hr/>
+          </>
+        )
+      )}
+
+      
     </div>
   );
 };
 
-export default AcademicDetails;
+export default ExperienceTable;

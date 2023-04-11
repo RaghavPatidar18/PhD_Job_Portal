@@ -1,113 +1,523 @@
-import React, { useState } from 'react';
-import './css/Academic.css';
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import "./css/POR.css";
+import AuthorInput from "./AuthorHandler";
 
-const AcademicDetails = () => {
-  const [degrees, setDegrees] = useState([]);
-  const [degreeForm, setDegreeForm] = useState(null);
-  const [degreeFormError, setDegreeFormError] = useState('');
+const Publication = ({ user, type }) => {
+  const bottomRef = useRef(null);
+  const [publication, setPublication] = useState([]);
+  const [showEditForm, setShowEditForm] = useState(false);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedPublication, setSelectedPublication] = useState(null);
+  const [formData, setFormData] = useState({
+    title: "",
+    authorlist: [],
+    abstract: "",
+    journal: "",
+    volume: "",
+    pages: "",
+    publisher: "",
+    doi: "",
+    url: "",
+  });
+  const [formData2, setFormData2] = useState({
+    title: "",
+    authorlist: [],
+    abstract: "",
+    journal: "",
+    volume: "",
+    pages: "",
+    publisher: "",
+    doi: "",
+    url: "",
+  });
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
+  // Fetch all experiences on component mount
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/publications/${user}`)
+      .then((res) => {
+        console.log(res);
+        setPublication(res.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
 
-    if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
-      setDegreeFormError('All fields are required.');
-      return;
-    }
-
-    setDegrees([...degrees, degreeForm]);
-    setDegreeForm(null);
+  // Handler for form input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleChange2 = (e) => {
+    setFormData2({
+      ...formData2,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleEditSubmit = (event, index) => {
-    event.preventDefault();
-
-    if (!degreeForm.degreeName || !degreeForm.degreeStudy || !degreeForm.gradingScale || !degreeForm.gradeObtained || !degreeForm.degreeStartYear || !degreeForm.degreeEndYear) {
-      setDegreeFormError('All fields are required.');
-      return;
-    }
-
-    const updatedDegrees = [...degrees];
-    updatedDegrees[index] = degreeForm;
-
-    setDegrees(updatedDegrees);
-    setDegreeForm(null);
+  // Handler for submitting add experience form
+  const handleAddSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post(`http://localhost:4000/publications/${user}`, formData2)
+      .then((res) => {
+        setPublication([...publication, res.data]);
+        setShowAddForm(false);
+        setFormData2({
+          title: "",
+          authorlist: [],
+          abstract: "",
+          journal: "",
+          volume: "",
+          pages: "",
+          publisher: "",
+          doi: "",
+          url: "",
+        });
+      })
+      .catch((err) => console.error(err));
   };
 
-  const handleDeleteClick = (index) => {
-    const updatedDegrees = [...degrees];
-    updatedDegrees.splice(index, 1);
-
-    setDegrees(updatedDegrees);
+  // Handler for submitting edit experience form
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .put(`http://localhost:4000/publications/${selectedPublication._id}`, formData)
+      .then((res) => {
+        const index = publication.findIndex((pub) => pub._id === res.data._id);
+        setPublication([
+          ...publication.slice(0, index),
+          res.data,
+          ...publication.slice(index + 1),
+        ]);
+        setShowEditForm(false);
+        setSelectedPublication(null);
+        setFormData({
+          title: "",
+          authorlist: [],
+          abstract: "",
+          journal: "",
+          volume: "",
+          pages: "",
+          publisher: "",
+          doi: "",
+          url: "",
+        });
+      })
+      .catch((err) => console.error(err));
   };
 
-  const handleEditClick = (index) => {
-    setDegreeForm(degrees[index]);
+  const handleAuthorChange2 = (event, index) => {
+    const newAuthors = [...formData2.authorlist];
+    newAuthors[index] = event.target.value;
+    const newFormData = { ...formData2, authorlist: newAuthors };
+    setFormData2(newFormData);
+  }
+  const addNewAuthor2 = () => {
+    const newAuthors = [...formData2.authorlist, ""];
+    const newFormData = { ...formData2, authorlist: newAuthors };
+    setFormData2(newFormData);
+  }
+  
+  const handleAuthorChange = (event, index) => {
+    const { name, value } = event.target;
+    const newAuthors = [...formData.authorlist];
+    newAuthors[index][name] = value;
+    console.log("Yha par" + JSON.stringify(newAuthors));
+    setFormData({ ...formData, authorlist: newAuthors });
   };
 
-  const renderDegreeForm = () => {
-    if (!degreeForm) {
-      return null;
-    }
+  const handleAddAuthor = () => {
+    const newAuthors = [...formData.authorlist, { author: "", author_id: "" }];
+    setFormData({ ...formData, authorlist: newAuthors });
+  };
 
-    return (
-      <div className="form-container">
-        <h2>{degreeForm.id ? 'Edit ' : 'Add Publication'}</h2>
-        <form onSubmit={degreeForm.id ? ((event) => handleEditSubmit(event, degreeForm.id)) : handleFormSubmit}>
-          {degreeFormError && <p className="form-error">{degreeFormError}</p>}
-          <div className="form-group">
-            <label htmlFor="degree-name">Title :</label>
-            <input type="text" id="degree-name" name="degreeName" value={degreeForm.degreeName} onChange={(event) => setDegreeForm({ ...degreeForm, degreeName: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-study">Author List:</label>
-            <input type="text" id="degree-study" name="degreeStudy" value={degreeForm.degreeStudy} onChange={(event) => setDegreeForm({ ...degreeForm, degreeStudy: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="grading-scale">Published in Journal:</label>
-            <input type="text" id="grading-scale" name="gradingScale" value={degreeForm.gradingScale} onChange={(event) => setDegreeForm({ ...degreeForm, gradingScale: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="grade-obtained">Summary of work:</label>
-            <input type="text" id="grade-obtained" name="gradeObtained" value={degreeForm.gradeObtained} onChange={(event) => setDegreeForm({ ...degreeForm, gradeObtained: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-start-year">Start Year:</label>
-            <input type="text" id="degree-start-year" name="degreeStartYear" value={degreeForm.degreeStartYear} onChange={(event) => setDegreeForm({ ...degreeForm, degreeStartYear: event.target.value })} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="degree-end-year">End Year:</label>
-            <input type="text" id="degree-end-year" name="degreeEndYear" value={degreeForm.degreeEndYear} onChange={(event) => setDegreeForm({ ...degreeForm, degreeEndYear: event.target.value })} required />
-          </div>
-          <button type="submit">{degreeForm.id ? 'Save Changes' : 'Add Publication'}</button>
-        </form>
-      </div>
-    );
+  const handleDeleteAuthor = (index) => {
+    const newAuthors = [...formData.authorlist];
+    newAuthors.splice(index, 1);
+    setFormData({ ...formData, authorlist: newAuthors });
+  };
+  
+  // Handler for deleting an publication
+  const handleAdd = () => {
+    setShowAddForm(true);
+  };
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:4000/publications/${id}`)
+      .then((res) => {
+        const updatedPublication = publication.filter((pub) => pub._id !== id);
+        setPublication(updatedPublication);
+      })
+      .catch((err) => console.error(err));
   };
 
   return (
-    <div className="academic-details-container">
-      {/* <h2>Academic Details</h2> */}
-      <div className="degrees-container">
-        {degrees.map((degree, index) => (
-          <div key={index} className="degree-card">
-            <div className="degree-info">
-              <h2>{degree.degreeName}</h2>
-              <p>{degree.degreeStudy}</p>
-              <p>{degree.gradingScale}</p>
-              <p>{degree.gradeObtained}</p>
-              <p>{degree.degreeStartYear} - {degree.degreeEndYear}</p>
-            </div>
-            <div className="degree-actions">
-              <button onClick={() => handleEditClick(index)}>Edit</button>
-              <button onClick={() => handleDeleteClick(index)}>Delete</button>
-            </div>
-          </div>
-        ))}
+    <div className="userProfile">
+      <div className="parent">
+        <div className="left">
+          <h3 className="basic">Publications</h3>
+        </div>
+        <div className="right">
+          <button className="addNewButton" onClick={handleAdd}>
+            Add Publication
+          </button>
+        </div>
       </div>
-      {renderDegreeForm()}
-      <button className="add-degree-button" onClick={() => setDegreeForm({})}>Add Publication</button>
+      <br />
+      {showAddForm && (
+        <form className="userProfileData" onSubmit={handleAddSubmit}>
+          <table>
+            <h4>Add Publication</h4>
+            <tr>
+              <td>
+                <label htmlFor="title">Title:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData2.title}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <label htmlFor="authorlist">Authors:</label>
+              {formData.authorlist.map((author, index) => (
+                <input
+                  type="text"
+                  value={author}
+                  onChange={(event) => handleAuthorChange2(event, index)}
+                />
+              ))}
+              <button onClick={addNewAuthor2}>Add author</button>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="abstract">Abstract:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="abstract"
+                  value={formData2.abstract}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="volume">Volume:</label>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="volume"
+                  value={formData2.volume}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="pages">Pages:</label>
+              </td>
+              <td>
+              <input
+                  type="number"
+                  name="pages"
+                  value={formData2.pages}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="journal">Journal Name:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="journal"
+                  value={formData2.journal}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="publisher">Publisher:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="publisher"
+                  value={formData2.publisher}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="doi">Digital Object Identifier:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="doi"
+                  value={formData2.doi}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="url">URL Link:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="url"
+                  value={formData2.url}
+                  onChange={handleChange2}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button
+                  className="closeButton"
+                  onClick={() => setShowAddForm(false)}
+                >
+                  Cancel
+                </button>
+              </td>
+              <td>
+                <button className="addNewButton" type="submit">
+                  Save
+                </button>
+              </td>
+            </tr>
+          </table>
+        </form>
+      )}
+      {publication.map((pub) =>
+        selectedPublication === pub && showEditForm ? (
+          <>
+            <form className="userProfileData" onSubmit={handleEditSubmit}>
+          <table>
+            <h4>Edit Publication</h4>
+            <tr>
+              <td>
+                <label htmlFor="title">Title:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+            {formData.authorlist.map((author, index) => (
+        <AuthorInput
+        formData = {formData}
+          key={index}
+          author={author}
+          index={index}
+          onChange={(event) => handleAuthorChange(event, index)}
+          onDelete={handleDeleteAuthor}
+        />
+      ))}
+
+      <button type="button" onClick={handleAddAuthor}>
+        Add Author
+      </button>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="abstract">Abstract:</label>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  name="abstract"
+                  value={formData.abstract}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="volume">Volume:</label>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  name="volume"
+                  value={formData.volume}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="pages">Pages:</label>
+              </td>
+              <td>
+              <input
+                  type="number"
+                  name="pages"
+                  value={formData.pages}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="journal">Journal Name:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="journal"
+                  value={formData.journal}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="publisher">Publisher:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="publisher"
+                  value={formData.publisher}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="doi">Digital Object Identifier:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="doi"
+                  value={formData.doi}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label htmlFor="url">URL Link:</label>
+              </td>
+              <td>
+              <input
+                  type="text"
+                  name="url"
+                  value={formData.url}
+                  onChange={handleChange}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <button
+                  className="closeButton"
+                  onClick={() => setShowEditForm(false)}
+                >
+                  Cancel
+                </button>
+              </td>
+              <td>
+                <button className="addNewButton" type="submit">
+                  Save
+                </button>
+              </td>
+            </tr>
+          </table>
+        </form>
+          </>
+        ) : (
+          <>
+            <div className="parent">
+              <div className="left">
+                <h4>{pub.title}</h4>
+              </div>
+              <div className="right">
+                <button
+                  className="editButton"
+                  onClick={() => {
+                    setSelectedPublication(pub);
+                    setFormData(pub);
+                    setShowEditForm(true);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="closeButton"
+                  onClick={() => handleDelete(pub._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+            <hr />
+            <div className="userProfileData">
+              <table>
+                <tr>
+                  <td>Author List </td>
+                  <td>:</td>
+                  <td>{pub.authorlist[0]?.author}</td>
+                </tr>
+                <tr>
+                  <td>Journal </td>
+                  <td>:</td>
+                  <td>{pub.journal}</td>
+                </tr>
+                <tr>
+                  <td>Volume Number</td>
+                  <td>:</td>
+                  <td>{pub.volume}</td>
+                </tr>
+                <tr>
+                  <td>Number of Pages</td>
+                  <td>:</td>
+                  <td>{pub.pages}</td>
+                </tr>
+                <tr>
+                  <td>Publisher</td>
+                  <td>:</td>
+                  <td>{pub.publisher}</td>
+                </tr>
+                <tr>
+                  <td>Digitl Object Identifier</td>
+                  <td>:</td>
+                  <td>{pub.doi}</td>
+                </tr>
+                <tr>
+                  <td>URL Link</td>
+                  <td>:</td>
+                  <td>{pub.url}</td>
+                </tr>
+              </table>
+            </div>
+          </>
+        )
+      )}
     </div>
   );
 };
 
-export default AcademicDetails;
+export default Publication;
