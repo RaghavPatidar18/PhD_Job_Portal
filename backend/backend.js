@@ -16,6 +16,9 @@ const auth = require("../middleware/auth");
 const cron = require("node-cron");
 const Personal = require("./model/personalSchema");
 const Academic = require("./model/academicSchema");
+const Publication = require("./model/publicationSchema");
+const Reference = require("./model/referenceSchema");
+const UserExperience=require("./model/experienceSchema");
 const POR = require("./model/porSchema");
 app.use(cors()); // Use this after the variable declaration
 app.use(cookiParser());
@@ -57,43 +60,31 @@ const Comment = models.Comment;
 const CommentNew = models.CommentNew;
 const Experience = models.Experience;
 
+let personalSchemaobj=Personal.schema.obj;
+let academicSchemaobj=Academic.schema.obj;
+let experienceSchemaobj=UserExperience.schema.obj;
+let porSchemaobj=POR.schema.obj;
+let publicationSchemaobj=Publication.schema.obj;
+let referenceSchemaobj=Reference.schema.obj;
+
+delete academicSchemaobj.email;
+delete experienceSchemaobj.email;
+delete porSchemaobj.email;
+delete publicationSchemaobj.email;
+delete referenceSchemaobj.email;
+
+
 const applicationSchema = new mongoose.Schema({
   student_id: String,
   job_id: String,
   status: String,
   student_details: {
-    personal: {
-      name: String,
-      email: String,
-      age: String,
-      gender: String,
-      category: String,
-      permanentAddress: String,
-      currentAddress: String,
-    },
-    experience: {
-      companyName: String,
-      jobProfile: String,
-      location: String,
-      startYear: String,
-      endYear: String,
-    },
-    education: {
-      degreeName: String,
-      degreeStudy: String,
-      gradingScale: String,
-      grade: String,
-      startYear: String,
-      endYear: String,
-    },
-    publication: {
-      title: String,
-      authorList: String,
-      journal: String,
-      summary: String,
-      startYear: String,
-      endYear: String,
-    },
+    personal: personalSchemaobj,
+    academic: academicSchemaobj,
+    experience: experienceSchemaobj,
+    publication: publicationSchemaobj,
+    por: porSchemaobj,
+    reference: referenceSchemaobj
   },
 });
 const Application = mongoose.model("application", applicationSchema);
@@ -105,6 +96,7 @@ app.use(bodyParser.json());
 app.post("/job-post", (req, res) => {
   //console.log(req.body);
   const { job, id } = req.body;
+  console.log(job);
   var obj = {};
   obj = job;
   obj.institute_id = id;
@@ -185,13 +177,14 @@ app.post("/api/sendOtp", async (req, res) => {
   const email = req.body.email;
   const userType = req.body.userType;
 
-  //console.log(userType);
+  console.log(userType);
 
   if (userType == "student") {
     // Check if the user already exists
     let user = await User.findOne({ email });
     if (user) {
-      //console.log("i m hetyfiuwbri");
+      console.log("i m hetyfiuwbri");
+      console.log(user);
       return res
         .status(200)
         .send({ status: 400, message: "User already exists" });
@@ -323,6 +316,64 @@ app.post("/api/verifyOtp", async (req, res) => {
       await academics.save();
       await personals.save();
       await user.save();
+
+      const experience=new UserExperience({
+        email : email,
+        profile : "-",
+        organization : "-",
+        startdate : new Date(),
+        enddate : new Date(),
+        description : "-",
+        location : "-",
+      });
+      experience.save();
+
+      const publication=new Publication({
+        email : email,
+        title : '-',
+        authorlist : [
+            {
+                author : '-',
+                author_id : '-',
+            }
+        ],
+        abstract : '-',
+        journal : '-',
+        volume : '-',
+        pages : '-',
+        publisher : '-',
+        doi : '-',
+        url : '-',
+      });
+      publication.save();
+
+
+      const por=new POR({
+        email : email,
+        title : '-',
+        organization : '-',
+        location : '-',
+        startdate : new Date(),
+        enddate : new Date(),
+        description : '-',
+      });
+      por.save();
+
+
+      const reference=new Reference({
+        email : email,
+        name : '-',
+        title : '-',
+        affliliation : '-',
+        referenceemail : '-',
+        referencephone : '-',
+        relationship : '-',
+        description : '-',
+      });
+      reference.save();
+
+
+
     } else {
       const userInstitute = new UserInstitute({
         name: name,
@@ -879,17 +930,21 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
   console.log(user);
   if (job && user) {
     const academic = await Academic.findOne({ email: user.email });
-    const experience = await Experience.findOne({ email: user.email });
+    const experience = await UserExperience.findOne({ email: user.email });
     const personal = await Personal.findOne({ email: user.email });
-    const publications = await Publication.findOne({ email: user.email });
+    const publication = await Publication.findOne({ email: user.email });
+    const por = await POR.findOne({ email: user.email });
+    const reference = await Reference.findOne({ email: user.email });
 
     let obj = {};
-    if (academic && experience && personal && publications) {
+    if (academic && experience && personal && publication) {
       console.log("brgi");
       obj.personal = personal;
-      obj.education = academic;
+      obj.academic = academic;
       obj.experience = experience;
-      obj.publication = publications;
+      obj.publication = publication;
+      obj.por=por;
+      obj.reference=reference;
       obj.jobFields = job.fields;
       console.log(obj);
       res.json({ status: 200, dataObject: obj });
@@ -907,9 +962,11 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
   const { jobFields } = req.body;
   const obj = {};
   obj.personal = jobFields.personal;
-  obj.education = jobFields.education;
+  obj.academic = jobFields.academic;
   obj.experience = jobFields.experience;
   obj.publication = jobFields.publication;
+  obj.por = jobFields.por;
+  obj.reference = jobFields.reference;
 
   console.log("the created obj is");
   console.log(obj);
@@ -930,12 +987,14 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
 });
 
 app.get("/applicant-details/:id", async (req, res) => {
+  console.log(Application.schema.obj);
   const { id } = req.params;
   const application = await Application.findOne({ _id: id });
   if (application) {
     const job_id = application.job_id;
     const job = await Job.findOne({ _id: job_id });
     if (job) {
+      console.log(application.student_details);
       let obj = {};
       obj.fields = job.fields;
       obj.student_details = application.student_details;
@@ -954,14 +1013,14 @@ app.get("/applicant-details/:id", async (req, res) => {
 app.post('/api/comments', async (req, res) => {
 
   console.log("inside backend after submit");
-  
+
   const { text, user, jobPosting } = req.body;
   // console.log(text);
   // console.log(user);
   // console.log(jobPosting);
   const comment = new Comment({ text, user, jobPosting });
   // console.log("1");
-  
+
   try {
     const savedComment = await comment.save();
     // console.log("2");
@@ -1065,7 +1124,7 @@ app.put('/api/experiences/:id', async (req, res) => {
   res.json(experience);
 });
 
-// get comments 
+// get comments
 // app.get('/api/experiences', async (req, res) => {
 //   try {
 //     console.log("inside get comment api");
@@ -1093,6 +1152,66 @@ app.get('/api/getcomments/:id', async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+
+
+
+
+app.get("/custom-form-fields",(req,res)=> {
+  const academicKeys=Object.keys(academicSchemaobj)
+  const experienceKeys= Object.keys(experienceSchemaobj)
+  const porKeys=Object.keys(porSchemaobj)
+  const publicationKeys=Object.keys(publicationSchemaobj)
+  const referenceKeys=Object.keys(referenceSchemaobj)
+  const personalKeys=Object.keys(personalSchemaobj)
+  console.log(personalKeys);
+  const obj={};
+  obj.academicKeys=academicKeys;
+  obj.experienceKeys=experienceKeys;
+  obj.porKeys=porKeys;
+  obj.publicationKeys=publicationKeys;
+  obj.referenceKeys=referenceKeys;
+  obj.personalKeys=personalKeys;
+
+
+  const personalData={};
+  personalKeys.map( k => {
+    personalData[k]=false;
+  });
+  personalData["name"]=true;
+
+  const academicData={};
+  academicKeys.map( k => {
+    academicData[k]=false;
+  });
+
+  const experienceData={};
+  experienceKeys.map( k => {
+    experienceData[k]=false;
+  });
+
+  const porData={};
+  porKeys.map( k => {
+    porData[k]=false;
+  });
+
+  const referenceData={};
+  referenceKeys.map( k => {
+    referenceData[k]=false;
+  });
+
+  const publicationData={};
+  publicationKeys.map( k => {
+    publicationData[k]=false;
+  });
+
+
+
+
+
+  res.send({status:200,obj:obj,personalData,academicData,experienceData,porData,referenceData,publicationData});
+
+})
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");

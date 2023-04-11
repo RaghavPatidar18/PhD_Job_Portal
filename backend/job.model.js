@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const cookiParser = require("cookie-parser");
 const keysecret = "secret";
 
+
 const jobSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -17,36 +18,103 @@ const jobSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
   fields: {
     personal: {
-      name: {type: Boolean, default:false},
-      email:{type: Boolean, default:false},
-      age: {type: Boolean, default:false},
-      gender: {type: Boolean, default:false},
-      category:{type: Boolean, default:false},
-      permanentAddress:{type: Boolean, default:false},
-      currentAddress:{type: Boolean, default:false}
+      email : Boolean,
+      // Personal Details
+      name : Boolean,
+      fathername : Boolean,
+      age : Boolean,
+      profile_image_url : Boolean,
+      dob : Boolean,
+      category : Boolean,
+      disablity : Boolean,
+      married : Boolean,
+      nationality : Boolean,
+      gender : Boolean,
+      // Communication Details
+      communication_address : Boolean,
+      communication_city : Boolean,
+      communication_state : Boolean,
+      communication_pincode : Boolean,
+      communication_country : Boolean,
+
+      permanent_address : Boolean,
+      permanent_city : Boolean,
+      permanent_state : Boolean,
+      permanent_pincode : Boolean,
+      permanent_country : Boolean,
+
+      mobile : Boolean,
+      altmobile : Boolean,
     },
     experience: {
-      companyName: {type: Boolean, default:false},
-      jobProfile: {type: Boolean, default:false},
-      location: {type: Boolean, default:false},
-      startYear: {type: Boolean, default:false},
-      endYear: {type: Boolean, default:false}
+      profile : Boolean,
+      organization : Boolean,
+      startdate : Boolean,
+      enddate : Boolean,
+      description : Boolean,
+      location : Boolean,
     },
-    education: {
-      degreeName: {type: Boolean, default:false},
-      degreeStudy: {type: Boolean, default:false},
-      gradingScale: {type: Boolean, default:false},
-      grade: {type: Boolean, default:false},
-      startYear: {type: Boolean, default:false},
-      endYear: {type: Boolean, default:false}
+    academic: {
+      board10 : Boolean,
+      percentageformat10 : Boolean,
+      percentage10 : Boolean,
+      year10 : Boolean,
+      remarks10 : Boolean,
+      marksheet10:  Boolean,
+
+      board12 : Boolean,
+      percentageformat12 : Boolean,
+      percentage12 : Boolean,
+      year12 :  Boolean,
+      remarks12 : Boolean,
+      marksheet12 : Boolean,
+
+      collegebtech : Boolean,
+      branchbtech : Boolean,
+      percentageformatbtech : Boolean,
+      percentagebtech : Boolean,
+      yearbtech :  Boolean,
+      remarksbtech : Boolean,
+      marksheetbtechurl : Boolean,
+
+      collegemtech : Boolean,
+      branchmtech : Boolean,
+      percentageformatmtech : Boolean,
+      percentagemtech : Boolean,
+      yearmtech :  Boolean,
+      remarksmtech : Boolean,
+      marksheetmtech : Boolean,
+
+      isphdcompleted : Boolean,
+      phdremarks : Boolean,
     },
-    publications: {
-      title: {type: Boolean, default:false},
-      authorList: {type: Boolean, default:false},
-      journal: {type: Boolean, default:false},
-      summary: {type: Boolean, default:false},
-      startYear: {type: Boolean, default:false},
-      endYear: {type: Boolean, default:false}
+    publication: {
+      title : Boolean,
+      authorlist : Boolean,
+      abstract : Boolean,
+      journal : Boolean,
+      volume : Boolean,
+      pages : Boolean,
+      publisher : Boolean,
+      doi : Boolean,
+      url : Boolean,
+    },
+    por: {
+      title : Boolean,
+      organization : Boolean,
+      location : Boolean,
+      startdate : Boolean,
+      enddate : Boolean,
+      description : Boolean,
+    },
+    reference: {
+      name : Boolean,
+      title : Boolean,
+      affliliation : Boolean,
+      referenceemail : Boolean,
+      referencephone : Boolean,
+      relationship : Boolean,
+      description : Boolean,
     }
   }
 });

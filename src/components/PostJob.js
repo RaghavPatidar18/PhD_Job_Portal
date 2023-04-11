@@ -28,12 +28,14 @@ const history=useNavigate();
     }
   })
 
-  function handleSubmit(personalData,educationData,experienceData,publicationsData) {
+  function handleSubmit(personalData,academicData,experienceData,publicationData,porData,referenceData) {
     const fields={
       personal: personalData,
-      education: educationData,
+      academic: academicData,
       experience: experienceData,
-      publications: publicationsData
+      publication: publicationData,
+      por: porData,
+      reference: referenceData
     };
     console.log(fields)
     const job = {

@@ -23,12 +23,17 @@
   text-decoration: underline;
 }
 
-.application_field div{
+.application-field-div2{
   display: inline-flex;
   margin:10px;
+  font-weight:normal;
+  font-size:1rem;
 }
 .application_field label{
   font-weight:bold;
+  font-size:1rem;
+  display:flex;
+  align-items: center;
 }
 
 .application_field input,select,textarea{
