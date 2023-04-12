@@ -68,10 +68,10 @@ function Root() {
   useEffect(() => {
       ProfileValid();
   }, [])
-
+ 
   return (
     <div>
-      {hasRecievedData && <Routes>
+      {hasRecievedData && <Routes> 
 
 
        <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /> </>} />
@@ -84,7 +84,7 @@ function Root() {
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />
 
-      <Route path="/experiences" element={<AllExperiences />} />
+      <Route path="/experiences" element={<><Navbar user={user} type={userType}/> <AllExperiences /></>} />
 
         <Route path="/application/:id" element={<><Navbar user={user} type={userType}/> <AppliedJob user={user} type={userType}/></>} />
         <Route path="/job-postings" element={<><Navbar user={user} type={userType}/> <PostedJobs user={user._id} type={userType}/></>} />

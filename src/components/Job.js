@@ -231,7 +231,7 @@ function Job() {
 <br></br>
 
 
-{/* <Footer /> */}
+<Footer />
 
 </>
 );

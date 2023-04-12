@@ -33,7 +33,7 @@ function DetailsContainer2() {
       <div className="details-container">
         <h3>Whether you're just starting your career or looking for your next challenge, we're here to help you find your dream job.</h3>
       </div>
-      <div className='categories'>
+      {/* <div className='categories'>
         <h1>Job Categories</h1>
         <div className="category-container">
           <div className="category-card">
@@ -53,7 +53,7 @@ function DetailsContainer2() {
             <p>View job openings for the Cybersecurity Expert.</p>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

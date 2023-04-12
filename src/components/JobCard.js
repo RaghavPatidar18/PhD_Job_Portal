@@ -13,7 +13,7 @@ function JobCard({ _id, title, college, location, salary }) {
 
   return (
     <div className="job-card-wrapper" style={{ display: 'inline-block', width: '50%' }}>
-      <Container className="job-card">
+      <Container style={{borderRadius:'0px'}}className="job-card">
         <Link to={`/job-details/${_id}`} className="job-link">
 
           <h1 className="job-title">{title}</h1>
