@@ -30,12 +30,18 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "^5.0.1",
     "react-scroll": "^1.8.9",
+<<<<<<< HEAD
     "react-slick": "^0.29.0",
+=======
+>>>>>>> 7eadd5e0af5333d270874eee2c4cf9aa9d1f6292
     "react-toastify": "^9.1.1",
     "reactjs-popup": "^2.0.5",
     "request": "^2.88.2",
     "resume-parser": "^1.1.0",
+<<<<<<< HEAD
     "slick-carousel": "^1.8.1",
+=======
+>>>>>>> 7eadd5e0af5333d270874eee2c4cf9aa9d1f6292
     "tesseract.js": "^4.0.3",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4"

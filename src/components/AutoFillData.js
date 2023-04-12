@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -34,3 +35,41 @@ function FileUpload() {
 }
 
 export default FileUpload;
+=======
+import React, { useState } from "react";
+import axios from "axios";
+
+function FileUpload() {
+  const [file, setFile] = useState(null);
+
+  const handleFileUpload = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("resume", file);
+    try {
+      const response = await axios.post("/resume-upload", formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="resume">
+        Upload Resume:
+      </label>
+      <span style={{ paddingLeft: "0.3rem" }}></span>
+      <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx" onChange={handleFileUpload} />
+      <hr/>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default FileUpload;
+>>>>>>> 7eadd5e0af5333d270874eee2c4cf9aa9d1f6292
