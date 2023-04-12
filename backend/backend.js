@@ -320,12 +320,18 @@ app.post("/api/verifyOtp", async (req, res) => {
       await personals.save();
       await user.save();
 
+      const d=Date.now();
+      let date_time=new Date(d);
+      let date=date_time.getDate();
+      let month=date_time.getMonth();
+      let year=date_time.getYear();
+      let today=year+"-"+month+"-"+date;
       const experience=new UserExperience({
         email : email,
         profile : "-",
         organization : "-",
-        startdate : new Date(),
-        enddate : new Date(),
+        startdate : today,
+        enddate : today,
         description : "-",
         location : "-",
       });
@@ -356,8 +362,8 @@ app.post("/api/verifyOtp", async (req, res) => {
         title : '-',
         organization : '-',
         location : '-',
-        startdate : new Date(),
-        enddate : new Date(),
+        startdate : today,
+        enddate : today,
         description : '-',
       });
       por.save();
