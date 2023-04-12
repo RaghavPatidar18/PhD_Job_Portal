@@ -1,0 +1,137 @@
+.postJob {
+  width: 75%;
+  margin: auto;
+  margin-top: 50px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  animation-name: fade-in;
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+  }
+
+  @keyframes fade-in {
+  from {
+  opacity: 0;
+  }
+  to {
+  opacity: 1;
+  }
+  }
+
+  .formDiv {
+  margin: auto;
+  }
+
+  form{
+  width: 75%;
+  margin: auto;
+  }
+
+  h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+  font-weight: 700;
+  text-transform: uppercase;
+  animation-name: slide-up;
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+  }
+
+  @keyframes slide-up {
+  from {
+  transform: translateY(20px);
+  opacity: 0;
+  }
+  to {
+  transform: translateY(0);
+  opacity: 1;
+  }
+  }
+
+  .inputField {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  transition: box-shadow 0.3s ease;
+  }
+
+  .inputField:focus-within {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .postJobInput {
+  padding: 10px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  color: #333;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: box-shadow 0.3s ease;
+  }
+
+  .postJobInput: focus {
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .buttonContainer input[type="submit"] {
+  background-color: #008080;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation-name: pulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  }
+
+  @keyframes pulse {
+  0% {
+  transform: scale(1);
+  }
+  50% {
+  transform: scale(1.05);
+  }
+  100% {
+  transform: scale(1);
+  }
+  }
+
+  .buttonContainer input[type="submit"]:hover {
+  background-color: #006666;
+  }
+
+  textarea {
+  height: 120px;
+  }
+
+  @media screen and (max-width: 768px) {
+  .postJob {
+  width: 100%;
+  padding: 10px;
+  }
+
+  .postJobForm {
+  width: 100%;
+  }
+
+  h3 {
+  font-size: 24px;
+  }
+
+  textarea {
+  height: 80px;
+  }
+  }

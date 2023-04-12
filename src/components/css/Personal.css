@@ -1,0 +1,96 @@
+.userProfile {
+  margin-left: 20px;
+  padding: 20px;
+}
+
+.userProfileData {
+  flex: 1;
+}
+hr{
+  width : '20rem'
+}
+.userProfileData table {
+  font-size: medium;
+  font-weight: 500;
+  width: 100%;
+}
+
+.userProfileData td {
+  padding: 10px;
+}
+
+.userProfileImage {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+h4 {
+  font-weight: 500;
+}
+.parent {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rem;
+  align-items: flex-end;
+}
+
+.right {
+  margin-left: 10px;
+}
+
+.editButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid rgba(59, 50, 179, 0.5);
+  color: rgba(59, 50, 179);
+  min-width: 8rem;
+  text-transform: none;
+  font-size: 1.2rem;
+  border-radius: 4.6rem;
+  box-shadow: none;
+  white-space: nowrap;
+  background-color: transparent;
+  outline: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-family: Lato, Roboto, sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  padding: 5px 15px;
+}
+.closeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  border: 1px solid rgb(199, 21, 21);
+  color: rgb(199, 21, 21);
+  opacity : '0.5';
+  min-width: 8rem;
+  text-transform: none;
+  font-size: 1.2rem;
+  border-radius: 4.6rem;
+  box-shadow: none;
+  white-space: nowrap;
+  background-color: transparent;
+  outline: 0px;
+  margin: 0px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  text-decoration: none;
+  font-family: Lato, Roboto, sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  padding: 5px 15px;
+}
+

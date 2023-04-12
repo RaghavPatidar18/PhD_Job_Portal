@@ -1,0 +1,75 @@
+
+.job-card {
+    margin-left: 40px;
+    margin-top: 10px;
+    padding: 10px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
+  }
+  
+  .job-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .job-link {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .job-title {
+    margin: 0;
+    padding: 0;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+  .job-college {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #3E3E3E;
+  }
+  
+  .job-location,
+  .job-salary {
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    color: #6B6B6B;
+  }
+  
+  .location-icon,
+  .salary-icon {
+    margin-right: 5px;
+  }
+  
+  .job-button {
+    margin-top: 10px;
+    background-color: #0095FF;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .job-button:hover {
+    background-color: #0083E3;
+  }
+  
+  
+
+  .job-card-wrapper {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  
+
+  
