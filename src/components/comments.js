@@ -16,7 +16,7 @@ async function getId() {
   console.log(data);
   return data;
 }
-
+ 
 function CommentSection() {
 
   const { jobPostingId } = useParams();

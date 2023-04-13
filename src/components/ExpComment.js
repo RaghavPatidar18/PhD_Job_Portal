@@ -11,7 +11,7 @@ async function getEmail() {
     },
   });
   const data = await response.json();
-  return data.email;
+  return data.email; 
 }
 
 function ExpComments() {

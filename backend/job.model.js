@@ -187,6 +187,9 @@ const commentSchema = new mongoose.Schema({
 
 
 const experienceSchema = new mongoose.Schema({
+
+  name : String,
+
   companyName: {
     type: String,
     required: true,
