@@ -863,6 +863,25 @@ app.get("/api/me", auth, async (req, res) => {
   }
 });
 
+// getting self name
+
+app.get("/api/mename", auth, async (req, res) => {
+  const { _id } = req.user;
+console.log("inside mename");
+  try {
+    let user = await User.findById(_id);
+    if (!user) {
+      user = await UserInstitute.findById(_id);
+      // return res.status(404).json({ error: 'User not found' });
+    }
+    console.log(user.name);
+    res.json({ name : user.name });
+  } catch (error) {
+    //console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.post("/api/subscribe", (req, res) => {
   const { email } = req.body;
   //console.log(email);
