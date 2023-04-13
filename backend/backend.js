@@ -765,6 +765,8 @@ app.get("/jobStatus/:id", async (req, res) => {
         obj.job_id = await job._id;
         obj.title = await job.title;
         obj.college = await job.college;
+        obj.location=await job.location;
+        obj.salary=await job.salary;
         obj.application_status = await application.status;
         return obj;
       })
@@ -787,6 +789,7 @@ app.get("/jobPostings/:id", async (req, res) => {
         let obj = {};
         obj.title = await job.title;
         obj._id = await job._id;
+        obj.createdAt= await job.createdAt;
         return obj;
       })
     ).then((jobArray) => {
@@ -814,6 +817,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
         if (student) {
           obj.application_id = await application._id;
           obj.student_name = await application.student_details.personal.name;
+          obj.student_email=await application.student_details.personal.email;
           obj.student_id = await student._id;
           obj.status = await application.status;
         }

@@ -389,7 +389,7 @@ function CustomizableForm({handleSubmit}){
       </div>
       <div className="data-fields">
         {formFields.personalKeys.map( (k) =>
-          <CustomFormField label={capitalize(k.replaceAll('_',' '))} fieldChosen={personalFieldChosen} fieldName={k} selectAll={personalSelectAll}/>
+          <CustomFormField label={capitalize(k.replaceAll('_',' '))} fieldChosen={personalFieldChosen} fieldName={k} selectAll={personalSelectAll} mainField="personal"/>
         )}
       </div>
     </div>
@@ -409,7 +409,7 @@ function CustomizableForm({handleSubmit}){
         {academic &&
           <div className="data-fields">
             {formFields.academicKeys.map( (k) =>
-              <CustomFormField label={capitalize(k)} fieldChosen={academicFieldChosen} fieldName={k} selectAll={academicSelectAll}/>
+              <CustomFormField label={capitalize(k)} fieldChosen={academicFieldChosen} fieldName={k} selectAll={academicSelectAll} mainField="academic"/>
             )}
           </div>
         }
@@ -430,7 +430,7 @@ function CustomizableForm({handleSubmit}){
         {experience &&
           <div className="data-fields">
             {formFields.experienceKeys.map( (k) =>
-              <CustomFormField label={capitalize(k)} fieldChosen={experienceFieldChosen} fieldName={k} selectAll={experienceSelectAll}/>
+              <CustomFormField label={capitalize(k)} fieldChosen={experienceFieldChosen} fieldName={k} selectAll={experienceSelectAll} mainField="experience"/>
             )}
           </div>
         }
@@ -451,7 +451,7 @@ function CustomizableForm({handleSubmit}){
         {publication &&
           <div className="data-fields">
             {formFields.publicationKeys.map( (k) =>
-              <CustomFormField label={capitalize(k)} fieldChosen={publicationFieldChosen} fieldName={k} selectAll={publicationSelectAll}/>
+              <CustomFormField label={capitalize(k)} fieldChosen={publicationFieldChosen} fieldName={k} selectAll={publicationSelectAll} mainField="publication"/>
             )}
           </div>
         }
@@ -472,7 +472,7 @@ function CustomizableForm({handleSubmit}){
         {por &&
           <div className="data-fields">
             {formFields.porKeys.map( (k) =>
-              <CustomFormField label={capitalize(k)} fieldChosen={porFieldChosen} fieldName={k} selectAll={porSelectAll}/>
+              <CustomFormField label={capitalize(k)} fieldChosen={porFieldChosen} fieldName={k} selectAll={porSelectAll} mainField="por"/>
             )}
           </div>
         }
@@ -493,7 +493,7 @@ function CustomizableForm({handleSubmit}){
         {reference &&
           <div className="data-fields">
             {formFields.referenceKeys.map( (k) =>
-              <CustomFormField label={capitalize(k)} fieldChosen={referenceFieldChosen} fieldName={k} selectAll={referenceSelectAll}/>
+              <CustomFormField label={capitalize(k)} fieldChosen={referenceFieldChosen} fieldName={k} selectAll={referenceSelectAll} mainField="reference"/>
             )}
           </div>
         }

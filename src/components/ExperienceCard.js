@@ -6,10 +6,10 @@ const ExperienceCard = ({ companyName, experience, likes, dislikes , handleLike 
       <p>College Name: {companyName}</p>
       <p>Experience: {experience}</p>
       <p>Likes : {likes}</p>
-      <button onClick={() => handleLike(experience._id)}>Like</button>
+      <button className="allExperiencesButton" onClick={() => handleLike(experience._id)}>Like</button>
       <p>Dislikes :{dislikes}</p>
-      <button onClick={() => handleDislike(experience._id)}>Dislike</button>
-      <button onClick={() => fetchComments(experience._id)}>Comments</button>
+      <button className="allExperiencesButton" onClick={() => handleDislike(experience._id)}>Dislike</button>
+      <button className="allExperiencesButton" onClick={() => fetchComments(experience._id)}>Comments</button>
     </div>
   );
 };

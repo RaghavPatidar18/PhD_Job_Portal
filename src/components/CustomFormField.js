@@ -9,11 +9,11 @@ import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 import "./css/customForm.css";
 
-function CustomFormField({label,fieldChosen,fieldName,selectAll}){
+function CustomFormField({label,fieldChosen,fieldName,selectAll,mainField}){
 
   const [field,setField]=useState(false);
   useEffect(()=>{
-    if(label==="Name"){
+    if((label==="Name" && mainField==="personal") || (fieldName==="email" && mainField==="personal")){
       setField(true);
     }
     if(selectAll===true){

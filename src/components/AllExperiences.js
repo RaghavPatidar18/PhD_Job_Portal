@@ -86,10 +86,10 @@ const AllExperiences = () => {
         <div style={{ maxWidth: "800px", margin: "0 auto", padding: "2rem" }}>
     <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
         <label htmlFor="companyName" style={{ display: "block", marginBottom: "0.5rem", fontSize: "1.2rem", fontWeight: "bold" }}>Company Name:</label>
-        <input type="text" id="companyName" name="companyName" required style={{ padding: "0.5rem", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "1rem", width: "100%" }} value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+        <input type="text" className="allExperiencesInput" id="companyName" name="companyName" required style={{ padding: "0.5rem", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "1rem", width: "100%" }} value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
         <label htmlFor="experience" style={{ display: "block", marginBottom: "0.5rem", fontSize: "1.2rem", fontWeight: "bold" }}>Your Experience:</label>
-        <textarea id="experience" name="experience" required style={{ padding: "0.5rem", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "1rem", width: "100%", minHeight: "100px" }} value={experience} onChange={(e) => setExperience(e.target.value)}></textarea>
-        <button type="submit" style={{ padding: "0.5rem 1rem", background: "#007bff", color: "#fff", border: "none", borderRadius: "4px", fontSize: "1.2rem", cursor: "pointer" }}>Submit</button>
+        <textarea id="experience" className="allExperiencesTextarea" name="experience" required style={{ padding: "0.5rem", fontSize: "1rem", border: "1px solid #ccc", borderRadius: "4px", marginBottom: "1rem", width: "100%", minHeight: "100px" }} value={experience} onChange={(e) => setExperience(e.target.value)}></textarea>
+        <button type="submit" className="allExperiencesButton" style={{ padding: "0.5rem 1rem", background: "#007bff", color: "#fff", border: "none", borderRadius: "4px", fontSize: "1.2rem", cursor: "pointer" }}>Submit</button>
     </form>
 
     <div>
