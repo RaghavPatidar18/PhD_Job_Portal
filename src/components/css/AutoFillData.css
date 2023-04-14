@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 .UploadButton {
     background-color: #4CAF50;
     color: white;
@@ -16,23 +15,4 @@
     opacity: 0.6;
     cursor: not-allowed;
   }
-=======
-.UploadButton {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .UploadButton:hover {
-    background-color: #3e8e41;
-  }
-  
-  .UploadButton:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
->>>>>>> 7eadd5e0af5333d270874eee2c4cf9aa9d1f6292
   

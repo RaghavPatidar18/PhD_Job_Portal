@@ -131,7 +131,7 @@ export default function Profile({ user, type }) {
           mobile: myData.mobile === "-" ? "" : myData.mobile,
           altmobile: myData.altmobile === "-" ? "" : myData.altMobile,
           disability: myData.disability === "-" ? "" : myData.disablity,
-          married : myData.married === "-" ? "" : myData.married,
+          married: myData.married === "-" ? "" : myData.married,
         });
       }
     });
@@ -145,14 +145,15 @@ export default function Profile({ user, type }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     // save into database
-    axios.post("http://localhost:4000/personal", {formValues, user})
-    .then((response)=>{
-      if(response.data.status === 200){
-        alert("Your data was saved")
-      }else{
-        alert("Please try again later!")
-      }
-    })
+    axios
+      .post("http://localhost:4000/personal", { formValues, user })
+      .then((response) => {
+        if (response.data.status === 200) {
+          alert("Your data was saved");
+        } else {
+          alert("Please try again later!");
+        }
+      });
     setIsEditMode(false);
     window.location.reload();
   };
@@ -190,7 +191,7 @@ export default function Profile({ user, type }) {
       <div className="userProfile">
         <div className="parent">
           <div className="left">
-            <h4 className="basic">Basic Details</h4>
+            <h3 className="basic">Basic Details</h3>
           </div>
           <div className="right">
             {isEditMode ? (
@@ -212,454 +213,483 @@ export default function Profile({ user, type }) {
             )}
           </div>
         </div>
-        <hr style={{ borderWidth: "2px" }} />
+        <hr style={{ maxWidth: "70rem" }} />
         {!isEditMode ? (
           <>
             <div className="userProfileData">
               <table>
-                <h5>About</h5>
-                <hr />
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Full Name : </td>
+                  <td style={{ maxWidth: "5rem" }}>
+                    <h5>About</h5>
+                    <hr style={{ width: "24rem" }} />
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Full Name</td>
+                  <td>:</td>
                   <td>{name}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Age : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Age</td>
+                  <td>:</td>
                   <td>{age}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Date of Birth :{" "}
-                  </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Date of Birth </td>
+                  <td>:</td>
                   <td>{dob}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Gender : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Gender</td>
+                  <td>:</td>
                   <td>{gender}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Category : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Category</td>
+                  <td>:</td>
                   <td>{category}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Father's Name :{" "}
-                  </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Father's Name </td>
+                  <td>:</td>
                   <td>{fatherName}</td>
                 </tr>
-                <br/>
-                <br/>
-                <h5>Communication</h5>
-                <hr />
+                <br />
+                <br />
+                <tr>
+                  <td style={{ maxWidth: "5rem" }}>
+                    <h5>Communication Details</h5>
+                    <hr style={{ width: "47rem" }} />
+                  </td>
+                </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Permanent Address :{" "}
+                    Permanent Address{" "}
                   </td>
+                  <td>:</td>
                   <td>{permanentAddress}</td>
                 </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Current Address :{" "}
+                    Current Address{" "}
                   </td>
+                  <td>:</td>
                   <td>{currentAddress}</td>
                 </tr>
 
-                
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Mobile Number :{" "}
-                  </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Mobile Number </td>
+                  <td>:</td>
                   <td>{mobile}</td>
                 </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Alternate Mobile Number :{" "}
+                    Alternate Mobile Number{" "}
                   </td>
+                  <td>:</td>
                   <td>{altMobile}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Nationality : </td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Nationality</td>
+                  <td>:</td>
                   <td>{nationality}</td>
                 </tr>
                 <br />
                 <br />
-                <h5>Additional Details</h5>
-                <hr />
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Martial Status :{" "}
+                  <td style={{maxWidth:'10rem'}}>
+                    <h5>Additional Details</h5>
+                    <hr style={{width:'18rem'}}/>
                   </td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Martial Status </td>
+                  <td>:</td>
                   <td>{married}</td>
                 </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Disablity (if any) :{" "}
+                    Disablity (if any){" "}
                   </td>
+                  <td>:</td>
                   <td>{disability}</td>
                 </tr>
               </table>
             </div>
           </>
         ) : (
-          <div id="popup-form">
-            <form className="userProfileData" onSubmit={handleSubmit}>
-              <table>
-                <hr />
-                <h4>About</h4>
-                <hr />
-                <tr>
-                  <td>
-                    <label htmlFor="name">My name:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formValues.name}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="age">Age:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="age"
-                      name="age"
-                      required
-                      pattern="[0-9]{1,3}"
-                      value={formValues.age}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="dob">Date of Birth:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="date"
-                      id="dob"
-                      name="dob"
-                      required
-                      value={formValues.dob}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="gender">Gender:</label>
-                  </td>
-                  <td>
-                    <select
-                      id="gender"
-                      name="gender"
-                      required
-                      value={formValues.gender}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Please select</option>
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="category">Category:</label>
-                  </td>
-                  <td>
-                    <select
-                      id="category"
-                      name="category"
-                      required
-                      value={formValues.category}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Please select</option>
-                      <option value="General">General</option>
-                      <option value="SC">SC</option>
-                      <option value="ST">ST</option>
-                      <option value="OBC">OBC</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="fathername">Father's Name:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="fathername"
-                      name="fathername"
-                      required
-                      value={formValues.fathername}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
+          <>
+            <div className="userProfileData">
+              <form
+                style={{ padding: "0px", margin: "0px", fontSize: "medium" }}
+                onSubmit={handleSubmit}
+              >
+                <table>
+                  <tr>
+                    <td style={{maxWidth : '5rem'}}>
+                  <h4>About</h4>
+                  <hr style={{width: '33rem'}}/>
 
-                <tr>
-                  <td>
-                    <label htmlFor="nationality">Nationality:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="nationality"
-                      name="nationality"
-                      required
-                      value={formValues.nationality}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="name">My name:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formValues.name}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="age">Age:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="age"
+                        name="age"
+                        pattern="[0-9]{1,3}"
+                        value={formValues.age}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="dob">Date of Birth:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        id="dob"
+                        name="dob"
+                        value={formValues.dob}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="gender">Gender:</label>
+                    </td>
+                    <td>
+                      <select
+                        id="gender"
+                        name="gender"
+                        value={formValues.gender}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Please select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="category">Category:</label>
+                    </td>
+                    <td>
+                      <select
+                        id="category"
+                        name="category"
+                        value={formValues.category}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Please select</option>
+                        <option value="General">General</option>
+                        <option value="SC">SC</option>
+                        <option value="ST">ST</option>
+                        <option value="OBC">OBC</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="fathername">Father's Name:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="fathername"
+                        name="fathername"
+                        value={formValues.fathername}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
 
-                <hr />
-                <h4>Communication Details</h4>
-                <hr />
-                <tr>
-                  <td>
-                    <label htmlFor="communication_address">Address:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="communication_address"
-                      name="communication_address"
-                      required
-                      value={formValues.communication_address}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="communication_country">Country:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="communication_country"
-                      name="communication_country"
-                      required
-                      value={formValues.communication_country}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="communication_state">State:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="communication_state"
-                      name="communication_state"
-                      required
-                      value={formValues.communication_state}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="communication_city">City:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="communication_city"
-                      name="communication_city"
-                      required
-                      value={formValues.communication_city}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="nationality">Nationality:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="nationality"
+                        name="nationality"
+                        value={formValues.nationality}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <br/>
+                  <br />
+                  <tr>
+                    <td style={{maxWidth:'10rem'}}>
+                      <h4>Communication Details</h4>
+                      <hr style={{width:'30rem'}}/>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="communication_address">Address:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="communication_address"
+                        name="communication_address"
+                        value={formValues.communication_address}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="communication_country">Country:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="communication_country"
+                        name="communication_country"
+                        value={formValues.communication_country}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="communication_state">State:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="communication_state"
+                        name="communication_state"
+                        value={formValues.communication_state}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="communication_city">City:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="communication_city"
+                        name="communication_city"
+                        value={formValues.communication_city}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
 
-                <tr>
-                  <td>
-                    <label htmlFor="communication_pincode">Pincode:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="communication_pincode"
-                      name="communication_pincode"
-                      required
-                      value={formValues.communication_pincode}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <hr />
-                <h4>Permanent Address</h4>
-                <hr />
-                <tr>
-                  <td>
-                    <label htmlFor="permanent_address">Address:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="permanent_address"
-                      name="permanent_address"
-                      required
-                      value={formValues.permanent_address}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="permanent_country">Country:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="permanent_country"
-                      name="permanent_country"
-                      required
-                      value={formValues.permanent_country}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="permanent_state">State:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="permanent_state"
-                      name="permanent_state"
-                      required
-                      value={formValues.permanent_state}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="permanent_city">City:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="permanent_city"
-                      name="permanent_city"
-                      required
-                      value={formValues.permanent_city}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="communication_pincode">Pincode:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="communication_pincode"
+                        name="communication_pincode"
+                        value={formValues.communication_pincode}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <br />
+                  <br />
+                  <tr>
+                    <td style={{maxWidth:'5rem'}}>
+                  <h4>Permanent Address</h4>
+                  <hr style={{width : '33rem'}}/>
 
-                <tr>
-                  <td>
-                    <label htmlFor="permanent_pincode">Pincode:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="permanent_pincode"
-                      name="permanent_pincode"
-                      required
-                      value={formValues.permanent_pincode}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <hr />
-                <h4>Contact</h4>
-                <hr />
-                <tr>
-                  <td>
-                    <label htmlFor="mobile">Mobile Number:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="mobile"
-                      name="mobile"
-                      required
-                      value={formValues.mobile}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="altmobile">Alternate Mobile Number:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      id="altmobile"
-                      name="altmobile"
-                      value={formValues.altmobile}
-                      onChange={handleInputChange}
-                    />
-                  </td>
-                </tr>
-                <hr />
-                <h4>Other details</h4>
-                <hr />
-                <tr>
-                  <td>
-                    <label htmlFor="disability">Disability:</label>
-                  </td>
-                  <td>
-                    <select
-                      defaultValue={formValues.disability}
-                      id="disability"
-                      name="disability"
-                      required
-                      value={formValues.disability}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Please select</option>
-                      <option value="Yes">Yes</option>
-                      <option value="No">No</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label htmlFor="married">Marital Status:</label>
-                  </td>
-                  <td>
-                    <select
-                      id="married"
-                      name="married"
-                      required
-                      value={formValues.married}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Please select</option>
-                      <option value="Married">Married</option>
-                      <option value="Unmarried">Unmarried</option>
-                      <option value="Divorced">Divorced</option>
-                    </select>
-                  </td>
-                </tr>
-                <hr />
-                <button type="submit">Submit</button>
-              </table>
-            </form>
-          </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="permanent_address">Address:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="permanent_address"
+                        name="permanent_address"
+                        value={formValues.permanent_address}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="permanent_country">Country:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="permanent_country"
+                        name="permanent_country"
+                        value={formValues.permanent_country}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="permanent_state">State:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="permanent_state"
+                        name="permanent_state"
+                        value={formValues.permanent_state}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="permanent_city">City:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="permanent_city"
+                        name="permanent_city"
+                        value={formValues.permanent_city}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <label htmlFor="permanent_pincode">Pincode:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="permanent_pincode"
+                        name="permanent_pincode"
+                        value={formValues.permanent_pincode}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <br />
+                  <br />
+                  <tr>
+                    <td style={{maxWidth:'5rem'}}>
+                  <h5>Contact Details</h5>
+                  <hr style={{width : '33rem'}}/>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="mobile">Mobile Number:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="mobile"
+                        name="mobile"
+                        value={formValues.mobile}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="altmobile">
+                        Alternate Mobile Number:
+                      </label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        id="altmobile"
+                        name="altmobile"
+                        value={formValues.altmobile}
+                        onChange={handleInputChange}
+                      />
+                    </td>
+                  </tr>
+                  <br />
+                  <br />
+                  <tr>
+                    <td style={{maxWidth:'5rem'}}>
+                  <h4>Other details</h4>
+                  <hr style={{width : '33rem'}}/>
+
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="disability">Disability:</label>
+                    </td>
+                    <td>
+                      <select
+                        defaultValue={formValues.disability}
+                        id="disability"
+                        name="disability"
+                        value={formValues.disability}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Please select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="married">Marital Status:</label>
+                    </td>
+                    <td>
+                      <select
+                        id="married"
+                        name="married"
+                        value={formValues.married}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Please select</option>
+                        <option value="Married">Married</option>
+                        <option value="Unmarried">Unmarried</option>
+                        <option value="Divorced">Divorced</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <br />
+                  <button type="submit">Submit</button>
+                </table>
+              </form>
+            </div>
+          </>
         )}
       </div>
     </>

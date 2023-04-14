@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./css/Academic.css"; // import the CSS file
+import "./css/Personal.css"; // import the CSS file
 import { FaEdit } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 export default function Profile({ user, type }) {
@@ -168,7 +168,7 @@ export default function Profile({ user, type }) {
       <div className="userProfile">
         <div className="parent">
           <div className="left">
-            <h4 className="basic">Academic Details</h4>
+            <h3 className="basic">Academic Details</h3>
           </div>
           <div className="right">
             {isEditMode ? (
@@ -195,45 +195,43 @@ export default function Profile({ user, type }) {
           <>
             <div className="userProfileData">
               <table>
-                <h5>Mtech</h5>
-                <hr />
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>College</td>
-                  <td>:</td>
+                    <td style={{maxWidth:'25rem'}}>
+                  <h4>Masters of Technology</h4>
+                  <hr style={{width : '40rem'}}/>
+                    </td>
+                </tr>
+                <tr>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>College :</td>
                   <td>{collegeMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Branch</td>
-                  <td>:</td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Branch :</td>
                   <td>{branchMtech}</td>
                 </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Percentage Format{" "}
+                    Percentage Format{" "} :
                   </td>
-                  <td>:</td>
                   <td>{percentageFormatMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Percentage obtained</td>
-                  <td>:</td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Percentage obtained :</td>
                   <td>{percentageMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Year of completion</td>
-                  <td>:</td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Year of completion :</td>
                   <td>{yearMtech}</td>
                 </tr>
                 <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Remarks (if any)</td>
-                  <td>:</td>
+                  <td style={{ color: "rgb(83, 86, 101)" }}>Remarks (if any :)</td>
                   <td>{remarksMtech}</td>
                 </tr>
 
                 {/* BTECH */}
                 <br />
                 <br />
-                <h5>B Tech</h5>
+                <h5>Bachelors of Technology</h5>
                 <hr />
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
@@ -349,11 +347,10 @@ export default function Profile({ user, type }) {
             </div>
           </>
         ) : (
-          <div id="popup-form">
-            <form className="userProfileData" onSubmit={handleSubmit}>
+          <div className="userProfileData">
+            <form style={{margin:'0px', padding:'0px', fontSize : 'medium'}}onSubmit={handleSubmit}>
               <table>
-                <hr />
-                <h4>M Tech</h4>
+                <h5>Masters of Technology</h5>
                 <hr />
                 <tr>
                   <td>
@@ -450,7 +447,7 @@ export default function Profile({ user, type }) {
                   </td>
                 </tr>
                 <hr />
-                <h4>B Tech</h4>
+                <h5>B Tech</h5>
                 <hr />
                 <tr>
                   <td>
@@ -547,7 +544,7 @@ export default function Profile({ user, type }) {
                   </td>
                 </tr>
                 <hr />
-                <h4>Class 12</h4>
+                <h5>Class 12</h5>
                 <hr />
                 <tr>
                   <td>
@@ -630,7 +627,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <br/>
                 <hr />
-                <h4>Class 10</h4>
+                <h5>Class 10</h5>
                 <hr />
                 <tr>
                   <td>

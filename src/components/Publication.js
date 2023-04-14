@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import "./css/POR.css";
-import AuthorInput from "./AuthorHandler";
+import "./css/Personal.css";
 
 const Publication = ({ user, type }) => {
   const bottomRef = useRef(null);
@@ -84,7 +83,10 @@ const Publication = ({ user, type }) => {
   const handleEditSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:4000/publications/${selectedPublication._id}`, formData)
+      .put(
+        `http://localhost:4000/publications/${selectedPublication._id}`,
+        formData
+      )
       .then((res) => {
         const index = publication.findIndex((pub) => pub._id === res.data._id);
         setPublication([
@@ -114,13 +116,13 @@ const Publication = ({ user, type }) => {
     newAuthors[index] = event.target.value;
     const newFormData = { ...formData2, authorlist: newAuthors };
     setFormData2(newFormData);
-  }
+  };
   const addNewAuthor2 = () => {
     const newAuthors = [...formData2.authorlist, ""];
     const newFormData = { ...formData2, authorlist: newAuthors };
     setFormData2(newFormData);
-  }
-  
+  };
+
   const handleAuthorChange = (event, index) => {
     const { name, value } = event.target;
     const newAuthors = [...formData.authorlist];
@@ -139,7 +141,7 @@ const Publication = ({ user, type }) => {
     newAuthors.splice(index, 1);
     setFormData({ ...formData, authorlist: newAuthors });
   };
-  
+
   // Handler for deleting an publication
   const handleAdd = () => {
     setShowAddForm(true);
@@ -168,9 +170,12 @@ const Publication = ({ user, type }) => {
       </div>
       <br />
       {showAddForm && (
-        <form className="userProfileData" onSubmit={handleAddSubmit}>
+        <>
+        <div className="userProfileData">
+        <form className="addExperienceForm" onSubmit={handleAddSubmit}>
           <table>
             <h4>Add Publication</h4>
+            <hr/>
             <tr>
               <td>
                 <label htmlFor="title">Title:</label>
@@ -181,30 +186,35 @@ const Publication = ({ user, type }) => {
                   name="title"
                   value={formData2.title}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
             <tr>
-              <label htmlFor="authorlist">Authors:</label>
-              {formData.authorlist.map((author, index) => (
+              <td>
+                <label htmlFor="authorlist">Author: (Enter comma separated)</label>
+              </td>
+              <td>
                 <input
                   type="text"
-                  value={author}
-                  onChange={(event) => handleAuthorChange2(event, index)}
+                  name="author"
+                  value={formData2.author}
+                  onChange={handleChange2}
+                  required
                 />
-              ))}
-              <button onClick={addNewAuthor2}>Add author</button>
+              </td>
             </tr>
             <tr>
               <td>
                 <label htmlFor="abstract">Abstract:</label>
               </td>
               <td>
-                <input
+                <textarea
                   type="text"
                   name="abstract"
                   value={formData2.abstract}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -218,6 +228,7 @@ const Publication = ({ user, type }) => {
                   name="volume"
                   value={formData2.volume}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -226,11 +237,12 @@ const Publication = ({ user, type }) => {
                 <label htmlFor="pages">Pages:</label>
               </td>
               <td>
-              <input
+                <input
                   type="number"
                   name="pages"
                   value={formData2.pages}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -239,11 +251,12 @@ const Publication = ({ user, type }) => {
                 <label htmlFor="journal">Journal Name:</label>
               </td>
               <td>
-              <input
+                <input
                   type="text"
                   name="journal"
                   value={formData2.journal}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -252,11 +265,12 @@ const Publication = ({ user, type }) => {
                 <label htmlFor="publisher">Publisher:</label>
               </td>
               <td>
-              <input
+                <input
                   type="text"
                   name="publisher"
                   value={formData2.publisher}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -265,11 +279,12 @@ const Publication = ({ user, type }) => {
                 <label htmlFor="doi">Digital Object Identifier:</label>
               </td>
               <td>
-              <input
+                <input
                   type="text"
                   name="doi"
                   value={formData2.doi}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -278,11 +293,12 @@ const Publication = ({ user, type }) => {
                 <label htmlFor="url">URL Link:</label>
               </td>
               <td>
-              <input
+                <input
                   type="text"
                   name="url"
                   value={formData2.url}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -303,150 +319,154 @@ const Publication = ({ user, type }) => {
             </tr>
           </table>
         </form>
+        </div>
+        <br/>
+        <br/>
+        </>
       )}
       {publication.map((pub) =>
         selectedPublication === pub && showEditForm ? (
           <>
-            <form className="userProfileData" onSubmit={handleEditSubmit}>
-          <table>
-            <h4>Edit Publication</h4>
-            <tr>
-              <td>
-                <label htmlFor="title">Title:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-            {formData.authorlist.map((author, index) => (
-        <AuthorInput
-        formData = {formData}
-          key={index}
-          author={author}
-          index={index}
-          onChange={(event) => handleAuthorChange(event, index)}
-          onDelete={handleDeleteAuthor}
-        />
-      ))}
-
-      <button type="button" onClick={handleAddAuthor}>
-        Add Author
-      </button>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="abstract">Abstract:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="abstract"
-                  value={formData.abstract}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="volume">Volume:</label>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  name="volume"
-                  value={formData.volume}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="pages">Pages:</label>
-              </td>
-              <td>
-              <input
-                  type="number"
-                  name="pages"
-                  value={formData.pages}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="journal">Journal Name:</label>
-              </td>
-              <td>
-              <input
-                  type="text"
-                  name="journal"
-                  value={formData.journal}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="publisher">Publisher:</label>
-              </td>
-              <td>
-              <input
-                  type="text"
-                  name="publisher"
-                  value={formData.publisher}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="doi">Digital Object Identifier:</label>
-              </td>
-              <td>
-              <input
-                  type="text"
-                  name="doi"
-                  value={formData.doi}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="url">URL Link:</label>
-              </td>
-              <td>
-              <input
-                  type="text"
-                  name="url"
-                  value={formData.url}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button
-                  className="closeButton"
-                  onClick={() => setShowEditForm(false)}
-                >
-                  Cancel
-                </button>
-              </td>
-              <td>
-                <button className="addNewButton" type="submit">
-                  Save
-                </button>
-              </td>
-            </tr>
-          </table>
-        </form>
+            <div className="userProfileData">
+            <form className="editExperienceForm" onSubmit={handleEditSubmit}>
+              <table>
+                <h4>Edit Publication</h4>
+                <hr/>
+                <tr>
+                  <td>
+                    <label htmlFor="title">Title:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="title"
+                      value={formData.title}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="abstract">Abstract:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="abstract"
+                      value={formData.abstract}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="volume">Volume:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      name="volume"
+                      value={formData.volume}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="pages">Pages:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="number"
+                      name="pages"
+                      value={formData.pages}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="journal">Journal Name:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="journal"
+                      value={formData.journal}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="publisher">Publisher:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="publisher"
+                      value={formData.publisher}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="doi">Digital Object Identifier:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="doi"
+                      value={formData.doi}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label htmlFor="url">URL Link:</label>
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      name="url"
+                      value={formData.url}
+                      onChange={handleChange}
+                      required
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button
+                      className="closeButton"
+                      onClick={() => setShowEditForm(false)}
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                  <td>
+                    <button className="addNewButton" type="submit">
+                      Save
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </form>
+            <br/>
+            <br/>
+            </div>
           </>
         ) : (
           <>
@@ -513,6 +533,8 @@ const Publication = ({ user, type }) => {
                 </tr>
               </table>
             </div>
+            <br/>
+            <br/>
           </>
         )
       )}

@@ -3,10 +3,10 @@ section {
   place-items: center;
   height: max-content;
   font-size: 32px;
-  font-weight: bold;
+  /* font-weight: bold; */
   margin-bottom: 40px;
 }
-.renderComponent{
+.renderComponent {
   padding-right: 20rem;
 }
 #about {
@@ -21,17 +21,19 @@ section {
 
 /* Navigation Styles */
 .nav {
-  padding: auto;
+  /* padding: auto; */
   display: flex;
   justify-content: flex-start;
   align-items: top;
   position: fixed;
-  top : 0px;
-  width: 20%;
-  margin: 80px 0px;
-  height : 100%;
+  width: 16%;
+  bottom : 5% ;
+  top : 10px;
+  /* margin: 80px 0px; */
+  padding-top : 0px;
+  margin-top: 0px;
+  height: 100%;
 }
-
 
 .Profile {
   margin-top: 40px;
@@ -66,8 +68,6 @@ section {
   transition: all 0.3s ease;
 }
 
-
-
 .nav__container__actions button {
   background-color: #0080ff;
   color: #fff;
@@ -83,13 +83,12 @@ section {
   background-color: #0059b3;
 }
 
-
 ul {
-  position : fixed ;
-  top : 11rem;
+  position: fixed;
+  top: 11rem;
   display: flex;
   flex-flow: column nowrap;
-  gap: 2rem;
+  /* gap: 2rem; */
   font-size: 0.9rem;
   list-style: none;
   padding: 0;
@@ -98,16 +97,15 @@ ul {
 .active {
   color: rgba(59, 50, 179) !important;
   border: solid 1px rgba(59, 50, 179);
-  padding: 15px;  
+  padding: 15px;
   width: 9rem;
 }
-
 
 li {
   cursor: pointer;
 
   text-align: center;
-  width : 10rem;
+  width: 10rem;
   color: black;
 }
 
@@ -120,15 +118,37 @@ li:hover {
 .degree-card h2 {
   margin-top: 0;
   margin-bottom: 10px;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 28px;
   font-weight: bold;
 }
 
 p {
   margin: 5px 0;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   line-height: 1.5;
   color: #4f4f4f;
+}
+
+.active {
+  background: rgba(59, 50, 179, 0.1) !important;
+  text-align: left;
+  border-radius: 0.4rem !important;
+  width : 16rem !important ;
+  /* padding  : 0.7rem !important ; */
+}
+.navButton {
+  width : 16rem !important ;
+  /* padding  : 0.5rem !important ; */
+  text-align: left;
+  /* border : 0.1px solid rgb(225, 224, 224) !important ; */
+  /* border-radius: 0px !important; */
+  background-color: white !important;
+  color : black !important;
+}
+.outer-container{
+  max-width : 17rem ;
+  text-align: center;
+  position : fixed ;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import "./css/POR.css";
+import "./css/Personal.css";
 const POR = ({ user, type }) => {
   const bottomRef = useRef(null);
   const [por, setPor] = useState([]);
@@ -124,7 +124,8 @@ const POR = ({ user, type }) => {
       </div>
       <br />
       {showAddForm && (
-        <form className="userProfileData" onSubmit={handleAddSubmit}>
+        <div className = "userProfileData">
+        <form className="addExperienceForm" onSubmit={handleAddSubmit}>
           <table>
             <h4>Add POR</h4>
             <tr>
@@ -137,6 +138,7 @@ const POR = ({ user, type }) => {
                   name="title"
                   value={formData2.title}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -150,6 +152,7 @@ const POR = ({ user, type }) => {
                   name="organization"
                   value={formData2.organization}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -163,6 +166,7 @@ const POR = ({ user, type }) => {
                   name="startdate"
                   value={formData2.startdate}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -176,6 +180,7 @@ const POR = ({ user, type }) => {
                   name="enddate"
                   value={formData2.enddate}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -188,6 +193,7 @@ const POR = ({ user, type }) => {
                   name="description"
                   value={formData2.description}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -201,6 +207,7 @@ const POR = ({ user, type }) => {
                   name="location"
                   value={formData2.location}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -221,13 +228,17 @@ const POR = ({ user, type }) => {
             </tr>
           </table>
         </form>
+        <br/>
+        </div>
       )}
       {por.map((pp) =>
         selectedPor === pp && showEditForm ? (
           <>
-            <form className="userProfileData" onSubmit={handleEditSubmit}>
+            <div className="userProfileData">
+            <form className="editExperienceForm" onSubmit={handleEditSubmit}>
               <table>
-                <h4>Edit Experience</h4>
+                <h4>Edit POR</h4>
+                <hr/>
                 <tr>
                   <td>
                     <label htmlFor="title">Title:</label>
@@ -238,6 +249,7 @@ const POR = ({ user, type }) => {
                       name="title"
                       value={formData.title}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -251,6 +263,7 @@ const POR = ({ user, type }) => {
                       name="organization"
                       value={formData.organization}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -264,6 +277,7 @@ const POR = ({ user, type }) => {
                       name="startdate"
                       value={formData.startdate}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -277,6 +291,7 @@ const POR = ({ user, type }) => {
                       name="enddate"
                       value={formData.enddate}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -289,6 +304,7 @@ const POR = ({ user, type }) => {
                       name="description"
                       value={formData.description}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -302,15 +318,27 @@ const POR = ({ user, type }) => {
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
-                <button type="submit">Save</button>
-                <button type="button" onClick={() => setShowEditForm(false)}>
+                <tr>
+                  <td>
+                <button className="closeButton"type="button" onClick={() => setShowEditForm(false)}>
                   Cancel
                 </button>
+
+                  </td>
+                  <td>
+                <button className = "addNewButton"type="submit">Save</button>
+
+                  </td>
+                </tr>
               </table>
             </form>
+            <br/>
+            <br/>
+          </div>
           </>
         ) : (
           <>
@@ -367,6 +395,8 @@ const POR = ({ user, type }) => {
                 </tr>
               </table>
             </div>
+            <br/>
+            <br/>
           </>
         )
       )}

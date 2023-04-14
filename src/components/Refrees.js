@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import "./css/Experience.css";
+import "./css/Personal.css";
 const ExperienceTable = ({ user, type }) => {
   const bottomRef = useRef(null);
   const [references, setReferences] = useState([]);
@@ -131,9 +131,11 @@ const ExperienceTable = ({ user, type }) => {
       </div>
       <br />
       {showAddForm && (
-        <form className="userProfileData" onSubmit={handleAddSubmit}>
+        <div className="userProfileData">
+        <form className="addExperienceForm" onSubmit={handleAddSubmit}>
           <table>
             <h4>Add Reference</h4>
+            <hr/>
             <tr>
               <td>
                 <label htmlFor="profile">Name:</label>
@@ -144,6 +146,7 @@ const ExperienceTable = ({ user, type }) => {
                   name="name"
                   value={formData2.name}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -157,6 +160,7 @@ const ExperienceTable = ({ user, type }) => {
                   name="title"
                   value={formData2.title}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -170,6 +174,7 @@ const ExperienceTable = ({ user, type }) => {
                   name="affliliation"
                   value={formData2.affliliation}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -183,6 +188,7 @@ const ExperienceTable = ({ user, type }) => {
                   name="referenceemail"
                   value={formData2.referenceemail}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -196,6 +202,7 @@ const ExperienceTable = ({ user, type }) => {
                   name="referencephone"
                   value={formData2.referencephone}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -209,6 +216,7 @@ const ExperienceTable = ({ user, type }) => {
                   name="relationship"
                   value={formData2.relationship}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -222,6 +230,7 @@ const ExperienceTable = ({ user, type }) => {
                   name="description"
                   value={formData2.description}
                   onChange={handleChange2}
+                  required
                 />
               </td>
             </tr>
@@ -242,14 +251,19 @@ const ExperienceTable = ({ user, type }) => {
             </tr>
           </table>
         </form>
+        <br/>
+        <br/>
+        </div>
       )}
       
       {references.map((ref) =>
         selectedReferences === ref && showEditForm ? (
           <>
-            <form className="userProfileData" onSubmit={handleEditSubmit}>
+          <div className="userProfileData">
+            <form className="editExperienceForm" onSubmit={handleEditSubmit}>
               <table>
-                <h4>Edit Experience</h4>
+                <h4>Edit Reference</h4>
+                <hr/>
                 <tr>
                   <td>
                     <label htmlFor="profile">Name:</label>
@@ -260,6 +274,7 @@ const ExperienceTable = ({ user, type }) => {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -273,6 +288,7 @@ const ExperienceTable = ({ user, type }) => {
                       name="title"
                       value={formData.title}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -282,10 +298,11 @@ const ExperienceTable = ({ user, type }) => {
                   </td>
                   <td>
                     <input
-                      type="date"
+                      type="text"
                       name="affliliation"
                       value={formData.affliliation}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -299,6 +316,7 @@ const ExperienceTable = ({ user, type }) => {
                       name="referenceemail"
                       value={formData.referenceemail}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -312,6 +330,7 @@ const ExperienceTable = ({ user, type }) => {
                       name="referencephone"
                       value={formData.referencephone}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -325,6 +344,7 @@ const ExperienceTable = ({ user, type }) => {
                       name="relationship"
                       value={formData.relationship}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
@@ -338,15 +358,27 @@ const ExperienceTable = ({ user, type }) => {
                       name="description"
                       value={formData.description}
                       onChange={handleChange}
+                      required
                     />
                   </td>
                 </tr>
-                <button type="submit">Save</button>
-                <button type="button" onClick={() => setShowEditForm(false)}>
+                <tr>
+                  <td>
+
+                <button className= "closeButton"type="button" onClick={() => setShowEditForm(false)}>
                   Cancel
                 </button>
+                  </td>
+                  <td>
+
+                <button className= "addNewButton"type="submit">Save</button>
+                  </td>
+                </tr>
               </table>
             </form>
+            <br/>
+            <br/>
+          </div>
           </>
         ) : (
           <>
@@ -409,7 +441,7 @@ const ExperienceTable = ({ user, type }) => {
               </table>
             </div>
             <br/>
-            <hr/>
+            <br/>
           </>
         )
       )}

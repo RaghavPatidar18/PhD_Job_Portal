@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import "./css/Experience.css";
+import "./css/Personal.css";
 const ExperienceTable = ({ user, type }) => {
   const bottomRef = useRef(null);
   const [experiences, setExperiences] = useState([]);
@@ -129,253 +129,293 @@ const ExperienceTable = ({ user, type }) => {
           </button>
         </div>
       </div>
-    <br/>
-    {showAddForm && (
-        <form className="userProfileData" onSubmit={handleAddSubmit}>
-          <table>
-            <h4>Add Experience</h4>
-            <tr>
-              <td>
-                <label htmlFor="profile">Title:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="profile"
-                  value={formData2.profile}
-                  onChange={handleChange2}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="organization">Organization:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="organization"
-                  value={formData2.organization}
-                  onChange={handleChange2}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="startdate">Start Date:</label>
-              </td>
-              <td>
-                <input
-                  type="date"
-                  name="startdate"
-                  value={formData2.startdate}
-                  onChange={handleChange2}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="enddate">End Date:</label>
-              </td>
-              <td>
-                <input
-                  type="date"
-                  name="enddate"
-                  value={formData2.enddate}
-                  onChange={handleChange2}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="description">Description:</label>
-              </td>
-              <td>
-                <textarea
-                  name="description"
-                  value={formData2.description}
-                  onChange={handleChange2}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="location">Location:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData2.location}
-                  onChange={handleChange2}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button className="closeButton" onClick={() => setShowAddForm(false)}>
-                  Cancel
-                </button>
-              </td>
-              <td>
-                <button className = "addNewButton" type="submit">Save</button>
-              </td>
-            </tr>
-          </table>
-        </form>
-      
-      )}
-      {experiences.map((exp) => (
-        (selectedExperience === exp && showEditForm) ? (
-          <>
-            <form className="userProfileData" onSubmit={handleEditSubmit}>
+      <br />
+      {showAddForm && (
+        <div className="userProfileData">
+          <form
+            className="addExperienceForm"
+           onSubmit={handleAddSubmit}
+          >
             <table>
-            <h4>Edit Experience</h4>
-            <tr>
-              <td>
-                <label htmlFor="profile">Title:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="profile"
-                  value={formData.profile}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="organization">Organization:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="organization"
-                  value={formData.organization}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="startdate">Start Date:</label>
-              </td>
-              <td>
-                <input
-                  type="date"
-                  name="startdate"
-                  value={formData.startdate}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="enddate">End Date:</label>
-              </td>
-              <td>
-                <input
-                  type="date"
-                  name="enddate"
-                  value={formData.enddate}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="description">Description:</label>
-              </td>
-              <td>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label htmlFor="location">Location:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="location"
-                  value={formData.location}
-                  onChange={handleChange}
-                />
-              </td>
-            </tr>
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setShowEditForm(false)}>
-              Cancel
-            </button>
-          </table>
-        </form>
-            </>) : (
-              <>
-              <div className="parent">
-            <div className="left">
-              <h4>{exp.profile}</h4>
-            </div>
-            <div className="right">
-              <button
-                className="editButton"
-                onClick={() => {
-                  setSelectedExperience(exp);
-                  setFormData(exp);
-                  setShowEditForm(true);
-                }}
-              >
-                Edit
-              </button>
-              <button
-                className="closeButton"
-                onClick={() => handleDelete(exp._id)}
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-          <hr />
-          <div className="userProfileData">
-            <table>
+              <h4>Add Experience</h4>
+              <hr />
               <tr>
-                <td>Organization </td>
-                <td>:</td>
-                <td>{exp.organization}</td>
+                <td>
+                  <label htmlFor="profile">Title:</label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="profile"
+                    value={formData2.profile}
+                    onChange={handleChange2}
+                    required
+                  />
+                </td>
               </tr>
               <tr>
-                <td>Start Date </td>
-                <td>:</td>
-                <td>{exp.startdate}</td>
+                <td>
+                  <label htmlFor="organization">Organization:</label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="organization"
+                    value={formData2.organization}
+                    onChange={handleChange2}
+                    required
+                  />
+                </td>
               </tr>
               <tr>
-                <td>End date</td>
-                <td>:</td>
-                <td>{exp.enddate}</td>
+                <td>
+                  <label htmlFor="startdate">Start Date:</label>
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    name="startdate"
+                    value={formData2.startdate}
+                    onChange={handleChange2}
+                    required
+                  />
+                </td>
               </tr>
               <tr>
-                <td>Location</td>
-                <td>:</td>
-                <td>{exp.location}</td>
+                <td>
+                  <label htmlFor="enddate">End Date:</label>
+                </td>
+                <td>
+                  <input
+                    type="date"
+                    name="enddate"
+                    value={formData2.enddate}
+                    onChange={handleChange2}
+                    required
+                  />
+                </td>
               </tr>
               <tr>
-                <td>Description</td>
-                <td>:</td>
-                <td>{exp.description}</td>
+                <td>
+                  <label htmlFor="description">Description:</label>
+                </td>
+                <td>
+                  <textarea
+                    name="description"
+                    value={formData2.description}
+                    onChange={handleChange2}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label htmlFor="location">Location:</label>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData2.location}
+                    onChange={handleChange2}
+                    required
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button
+                    className="closeButton"
+                    onClick={() => setShowAddForm(false)}
+                  >
+                    Cancel
+                  </button>
+                </td>
+                <td>
+                  <button className="addNewButton" type="submit">
+                    Save
+                  </button>
+                </td>
               </tr>
             </table>
-          </div>
+          </form>
+          <br/>
+          <br/>
+        </div>
+      )}
+      {experiences.map((exp) =>
+        selectedExperience === exp && showEditForm ? (
+          <>
+            <div className="userProfileData">
+              <form
+                className="editExperienceForm"
+                onSubmit={handleEditSubmit}
+              >
+                <table>
+                  <h4>Edit Experience</h4>
+                  <hr/>
+                  <tr>
+                    <td>
+                      <label htmlFor="profile">Title:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="profile"
+                        value={formData.profile}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="organization">Organization:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="organization"
+                        value={formData.organization}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="startdate">Start Date:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        name="startdate"
+                        value={formData.startdate}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="enddate">End Date:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="date"
+                        name="enddate"
+                        value={formData.enddate}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="description">Description:</label>
+                    </td>
+                    <td>
+                      <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label htmlFor="location">Location:</label>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        required
+                      />
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td >
+                      <button
+                      className="closeButton"
+                        type="button"
+                        onClick={() => setShowEditForm(false)}
+                      >
+                        Cancel
+                      </button>
+                    </td>
+                    <td>
+                      <button className="addNewButton"type="submit">Save</button>
+                    </td>
+                  </tr>
+                </table>
+              </form>
+            </div>
           </>
-          )
-        
-      ))}
-
-
-      
+        ) : (
+          <>
+            <div className="parent">
+              <div className="left">
+                <h4>{exp.profile}</h4>
+              </div>
+              <div className="right">
+                <button
+                  className="editButton"
+                  onClick={() => {
+                    setSelectedExperience(exp);
+                    setFormData(exp);
+                    setShowEditForm(true);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  className="closeButton"
+                  onClick={() => handleDelete(exp._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+            <hr />
+            <div className="userProfileData">
+              <table>
+                <tr>
+                  <td>Organization </td>
+                  <td>:</td>
+                  <td>{exp.organization}</td>
+                </tr>
+                <tr>
+                  <td>Start Date </td>
+                  <td>:</td>
+                  <td>{exp.startdate}</td>
+                </tr>
+                <tr>
+                  <td>End date</td>
+                  <td>:</td>
+                  <td>{exp.enddate}</td>
+                </tr>
+                <tr>
+                  <td>Location</td>
+                  <td>:</td>
+                  <td>{exp.location}</td>
+                </tr>
+                <tr>
+                  <td>Description</td>
+                  <td>:</td>
+                  <td>{exp.description}</td>
+                </tr>
+              </table>
+              <br />
+              <br />
+            </div>
+          </>
+        )
+      )}
     </div>
   );
 };
