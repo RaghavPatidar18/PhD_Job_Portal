@@ -171,7 +171,7 @@ function Job() {
               value={locationFilter}
               onChange={handleLocationFilterChange}
             >
-              {locations.map((location) => (
+              {locations?.map((location) => (
                 <option key={location} value={location}>
                   {location}
                 </option>
@@ -204,7 +204,7 @@ function Job() {
         </div>
 
         <div className="job-cards">
-          {filteredJobs.map(job => (
+          {filteredJobs?.map(job => (
             <JobCard
               key={job._id}
               _id={job._id}

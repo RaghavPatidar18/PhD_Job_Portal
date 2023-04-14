@@ -190,7 +190,7 @@ const Publication = ({ user, type }) => {
                 />
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <td>
                 <label htmlFor="authorlist">Author: (Enter comma separated)</label>
               </td>
@@ -203,7 +203,7 @@ const Publication = ({ user, type }) => {
                   required
                 />
               </td>
-            </tr>
+            </tr> */}
             <tr>
               <td>
                 <label htmlFor="abstract">Abstract:</label>
@@ -349,7 +349,7 @@ const Publication = ({ user, type }) => {
                 <tr>
                 
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>
                     <label htmlFor="abstract">Abstract:</label>
                   </td>
@@ -362,7 +362,7 @@ const Publication = ({ user, type }) => {
                       required
                     />
                   </td>
-                </tr>
+                </tr> */}
                 <tr>
                   <td>
                     <label htmlFor="volume">Volume:</label>
@@ -496,11 +496,11 @@ const Publication = ({ user, type }) => {
             <hr />
             <div className="userProfileData">
               <table>
-                <tr>
+                {/* <tr>
                   <td>Author List </td>
                   <td>:</td>
                   <td>{pub.authorlist[0]?.author}</td>
-                </tr>
+                </tr> */}
                 <tr>
                   <td>Journal </td>
                   <td>:</td>
