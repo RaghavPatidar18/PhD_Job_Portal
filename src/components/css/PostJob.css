@@ -5,7 +5,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: white;
   animation-name: fade-in;
   animation-duration: 0.6s;
   animation-fill-mode: both;
@@ -70,7 +70,7 @@
   width: 100%;
   font-size: 16px;
   color: #333;
-  background-color: #f5f5f5;
+  background-color: white;
   border-radius: 5px;
   margin-bottom: 10px;
   transition: box-shadow 0.3s ease;
@@ -124,8 +124,11 @@
   }
 
   .postJobForm {
-  width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
   }
+  
 
   h3 {
   font-size: 24px;

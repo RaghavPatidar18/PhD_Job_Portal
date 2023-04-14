@@ -7,6 +7,12 @@
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
 }
 
+.field .data-fields select {
+  border: none;
+  vertical-align: middle;
+}
+
+
 .field{
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.1);
   margin-bottom:20px;
