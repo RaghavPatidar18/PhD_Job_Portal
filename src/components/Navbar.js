@@ -34,6 +34,10 @@ function App({user,type}) {
   const handleExperience = () => {
     window.location.href = "/experiences";
   };
+
+  const handleInterview = () => {
+    window.location.href = "/interviewtips";
+  }
   
 
   const logoutuser = async () => {
@@ -103,7 +107,7 @@ function App({user,type}) {
               {type==="institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none' }}>Job Post</Link></Nav.Link>}
               {type==="student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscribe</Nav.Link>}
               {type==="student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none' }}>Experiences</Nav.Link>}
-              {type==="student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none' }}>Interview Tips</Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleInterview} style={{ color: 'black', textDecoration: 'none' }}>Interview Tips</Nav.Link>}
             </Nav>
             <SubscribePopup show={showPopup} onClose={handlePopupClose} />
             {type!=="" && <Nav>

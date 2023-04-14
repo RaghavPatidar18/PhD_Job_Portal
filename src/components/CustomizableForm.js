@@ -375,7 +375,7 @@ function CustomizableForm({handleSubmit}){
 
     <h3>Choose the fields you want</h3>
     <form >
-
+      
     <div className="field">
       <div className="form-check item">
         <input className="form-check-input" type="checkbox" name="personal" checked  />

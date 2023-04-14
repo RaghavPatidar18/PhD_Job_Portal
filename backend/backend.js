@@ -20,6 +20,9 @@ const Publication = require("./model/publicationSchema");
 const Reference = require("./model/referenceSchema");
 const UserExperience=require("./model/experienceSchema");
 const POR = require("./model/porSchema");
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 app.use(cors()); // Use this after the variable declaration
 app.use(cookiParser());
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -511,6 +514,52 @@ app.post("/api/login", async (req, res) => {
     }
   }
 });
+
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: '82066739900-rqo1gjofhmv4lqarkt82sr30nm8383pb.apps.googleusercontent.com', // Replace with your Google client ID
+      clientSecret: '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', // Replace with your Google client secret
+      callbackURL: '/auth/google/callback', // Replace with your callback URL
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      // Use the profile information to create or authenticate a user in your application
+      // You can access the user's information from the profile object
+      const { id, displayName, emails } = profile;
+      // Example: You can save the user's information in your database and call done() to complete the authentication process
+      // Replace this with your actual logic for creating or authenticating a user
+      const user = await User.findOne({ googleId: id });
+      if (user) {
+        return done(null, user);
+      } else {
+        const newUser = new User({
+          googleId: id,
+          displayName: displayName,
+          email: emails[0].value,
+        });
+        await newUser.save();
+        return done(null, newUser);
+      }
+    }
+  )
+);
+
+
+// Initialize Passport
+app.use(passport.initialize());
+
+// Route for starting the Google authentication process
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+// Callback route for handling the Google authentication callback
+app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
+  // Redirect to the appropriate page after successful authentication
+  res.redirect('/dashboard'); // Replace with your appropriate redirect URL
+});
+
+
+
 
 // user valid
 app.get("/validuser", authenticate, async (req, res) => {

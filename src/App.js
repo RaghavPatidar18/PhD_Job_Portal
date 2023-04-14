@@ -20,6 +20,7 @@ import ApplicationForm from "./components/ApplicationForm";
 import ApplicantDetails from "./components/ApplicantDetails";
 import CommentSection from "./components/comments";
 import AllExperiences from "./components/AllExperiences";
+import InterviewTips from "./components/InterviewTips";
 import ExpComments from "./components/ExpComment";
 
 
@@ -85,6 +86,7 @@ function Root() {
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />
 
       <Route path="/experiences" element={<><Navbar user={user} type={userType}/> <AllExperiences /></>} />
+      <Route path="/interviewtips" element={<><Navbar user={user} type={userType}/> <InterviewTips /></>} />
 
         <Route path="/application/:id" element={<><Navbar user={user} type={userType}/> <AppliedJob user={user} type={userType}/></>} />
         <Route path="/job-postings" element={<><Navbar user={user} type={userType}/> <PostedJobs user={user._id} type={userType}/></>} />
