@@ -28,13 +28,14 @@ route.use(
   })
 );
 
-route.post("/resume-upload", upload.single("resume"), async (req, res) => {
+route.post("/resume-upload/:id", upload.single("resume"), async (req, res) => {
   try {
+    const {id} = req.params;
     const buffer = req.file.buffer;
     const PDFParserModule = await import("pdf2json");
     const PDFParser = PDFParserModule.default;
     const parser = new PDFParser();
-    parser.on("pdfParser_dataReady", (pdfData) => {
+    parser.on("pdfParser_dataReady", async (pdfData) => {
       const text = pdfData.Pages[0].Texts.map((t) => t.R[0].T).join("\n");
       // console.log(text);
       let class10Marks = null;
@@ -78,7 +79,8 @@ route.post("/resume-upload", upload.single("resume"), async (req, res) => {
 
       let class10End = Number(class10Start) + 1; 
       let class12End = Number(class12Start) + 1; 
-      class10Board= class10Board.replace(/([A-Z])/g, ' $1').trim()
+      class10Board= class10Board.replace(/(([A-Z]|([o][f])))/g, ' $1').trim();
+      class12Board= class12Board.replace(/(([A-Z]|([o][f])))/g, ' $1').trim();
       console.log("CLASS 10 details : ");
       console.log("   Board : " + class10Board);
       console.log("   Percentage :" + class10Marks);
@@ -90,7 +92,21 @@ route.post("/resume-upload", upload.single("resume"), async (req, res) => {
       console.log("   Percentage :" + class12Marks);
       console.log("   Start Year : " + class12Start);
       console.log("   End Year : " + class12End);
+      const filter = {email : id};
+      const update = {
+        board10 : class10Board,
+        percentageformat10 :'100',
+        percentage10 :class10Marks,
+        year10 : class10End,
+        remarks10 :'NA',
 
+        board12 :class12Board,
+        percentageformat12 :'100',
+        percentage12 :class12Marks,
+        year12 : class12End ,
+        remarks12 :'NA',
+      }
+      await Academic.findOneAndUpdate(filter, update);
       res.status(200).json(pdfData);
     });
     parser.parseBuffer(buffer);

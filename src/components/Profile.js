@@ -106,7 +106,7 @@ export default function Profile({ user, type }) {
                       >
                         {(close) => (
                           <>
-                            <AutoFillData onClose={close} />
+                            <AutoFillData user = {user} type={type}onClose={close} />
                           </>
                         )}
                       </Popup>

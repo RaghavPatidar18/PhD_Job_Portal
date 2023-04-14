@@ -25,7 +25,7 @@
   }
 
   form{
-  width: 75%;
+  width: 60%;
   margin: auto;
   }
 
@@ -76,7 +76,7 @@
   transition: box-shadow 0.3s ease;
   }
 
-  .postJobInput: focus {
+  .postJobInput:focus {
   outline: none;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   }

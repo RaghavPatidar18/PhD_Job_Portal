@@ -124,15 +124,14 @@ h4 {
   font-weight: 500;
   line-height: 1.75;
   padding: 5px 15px;
-
 }
 label{
-  font-weight: 100 !important;
-  font-size: medium !important;
+  font-weight:  100 !important;
+  /* font-size: medium !important; */
 }
 input{
   border : 1px solid black !important;
-  width : max-content !important;
+  /* width : max-content !important; */
   padding : 0.1rem 0.4rem !important;
 }
 select{

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function FileUpload() {
+function FileUpload({user, type}) {
   const [file, setFile] = useState(null);
 
   const handleFileUpload = (event) => {
@@ -13,7 +13,7 @@ function FileUpload() {
     const formData = new FormData();
     formData.append("resume", file);
     try {
-      const response = await axios.post("/resume-upload", formData);
+      const response = await axios.post(`http://localhost:4000/resume-upload/${user}`, formData);
       console.log(response.data);
     } catch (error) {
       console.error(error);

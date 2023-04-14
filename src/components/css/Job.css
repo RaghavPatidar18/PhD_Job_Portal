@@ -115,7 +115,7 @@ h1 {
     font-size: 36px;
     color: #1A1A1A;
     text-align: center;
-    margin-top: -35px;
+    /* margin-top: -35px; */
     margin-bottom: 30px;
     text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
   }
