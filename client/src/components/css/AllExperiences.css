@@ -1,0 +1,106 @@
+/* AllExperiences.css */
+
+.AllExperiences-container {
+    background-color: #ffffff;
+    padding: 30px;
+  }
+  
+  .AllExperiences-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    color: #000000;
+  }
+  
+  .AllExperiences-subtitle {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
+    color: #808080;
+  }
+  .aassgg,
+  .Filterbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
+  }
+  
+  .Filterbox input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+    width: 300px;
+  }
+  
+  .Filterbox button {
+    padding: 10px 20px;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .ExperienceCard-container {
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .ExperienceCard-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  
+  .ExperienceCard-companyName {
+    font-size: 14px;
+    color: #808080;
+    margin-bottom: 10px;
+  }
+  
+  .ExperienceCard-experience {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 10px;
+  }
+  
+  .ExperienceCard-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .ExperienceCard-likes {
+    font-size: 14px;
+    color: #808080;
+    margin-right: 10px;
+  }
+  
+  .ExperienceCard-likes:hover,
+  .ExperienceCard-dislikes:hover,
+  .ExperienceCard-comments:hover {
+    cursor: pointer;
+  }
+  
+  .ExperienceCard-likesCount,
+  .ExperienceCard-dislikesCount,
+  .ExperienceCard-commentsCount {
+    font-size: 14px;
+    color: #808080;
+    margin-right: 10px;
+  }
+  
+  .ExperienceCard-commentsCount {
+    margin-right: 0;
+  }
+  

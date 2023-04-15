@@ -1,0 +1,18 @@
+.UploadButton {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .UploadButton:hover {
+    background-color: #3e8e41;
+  }
+  
+  .UploadButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  

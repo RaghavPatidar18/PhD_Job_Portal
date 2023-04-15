@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const models = require('../backend/job.model');
+const models = require('../job.model');
 const keysecret = "secret";
 
 const User = models.User;
