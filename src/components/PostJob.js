@@ -18,6 +18,7 @@ function PostJob({user,type}) {
   const [qualifications, setQualifications] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
   const [jobs, setJobs] = useState([]);
+  const [lastDate,setLastDate]=useState("");
   const [showCustomForm,setShowCustomForm]=useState(false);
 
 const history=useNavigate();
@@ -37,6 +38,8 @@ const history=useNavigate();
       por: porData,
       reference: referenceData
     };
+    const lastUpdateDate=lastDate;
+    const deleted=false;
     console.log(fields)
     const job = {
       title,
@@ -47,6 +50,9 @@ const history=useNavigate();
       college,
       qualifications,
       responsibilities,
+      lastDate,
+      lastUpdateDate,
+      deleted,
       fields
     };
     console.log(job);
@@ -69,6 +75,7 @@ const history=useNavigate();
           setCollege("");
           setQualifications("");
           setResponsibilities("");
+          setLastDate("");
           window.location.reload();
         }else{
           console.log(response.data.err);
@@ -89,7 +96,7 @@ const history=useNavigate();
         <form className="postJobForm">
           <h3>Post a Job</h3>
           <div className="inputField">
-
+          <label>Job title</label>
             <input
               className="postJobInput"
               type="text"
@@ -102,6 +109,7 @@ const history=useNavigate();
 
           </div>
           <div className="inputField">
+          <label>College</label>
             <input
               className="postJobInput"
               type="text"
@@ -112,6 +120,7 @@ const history=useNavigate();
             />
           </div>
           <div className="inputField">
+          <label>Job location</label>
             <input
               className="postJobInput"
               type="text"
@@ -122,6 +131,7 @@ const history=useNavigate();
             />
           </div>
           <div className="inputField">
+          <label>Salary</label>
             <input
               className="postJobInput"
               type="number"
@@ -132,6 +142,7 @@ const history=useNavigate();
             />
           </div>
           <div className="inputField">
+          <label>Contact Email</label>
             <input
               className="postJobInput"
               type="email"
@@ -142,6 +153,7 @@ const history=useNavigate();
             />
           </div>
           <div className="inputField">
+          <label>Job Description</label>
             <textarea
               className="postJobInput"
               type="text"
@@ -151,6 +163,8 @@ const history=useNavigate();
               required
             />
           </div>
+          <div className="inputField">
+          <label>Qualifications</label>
           <textarea
           className="postJobInput"
   type="text"
@@ -161,7 +175,11 @@ const history=useNavigate();
   rows={4}
   cols={50}
 />
+</div>
 
+
+<div className="inputField">
+<label>Responsibilities</label>
 <textarea
   className="postJobInput"
   type="text"
@@ -172,6 +190,14 @@ const history=useNavigate();
   rows={4}
   cols={50}
 />
+</div>
+
+<div className="inputField">
+<label>Last date for Application</label>
+  <input
+    className="postJobInput" type="date" value={lastDate} onChange={(e) => setLastDate(e.target.value)} required
+  />
+</div>
 
         {!showCustomForm &&   <div className="buttonContainer">
             <Button type="submit" variant="primary" onClick={()=> setShowCustomForm(true)}>

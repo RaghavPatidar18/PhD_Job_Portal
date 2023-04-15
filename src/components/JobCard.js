@@ -7,11 +7,13 @@ import './css/JobCard.css';
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function JobCard({ _id, title, college, location, salary }) {
+function JobCard({ _id, title, college, location, salary,lastDate,deleted }) {
 
-  
+
 
   return (
+    <>
+    {!deleted &&
     <div className="job-card-wrapper" style={{ display: 'inline-block', width: '50%' }}>
       <Container style={{borderRadius:'0px'}}className="job-card">
         <Link to={`/job-details/${_id}`} className="job-link">
@@ -20,11 +22,13 @@ function JobCard({ _id, title, college, location, salary }) {
 
           <h4 className="job-college">College : {college}</h4>
           <p className="job-location">Location :  {location}</p>
-          <p className="job-salary"> Salary :  {salary}</p> 
+          <p className="job-salary"> Salary :  {salary}</p>
+          <p className="job-lastDate"> Last Date: {lastDate}</p>
 
         </Link>
       </Container>
-    </div>
+    </div>}
+    </>
   );
 }
 

@@ -140,7 +140,7 @@ function CustomizableForm({handleSubmit}){
   function personalFieldChosen(field){
     console.log(field);
     console.log(personalData[field]);
-    if(personalSelectAll===false && field!=="name"){
+    if(personalSelectAll===false && field!=="name" && field!=='email'){
       console.log("sbgkewkrngiuoe");
       let copyObj=personalData;
       if(personalData[field]===true){

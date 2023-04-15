@@ -3,13 +3,56 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
+import {useState,useEffect} from "react";
+import axios from "axios";
+import Modal from "react-bootstrap/Modal";
 //import './css/JobCard.css';
 
-function PostedJobCard({title,id,createDate}) {
+function PostedJobCard({title,id,createDate,deleted}) {
+
+  //const [reload,setReload]=useState(false);
+  //const [firstLoad,setFirstLoad]=useState(true);
+
+  const [jobDeleted,setJobDeleted]=useState(deleted);
+  const[show,setShow]=useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = ()=> setShow(true);
+
+  function handleDelete(){
+    axios.post("http://localhost:4000/delete-job",{id})
+    .then((response)=> {
+      if(response.data.status===200){
+        console.log("deleted");
+        setJobDeleted(true);
+        //window.location.reload(false);
+      }else{
+        console.log("issues");
+      }
+    })
+    .catch((err)=> console.log(err));
+  }
+
   return (
 
     <>
-    <tr>
+
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Are you sure you wish to delete this job?</Modal.Body>
+      <Modal.Footer>
+        <Button variant="dark" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="danger" onClick={()=> {handleClose(); handleDelete();}}>
+          Delete
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+    {!jobDeleted && <tr>
       <td class="text-sm font-medium text-gray-700 whitespace-nowrap" style={{padding:'24px',paddingRight:'48px'}}>
         <div class="inline-flex items-center gap-x-3">
           <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
@@ -44,7 +87,7 @@ function PostedJobCard({title,id,createDate}) {
 
       <td class="px-4 py-4 text-sm whitespace-nowrap">
         <div class="flex items-center gap-x-6">
-          <button class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+          <button onClick={handleShow}class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
             </svg>
@@ -57,7 +100,7 @@ function PostedJobCard({title,id,createDate}) {
           </button>
         </div>
       </td>
-    </tr>
+    </tr>}
 
 
     {/*<div>

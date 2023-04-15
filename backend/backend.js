@@ -138,6 +138,7 @@ app.get("/job-details/:id/:student_id", async (req, res) => {
     //console.log(student_id);
 
     var applied = false;
+    var application_id;
     ////console.log(id);
     const application = await Application.findOne({
       job_id: id,
@@ -146,6 +147,7 @@ app.get("/job-details/:id/:student_id", async (req, res) => {
     if (application) {
       //console.log("sbugfiw");
       applied = true;
+      application_id=application._id;
     } else {
       //console.log("sbfoie");
       applied = false;
@@ -159,6 +161,7 @@ app.get("/job-details/:id/:student_id", async (req, res) => {
         status: 200,
         job: job,
         applied: applied,
+        application_id:application_id
       });
     }
   } catch (err) {
@@ -768,6 +771,8 @@ app.get("/jobStatus/:id", async (req, res) => {
         obj.location=await job.location;
         obj.salary=await job.salary;
         obj.application_status = await application.status;
+        obj.deleted=await job.deleted;
+        obj.application_id=await application._id;
         return obj;
       })
     ).then((applicationArray) => {
@@ -790,6 +795,7 @@ app.get("/jobPostings/:id", async (req, res) => {
         obj.title = await job.title;
         obj._id = await job._id;
         obj.createdAt= await job.createdAt;
+        obj.deleted=await job.deleted;
         return obj;
       })
     ).then((jobArray) => {
@@ -1211,6 +1217,7 @@ app.get("/custom-form-fields",(req,res)=> {
     personalData[k]=false;
   });
   personalData["name"]=true;
+  personalData["email"]=true;
 
   const academicData={};
   academicKeys.map( k => {
@@ -1237,12 +1244,35 @@ app.get("/custom-form-fields",(req,res)=> {
     publicationData[k]=false;
   });
 
-
-
-
-
   res.send({status:200,obj:obj,personalData,academicData,experienceData,porData,referenceData,publicationData});
 
+})
+
+
+app.post("/delete-job",async(req,res)=> {
+  console.log("hereregueiryg");
+  const {id}=req.body;
+  console.log(id);
+  const job=await Job.updateOne({_id:id},{$set: {deleted: true}});
+  if(job){
+    console.log("deleted");
+    res.send({status:200});
+  }else{
+    console.log("error deleting");
+    res.send({status:500});
+  }
+})
+
+app.post("/withdraw-application",async(req,res)=> {
+  const {id}=req.body;
+  const application=await Application.updateOne({_id:id},{$set: {status: "Withdrew"}});
+  if(application){
+    console.log("withdrew");
+    res.send({status:200});
+  }else{
+    console.log("error");
+    res.send({status:500});
+  }
 })
 
 app.listen(4000, () => {

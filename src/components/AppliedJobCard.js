@@ -5,12 +5,51 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import './css/JobCard.css';
 import {useState,useEffect} from "react";
+import Modal from "react-bootstrap/Modal";
+import axios from 'axios';
 
 function JobCard({job,srNo}) {
+
+  const [status,setStatus]=useState(job.application_status);
+  console.log(srNo);
+  console.log(status);
+  const [show,setShow]=useState(false);
+
+  const handleClose =()=> setShow(false);
+  const handleShow=()=> setShow(true);
+
+  function handleWithdraw(){
+    const id=job.application_id;
+    axios.post("http://localhost:4000/withdraw-application",{id})
+    .then((response)=> {
+      if(response.data.status===200){
+        console.log("withdrew");
+        setStatus("Withdrew");
+      }else{
+        console.log("error");
+      }
+    })
+    .catch((err)=> console.log(err));
+  }
 
   return (
 
     <>
+
+    <Modal show={show} onHide={handleClose}>
+      <Modal.Header closeButton>
+        <Modal.Title>{job.title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Are you sure you wish to withdraw your application for this job? You will not be able to apply again</Modal.Body>
+      <Modal.Footer>
+        <Button variant="dark" onClick={handleClose}>
+          Close
+        </Button>
+        <Button variant="danger" onClick={()=> {handleClose();handleWithdraw();}}>
+          Accept
+        </Button>
+      </Modal.Footer>
+    </Modal>
     <tr>
 
     <td className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
@@ -39,26 +78,36 @@ function JobCard({job,srNo}) {
     <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">2023-01-01</td>
 
     <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" style={{paddingLeft:'24px',paddingRight:'24px',paddingTop:'14px',paddingBottom:'14px'}}>
-      <div className={`inline-flex items-center px-3 py-1  rounded-full gap-x-2 dark:bg-gray-800  ${job.application_status==='Pending'? 'bg-gray-100': ''}  ${job.application_status==='Accepted'? 'bg-emerald-100/60': ''} ${job.application_status==='Rejected'? 'bg-red-100/60': ''}`} >
-        <h2 className={`text-sm font-normal ${job.application_status==='Pending'? 'text-gray-500': ''}  ${job.application_status==='Accepted'? 'text-emerald-500': ''} ${job.application_status==='Rejected'? 'text-red-500': ''}`} style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>{job.application_status}</h2>
+      <div className={`inline-flex items-center px-3 py-1  rounded-full gap-x-2 dark:bg-gray-800  ${status==='Pending'? 'bg-indigo-100/60': ''} ${status==='Withdrew'? 'bg-gray-100': ''} ${status==='Accepted'? 'bg-emerald-100/60': ''} ${status==='Rejected'? 'bg-red-100/60': ''}`} >
+        <h2 className={`text-sm font-normal ${status==='Pending'? 'text-indigo-500': ''} ${status==='Withdrew'? 'text-gray-500': ''}  ${status==='Accepted'? 'text-emerald-500': ''} ${status==='Rejected'? 'text-red-500': ''}`} style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>{status}</h2>
       </div>
     </td>
 
-    <td class="px-4 py-4 text-sm whitespace-nowrap">
+    {!job.deleted && <td class="px-4 py-4 text-sm whitespace-nowrap">
       <Link to={`/job-details/${job.job_id}`}><div class="flex items-center gap-x-6">
         <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
           View Job Details
         </button>
       </div></Link>
-    </td>
+    </td>}
+
+    {job.deleted && <td class="px-4 py-4 text-sm whitespace-nowrap">
+      <div class="flex items-center gap-x-6">
+        <button class="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+        <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-red-500 bg-red-100/60 dark:bg-gray-800">
+          <h2 class="text-sm font-normal text-red-500" style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>The job has been deleted!</h2>
+        </div>
+        </button>
+      </div>
+    </td>}
 
     <td class="px-4 py-4 text-sm whitespace-nowrap">
       <div className="flex items-center gap-x-6">
-        <button className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+        {status!=="Withdrew" && <button onClick={handleShow} className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
           <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-red-500 bg-red-100/60 dark:bg-gray-800">
             <h2 class="text-sm font-normal text-red-500" style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Withdraw Application</h2>
           </div>
-        </button>
+        </button>}
       </div>
     </td>
 

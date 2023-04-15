@@ -31,12 +31,19 @@ function JobDetails({ user, type }) {
   const [job, setJob] = useState({});
   const [applied, setApplied] = useState(false);
   const [buttonText, setButtonText] = useState();
+  const [application_id,setApplication_id]=useState("");
 
 
   const [show, setShow] = useState(false);
+  const [showWithdraw,setShowWithdraw]=useState(false);
+  const [showDelete,setShowDelete]=useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleCloseWithdraw = () => setShowWithdraw(false);
+  const handleShowWithdraw = () => setShowWithdraw(true);
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = () => setShowDelete(true);
 
 
   const history = useNavigate();
@@ -62,12 +69,14 @@ function JobDetails({ user, type }) {
     if (data.status === 200) {
       setJob(data.job);
       // console.log("sdnio");
-      // console.log(job);
+      //console.log(data.job);
       setApplied(data.applied);
 
       if (data.applied === true && type === "student") {
+        setApplication_id(data.application_id);
         //console.log("here");
-        setButtonText("Applied");
+        console.log(data.application_id);
+        setButtonText("Withdraw Application");
       } else if (data.applied === false && type === "student") {
         setButtonText("Apply");
       }
@@ -89,15 +98,8 @@ function JobDetails({ user, type }) {
       // console.log("rgi");
       const student_id = user._id;
       history(`/application-form/${id}/${student_id}`);
-      // axios.post("http://localhost:4000/apply", {id,student_id})
-      //   .then((res) => {
-      //     console.log(res.data);
-      //     if (res.data.status===200) {
-      //       console.log("abgoi");
-      //
-      //     }
-      //   })
-      //   .catch((err) => console.error(err));
+    }else if(buttonText === "Withdraw Application"){
+      handleShowWithdraw();
     }
   }
 
@@ -108,9 +110,56 @@ function JobDetails({ user, type }) {
     history(`/comment/${id}`);
   }
 
+  function handleWithdraw(){
+    const id=application_id;
+    handleCloseWithdraw();
+    axios.post("http://localhost:4000/withdraw-application",{id})
+    .then((response)=> {
+      if(response.data.status===200){
+        console.log("withdrew");
+        setButtonText("Withdrew");
+
+      }else{
+        console.log("error");
+      }
+    })
+    .catch((err)=> console.log(err));
+  }
+
+  function handleDelete(){
+    axios.post("http://localhost:4000/delete-job",{id})
+    .then((response)=> {
+      if(response.data.status===200){
+        console.log("deleted");
+        //setJobDeleted(true);
+        history("/")
+      }else{
+        console.log("issues");
+      }
+    })
+    .catch((err)=> console.log(err));
+  }
+
   return (
 
     <>
+
+    <Modal show={showWithdraw} onHide={handleCloseWithdraw}>
+      <Modal.Header closeButton>
+        <Modal.Title>{job.title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Are you sure you wish to withdraw your application for this job? You will not be able to apply again</Modal.Body>
+      <Modal.Footer>
+        <Button variant="dark" onClick={handleCloseWithdraw}>
+          Close
+        </Button>
+        <Button variant="danger" onClick={handleWithdraw}>
+          Withdraw
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>{job.title}</Modal.Title>
@@ -122,6 +171,21 @@ function JobDetails({ user, type }) {
           </Button>
           <Button variant="success" onClick={applyClicked}>
             Apply
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={showDelete} onHide={handleCloseDelete}>
+        <Modal.Header closeButton>
+          <Modal.Title>{job.title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you wish to delete this job?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="dark" onClick={handleCloseDelete}>
+            Close
+          </Button>
+          <Button variant="danger" onClick={()=> {handleCloseDelete(); handleDelete();}}>
+            Delete
           </Button>
         </Modal.Footer>
       </Modal>
@@ -155,6 +219,10 @@ function JobDetails({ user, type }) {
             <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#0099FF", fontWeight: "bold" }}>Salary</h5>
             <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.salary}</p>
           </div>
+          <div className="job-info-box" style={{ borderRadius: "0px" , marginBottom :"0px" }}>
+            <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#0099FF", fontWeight: "bold" }}>Last Date</h5>
+            <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.lastDate}</p>
+          </div>
         </div>
         <div className="job-details-box" style={{ borderRadius: "0px" , marginBottom : "0px", marginTop : "0px"}}>
           <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#0099FF", fontWeight: "bold" }}>Description</h5>
@@ -179,7 +247,9 @@ function JobDetails({ user, type }) {
         {/* <button className="button" onClick={() => commentSection()}>
           QnA
         </button> */}
-      </div> 
+        {type === "institute" && job.institute_id===user._id && <button onClick={handleShowDelete} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>Delete Job</button>}
+
+      </div>
       <Footer />
     </>
   );

@@ -16,6 +16,9 @@ const jobSchema = new mongoose.Schema({
   link: { type: String },
   institute_id: {type: String},
   createdAt: { type: Date, default: Date.now },
+  lastDate: {type: String},
+  lastUpdateDate: {type:String},
+  deleted: {type: Boolean,default:false},
   fields: {
     personal: {
       email : Boolean,
