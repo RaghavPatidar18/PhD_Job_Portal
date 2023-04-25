@@ -8,13 +8,38 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 //import './css/JobCard.css';
 
-function PostedJobCard({title,id,createDate,deleted}) {
+function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,index,length}) {
 
   //const [reload,setReload]=useState(false);
   //const [firstLoad,setFirstLoad]=useState(true);
 
   const [jobDeleted,setJobDeleted]=useState(deleted);
   const[show,setShow]=useState(false);
+  const [select,setSelect]=useState(false);
+
+  useEffect(()=>{
+    if(deletePressed===true){
+      //handleDelete();
+      console.log("delete pressed");
+      if(select===true){
+        console.log("select was true");
+        console.log("deleted");
+        handleDelete();
+      }
+      if(index+1===length){
+        console.log("index reached");
+        window.location.reload();
+      }
+
+    }else{
+      setSelect(selectAll);
+    }
+
+  },[selectAll,deletePressed])
+
+  const selectClicked = ()=>{
+    setSelect(!select);
+  }
 
   const handleClose = () => setShow(false);
   const handleShow = ()=> setShow(true);
@@ -55,7 +80,7 @@ function PostedJobCard({title,id,createDate,deleted}) {
     {!jobDeleted && <tr>
       <td class="text-sm font-medium text-gray-700 whitespace-nowrap" style={{padding:'24px',paddingRight:'48px'}}>
         <div class="inline-flex items-center gap-x-3">
-          <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+          <input type="checkbox" onClick={selectClicked} checked={select===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
           <div class="flex items-center gap-x-2">
             <img class="object-cover w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="" />
             <div>

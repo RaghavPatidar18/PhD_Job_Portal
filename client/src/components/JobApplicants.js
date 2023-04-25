@@ -8,6 +8,7 @@ import {useState,useEffect} from "react";
 import JobApplicantCard from "./JobApplicantCard";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
+import Modal from "react-bootstrap/Modal";
 
 function JobApplicants({user,type}){
 
@@ -33,9 +34,61 @@ function JobApplicants({user,type}){
     }
   }, []);
 
+  const [showAccept,setShowAccept]=useState(false);
+  const [showReject,setShowReject]=useState(false);
+  const [selectAll,setSelectAll]=useState(false);
+  const [acceptPressed,setAcceptPressed]=useState(false);
+  const [rejectPressed,setRejectPressed]=useState(false);
+
+  const handleShowAccept=()=>setShowAccept(true);
+  const handleShowReject=()=>setShowReject(true);
+  const handleCloseAccept=()=>setShowAccept(false);
+  const handleCloseReject=()=>setShowReject(false);
+
+  const handleMultipleAccept = () =>{
+    setAcceptPressed(true);
+    handleCloseAccept();
+  }
+
+  const handleMultipleReject = () =>{
+    setRejectPressed(true);
+    handleCloseReject();
+  }
+
 
   //console.log(applicants);
   return(
+    <>
+    <Modal show={showAccept} onHide={handleCloseAccept}>
+      <Modal.Header closeButton>
+        <Modal.Title>Accept Applicants</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Are you sure you wish to accept all the selected applicants? </Modal.Body>
+      <Modal.Footer>
+        <Button variant="dark" onClick={handleCloseAccept}>
+          Close
+        </Button>
+        <Button variant="success" onClick={handleMultipleAccept}>
+          Accept
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
+    <Modal show={showReject} onHide={handleCloseReject}>
+      <Modal.Header closeButton>
+        <Modal.Title>Reject Applicants</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Are you sure you wish to reject all the selected applicants? </Modal.Body>
+      <Modal.Footer>
+        <Button variant="dark" onClick={handleCloseReject}>
+          Close
+        </Button>
+        <Button variant="danger" onClick={handleMultipleReject}>
+          Reject
+        </Button>
+      </Modal.Footer>
+    </Modal>
+
     <div style={{marginTop:'50px'}}>
 
 
@@ -54,7 +107,7 @@ function JobApplicants({user,type}){
                   <tr>
                     <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                       <div className="flex items-center gap-x-3">
-                        <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                        <input type="checkbox" onClick={()=>setSelectAll(!selectAll)} checked={selectAll===true} className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
                         <span>Sr. no.</span>
                       </div>
                     </th>
@@ -67,8 +120,24 @@ function JobApplicants({user,type}){
                       <span className="sr-only">View Applicant Detail</span>
                     </th>
                     <th scope="col" className="relative py-3.5 px-4">
-                      <span className="sr-only">Accept/Reject</span>
+                    <div className="flex items-center gap-x-12">
+                        <button onClick={handleShowAccept} className="text-gray-500 transition-colors duration-200 dark:hover:text-emerald-500 dark:text-gray-300 hover:text-emerald-500 focus:outline-none">
+                          <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M10 3L4.5 8.5L2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </div>
+                        </button>
+                        <button onClick={handleShowReject} className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none" style={{marginLeft:'25px'}}>
+                          <div class="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                          </div>
+                        </button>
+                      </div>
                     </th>
+
 
                   </tr>
                 </thead>
@@ -82,6 +151,10 @@ function JobApplicants({user,type}){
                   application_id={applicant.application_id}
                   job_id={id}
                   srNo={index+1}
+                  selectAll={selectAll}
+                  acceptPressed={acceptPressed}
+                  rejectPressed={rejectPressed}
+                  length={applicants.length}
                   />
 
 
@@ -109,6 +182,7 @@ function JobApplicants({user,type}){
     </div>*/}
 
     </div>
+    </>
 
 
   )

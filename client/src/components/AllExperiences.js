@@ -34,21 +34,21 @@ const AllExperiences = () => {
           [name]: value,
         }));
       };
-    
+
       const handleAddExperience = () => {
         setExperiences((prevExperiences) => [...prevExperiences, {}]);
       };
-    
+
       const handleRemoveExperience = (index) => {
         setExperiences((prevExperiences) =>
           prevExperiences.filter((exp, i) => i !== index)
         );
       };
-    
+
       const handleFilterByCompanyName = (event) => {
         setFilterByCompanyName(event.target.value);
       };
-    
+
       const handleSearch = () => {
         // Filter experiences by company name
         const filteredExperiences = experiences.filter(
@@ -142,7 +142,7 @@ const AllExperiences = () => {
     return (
         <>
 
-        
+
 
             <section class="bg-white dark:bg-gray-900">
                 <div class="container px-6 py-10 mx-auto">
@@ -209,9 +209,9 @@ const AllExperiences = () => {
 
                     </div>
 
-                    
 
-            
+
+
 
 
                     {activeForm === true ? (
@@ -219,12 +219,12 @@ const AllExperiences = () => {
                             <label htmlFor="companyName" >Company Name:</label>
                             <input type="text" id="companyName" name="companyName" required value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
                             <label htmlFor="experience" >Your Experience:</label>
-                            <textarea id="experience" name="experience" required ></textarea>
+                            <textarea id="experience" name="experience" required value={experience} onChange={(e)=> setExperience(e.target.value)} ></textarea>
                             <button type="submit" >Submit</button>
                         </form>) : (<></>)}
 
                     {/* <div class="grid grid-cols-1 gap-8 mx-auto mt-8 lg:grid-cols-2 xl:mt-10 max-w-7xl" style={{ width: "80%", margin: "0 auto" }}> */}
-                    <hr style={{ 
+                    <hr style={{
   border: "none", // Remove default border
   height: "1px", // Set height to 1px
   background: "#000000", // Custom background color, e.g., black
@@ -233,21 +233,21 @@ const AllExperiences = () => {
 
 
                     <div class="max-w-screen-xl mx-auto">
-                    <h1 style={{ 
+                    <h1 style={{
   fontSize: "2rem", // Increased font size to 3rem
   fontWeight: "bold",
   color: "#000000", // Custom color, e.g., black
   fontFamily: "Arial, sans-serif", // Professional font, e.g., Arial
   textTransform: "uppercase", // Optional: uppercase text
   marginTop: "2rem"
-//   marginBottom: "2rem" 
+//   marginBottom: "2rem"
 }}>
   Experiences
 </h1>
 
   <br />
-  
-  <div className='Filterbox'> 
+
+  <div className='Filterbox'>
                     <input
               type="text"
               name="filterByCompanyName"

@@ -85,12 +85,12 @@ const applicationSchema = new mongoose.Schema({
   job_id: String,
   status: String,
   student_details: {
-    personal: personalSchemaobj,
-    academic: academicSchemaobj,
-    experience: experienceSchemaobj,
-    publication: publicationSchemaobj,
-    por: porSchemaobj,
-    reference: referenceSchemaobj
+    personal: [Object],
+    academic: [Object],
+    experience: [Object],
+    publication: [Object],
+    por: [Object],
+    reference: [Object]
   },
 });
 const Application = mongoose.model("application", applicationSchema);
@@ -103,6 +103,8 @@ app.post("/job-post", (req, res) => {
   //console.log(req.body);
   const { job, id } = req.body;
   console.log(job);
+  console.log("the job fields are:");
+  console.log(job.fields);
   var obj = {};
   obj = job;
   obj.institute_id = id;
@@ -260,11 +262,18 @@ app.post("/api/verifyOtp", async (req, res) => {
         email: email,
         password: hashedPassword,
       });
+      const d=Date.now();
+      let date_time=new Date(d);
+      let date=date_time.getDate();
+      let month=date_time.getMonth();
+      let year=date_time.getYear();
+      let today=year+"-"+month+"-"+date;
+
       const personals = new Personal({
         email: email,
         name: name,
         fathername: "-",
-        dob: "-",
+        dob: today,
         age: "-",
         category: "-",
         disablity: "-",
@@ -326,12 +335,7 @@ app.post("/api/verifyOtp", async (req, res) => {
       await personals.save();
       await user.save();
 
-      const d=Date.now();
-      let date_time=new Date(d);
-      let date=date_time.getDate();
-      let month=date_time.getMonth();
-      let year=date_time.getYear();
-      let today=year+"-"+month+"-"+date;
+
       const experience=new UserExperience({
         email : email,
         profile : "-",
@@ -871,8 +875,8 @@ app.get("/jobApplicants/:id", async (req, res) => {
         let obj = {};
         if (student) {
           obj.application_id = await application._id;
-          obj.student_name = await application.student_details.personal.name;
-          obj.student_email=await application.student_details.personal.email;
+          obj.student_name = await application.student_details.personal[0].name;
+          obj.student_email=await application.student_details.personal[0].email;
           obj.student_id = await student._id;
           obj.status = await application.status;
         }
@@ -1016,12 +1020,12 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
   const user = await User.findOne({ _id: user_id });
   console.log(user);
   if (job && user) {
-    const academic = await Academic.findOne({ email: user.email });
-    const experience = await UserExperience.findOne({ email: user.email });
-    const personal = await Personal.findOne({ email: user.email });
-    const publication = await Publication.findOne({ email: user.email });
-    const por = await POR.findOne({ email: user.email });
-    const reference = await Reference.findOne({ email: user.email });
+    const academic = await Academic.find({ email: user.email });
+    const experience = await UserExperience.find({ email: user.email });
+    const personal = await Personal.find({ email: user.email });
+    const publication = await Publication.find({ email: user.email });
+    const por = await POR.find({ email: user.email });
+    const reference = await Reference.find({ email: user.email });
 
     let obj = {};
     if (academic && experience && personal && publication) {
@@ -1033,7 +1037,8 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
       obj.por=por;
       obj.reference=reference;
       obj.jobFields = job.fields;
-      console.log(obj);
+      console.log("the job fields are: the second time");
+      console.log(obj.jobFields);
       res.json({ status: 200, dataObject: obj });
     } else {
       res.json({ status: 500 });
@@ -1047,6 +1052,8 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
   console.log("posting at application form");
   const { job_id, user_id } = req.params;
   const { jobFields } = req.body;
+  console.log("jobfields are:");
+  console.log(jobFields);
   const obj = {};
   obj.personal = jobFields.personal;
   obj.academic = jobFields.academic;
@@ -1064,6 +1071,9 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
     status: "Pending",
     student_details: obj,
   });
+
+  console.log("checking the new application");
+  console.log(new_application);
   const saved = await new_application.save();
   if (saved) {
     console.log("done");
@@ -1077,6 +1087,8 @@ app.get("/applicant-details/:id", async (req, res) => {
   console.log(Application.schema.obj);
   const { id } = req.params;
   const application = await Application.findOne({ _id: id });
+  console.log("here at applicant-details");
+  console.log(application);
   if (application) {
     const job_id = application.job_id;
     const job = await Job.findOne({ _id: job_id });
@@ -1152,12 +1164,15 @@ app.get('/api/meid', auth, async (req, res) => {
 
 // Get all experiences
 app.get('/api/getexperiences', async (req, res) => {
+  console.log("get experiences");
   const experiences = await Experience.find().populate('comments');
   res.json(experiences);
 });
 
 // Create a new experience
 app.post('/api/createExperiences', async (req, res) => {
+  console.log("create experiences");
+  console.log(req.body);
   const experience = new Experience(req.body);
   await experience.save();
   res.json(experience);
@@ -1185,6 +1200,7 @@ app.post('/api/createExperiences', async (req, res) => {
 app.post("/api/addcomments/:id", async (req, res) => {
   // console.log("inside api");
   // console.log(req.body);
+  console.log("add comments");
   const experience = await Experience.findById(req.params.id);
   const commentnew = new CommentNew({
     experience: experience._id,
@@ -1207,6 +1223,7 @@ app.post("/api/addcomments/:id", async (req, res) => {
 
 // Update an experience
 app.put('/api/experiences/:id', async (req, res) => {
+  console.log(" experiences");
   const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.json(experience);
 });
@@ -1229,6 +1246,7 @@ app.put('/api/experiences/:id', async (req, res) => {
 
 // Get all comments for an experience
 app.get('/api/getcomments/:id', async (req, res) => {
+  console.log("get comments");
   try {
     const comments = await CommentNew.find({ experience: req.params.id })
       .populate('experience', 'companyName')

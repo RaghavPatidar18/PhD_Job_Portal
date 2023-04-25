@@ -9,7 +9,7 @@ import {useState,useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate , useLocation } from 'react-router-dom';
 
-function JobApplicantCard({student_name,student_email,status,application_id,id,srNo}) {
+function JobApplicantCard({student_name,student_email,status,application_id,id,srNo,selectAll,acceptPressed,rejectPressed,length}) {
 
   //const [status,setStatus]=useState(status);
 
@@ -19,6 +19,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
 
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
+  const [select,setSelect]=useState(false);
 
   const handleCloseAccept = () => setShowAccept(false);
   const handleShowAccept = () => setShowAccept(true);
@@ -59,6 +60,26 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     .catch((err)=> console.log(err));
   }
 
+  useEffect(()=>{
+    if(acceptPressed===true || rejectPressed===true){
+      if(acceptPressed===true){
+        if(select===true){
+          acceptClicked();
+        }
+      }else if(rejectPressed===true){
+        if(select===true){
+          rejectClicked();
+        }
+      }
+      if(srNo===length){
+        window.location.reload();
+      }
+
+    }else{
+      setSelect(selectAll);
+    }
+  },[selectAll,acceptPressed,rejectPressed])
+
 
   return (
     <>
@@ -97,7 +118,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
       <tr>
         <td className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
           <div className="inline-flex items-center gap-x-3">
-            <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+            <input type="checkbox" onClick={()=>setSelect(!select)} checked={select===true} className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
             <span>#{srNo}</span>
           </div>
         </td>

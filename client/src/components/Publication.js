@@ -178,7 +178,7 @@ const Publication = ({ user, type }) => {
             <hr/>
             <tr>
               <td>
-                <label htmlFor="title">Title:</label>
+                <label className="profile-label" htmlFor="title">Title:</label>
               </td>
               <td>
                 <input
@@ -206,7 +206,7 @@ const Publication = ({ user, type }) => {
             </tr> */}
             <tr>
               <td>
-                <label htmlFor="abstract">Abstract:</label>
+                <label className="profile-label" htmlFor="abstract">Abstract:</label>
               </td>
               <td>
                 <textarea
@@ -220,7 +220,7 @@ const Publication = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="volume">Volume:</label>
+                <label className="profile-label" htmlFor="volume">Volume:</label>
               </td>
               <td>
                 <input
@@ -234,7 +234,7 @@ const Publication = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="pages">Pages:</label>
+                <label className="profile-label" htmlFor="pages">Pages:</label>
               </td>
               <td>
                 <input
@@ -248,7 +248,7 @@ const Publication = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="journal">Journal Name:</label>
+                <label className="profile-label" htmlFor="journal">Journal Name:</label>
               </td>
               <td>
                 <input
@@ -262,7 +262,7 @@ const Publication = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="publisher">Publisher:</label>
+                <label className="profile-label" htmlFor="publisher">Publisher:</label>
               </td>
               <td>
                 <input
@@ -276,7 +276,7 @@ const Publication = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="doi">Digital Object Identifier:</label>
+                <label className="profile-label" htmlFor="doi">Digital Object Identifier:</label>
               </td>
               <td>
                 <input
@@ -290,7 +290,7 @@ const Publication = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="url">URL Link:</label>
+                <label className="profile-label" htmlFor="url">URL Link:</label>
               </td>
               <td>
                 <input
@@ -334,7 +334,7 @@ const Publication = ({ user, type }) => {
                 <hr/>
                 <tr>
                   <td>
-                    <label htmlFor="title">Title:</label>
+                    <label className="profile-label" htmlFor="title">Title:</label>
                   </td>
                   <td>
                     <input
@@ -347,7 +347,7 @@ const Publication = ({ user, type }) => {
                   </td>
                 </tr>
                 <tr>
-                
+
                 </tr>
                 {/* <tr>
                   <td>
@@ -365,7 +365,7 @@ const Publication = ({ user, type }) => {
                 </tr> */}
                 <tr>
                   <td>
-                    <label htmlFor="volume">Volume:</label>
+                    <label className="profile-label" htmlFor="volume">Volume:</label>
                   </td>
                   <td>
                     <input
@@ -379,7 +379,7 @@ const Publication = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="pages">Pages:</label>
+                    <label className="profile-label" htmlFor="pages">Pages:</label>
                   </td>
                   <td>
                     <input
@@ -393,7 +393,7 @@ const Publication = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="journal">Journal Name:</label>
+                    <label className="profile-label" htmlFor="journal">Journal Name:</label>
                   </td>
                   <td>
                     <input
@@ -407,7 +407,7 @@ const Publication = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="publisher">Publisher:</label>
+                    <label className="profile-label" htmlFor="publisher">Publisher:</label>
                   </td>
                   <td>
                     <input
@@ -421,7 +421,7 @@ const Publication = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="doi">Digital Object Identifier:</label>
+                    <label className="profile-label" htmlFor="doi">Digital Object Identifier:</label>
                   </td>
                   <td>
                     <input
@@ -435,7 +435,7 @@ const Publication = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="url">URL Link:</label>
+                    <label className="profile-label" htmlFor="url">URL Link:</label>
                   </td>
                   <td>
                     <input

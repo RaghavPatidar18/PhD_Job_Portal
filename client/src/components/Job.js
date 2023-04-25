@@ -160,8 +160,8 @@ function Job() {
 
 
       <div className="job-container">
-        <h1> Find your dream job now </h1>
-        <h2> 1000+ jobs for you to explore </h2>
+        <h1 className='job-h1'> Find your dream job now </h1>
+        <h2 className='job-h2'> 1000+ jobs for you to explore </h2>
 
         <div className="job-filters">
           <div className="filter-container" style={{ display: "inline-block" }}>

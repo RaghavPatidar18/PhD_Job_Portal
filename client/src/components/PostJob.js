@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import "./css/PostJob.css";
 import { useNavigate , useLocation } from 'react-router-dom';
-import CustomizableForm from "./CustomizableForm.js";
+import CustomizableForm from "./CustomForm/CustomizableForm.js";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -92,6 +92,14 @@ const history=useNavigate();
       });
   }
 
+  const customFormDisplay = ()=> {
+    if(title==="" || description==="" || location==="" || salary==="" || contactEmail==="" || college==="" || qualifications==="" || responsibilities===""){
+      console.log("cannot display, all fields not filled");
+    }else{
+      setShowCustomForm(true);
+    }
+  }
+
 
 
 
@@ -100,7 +108,7 @@ const history=useNavigate();
     <div className="postJob">
       <div className="formDiv">
         <form className="postJobForm">
-          <h3>Post a Job</h3>
+          <h3 classname="postJobh3">Post a Job</h3>
           <div className="inputField">
           <div style={{ display: "flex", alignItems: "center" }}>
         <FontAwesomeIcon icon={faUser} className="input-icon" style={{ marginRight: "20px", marginLeft: "10px" , marginBottom: "0px"  }} size="lg" />
@@ -278,7 +286,7 @@ const history=useNavigate();
 </div>
 
         {!showCustomForm &&   <div className="buttonContainer">
-            <Button type="submit" variant="primary" onClick={()=> setShowCustomForm(true)}>
+            <Button type="submit" variant="primary" onClick={customFormDisplay}>
               Next
             </Button>
           </div>}

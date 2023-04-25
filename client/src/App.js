@@ -15,13 +15,14 @@ import Error from "./components/Error";
 import AppliedJob from "./components/AppliedJob";
 import PostedJobs from "./components/PostedJobs";
 import JobApplicants from "./components/JobApplicants";
-import CustomizableForm from "./components/CustomizableForm";
+//import CustomizableForm from "./components/CustomizableForm";
 import ApplicationForm from "./components/ApplicationForm";
 import ApplicantDetails from "./components/ApplicantDetails";
 import CommentSection from "./components/comments";
 import AllExperiences from "./components/AllExperiences";
 import InterviewTips from "./components/InterviewTips";
 import ExpComments from "./components/ExpComment";
+import CustomizableForm from "./components/CustomForm/CustomizableForm";
 
 
 function Root() {
@@ -69,10 +70,10 @@ function Root() {
   useEffect(() => {
       ProfileValid();
   }, [])
- 
+
   return (
     <div>
-      {hasRecievedData && <Routes> 
+      {hasRecievedData && <Routes>
 
 
        <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /> </>} />
@@ -97,6 +98,8 @@ function Root() {
 
         <Route path="/comment/:jobPostingId" element={<CommentSection />} />
         <Route path="/allcomment/:exp_id" element={<ExpComments />} />
+
+        <Route path="checking" element={<><CustomizableForm /></>} />
 
       </Routes>}
       </div>
