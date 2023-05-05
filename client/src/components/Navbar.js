@@ -105,7 +105,7 @@ function App({user,type}) {
               <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Job Profiles</Link></Nav.Link>
               {/* Only show Job Post option if user is not a student */}
               {type==="institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none' }}>Job Post</Link></Nav.Link>}
-              {type==="student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscribe</Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscription</Nav.Link>}
               {type==="student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none' }}>Experiences</Nav.Link>}
               {type==="student" && <Nav.Link onClick={handleInterview} style={{ color: 'black', textDecoration: 'none' }}>Interview Tips</Nav.Link>}
             </Nav>

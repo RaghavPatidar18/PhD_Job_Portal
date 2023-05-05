@@ -89,7 +89,7 @@ function Root() {
         <Route path="/job-post" element={<><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></> }/>
     <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/choose-profile" element={<Basic />} />
+      <Route path="/choose-profile" element={<Basic />} /> 
       {/* <Route path="/download" element={<Download />} /> */}
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />

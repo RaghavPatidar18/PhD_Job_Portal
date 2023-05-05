@@ -21,28 +21,7 @@ function SubscribePopup(props) {
     setEmail(event.target.value);
   };
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   try {
-  //     const response = await fetch('/api/subscribe', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ email })
-  //     });
-  //     if (response.ok) {
-  //       console.log('Subscription successful');
-  //     } else {
-  //       console.error('Subscription failed');
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  //   props.onClose(); // Close the popup
-  // };
-
-  const handleSubmit = async (event) => {
+  const handleSubscribe = async (event) => {
     event.preventDefault();
     const email = await getEmail();
     // console.log(email);
@@ -65,26 +44,48 @@ function SubscribePopup(props) {
     props.onClose(); // Close the popup
   };
 
+  const handleUnsubscribe = async (event) => {
+    event.preventDefault();
+    const email = await getEmail();
+    // console.log(email);
+    try {
+      const response = await fetch('/api/unsubscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      if (response.ok) {
+        console.log('Unsubscription successful');
+      } else {
+        console.error('Unsubscription failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    props.onClose(); // Close the popup
+  };
   return (
     <Modal show={props.show} onHide={props.onClose}>
       <Modal.Header closeButton>
         <Modal.Title>Subscribe</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Subscribe to get Updated</Form.Label>
-            {/* <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={handleEmailChange}
-            /> */}
           </Form.Group>
 
-          <Button variant="primary" type="submit">
+          <Button onClick={handleSubscribe} variant="outline-success" style={{ marginRight: '10px' }}>
             Subscribe
           </Button>
+          <Button onClick={handleUnsubscribe} variant="outline-secondary" style={{ marginLeft: '10px' }}>
+            Unsubscribe
+          </Button>
+
+
+
         </Form>
       </Modal.Body>
     </Modal>
