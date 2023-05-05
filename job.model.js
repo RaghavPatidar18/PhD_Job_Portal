@@ -240,10 +240,10 @@ const registerInstituteSchema = new mongoose.Schema({
 
   usersname : String,
   email: { type: String, unique: true },
-  password: String,
   companyName: String,
   location : String,
-  year : String
+  year : String,
+  phone : String
 });
 
 

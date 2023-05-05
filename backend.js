@@ -1465,18 +1465,20 @@ app.post("/api/registerInstitute", async (req, res) => {
 
   const userName = req.body.username;
   const email = req.body.email;
-  const password = req.body.password;
+  // const password = req.body.password;
   const companyName = req.body.companyName;
   const location = req.body.location;
   const year = req.body.year;
+  const phone = req.body.phone;
 
   const newInstitute = new RegisterInstitute({
     usersname: userName,
     email: email,
-    password: password,
+    // password: password,
     companyName: companyName,
     location: location,
-    year: year
+    year: year,
+    phone: phone
 
   });
   const success = await newInstitute.save();
