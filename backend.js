@@ -18,7 +18,7 @@ const Personal = require("./model/personalSchema");
 const Academic = require("./model/academicSchema");
 const Publication = require("./model/publicationSchema");
 const Reference = require("./model/referenceSchema");
-const UserExperience=require("./model/experienceSchema");
+const UserExperience = require("./model/experienceSchema");
 const POR = require("./model/porSchema");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -65,13 +65,15 @@ const UserInstitute = models.UserInstitute;
 const Comment = models.Comment;
 const CommentNew = models.CommentNew;
 const Experience = models.Experience;
+const RegisterInstitute = models.RegisterInstitute;
+const Admin = models.Admin;
 
-let personalSchemaobj=Personal.schema.obj;
-let academicSchemaobj=Academic.schema.obj;
-let experienceSchemaobj=UserExperience.schema.obj;
-let porSchemaobj=POR.schema.obj;
-let publicationSchemaobj=Publication.schema.obj;
-let referenceSchemaobj=Reference.schema.obj;
+let personalSchemaobj = Personal.schema.obj;
+let academicSchemaobj = Academic.schema.obj;
+let experienceSchemaobj = UserExperience.schema.obj;
+let porSchemaobj = POR.schema.obj;
+let publicationSchemaobj = Publication.schema.obj;
+let referenceSchemaobj = Reference.schema.obj;
 
 delete academicSchemaobj.email;
 delete experienceSchemaobj.email;
@@ -239,15 +241,32 @@ app.post("/api/verifyOtp", async (req, res) => {
   const otpEntered = req.body.otp;
   const password = req.body.password;
   const otp = req.session.otp;
-  const userType = req.body.userType;
 
   const hashedPassword = bcrypt.hashSync(password, 1);
   req.session.hashedPassword = hashedPassword;
 
   //console.log(req.body);
-  //console.log("aa gya");
+  console.log("aa gya");
+  console.log(req.session);
 
   //console.log(req.body.userType);
+
+  if (otpEntered === -1) {
+    const userInstitute = new UserInstitute({
+      name: name,
+      email: email,
+      password: hashedPassword,
+    });
+    await userInstitute.save();
+
+    console.log("institute registered");
+    return res.status(200).send({
+      status: 200,
+      success: true,
+      message: "OTP verified successfully",
+    });
+
+  }
 
   if (otp == otpEntered) {
     if (req.body.userType == "student") {
@@ -323,64 +342,64 @@ app.post("/api/verifyOtp", async (req, res) => {
       await personals.save();
       await user.save();
 
-      const d=Date.now();
-      let date_time=new Date(d);
-      let date=date_time.getDate();
-      let month=date_time.getMonth();
-      let year=date_time.getYear();
-      let today=year+"-"+month+"-"+date;
-      const experience=new UserExperience({
-        email : email,
-        profile : "-",
-        organization : "-",
-        startdate : today,
-        enddate : today,
-        description : "-",
-        location : "-",
+      const d = Date.now();
+      let date_time = new Date(d);
+      let date = date_time.getDate();
+      let month = date_time.getMonth();
+      let year = date_time.getYear();
+      let today = year + "-" + month + "-" + date;
+      const experience = new UserExperience({
+        email: email,
+        profile: "-",
+        organization: "-",
+        startdate: today,
+        enddate: today,
+        description: "-",
+        location: "-",
       });
       experience.save();
 
-      const publication=new Publication({
-        email : email,
-        title : '-',
-        authorlist : [
-            {
-                author : '-',
-                author_id : '-',
-            }
+      const publication = new Publication({
+        email: email,
+        title: '-',
+        authorlist: [
+          {
+            author: '-',
+            author_id: '-',
+          }
         ],
-        abstract : '-',
-        journal : '-',
-        volume : '-',
-        pages : '-',
-        publisher : '-',
-        doi : '-',
-        url : '-',
+        abstract: '-',
+        journal: '-',
+        volume: '-',
+        pages: '-',
+        publisher: '-',
+        doi: '-',
+        url: '-',
       });
       publication.save();
 
 
-      const por=new POR({
-        email : email,
-        title : '-',
-        organization : '-',
-        location : '-',
-        startdate : today,
-        enddate : today,
-        description : '-',
+      const por = new POR({
+        email: email,
+        title: '-',
+        organization: '-',
+        location: '-',
+        startdate: today,
+        enddate: today,
+        description: '-',
       });
       por.save();
 
 
-      const reference=new Reference({
-        email : email,
-        name : '-',
-        title : '-',
-        affliliation : '-',
-        referenceemail : '-',
-        referencephone : '-',
-        relationship : '-',
-        description : '-',
+      const reference = new Reference({
+        email: email,
+        name: '-',
+        title: '-',
+        affliliation: '-',
+        referenceemail: '-',
+        referencephone: '-',
+        relationship: '-',
+        description: '-',
       });
       reference.save();
 
@@ -407,6 +426,29 @@ app.post("/api/verifyOtp", async (req, res) => {
       success: false,
       message: "Invalid OTP",
     });
+});
+
+app.post("/api/add-institute", async (req, res) => {
+
+  let info = req.body;
+  const password = "root";
+  const check = await UserInstitute.findOne({
+    email: info.email,
+  });
+
+  if (check && check.length !== 0) {
+    return res.send("2"); /** Email ID already exists */
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, 1);
+
+  const userInstitute = new UserInstitute({
+    name: info.name,
+    email: info.email,
+    password: hashedPassword,
+  });
+  await userInstitute.save();
+
 });
 
 app.post("/api/login", async (req, res) => {
@@ -460,7 +502,7 @@ app.post("/api/login", async (req, res) => {
       //   result : result
       // });
     }
-  } else {
+  } else if (userType === "institute") {
     const userInstitute = await UserInstitute.findOne({
       email,
     });
@@ -511,6 +553,36 @@ app.post("/api/login", async (req, res) => {
       //   message: "Logged in successfully",
       //   result : result
       // });
+    }
+  }
+  else {
+    console.log("admin");
+    const useradmin = await Admin.findOne({
+      email: email,
+    });
+    if (!useradmin) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid Email or Password",
+      });
+    }
+    else {
+
+      if (useradmin.password === password) {
+        const token = await useradmin.generateAuthToken();
+
+        res.cookie("usercookie", token, {
+          expires: new Date(Date.now() + 9000000),
+          httpOnly: true,
+        });
+        const result = {
+          useradmin,
+          token,
+        };
+
+        res.status(201).json({ status: 201, result });
+
+      }
     }
   }
 });
@@ -566,16 +638,45 @@ app.get("/validuser", authenticate, async (req, res) => {
   //console.log("done");
   try {
     let ValidUserOne = await User.findOne({ _id: req.userId });
+
+    if (ValidUserOne) {
+      res.status(201).json({ status: 201, ValidUserOne, userType: "student" });
+    }
+
     if (!ValidUserOne) {
       ValidUserOne = await UserInstitute.findOne({ _id: req.userId });
       if (ValidUserOne) {
-        res
-          .status(201)
-          .json({ status: 201, ValidUserOne, userType: "institute" });
+        res.status(201).json({ status: 201, ValidUserOne, userType: "institute" });
       }
-    } else {
-      res.status(201).json({ status: 201, ValidUserOne, userType: "student" });
     }
+
+    if(!ValidUserOne){
+      ValidUserOne = await Admin.findOne({ _id: req.userId });
+      res.status(201).json({ status: 201, ValidUserOne, userType: "admin" });
+    }
+
+
+
+    // if (!ValidUserOne) {
+    //   ValidUserOne = await UserInstitute.findOne({ _id: req.userId });
+    //   if (!ValidUserOne) {
+    //     ValidUserOne = await Admin.findOne({ _id: req.userId });
+    //     if (ValidUserOne) {
+    //       console.log("found admin");
+    //       res
+    //         .status(201)
+    //         .json({ status: 201, ValidUserOne, userType: "admin" });
+    //     }
+
+    //   }
+    //   if (ValidUserOne) {
+    //     res
+    //       .status(201)
+    //       .json({ status: 201, ValidUserOne, userType: "institute" });
+    //   }
+    // } else {
+    //   res.status(201).json({ status: 201, ValidUserOne, userType: "student" });
+    // }
   } catch (error) {
     res.status(401).json({ status: 401, error });
   }
@@ -814,8 +915,8 @@ app.get("/jobStatus/:id", async (req, res) => {
         obj.job_id = await job._id;
         obj.title = await job.title;
         obj.college = await job.college;
-        obj.location=await job.location;
-        obj.salary=await job.salary;
+        obj.location = await job.location;
+        obj.salary = await job.salary;
         obj.application_status = await application.status;
         return obj;
       })
@@ -838,7 +939,7 @@ app.get("/jobPostings/:id", async (req, res) => {
         let obj = {};
         obj.title = await job.title;
         obj._id = await job._id;
-        obj.createdAt= await job.createdAt;
+        obj.createdAt = await job.createdAt;
         return obj;
       })
     ).then((jobArray) => {
@@ -866,9 +967,10 @@ app.get("/jobApplicants/:id", async (req, res) => {
         if (student) {
           obj.application_id = await application._id;
           obj.student_name = await application.student_details.personal.name;
-          obj.student_email=await application.student_details.personal.email;
+          obj.student_email = await application.student_details.personal.email;
           obj.student_id = await student._id;
           obj.status = await application.status;
+          obj.student = await application.student_details;
         }
         return obj;
       })
@@ -920,7 +1022,7 @@ app.get("/api/me", auth, async (req, res) => {
 
 app.get("/api/mename", auth, async (req, res) => {
   const { _id } = req.user;
-console.log("inside mename");
+  console.log("inside mename");
   try {
     let user = await User.findById(_id);
     if (!user) {
@@ -928,7 +1030,7 @@ console.log("inside mename");
       // return res.status(404).json({ error: 'User not found' });
     }
     console.log(user.name);
-    res.json({ name : user.name });
+    res.json({ name: user.name });
   } catch (error) {
     //console.error(error);
     res.status(500).json({ error: "Server error" });
@@ -941,6 +1043,20 @@ app.post("/api/subscribe", (req, res) => {
   User.findOneAndUpdate(
     { email },
     { subscribedToJobAlerts: true },
+    { upsert: true, new: true },
+    (error, user) => {
+      if (error) res.status(400).send(error);
+      else res.status(200).send(user);
+    }
+  );
+});
+
+app.post("/api/unsubscribe", (req, res) => {
+  const { email } = req.body;
+  // console.log(email);
+  User.findOneAndUpdate(
+    { email },
+    { subscribedToJobAlerts: false },
     { upsert: true, new: true },
     (error, user) => {
       if (error) res.status(400).send(error);
@@ -1024,8 +1140,8 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
       obj.academic = academic;
       obj.experience = experience;
       obj.publication = publication;
-      obj.por=por;
-      obj.reference=reference;
+      obj.por = por;
+      obj.reference = reference;
       obj.jobFields = job.fields;
       console.log(obj);
       res.json({ status: 200, dataObject: obj });
@@ -1150,6 +1266,13 @@ app.get('/api/getexperiences', async (req, res) => {
   res.json(experiences);
 });
 
+// Get all institutes requests
+app.get('/api/getrequests', async (req, res) => {
+  const requestss = await RegisterInstitute.find();
+  res.json(requestss);
+});
+
+
 // Create a new experience
 app.post('/api/createExperiences', async (req, res) => {
   const experience = new Experience(req.body);
@@ -1238,61 +1361,90 @@ app.get('/api/getcomments/:id', async (req, res) => {
 
 
 
-app.get("/custom-form-fields",(req,res)=> {
-  const academicKeys=Object.keys(academicSchemaobj)
-  const experienceKeys= Object.keys(experienceSchemaobj)
-  const porKeys=Object.keys(porSchemaobj)
-  const publicationKeys=Object.keys(publicationSchemaobj)
-  const referenceKeys=Object.keys(referenceSchemaobj)
-  const personalKeys=Object.keys(personalSchemaobj)
+app.get("/custom-form-fields", (req, res) => {
+  const academicKeys = Object.keys(academicSchemaobj)
+  const experienceKeys = Object.keys(experienceSchemaobj)
+  const porKeys = Object.keys(porSchemaobj)
+  const publicationKeys = Object.keys(publicationSchemaobj)
+  const referenceKeys = Object.keys(referenceSchemaobj)
+  const personalKeys = Object.keys(personalSchemaobj)
   console.log(personalKeys);
-  const obj={};
-  obj.academicKeys=academicKeys;
-  obj.experienceKeys=experienceKeys;
-  obj.porKeys=porKeys;
-  obj.publicationKeys=publicationKeys;
-  obj.referenceKeys=referenceKeys;
-  obj.personalKeys=personalKeys;
+  const obj = {};
+  obj.academicKeys = academicKeys;
+  obj.experienceKeys = experienceKeys;
+  obj.porKeys = porKeys;
+  obj.publicationKeys = publicationKeys;
+  obj.referenceKeys = referenceKeys;
+  obj.personalKeys = personalKeys;
 
 
-  const personalData={};
-  personalKeys.map( k => {
-    personalData[k]=false;
+  const personalData = {};
+  personalKeys.map(k => {
+    personalData[k] = false;
   });
-  personalData["name"]=true;
+  personalData["name"] = true;
 
-  const academicData={};
-  academicKeys.map( k => {
-    academicData[k]=false;
-  });
-
-  const experienceData={};
-  experienceKeys.map( k => {
-    experienceData[k]=false;
+  const academicData = {};
+  academicKeys.map(k => {
+    academicData[k] = false;
   });
 
-  const porData={};
-  porKeys.map( k => {
-    porData[k]=false;
+  const experienceData = {};
+  experienceKeys.map(k => {
+    experienceData[k] = false;
   });
 
-  const referenceData={};
-  referenceKeys.map( k => {
-    referenceData[k]=false;
+  const porData = {};
+  porKeys.map(k => {
+    porData[k] = false;
   });
 
-  const publicationData={};
-  publicationKeys.map( k => {
-    publicationData[k]=false;
+  const referenceData = {};
+  referenceKeys.map(k => {
+    referenceData[k] = false;
+  });
+
+  const publicationData = {};
+  publicationKeys.map(k => {
+    publicationData[k] = false;
   });
 
 
 
 
 
-  res.send({status:200,obj:obj,personalData,academicData,experienceData,porData,referenceData,publicationData});
+  res.send({ status: 200, obj: obj, personalData, academicData, experienceData, porData, referenceData, publicationData });
 
 })
+
+
+app.post("/api/registerInstitute", async (req, res) => {
+  // console.log("inside api");
+  // console.log(req.body);
+
+  const userName = req.body.username;
+  const email = req.body.email;
+  const password = req.body.password;
+  const companyName = req.body.companyName;
+  const location = req.body.location;
+  const year = req.body.year;
+
+  const newInstitute = new RegisterInstitute({
+    usersname: userName,
+    email: email,
+    password: password,
+    companyName: companyName,
+    location: location,
+    year: year
+
+  });
+  const success = await newInstitute.save();
+  if (success) {
+    res.status(200).send({ status: 200 });
+  } else {
+    res.status(500).send({ status: 500 });
+  }
+});
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");

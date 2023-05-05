@@ -1,12 +1,12 @@
 import { useEffect, useContext, useState} from "react";
 import {BrowserRouter,Routes,Route,useNavigate} from "react-router-dom";
-
+// import { Parser } from "json2csv";
 import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
 import Job from "./components/Job";
 import JobDetails from "./components/JobDetails"
 import PostJob from "./components/PostJob"
-import Login from "./components/login";
+import Login from "./components/login"; 
 import Signup from "./components/signup";
 import Basic from "./components/basic";
 import PasswordReset from "./components/PasswordReset";
@@ -22,6 +22,9 @@ import CommentSection from "./components/comments";
 import AllExperiences from "./components/AllExperiences";
 import InterviewTips from "./components/InterviewTips";
 import ExpComments from "./components/ExpComment";
+import NewInstitute from "./components/NewInstitute";
+import AddInstitute from "./components/AddInstitute";
+// import Download from "./components/download";
 
 
 function Root() {
@@ -30,6 +33,9 @@ function Root() {
   const [user,setUser]=useState({});
   const[userType,setUserType]=useState();
   const [hasRecievedData,setHasRecievedData]=useState(false);
+
+  // const navigate = useNavigate();
+  // const location = useLocation();
 
   const ProfileValid = async () => {
     //console.log("inside profilevalid");
@@ -47,7 +53,7 @@ function Root() {
 
       const data = await res.json();
 
-      //console.log(data);
+      console.log(data);
 
       if (data.status == 401 || !data) {
         console.log("home page redirect");
@@ -61,6 +67,8 @@ function Root() {
           setUserType(data.userType);
           setHasRecievedData(true);
           //console.log(data.userType);
+
+          // if(userType==="admin") navigate("/admin");
 
           //navigate("/profile");
       }
@@ -82,6 +90,7 @@ function Root() {
     <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/choose-profile" element={<Basic />} />
+      {/* <Route path="/download" element={<Download />} /> */}
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />
 
@@ -97,6 +106,8 @@ function Root() {
 
         <Route path="/comment/:jobPostingId" element={<CommentSection />} />
         <Route path="/allcomment/:exp_id" element={<ExpComments />} />
+        <Route path="/registerManully" element={<NewInstitute />} />
+        <Route path="/admin" element={<><AddInstitute /></>} />
 
       </Routes>}
       </div>

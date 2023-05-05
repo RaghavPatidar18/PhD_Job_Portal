@@ -4,6 +4,7 @@ const keysecret = "secret";
 
 const User = models.User;
 const UserInstitute = models.UserInstitute;
+const Admin = models.Admin;
 
 // check for institute
 
@@ -27,6 +28,12 @@ const authenticate = async(req,res,next)=>{
         if(!rootUser) {
             //console.log("institution ka authentication");
             rootUser = await UserInstitute.findOne({_id:verifytoken._id});
+            //console.log(rootUser);
+        }
+
+        if(!rootUser) {
+            //console.log("institution ka authentication");
+            rootUser = await Admin.findOne({_id:verifytoken._id});
             //console.log(rootUser);
         }
 

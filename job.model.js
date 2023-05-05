@@ -137,6 +137,24 @@ verifytoken:{
 }
 });
 
+const adminSchema = new mongoose.Schema({
+  email: { type: String, unique: true, default: 'admin@123' },
+  password: { type: String, default: '1' },
+  tokens: [
+    {
+        token: {
+            type: String,
+            required: true,
+        }
+    }
+],
+verifytoken:{
+    type: String,
+}
+});
+
+//  db.admins.insertOne({email: "admin@123", password: "1"})  // command to add admins
+
 // const experienceSchema = new mongoose.Schema({
 //   name : String ,
 //   email: { type: String, unique: true },
@@ -214,8 +232,37 @@ const experienceSchema = new mongoose.Schema({
   timestamps: true,
 });
 
+
+const registerInstituteSchema = new mongoose.Schema({
+
+  usersname : String,
+  email: { type: String, unique: true },
+  password: String,
+  companyName: String,
+  location : String,
+  year : String
+});
+
+
 // token generate
 userSchema.methods.generateAuthToken = async function () {
+
+  console.log("andar hu");
+
+  try {
+      let token23 = jwt.sign({ _id: this._id }, keysecret, {
+          expiresIn: "1d"
+      });
+
+      this.tokens = this.tokens.concat({ token: token23 });
+      await this.save();
+      return token23;
+  } catch (error) {
+    throw error;
+  }
+}
+
+adminSchema.methods.generateAuthToken = async function () {
 
   console.log("andar hu");
 
@@ -239,5 +286,7 @@ module.exports = {
   Alumni: mongoose.model('Alumni', userSchema),
   Comment: mongoose.model('Comment',commentSchema),
   CommentNew: mongoose.model('CommentNew',commentSchemaNew),
-  Experience: mongoose.model('Experience',experienceSchema)
+  Experience: mongoose.model('Experience',experienceSchema),
+  RegisterInstitute: mongoose.model('RegisterInstitute', registerInstituteSchema),
+  Admin: mongoose.model('Admin',adminSchema)
 };
