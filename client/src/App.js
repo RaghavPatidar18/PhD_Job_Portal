@@ -66,9 +66,9 @@ function Root() {
           setUser(data.ValidUserOne);
           setUserType(data.userType);
           setHasRecievedData(true);
-          //console.log(data.userType);
+          // console.log(data.userType);  
 
-          // if(userType==="admin") navigate("/admin");
+          if(data.userType==="admin") navigate("/admin");
 
           //navigate("/profile");
       }

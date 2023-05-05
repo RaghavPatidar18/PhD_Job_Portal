@@ -15,11 +15,6 @@ function AddInstitute({}) {
 
   const [newusers, setNewUsers] = useState([]);
 
-  const handleLogout = () => {
-
-    
-};
-
   // const history = useNavigate();
 
   // const userType = new URLSearchParams(location.search).get("userType");

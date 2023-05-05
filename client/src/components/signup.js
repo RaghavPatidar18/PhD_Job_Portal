@@ -177,6 +177,14 @@ const Signup = () => {
               <span class="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
           </div>
 
+<br></br>
+          <div style={{float : 'right'}}>
+      {userType === "institute" && (
+        <a href="/registerManully">Not .ac.in or .edu ?</a>
+      )}
+      {/* rest of the component */}
+    </div>
+
           <div class="mt-4">
               <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="LoggingUsername">Username</label>
               <input
