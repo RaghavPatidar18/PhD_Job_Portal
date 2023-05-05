@@ -282,6 +282,9 @@ adminSchema.methods.generateAuthToken = async function () {
   }
 }
 
+// db.userinstitutes.deleteOne({email : "r.patidar181001@gmail.com"})
+// db.registerinstitutes.deleteOne({email : "r.patidar181001@gmail.com"})
+
 module.exports = {
   Job: mongoose.model('Job', jobSchema),
   User: mongoose.model('User', userSchema),

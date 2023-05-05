@@ -67,6 +67,7 @@ const CommentNew = models.CommentNew;
 const Experience = models.Experience;
 const RegisterInstitute = models.RegisterInstitute;
 const Admin = models.Admin;
+// const RegisterInstitute = models.RegisterInstitute;
 
 let personalSchemaobj = Personal.schema.obj;
 let academicSchemaobj = Academic.schema.obj;
@@ -451,6 +452,33 @@ app.post("/api/add-institute", async (req, res) => {
     password: hashedPassword,
   });
   await userInstitute.save();
+
+  console.log("delete hone wala hai");
+
+  await RegisterInstitute.deleteOne({ email: info.email });
+
+  const mailOptions = {
+    from: "r.patidar181001.2@gmail.com",
+    to: info.email,
+    subject: "Registration on PhD Job Platform ",
+    text: `You are registered successfully on our Platform. Your default password is 'root' , kindly change it by clicking on forget password`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      //console.log(error);
+      return res.status(200).send({
+        status: 500,
+        message: "Failed to send Mail",
+      });
+    } else {
+      //console.log("OTP sent: " + info.response);
+      return res.status(200).send({
+        status: 200,
+        message: "Mail sent",
+      });
+    }
+  });
 
 });
 
@@ -1286,23 +1314,6 @@ app.post('/api/createExperiences', async (req, res) => {
   res.json(experience);
 });
 
-// Add a comment to an experience
-// app.post("/api/addcomments/:id", async (req, res) => {
-//   console.log("inside api");
-//   console.log(req.body);
-//   const experience = await Experience.findById(req.params.id);
-//   const commentnew = new CommentNew({
-//     experience: experience._id,
-//     comment: req.body.comment,
-//   });
-//   await commentnew.save();
-//   experience.comments.push(commentnew);
-//   await experience.save();
-
-//   console.log("all done");
-
-//   res.json(commentnew);
-// });
 
 // Add a comment to an experience
 app.post("/api/addcomments/:id", async (req, res) => {
