@@ -39,9 +39,9 @@ function AppliedJob({user,type}){
 
   //console.log(job);
   return(
-    <div style={{marginTop:'50px'}}>
+    <div style={{marginTop:'50px',overflow:'scroll'}}>
 
-    <section className="container px-4 py-4 mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)"}}>
+    <section className="container px-4 py-4 mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",overflow:'scroll'}}>
       <div className="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 className="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Applied Jobs</h2>
         <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400" style={{paddingRight:'12px',paddingLeft:'12px',fontWeight:'normal'}}>{job.length} jobs applied</span>

@@ -12,6 +12,8 @@ import { useNavigate , useLocation } from 'react-router-dom';
 function JobApplicantCard({student_name,student_email,status,application_id,id,srNo}) {
 
   //const [status,setStatus]=useState(status);
+
+  const [applicantStatus,setApplicantStatus]=useState(status)
   console.log(srNo);
   const history = useNavigate();
 
@@ -34,7 +36,8 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
       console.log(res.data);
       if(res.data){
         console.log("success");
-        window.location.reload(false);
+        setApplicantStatus("Accepted");
+        //window.location.reload(false);
       }
     })
     .catch((err)=> console.log(err));
@@ -49,7 +52,8 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     .then((res)=> {
       if(res.data){
         console.log("success");
-        window.location.reload(false);
+        setApplicantStatus("Rejected");
+        //window.location.reload(false);
       }
     })
     .catch((err)=> console.log(err));
@@ -67,7 +71,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
           <Button variant="dark" onClick={handleCloseAccept}>
             Close
           </Button>
-          <Button variant="success" onClick={acceptClicked}>
+          <Button variant="success" onClick={()=> {handleCloseAccept();acceptClicked();}}>
             Accept
           </Button>
         </Modal.Footer>
@@ -83,7 +87,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
           <Button variant="dark" onClick={handleCloseReject}>
             Close
           </Button>
-          <Button variant="danger" onClick={rejectClicked}>
+          <Button variant="danger" onClick={()=> {handleCloseReject();rejectClicked();}}>
             Reject
           </Button>
         </Modal.Footer>
@@ -114,17 +118,17 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">2023-01-01</td>
 
         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" style={{paddingLeft:'24px',paddingRight:'24px',paddingTop:'14px',paddingBottom:'14px'}}>
-          <div className={`inline-flex items-center px-3 py-1  rounded-full gap-x-2 dark:bg-gray-800  ${status==='Pending'? 'bg-gray-100': ''}  ${status==='Accepted'? 'bg-emerald-100/60': ''} ${status==='Rejected'? 'bg-red-100/60': ''}`} >
-            <h2 className={`text-sm font-normal ${status==='Pending'? 'text-gray-500': ''}  ${status==='Accepted'? 'text-emerald-500': ''} ${status==='Rejected'? 'text-red-500': ''}`} style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>{status}</h2>
+          <div className={`inline-flex items-center px-3 py-1  rounded-full gap-x-2 dark:bg-gray-800  ${applicantStatus==='Pending'? 'bg-indigo-100/60': ''}   ${applicantStatus==='Accepted'? 'bg-emerald-100/60': ''} ${applicantStatus==='Rejected'? 'bg-red-100/60': ''} ${applicantStatus==='Withdrew'? 'bg-gray-100': ''}`} >
+            <h2 className={`text-sm font-normal ${applicantStatus==='Pending'? 'text-indigo-500': ''}  ${applicantStatus==='Accepted'? 'text-emerald-500': ''} ${applicantStatus==='Rejected'? 'text-red-500': ''} ${applicantStatus==='Withdrew'? 'text-gray-500': ''}`} style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>{applicantStatus}</h2>
           </div>
         </td>
 
         <td class="px-4 py-4 text-sm whitespace-nowrap">
-          <Link to={`/applicant-detail/${application_id}`}><div class="flex items-center gap-x-6">
+          {applicantStatus!=="Withdrew" && <Link to={`/applicant-detail/${application_id}`}><div class="flex items-center gap-x-6">
             <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
               View Applicant Details
             </button>
-          </div></Link>
+          </div></Link>}
         </td>
 
         {/*<td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" style={{paddingLeft:'24px',paddingRight:'24px',paddingTop:'14px',paddingBottom:'14px'}}>
@@ -135,7 +139,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
 
         <td class="px-4 py-4 text-sm whitespace-nowrap">
           <div className="flex items-center gap-x-6">
-            <button onClick={handleShowAccept} className="text-gray-500 transition-colors duration-200 dark:hover:text-emerald-500 dark:text-gray-300 hover:text-emerald-500 focus:outline-none">
+            {applicantStatus!=="Withdrew" && <button onClick={handleShowAccept} className="text-gray-500 transition-colors duration-200 dark:hover:text-emerald-500 dark:text-gray-300 hover:text-emerald-500 focus:outline-none">
 
               <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -144,9 +148,9 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
 
                 <h2 class="text-sm font-normal text-emerald-500" style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Accept</h2>
               </div>
-            </button>
+            </button>}
 
-            <button onClick={handleShowReject} className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
+            {applicantStatus!=="Withdrew" && <button onClick={handleShowReject} className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
               <div class="inline-flex items-center px-3 py-1 text-red-500 rounded-full gap-x-2 bg-red-100/60 dark:bg-gray-800">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -154,7 +158,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
 
                 <h2 class="text-sm font-normal text-red-500" style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Reject</h2>
               </div>
-            </button>
+            </button>}
           </div>
         </td>
 

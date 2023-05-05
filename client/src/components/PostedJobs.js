@@ -86,6 +86,7 @@ function PostedJobs({user,type}){
                   title={j.title}
                   id={j._id}
                   createDate={j.createdAt}
+                  deleted={j.deleted}
                   />
 
                 ))}

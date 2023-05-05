@@ -44,6 +44,9 @@ const history=useNavigate();
       por: porData,
       reference: referenceData
     };
+    const lastDate="";
+    const lastUpdateDate="";
+    const deleted=false;
     console.log(fields)
     const job = {
       title,
@@ -54,6 +57,9 @@ const history=useNavigate();
       college,
       qualifications,
       responsibilities,
+      lastDate,
+      lastUpdateDate,
+      deleted,
       fields
     };
     console.log(job);
@@ -111,9 +117,9 @@ const history=useNavigate();
       </div>
 
           </div>
-          
+
           <div className="inputField">
-          <div style={{ display: "flex", alignItems: "center" }}> 
+          <div style={{ display: "flex", alignItems: "center" }}>
         <FontAwesomeIcon
           icon={faGraduationCap}
           className="input-icon"

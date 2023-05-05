@@ -212,6 +212,8 @@ function Job() {
               college={job.college}
               location={job.location}
               salary={job.salary}
+              lastDate={job.lastDate}
+              deleted={job.deleted}
             />
           ))}
         </div>
@@ -238,4 +240,3 @@ function Job() {
 }
 
 export default Job;
-
