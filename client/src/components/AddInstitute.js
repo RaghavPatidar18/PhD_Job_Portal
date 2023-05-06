@@ -82,7 +82,7 @@ function AddInstitute({}) {
           Logout
         </Button>
     {newusers.map((newuser) => (
-        <div style={{ border: "1px solid #e2e8f0", borderRadius: "0.5rem", boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)", marginBottom: "1rem", padding: "1rem", backgroundColor: "#ffffff" }}>
+        <div style={{ flexBasis: 'calc(33% - 12px)', maxWidth: 'calc(33% - 12px)' }}>
           <AdminCard
             key={newuser._id}
             companyName={newuser.companyName}

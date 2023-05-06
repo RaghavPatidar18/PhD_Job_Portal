@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 import "./css/Basic.css";
-
+ 
 const Basic = () => { 
   const [message, setMessage] = useState("");
 

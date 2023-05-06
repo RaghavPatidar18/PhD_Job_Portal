@@ -19,33 +19,33 @@ export default function NewInstitute(props) {
     // const history = useHistory();
 
     const handleSubmit = async (event) => {
-        // event.preventDefault(); // prevent default form submission behavior
-
+        event.preventDefault();
         // create an object containing the form data
         const formData = {
             username,
             email: emailid,
-            // password,
             companyName,
             location,
             year,
             phone
         };
 
-        try {
-            const response = await axios.post(
-                "/api/registerInstitute",
-                formData
-            );
-            console.log(response.data);
-            alert("Registration successful!");
-            window.location.href = "/";
-        } catch (error) {
-            console.log(error);
-            alert("Error registering institute. Please try again later.");
-            window.location.href = "*";
-        }
-
+        axios.post("/api/registerInstitute", { formData})
+        .then((res) => {
+            console.log(res);
+            if(res.status===200)
+            {
+                alert("Registration successful!");
+                window.location.href = "/";
+            }
+            else
+            {
+                console.log("nhi hoga")
+                alert("Error registering institute. Please try again later.");
+                window.location.href = "*";
+            }
+        })
+        .catch((err)=> console.log(err));
 
     };
 
@@ -53,7 +53,7 @@ export default function NewInstitute(props) {
 
     return (
 
-        <>
+        <> 
             <div>
                 <section style={{marginTop : '10rem', height :'70vh'}} class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800" >
                     <h2>Registeration</h2>

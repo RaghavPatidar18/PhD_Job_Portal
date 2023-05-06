@@ -11,7 +11,7 @@ function JobCard({ _id, title, college, location, salary, lastDate, deleted }) {
 
 
 
-  return (
+  return ( 
     <>
 
       {!deleted &&

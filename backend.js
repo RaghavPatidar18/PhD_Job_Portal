@@ -153,7 +153,7 @@ app.get("/job-details/:id/:student_id", async (req, res) => {
     if (application) {
       //console.log("sbugfiw");
       applied = true;
-      application_id=application._id;
+      application_id = application._id;
     } else {
       //console.log("sbfoie");
       applied = false;
@@ -167,7 +167,7 @@ app.get("/job-details/:id/:student_id", async (req, res) => {
         status: 200,
         job: job,
         applied: applied,
-        application_id:application_id
+        application_id: application_id
       });
     }
   } catch (err) {
@@ -681,7 +681,7 @@ app.get("/validuser", authenticate, async (req, res) => {
       }
     }
 
-    if(!ValidUserOne){
+    if (!ValidUserOne) {
       ValidUserOne = await Admin.findOne({ _id: req.userId });
       res.status(201).json({ status: 201, ValidUserOne, userType: "admin" });
     }
@@ -949,8 +949,8 @@ app.get("/jobStatus/:id", async (req, res) => {
         obj.location = await job.location;
         obj.salary = await job.salary;
         obj.application_status = await application.status;
-        obj.deleted=await job.deleted;
-        obj.application_id=await application._id;
+        obj.deleted = await job.deleted;
+        obj.application_id = await application._id;
         return obj;
       })
     ).then((applicationArray) => {
@@ -972,8 +972,8 @@ app.get("/jobPostings/:id", async (req, res) => {
         let obj = {};
         obj.title = await job.title;
         obj._id = await job._id;
-        obj.createdAt= await job.createdAt;
-        obj.deleted=await job.deleted;
+        obj.createdAt = await job.createdAt;
+        obj.deleted = await job.deleted;
         return obj;
       })
     ).then((jobArray) => {
@@ -1399,8 +1399,8 @@ app.get("/custom-form-fields", (req, res) => {
   personalKeys.map(k => {
     personalData[k] = false;
   });
-  personalData["name"]=true;
-  personalData["email"]=true;
+  personalData["name"] = true;
+  personalData["email"] = true;
 
   const academicData = {};
   academicKeys.map(k => {
@@ -1427,66 +1427,89 @@ app.get("/custom-form-fields", (req, res) => {
     publicationData[k] = false;
   });
 
-  res.send({status:200,obj:obj,personalData,academicData,experienceData,porData,referenceData,publicationData});
+  res.send({ status: 200, obj: obj, personalData, academicData, experienceData, porData, referenceData, publicationData });
 
 })
 
 
-app.post("/delete-job",async(req,res)=> {
+app.post("/delete-job", async (req, res) => {
   console.log("hereregueiryg");
-  const {id}=req.body;
+  const { id } = req.body;
   console.log(id);
-  const job=await Job.updateOne({_id:id},{$set: {deleted: true}});
-  if(job){
+  const job = await Job.updateOne({ _id: id }, { $set: { deleted: true } });
+  if (job) {
     console.log("deleted");
-    res.send({status:200});
-  }else{
+    res.send({ status: 200 });
+  } else {
     console.log("error deleting");
-    res.send({status:500});
+    res.send({ status: 500 });
   }
 })
 
-app.post("/withdraw-application",async(req,res)=> {
-  const {id}=req.body;
-  const application=await Application.updateOne({_id:id},{$set: {status: "Withdrew"}});
-  if(application){
+app.post("/withdraw-application", async (req, res) => {
+  const { id } = req.body;
+  const application = await Application.updateOne({ _id: id }, { $set: { status: "Withdrew" } });
+  if (application) {
     console.log("withdrew");
-    res.send({status:200});
-  }else{
+    res.send({ status: 200 });
+  } else {
     console.log("error");
-    res.send({status:500});
+    res.send({ status: 500 });
   }
 })
 
 
 app.post("/api/registerInstitute", async (req, res) => {
   // console.log("inside api");
-  // console.log(req.body);
+  console.log(req.body);
 
-  const userName = req.body.username;
-  const email = req.body.email;
-  // const password = req.body.password;
-  const companyName = req.body.companyName;
-  const location = req.body.location;
-  const year = req.body.year;
-  const phone = req.body.phone;
+  const userName = req.body.formData.username;
+  const email = req.body.formData.email;
+  const companyName = req.body.formData.companyName;
+  const location = req.body.formData.location;
+  const year = req.body.formData.year;
+  const phone = req.body.formData.phone;
+
+  console.log(email);
 
   const newInstitute = new RegisterInstitute({
     usersname: userName,
     email: email,
-    // password: password,
     companyName: companyName,
     location: location,
     year: year,
     phone: phone
 
   });
-  const success = await newInstitute.save();
-  if (success) {
-    res.status(200).send({ status: 200 });
-  } else {
-    res.status(500).send({ status: 500 });
+
+  console.log("chck ke pehle");
+  console.log(newInstitute);
+
+  try {
+    let check = await RegisterInstitute.find({ email: email });
+    console.log(check);
+    if (check.length !== 0) {
+      console.log("inside check");
+      return res.status(500).send({ status: 500 });
+    }
+    else {
+      const insti = new RegisterInstitute(newInstitute);
+      insti.save((err) => {
+        if (err) {
+          return res.status(500).send({ status: 500, err });
+        } else {
+          return res.status(200).send({ status: 200 });
+        }
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ status: 500 });
   }
+
+  console.log("check ke baad ");
+
+
 });
 
 app.listen(4000, () => {

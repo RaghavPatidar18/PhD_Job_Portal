@@ -186,9 +186,10 @@ const Signup = () => {
     </div>
 
           <div class="mt-4">
-              <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="LoggingUsername">Username</label>
+              <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="username">Username</label>
               <input
-              id="LoggingUsername"
+              id="username"
+              name = "username"
               class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
               type="text"
               value={name}
@@ -197,11 +198,12 @@ const Signup = () => {
 
           <div class="mt-4">
               <div class="flex justify-between">
-                  <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" for="loggingEmail">Email Address</label>
+                  <label class="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200" htmlFor="email">Email Address</label>
               </div>
 
               <input
-              id="loggingEmail"
+              id="email"
+              name = "email"
               class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
               type="email"
               value={email}

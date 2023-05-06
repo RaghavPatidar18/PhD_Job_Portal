@@ -1,5 +1,6 @@
+// import { Parser } from "json2csv";
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container, Form } from "react-bootstrap";
@@ -9,13 +10,17 @@ import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 import ModalTemplate from "./ModalTemplate.js";
 import "./css/ApplicantDetails.css";
-
+import { saveAs } from 'file-saver';
+import {CSVLink} from 'react-csv';
+ 
 function ApplicantDetails({user,type}){
-  console.log(user);
+  // console.log(user);
   const {id}=useParams();
-  console.log(id);
+  // console.log(id);
   const [details,setDetails]=useState({});
   const [recieved,setRecieved]=useState(false);
+  const [personalData, setPersonalData] = useState([]);
+
 const history = useNavigate();
   useEffect(()=>{
     if(type!=="institute"){
@@ -28,8 +33,16 @@ const history = useNavigate();
               history("*");
             }else{
               setDetails(response.data.details);
+              // console.log(details);
               console.log("data has been recieved");
-              console.log(response.data.details);
+              console.log(response.data.details.student_details);      // iss data ko download krwana hai
+
+              const defaultVal = "N/A"; // set your default value here
+              const updatedData = Object.values(response.data.details.student_details).map(val => val ?? defaultVal);
+
+              setPersonalData(updatedData);
+              
+
               setRecieved(true);
             }
           }
@@ -39,11 +52,24 @@ const history = useNavigate();
 
   },[]);
 
+  
+console.log(personalData);
+  
+  const csvLink = {
+    filename : "file.csv",
+    data : personalData
+  }
+
+
   return(
     <>
     {recieved &&
     <div className="applicant_form">
       <h3>Applicant Details</h3>
+      {/* <Button onClick={handleDownload} variant="primary"> Download Data </Button> */}
+      <div style={{ textAlign: 'right' , float: 'right'}}>
+          <CSVLink {...csvLink} className="focus:outline-none w-1/2 text-gray-900 bg-gray-200 border border-black-700 hover:bg-gray-400 focus:ring-4 focus:ring-cyan-300 inline-flex items-center justify-center rounded-lg text-sm  px-2 py-1 text-center sm:w-auto" >Download Data</CSVLink>
+        </div>
       <div className="applicant_field">
         <h6>Personal</h6>
         <div>

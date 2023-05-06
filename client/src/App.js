@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState} from "react";
-import {BrowserRouter,Routes,Route,useNavigate} from "react-router-dom";
+import {BrowserRouter,Routes,Route,useNavigate,Navigate} from "react-router-dom";
 // import { Parser } from "json2csv";
 import Navbar from "./components/Navbar";
 import Profile from "./components/Profile";
@@ -34,6 +34,19 @@ function Root() {
   const[userType,setUserType]=useState();
   const [hasRecievedData,setHasRecievedData]=useState(false);
 
+  const getToken = () => {
+    return localStorage.getItem("usersdatatoken") || null;
+  };
+
+  const PrivateRoute = ({ children }) => {
+    const isAuthenticated = getToken();
+
+    if (isAuthenticated) {
+      return children;
+    }
+
+    return <Navigate to="*" />;
+  };
   // const navigate = useNavigate();
   // const location = useLocation();
 
@@ -83,31 +96,31 @@ function Root() {
       {hasRecievedData && <Routes> 
 
 
-       <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /> </>} />
-      <Route path="/profile" element={<><Navbar user={user} type={userType}/> <Profile user={user.email} type={userType}/></>}/>
-      <Route path="/job-details/:id" element={<><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></> }/>
-        <Route path="/job-post" element={<><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></> }/>
+       <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /></>} />
+      <Route path="/profile" element={<><PrivateRoute><Navbar user={user} type={userType}/> <Profile user={user.email} type={userType}/></PrivateRoute></>}/>
+      <Route path="/job-details/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></PrivateRoute></> }/>
+        <Route path="/job-post" element={<><PrivateRoute><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></PrivateRoute></> }/>
     <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/choose-profile" element={<Basic />} /> 
       {/* <Route path="/download" element={<Download />} /> */}
-        <Route path="/password-reset" element={<PasswordReset />} />
+        <Route path="/password-reset" element={<PrivateRoute><PasswordReset /></PrivateRoute>} />
         <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />} />
 
-      <Route path="/experiences" element={<><Navbar user={user} type={userType}/> <AllExperiences /></>} />
-      <Route path="/interviewtips" element={<><Navbar user={user} type={userType}/> <InterviewTips /></>} />
+      <Route path="/experiences" element={<><PrivateRoute><Navbar user={user} type={userType}/> <AllExperiences /></PrivateRoute></>} />
+      <Route path="/interviewtips" element={<><PrivateRoute><Navbar user={user} type={userType}/> <InterviewTips /></PrivateRoute></>} />
 
-        <Route path="/application/:id" element={<><Navbar user={user} type={userType}/> <AppliedJob user={user} type={userType}/></>} />
-        <Route path="/job-postings" element={<><Navbar user={user} type={userType}/> <PostedJobs user={user._id} type={userType}/></>} />
-        <Route path="/job-applicants/:id" element={<><Navbar user={user} type={userType}/> <JobApplicants user={user._id} type={userType}/></>} />
+        <Route path="/application/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <AppliedJob user={user} type={userType}/></PrivateRoute></>} />
+        <Route path="/job-postings" element={<><PrivateRoute><Navbar user={user} type={userType}/> <PostedJobs user={user._id} type={userType}/></PrivateRoute></>} />
+        <Route path="/job-applicants/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <JobApplicants user={user._id} type={userType}/></PrivateRoute></>} />
         <Route path="*" element={<Error />} />
-        <Route path="/application-form/:job_id/:user_id" element={<><Navbar user={user} type={userType}/> <ApplicationForm type={userType}/></>} />
-        <Route path="/applicant-detail/:id" element={<><Navbar user={user} type={userType}/><ApplicantDetails user={user} type={userType}/></>} />
+        <Route path="/application-form/:job_id/:user_id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <ApplicationForm type={userType}/></PrivateRoute></>} />
+        <Route path="/applicant-detail/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/><ApplicantDetails user={user} type={userType}/></PrivateRoute></>} />
 
-        <Route path="/comment/:jobPostingId" element={<CommentSection />} />
-        <Route path="/allcomment/:exp_id" element={<ExpComments />} />
-        <Route path="/registerManully" element={<NewInstitute />} />
-        <Route path="/admin" element={<><AddInstitute /></>} />
+        <Route path="/comment/:jobPostingId" element={<PrivateRoute><CommentSection /></PrivateRoute>} />
+        <Route path="/allcomment/:exp_id" element={<PrivateRoute><ExpComments /></PrivateRoute>} />
+        <Route path="/registerManully" element={<PrivateRoute><NewInstitute /></PrivateRoute>} />
+        <Route path="/admin" element={<PrivateRoute><AddInstitute /></PrivateRoute>} />
 
       </Routes>}
       </div>
