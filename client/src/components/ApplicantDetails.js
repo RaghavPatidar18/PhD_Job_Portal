@@ -68,8 +68,12 @@ console.log(personalData);
       <h3>Applicant Details</h3>
       {/* <Button onClick={handleDownload} variant="primary"> Download Data </Button> */}
       <div style={{ textAlign: 'right' , float: 'right'}}>
-          <CSVLink {...csvLink} className="focus:outline-none w-1/2 text-gray-900 bg-gray-200 border border-black-700 hover:bg-gray-400 focus:ring-4 focus:ring-cyan-300 inline-flex items-center justify-center rounded-lg text-sm  px-2 py-1 text-center sm:w-auto" >Download Data</CSVLink>
+      <CSVLink {...csvLink} className="focus:outline-none w-1/2 text-gray-900 bg-gray-200 border border-black-700 hover:bg-gray-400 focus:ring-4 focus:ring-cyan-300 inline-flex items-center justify-center rounded-lg text-sm  px-2 py-1 text-center sm:w-auto" style={{ marginRight: "80px" }}>Download Data</CSVLink>
+
         </div>
+
+        <div className="container">
+          <div className="lefthalf">
       <div className="applicant_field">
         <h6>Personal</h6>
         <div>
@@ -170,6 +174,8 @@ console.log(personalData);
 
 
       </div>
+
+      <hr style={{ width: "24rem" }} />
 
 
         <div className="applicant_field">
@@ -292,6 +298,11 @@ console.log(personalData);
           </div>}
 
         </div>
+        </div>
+
+        
+
+        <div className="righthalf">
 
         <div className="applicant_field">
           <h6>Experience</h6>
@@ -320,7 +331,7 @@ console.log(personalData);
           <p >{details.student_details.experience.description}</p>
           </div>}
         </div>
-
+        <hr style={{ width: "24rem" }} />
 
         <div className="applicant_field">
           <h6>publication</h6>
@@ -358,7 +369,7 @@ console.log(personalData);
           </div>}
         </div>
 
-
+        <hr style={{ width: "24rem" }} />
         <div className="applicant_field">
           <h6>por</h6>
           {details.fields.por.title && <div>
@@ -386,6 +397,7 @@ console.log(personalData);
           <p >{details.student_details.por.description}</p>
           </div>}
         </div>
+        <hr style={{ width: "24rem" }} />
 
         <div className="applicant_field">
           <h6>reference</h6>
@@ -417,6 +429,8 @@ console.log(personalData);
           <p>description</p>
           <p >{details.student_details.reference.description}</p>
           </div>}
+          </div>
+        </div>
         </div>
 
 

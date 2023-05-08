@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useNavigate, NavLink } from "react-router-dom"
 import Modal from "react-bootstrap/Modal";
 import SubscribePopup from "./popup.js";
+import logologo from './logologo.png'; // import the image file
 
 function App({ user, type }) {
 
@@ -100,18 +101,21 @@ function App({ user, type }) {
 
 
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
-        <Container>
-          <Navbar.Brand href="">Job Portal</Navbar.Brand>
+        {/* <Container> */}
+          {/* <Navbar.Brand href="">Job Portal</Navbar.Brand> */}
+          <img src={logologo} alt="My Image" style={{  height: '35px', marginRight: '40px' }} />
+
+
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {/* <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Home</Link></Nav.Link> */}
-              <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Job Profiles</Link></Nav.Link>
+              <Nav.Link><Link to="/" style={{  color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Job Profiles</Link></Nav.Link>
               {/* Only show Job Post option if user is not a student */}
-              {type === "institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none' }}>Job Post</Link></Nav.Link>}
-              {type === "student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscription</Nav.Link>}
-              {type === "student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none' }}>Experiences</Nav.Link>}
-              {type === "student" && <Nav.Link onClick={handleInterview} style={{ color: 'black', textDecoration: 'none' }}>Interview Tips</Nav.Link>}
+              {type === "institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Job Post</Link></Nav.Link>}
+              {type === "student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Subscription</Nav.Link>}
+              {type === "student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Experiences</Nav.Link>}
+              {type === "student" && <Nav.Link onClick={handleInterview} style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Interview Tips</Nav.Link>}
             </Nav>
             <SubscribePopup show={showPopup} onClose={handlePopupClose} />
 
@@ -137,9 +141,8 @@ function App({ user, type }) {
               </NavDropdown>
             </Nav>}
 
-
           </Navbar.Collapse>
-        </Container>
+        {/* </Container> */}
       </Navbar>
     </>
   );

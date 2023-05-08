@@ -9,7 +9,7 @@ import DetailsContainer from "./DetailsContainer";
 
 import DetailsContainer2 from "./DetailsContainer2";
 import Footer from "./Footer";
-
+import locate from './Location.png'; // import the image file
 function Job() {
 
   const [jobs, setJobs] = useState([]);
@@ -160,75 +160,37 @@ function Job() {
 
 
       <div className="job-container">
-        {/* <h1> Find your dream job now </h1>
-        <h2> 1000+ jobs for you to explore </h2> */}
-
-        {/* <div className="job-filters">
-          <div className="filter-container" style={{ display: "inline-block" }}>
-
-
-            <select
-              value={locationFilter}
-              onChange={handleLocationFilterChange}
-            >
-              {locations?.map((location) => (
-                <option key={location} value={location}>
-                  {location}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={salaryFilter}
-              onChange={handleSalaryFilterChange}
-            >
-              <option value="">All Salary Ranges</option>
-              <option value="0-9999">Less than 10,000</option>
-              <option value="10000-29999">10,000 - 29,999</option>
-              <option value="30000-49999">30,000 - 49,999</option>
-              <option value="50000-99999">50,000 - 99,999</option>
-              <option value="100000-999999">More than 100,000</option>
-            </select>
-
-            <select value={instituteFilter} onChange={handleInstituteFilterChange}>
-              {institutes.map((institute) => (
-                <option key={institute} value={institute}>
-                  {institute}
-                </option>
-              ))}
-            </select>
-
-            <button onClick={handleFilterApply}>Search</button>
-            <button onClick={handleClearFilters}>Clear Filters</button>
-          </div>
-        </div> */}
-
-        <section class="bg-white dark:bg-gray-900">
-          <div class="container px-4 py-16 mx-auto lg:flex lg:items-center lg:justify-between">
-
-            <h2 class="text-2xl font-semibold tracking-tight text-gray-800 xl:text-3xl dark:text-white">
-        Get Your Dream Job Now 
-        </h2>
+        
+        <section class="dd">
+          <div class="cc">
             {/* <h2 class="text-2xl font-semibold tracking-tight text-gray-800 xl:text-3xl dark:text-white">
               1000+ jobs for you to explore
             </h2> */}
 
+
+
             <div className="filter-container job-filters" >
+            
               <select
                 value={locationFilter}
                 onChange={handleLocationFilterChange}
               >
+                
                 {locations?.map((location) => (
                   <option key={location} value={location}>
+                    
                     {location}
                   </option>
                 ))}
               </select>
 
+              
+
               <select
                 value={salaryFilter}
                 onChange={handleSalaryFilterChange}
               >
+                <img src={locate} alt="My Image" style={{  height: '35px', marginRight: '40px' }} />
                 <option value="">All Salary Ranges</option>
                 <option value="0-9999">Less than 10,000</option>
                 <option value="10000-29999">10,000 - 29,999</option>
@@ -244,26 +206,30 @@ function Job() {
                   </option>
                 ))}
               </select>
-            </div>
 
-            <div class="mt-8 lg:mt-0">
               <div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:-mx-2">
-                <button onClick={handleFilterApply} class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                  Search
-                </button>
-                <button onClick={handleClearFilters} class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-                  Clear Filters
-                </button>
+              <button onClick={handleFilterApply} 
+        class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+        style={{ background: "#4540DB", borderRadius: "20px" }}>
+  Search
+</button>
+
+                <button onClick={handleClearFilters} class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500" style={{ backgroundColor: "rgba(255, 0, 0, 0.6)", borderRadius: "20px" }}>
+  Clear Filters
+</button>
+
+
               </div>
 
-              <p class="mt-3 text-sm text-gray-500 dark:text-gray-300">1000+ jobs for you to explore. Make sure not to miss this opportunity</p>
             </div>
+
+            
           </div>
         </section>
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
           {filteredJobs?.map(job => (
-            <div key={job._id} style={{ flexBasis: 'calc(33% - 12px)', maxWidth: 'calc(33% - 12px)' }}>
+            <div key={job._id} style={{ flexBasis: 'calc(25% - 12px)', maxWidth: 'calc(25% - 12px)' }}>
               <JobCard
                 _id={job._id}
                 title={job.title}

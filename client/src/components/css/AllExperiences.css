@@ -31,22 +31,32 @@
   .Filterbox input {
     padding: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     margin-right: 10px;
     font-size: 14px;
     width: 300px;
+    
+      outline: none;
+    
+    
   }
   
   .Filterbox button {
     padding: 10px 20px;
-    background-color: #000000;
+    background-color: #007bff;
     color: #ffffff;
     font-size: 14px;
     font-weight: bold;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
   }
+  
+  .Filterbox button:hover {
+    background-color: #0056b3;
+  }
+  
   
   .ExperienceCard-container {
     background-color: #f8f8f8;
@@ -104,3 +114,52 @@
     margin-right: 0;
   }
   
+
+  .client {
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    color: #000000;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  
+  
+  .exper {
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    color: #426AF9;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  
+  
+  .exper form label {
+    font-size: 0.8rem;
+    color: #000;
+  }
+  
+  .exper form input,
+  .exper form textarea {
+    display: block;
+    width: 30%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .exper form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+
+  .exper form button:hover {
+    background-color: #0056b3;
+  }

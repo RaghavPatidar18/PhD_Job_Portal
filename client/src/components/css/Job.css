@@ -4,7 +4,7 @@
   margin-top: 0px;
   padding: 60px;
   margin-left: 0px;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   /* border-radius: 30px; */
   /* border: 0.5px solid #ccc; */
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
@@ -135,40 +135,40 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* border-radius: 100px; */
-    /* border: 0.5px solid #ddd; */
-    margin: 10px;
-    padding: 25px 100px;
-    /* padding: 25px; */
-    /* background-color: #f7f7f7; */
-    /* box-shadow: 0 2px 4px rgba(0.1, 0.1, 0.1, 0.1); */
-  }
-  
-  
-  .filter-container input[type="text"] {
-    width: 250px;
-    padding: 5px;
-    margin-left: 30px;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 1rem;
-    border: 2px solid #ddd;
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    background: #ffffff;
+    box-shadow: 0px 1px 22px 1px rgba(69, 64, 219, 0.04);
     border-radius: 20px;
-    margin-right: 10px;
-    color: #333;
+    z-index: 1;
+    background-color: white;
+
     }
+  
+  
     
     .filter-container select {
-      width: 250px;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 1rem;
-    padding: 5px;
-    border: 2px solid #ddd;
-    border-radius: 20px;
-    color: #2c3e50;
-    font-weight: bold;
-    margin-left: 30px;
-    margin-right: 10px;
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      text-align: center;
+      border: none !important;
+      outline: none !important;
     }
+
+    .filter-container.job-filters select {
+      border-right: 1px solid #ccc;
+      padding-right: 10px;
+      margin-right: 10px;
+    }
+    
+    .filter-container.job-filters select:last-child {
+      border-right: none;
+      padding-right: 0;
+      margin-right: 0;
+    }
+    
     
     .filter-container button {
     font-family: Helvetica, Arial, sans-serif;

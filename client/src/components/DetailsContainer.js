@@ -6,13 +6,13 @@ function DetailsContainer() {
     <>
       <div className="details-container">
         <h1>
-          <span className="job-portal">Job</span>{''}
-          <span className="portal">Portal</span>
+          <span className="job-portal">Get Your </span>{''}
+          <span className="portal">Dream Job </span>{''}
+          <span className="job-portal">Now</span>
         </h1>
-        <h2>
-          Here you can find and apply for a wide range of job opportunities in
-          PHD across various fields.
-        </h2>
+        <h5>
+        786 jobs & 110 candidates are registeresd
+        </h5>
       </div>
     </>
   );

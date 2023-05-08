@@ -10,20 +10,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import Footer from "./Footer";
 
-
-// async function getId() {
-//   const token = localStorage.getItem('usersdatatoken');
-//   // console.log(token);
-//   const response = await fetch('/api/meid', {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   });
-//   const data = await response.json();
-//   // console.log(data);
-//   return data;
-// }
-
 function JobDetails({ user, type }) {
 
   const { id } = useParams();
@@ -68,8 +54,6 @@ function JobDetails({ user, type }) {
     const data = await res.json();
     if (data.status === 200) {
       setJob(data.job);
-      // console.log("sdnio");
-      //console.log(data.job);
       setApplied(data.applied);
 
       if (data.applied === true && type === "student") {
@@ -104,9 +88,6 @@ function JobDetails({ user, type }) {
   }
 
   async function commentSection() {
-    // console.log("heheheheh");
-    // const id = await getId();
-    // console.log(id);
     history(`/comment/${id}`);
   }
 
@@ -146,7 +127,8 @@ function JobDetails({ user, type }) {
 
     <Modal show={showWithdraw} onHide={handleCloseWithdraw}>
       <Modal.Header closeButton>
-        <Modal.Title>{job.title}</Modal.Title>
+      <Modal.Title style={{ textAlign: 'left' }}>{job.title}</Modal.Title>
+
       </Modal.Header>
       <Modal.Body>Are you sure you wish to withdraw your application for this job? You will not be able to apply again</Modal.Body>
       <Modal.Footer>
@@ -162,7 +144,8 @@ function JobDetails({ user, type }) {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{job.title}</Modal.Title>
+        <Modal.Title style={{ textAlign: 'left' }}>{job.title}</Modal.Title>
+
         </Modal.Header>
         <Modal.Body>Are you sure you wish to apply for this job?</Modal.Body>
         <Modal.Footer>
@@ -177,7 +160,8 @@ function JobDetails({ user, type }) {
 
       <Modal show={showDelete} onHide={handleCloseDelete}>
         <Modal.Header closeButton>
-          <Modal.Title>{job.title}</Modal.Title>
+        <Modal.Title style={{ textAlign: 'left' }}>{job.title}</Modal.Title>
+
         </Modal.Header>
         <Modal.Body>Are you sure you wish to delete this job?</Modal.Body>
         <Modal.Footer>
@@ -193,61 +177,81 @@ function JobDetails({ user, type }) {
 
 
       <div className="job-details-container">
-        <h3 className="job-title" style={{
-          fontFamily: "Times New Roman, serif",
-          fontWeight: "bold",
-          fontSize: "48px",
-          color: "#595959",
-          textAlign: "center",
-          textShadow: "1px 1px 1px #fff",
-          letterSpacing: "2px",
-          lineHeight: "1.5"
-        }}>
-          {job.title}
-        </h3>
+      <h2 style={{ fontFamily: "Inter, sans-serif", textAlign: "left", marginLeft:"120px" , marginTop:"20px" , fontWeight:"700"}}> {job.title} </h2>
+          
+      
         <br />
         <div className="job-info" style={{ borderRadius: "0px" }}>
-          <div className="job-info-box" style={{ borderRadius: "0px", marginBottom :"0px" }}>
-            <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#0099FF", fontWeight: "bold" }}>College</h5>
-            <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.college}</p>
-          </div>
-          <div className="job-info-box" style={{ borderRadius: "0px", marginBottom :"0px" }}>
-            <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#0099FF", fontWeight: "bold" }}>Location</h5>
-            <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.location}</p>
-          </div>
-          <div className="job-info-box" style={{ borderRadius: "0px" , marginBottom :"0px" }}>
-            <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#0099FF", fontWeight: "bold" }}>Salary</h5>
-            <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.salary}</p>
-          </div>
-          <div className="job-info-box" style={{ borderRadius: "0px" , marginBottom :"0px" }}>
-            <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "20px", color: "#0099FF", fontWeight: "bold" }}>Last Date</h5>
-            <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.lastDate}</p>
-          </div>
+        <div className="sec-1" style={{ display: "flex", flexDirection: "column", marginBottom: "20px" , justifyContent: "space-between"}}>
+  <div style={{ display: "flex"}}>
+    <div className="job-details-box" style={{ borderRadius: "0px", width: "50%" , marginLeft:"80px", background: "", padding: "20px 50px" }}>
+    <h4 style={{ fontFamily: "Inter, sans-serif", textAlign: "left",fontWeight:"700"}}> Job Description </h4>
+      <p style={{ fontFamily: "Inter, sans-serif", fontSize: "18px", color: "#333" }}>{job.description}</p>
+    </div>
+    <div className="aboutjob" style={{ borderRadius: "0px", width: "30%" , marginLeft:"80px", background: "#F3F3F3", padding: "20px 50px" }}>
+      <h4 style={{ fontFamily: "Inter, sans-serif", textAlign: "left",fontWeight:"700"}}> About Job </h4>
+      <div className="job-info-box" style={{ borderRadius: "0px" }}>
+        <p style={{ fontFamily: "Inter, sans-serif", fontSize: "18px", color: "#333"  }}>College: {job.college}</p>
+      </div>
+      <div className="job-info-box" style={{ borderRadius: "0px" }}>
+        <p style={{ fontFamily: "Inter, sans-serif", fontSize: "18px", color: "#333" }}>Location: {job.location}</p>
+      </div>
+      <div className="job-info-box" style={{ borderRadius: "0px" }}>
+        <p style={{ fontFamily: "Inter, sans-serif", fontSize: "18px", color: "#333"  }}>Salary: {job.salary}</p>
+      </div>
+      <div className="job-info-box" style={{ borderRadius: "0px" }}>
+        <p style={{ fontFamily: "Inter, sans-serif", fontSize: "18px", color: "#333" }}>Last Date: {job.lastDate}</p>
+      </div>
+      <div className="job-info-box" style={{ borderRadius: "0px" }}>
+        <p style={{ fontFamily: "Inter, sans-serif", fontSize: "18px", color: "#333" }}>Contact: {job.contactEmail}</p>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
-        <div className="job-details-box" style={{ borderRadius: "0px" , marginBottom : "0px", marginTop : "0px"}}>
-          <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#0099FF", fontWeight: "bold" }}>Description</h5>
-          <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.description}</p>
-        </div>
-        <div className="job-details-box" style={{ borderRadius: "0px" , marginBottom : "0px"}}>
-          <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#0099FF", fontWeight: "bold" }}>Qualifications</h5>
-          <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.qualifications}</p>
-        </div>
-        <div className="job-details-box" style={{ borderRadius: "0px" , marginBottom : "0px"}}>
-          <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#0099FF", fontWeight: "bold" }}>Responsibilities</h5>
-          <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.responsibilities}</p>
+        
+        <div className="job-details-box" style={{ borderRadius: "0px", fontFamily: "Inter, sans-serif", marginBottom : "40px",marginRight:"80px", marginLeft:"80px", background: "", padding: "40px" }}>
+        <h4 style={{ fontFamily: "Inter, sans-serif", textAlign: "left",fontWeight:"700"}}> Qualifications </h4>
+  <p style={{ fontSize: "18px" }}>{job.qualifications}</p>
+</div>
+
+        <div className="job-details-box" style={{ borderRadius: "0px" ,marginRight:"80px" , marginLeft:"80px", marginBottom: "40px", background: "", padding: "40px" }}>
+        <h4 style={{ fontFamily: "Inter, sans-serif", textAlign: "left",fontWeight:"700"}}> Responsibilities </h4>
+          <p style={{ fontFamily: "Inter, sans-serif", fontSize: "18px", color: "#333" }}>{job.responsibilities}</p>
         </div>
 
-        <div className="job-details-box" style={{ borderRadius: "0px" , marginBottom : "10px"}}>
-          <h5 style={{ fontFamily: "Arial, sans-serif", fontSize: "22px", color: "#0099FF", fontWeight: "bold" }}>Contact us at</h5>
-          <p style={{ fontFamily: "Arial, sans-serif", fontSize: "18px", color: "#333" }}>{job.contactEmail}</p>
-        </div>
-
-
-        {type !== "institute" && <button onClick={() => { buttonText === "Apply" ? handleShow() : applyClicked() }} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>{buttonText}</button>}
-        {/* <button className="button" onClick={() => commentSection()}>
-          QnA
-        </button> */}
-        {type === "institute" && job.institute_id===user._id && <button onClick={handleShowDelete} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>Delete Job</button>}
+        <div className="button-container" style={{ textAlign: "center" }}>
+  {type !== "institute" && (
+    <button
+      onClick={() => {
+        buttonText === "Apply" ? handleShow() : applyClicked();
+      }}
+      className="button"
+      style={{
+        backgroundColor: "#7A5CFA",
+        borderRadius: "8px",
+        color: "#fff",
+        padding: "8px 1px",
+        marginBottom: "100px"
+      }}
+    >
+      {buttonText}
+    </button>
+  )}
+  {type === "institute" && job.institute_id === user._id && (
+    <button
+      onClick={handleShowDelete}
+      className="button"
+      style={{
+        backgroundColor: "#40a829",
+        color: "#fff",
+        padding: "8px 1px" 
+      }}
+    >
+      Delete Job
+    </button>
+  )}
+</div>
 
       </div>
       <Footer />
