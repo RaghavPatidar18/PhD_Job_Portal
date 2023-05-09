@@ -100,6 +100,7 @@ function Root() {
         <Route path="/allcomment/:exp_id" element={<ExpComments />} />
 
         <Route path="checking" element={<><CustomizableForm /></>} />
+        <Route path="/update-job/:id" element={<><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></> }/>
 
       </Routes>}
       </div>

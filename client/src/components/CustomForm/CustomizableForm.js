@@ -17,7 +17,8 @@ import CustomFormPor from "./CustomFormPor";
 import CustomFormPublication from "./CustomFormPublication";
 import CustomFormReference from "./CustomFormReference";
 
-function CustomizableForm({handleSubmit}){
+function CustomizableForm({handleSubmit,updateForm}){
+
 
   const [getData,setGetData]=useState(false);
   const [personalData,setPersonalData]=useState({});
@@ -26,6 +27,17 @@ function CustomizableForm({handleSubmit}){
   const [academicData,setAcademicData]=useState({});
   const [experienceData,setExperienceData]=useState({});
   const [referenceData,setReferenceData]=useState({});
+  const [updateFormPersonal,setUpdateFormPersonal]=useState({});
+  const [updateFormPublication,setUpdateFormPublication]=useState({});
+  const [updateFormPor,setUpdateFormPor]=useState({});
+  const [updateFormExperience,setUpdateFormExperience]=useState({});
+  const [updateFormReference,setUpdateFormReference]=useState({});
+  const [updateFormAcademic,setUpdateFormAcademic]=useState({});
+
+  const [gotUpdateForm,setGotUpdateForm]=useState(false);
+
+
+
 
   const [show,setShow]=useState(false);
 
@@ -71,8 +83,47 @@ function CustomizableForm({handleSubmit}){
     if(isFirstRender.current){
       console.log("did i come here");
       isFirstRender.current=false;
+
+      const random_object={};
+
+      console.log(updateForm);
+
+      if(Object.keys(updateForm).length!==0){
+        console.log("i have come into update form");
+        setUpdateFormAcademic(updateForm.fields.academic);
+        setUpdateFormExperience(updateForm.fields.experience);
+        setUpdateFormPersonal(updateForm.fields.personal);
+        setUpdateFormPor(updateForm.fields.por);
+        setUpdateFormPublication(updateForm.fields.publication);
+        setUpdateFormReference(updateForm.fields.reference);
+      }
       return;
     }
+
+    const updateFormPersonalLength=Object.keys(updateFormPersonal).length;
+    const updateFormPublicationLength=Object.keys(updateFormPublication).length;
+    const updateFormPorLength=Object.keys(updateFormPor).length;
+    const updateFormExperienceLength=Object.keys(updateFormExperience).length;
+    const updateFormReferenceLength=Object.keys(updateFormReference).length;
+    const updateFormAcademicLength=Object.keys(updateFormAcademic).length;
+
+    console.log(updateFormAcademic);
+
+    console.log("personal" + updateFormPersonalLength);
+    console.log("publication" + updateFormPublicationLength);
+    console.log("por" + updateFormPorLength);
+    console.log("academic" + updateFormAcademicLength);
+    console.log("experience" + updateFormExperienceLength);
+    console.log("reference" + updateFormReferenceLength);
+
+    if(updateFormPersonalLength!==0 && updateFormPublicationLength!==0 && updateFormPorLength!==0 && updateFormAcademicLength!==0 && updateFormExperienceLength!==0 && updateFormReferenceLength!==0){
+      setGotUpdateForm(true);
+    }else{
+      if(Object.keys(updateForm).length===0){
+        setGotUpdateForm(true);
+      }
+    }
+
 
     if(("board10" in academicData) && ("profile" in experienceData) && ("email" in personalData) && ("title" in porData) && ("title" in publicationData) && ("title" in referenceData)){
       console.log("got all data");
@@ -88,7 +139,7 @@ function CustomizableForm({handleSubmit}){
       console.log("whyyyyy");
     }
 
-  },[getData,personalData,academicData,experienceData,publicationData,porData,referenceData])
+  },[getData,personalData,academicData,experienceData,publicationData,porData,referenceData,updateFormAcademic,updateFormExperience,updateFormPersonal,updateFormPor,updateFormPublication,updateFormReference])
   return(
     <>
     <Modal show={show} onHide={handleClose}>
@@ -105,24 +156,30 @@ function CustomizableForm({handleSubmit}){
         </Button>
       </Modal.Footer>
     </Modal>
-      <div>
+    {gotUpdateForm &&
+      <div style={{width:'75%', margin:'auto'}}>
         <form>
+        <div>
+          <section class="max-w-7xl p-6 mx-auto rounded-md shadow-md dark:bg-gray-800" style={{marginTop:'40px',marginBottom:'40px',backgroundColor:'#87CEFA'}}>
+            <h2 class="text-lg font-bold text-gray-700 capitalize dark:text-white" style={{textAlign:'center'}}>CHOOSE CUSTOM FORM FIELDS</h2>
+            <CustomFormPersonal getData={getData} collectDataPersonal={collectDataPersonal} updateForm={updateFormPersonal}/>
+            <CustomFormAcademic getData={getData} collectDataAcademic={collectDataAcademic} updateForm={updateFormAcademic}/>
+            <CustomFormExperience getData={getData} collectDataExperience={collectDataExperience} updateForm={updateFormExperience}/>
+            <CustomFormPublication getData={getData} collectDataPublication={collectDataPublication} updateForm={updateFormPublication}/>
+            <CustomFormPor getData={getData} collectDataPor={collectDataPor} updateForm={updateFormPor}/>
+            <CustomFormReference getData={getData} collectDataReference={collectDataReference} updateForm={updateFormReference}/>
+          </section>
+        </div>
 
-          <CustomFormPersonal getData={getData} collectDataPersonal={collectDataPersonal}/>
-          <CustomFormAcademic getData={getData} collectDataAcademic={collectDataAcademic}/>
-          <CustomFormExperience getData={getData} collectDataExperience={collectDataExperience}/>
-          <CustomFormPublication getData={getData} collectDataPublication={collectDataPublication}/>
-          <CustomFormPor getData={getData} collectDataPor={collectDataPor}/>
-          <CustomFormReference getData={getData} collectDataReference={collectDataReference}/>
 
 
-          <div style={{margin:'auto', display:"flex",justifyContent:'center'}}>
-            <Button variant="outline-dark" style={{marginRight:"20px"}} onClick={handleShow}>Submit</Button>
+          <div style={{margin:'auto', display:"flex",justifyContent:'center', marginBottom:'50px'}}>
+            <Button size="lg" style={{paddingLeft:'60px', paddingRight:'60px', paddingTop:'15px', paddingBottom:'15px', fontSize:'large'}} onClick={handleShow}>SUBMIT</Button>
             {/*<Button variant="outline-danger" onClick={()=> setShowCancelModal(true)}>Cancel</Button>*/}
           </div>
 
         </form>
-      </div>
+      </div>}
     </>
 
   );

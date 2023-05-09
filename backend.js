@@ -22,6 +22,10 @@ const UserExperience=require("./model/experienceSchema");
 const POR = require("./model/porSchema");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const excelJs=require("exceljs");
+const xl=require("excel4node");
+const mime=require("mime");
+const path=require("path");
 
 app.use(cors()); // Use this after the variable declaration
 app.use(cookiParser());
@@ -1051,18 +1055,23 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
 app.post("/application-form/:job_id/:user_id", async (req, res) => {
   console.log("posting at application form");
   const { job_id, user_id } = req.params;
-  const { jobFields } = req.body;
-  console.log("jobfields are:");
-  console.log(jobFields);
-  const obj = {};
-  obj.personal = jobFields.personal;
-  obj.academic = jobFields.academic;
-  obj.experience = jobFields.experience;
-  obj.publication = jobFields.publication;
-  obj.por = jobFields.por;
-  obj.reference = jobFields.reference;
+  // const { jobFields } = req.body;
+  // console.log("jobfields are:");
+  // console.log(jobFields);
+  // const obj = {};
+  // obj.personal = jobFields.personal;
+  // obj.academic = jobFields.academic;
+  // obj.experience = jobFields.experience;
+  // obj.publication = jobFields.publication;
+  // obj.por = jobFields.por;
+  // obj.reference = jobFields.reference;
+  //
+  // console.log("the created obj is");
+  // console.log(obj);
 
-  console.log("the created obj is");
+  const {dataToSend}=req.body;
+  const obj=dataToSend;
+  console.log("i got this data from the application form");
   console.log(obj);
 
   const new_application = new Application({
@@ -1340,6 +1349,117 @@ app.post("/withdraw-application",async(req,res)=> {
     console.log("error");
     res.send({status:500});
   }
+})
+
+
+app.get("/updateJob/:id",async(req,res)=>{
+  const {id}=req.params;
+  const job=await Job.findOne({_id:id});
+  if(job){
+    res.send({status:200,job:job});
+  }else{
+    res.send({status:500});
+  }
+})
+
+app.post("/updateJob",async(req,res)=> {
+  const {job,id}=req.body;
+
+  const current_job=await Job.findOne({_id:id});
+  if(current_job){
+    const new_job=await Job.updateOne({_id:id},{$set: {
+      title:job.title,
+      description:job.description,
+      location:job.location,
+      salary:job.salary,
+      contactEmail:job.contactEmail,
+      qualifications:job.qualifications,
+      college: job.college,
+      responsibilities:job.responsibilities,
+      lastDate:job.lastDate,
+      lastUpdateDate:job.lastUpdateDate,
+      fields:job.fields
+    }});
+
+    if(new_job){
+      res.send({status:200});
+    }else{
+      res.send({status:500});
+    }
+  }else{
+    res.send({status:500})
+  }
+})
+
+
+
+const createWorkbook = async(id) =>{
+
+};
+
+
+app.get("/create-workbook/:id", async(req,res)=>{
+  const {id}=req.params;
+  const application = await Application.findOne({_id:id});
+  var name_of_file="_applicant_details.xlsx";
+  if(application){
+    name_of_file=application.student_details.personal[0].name+name_of_file;
+    console.log("got into application");
+    const student_details=application.student_details;
+    console.log(student_details);
+    const wb=new xl.Workbook();
+    const ws=wb.addWorksheet("data");
+    ws.cell(1,2).string("data field");
+    ws.cell(1,3).string("value");
+    var rowIndex=3;
+    var flag=0;
+    await Object.keys(student_details).map((details)=>{
+      student_details[details].map((stu)=>{
+        Object.keys(stu).map((k)=>{
+          if(flag==0){
+            ws.cell(rowIndex,1).string(details);
+            flag=1;
+          }
+          console.log(k);
+          console.log(stu[k]);
+          ws.cell(rowIndex,2).string(k);
+          ws.cell(rowIndex,3).string(stu[k]);
+          rowIndex++;
+          //ws.cell(:k,value:stu[k]});
+        });
+        if(flag==1){
+          rowIndex++;
+        }
+        flag=0;
+      });
+    });
+    console.log("done till here");
+    await wb.write(name_of_file);
+
+  }
+  res.send({status:200});
+})
+app.get("/export/:id",async(req,res,next)=>{
+  console.log("here");
+  const {id}=req.params;
+  const application=await Application.findOne({_id:id});
+  console.log(application);
+  //await createWorkbook(id);
+    var name_of_file=application.student_details.personal[0].name+"_applicant_details.xlsx";
+    const file=__dirname + `\\${name_of_file}`;
+    const fileName=path.basename(file);
+    const mimeType=mime.getType(file);
+    res.setHeader("Content-Disposition","attachment;filename=" + fileName);
+    res.setHeader("Content-Type", mimeType);
+    console.log("here too");
+    res.download(file,name_of_file);
+
+
+
+    console.log("and afetr");
+    console.log('rwugteiu');
+
+
 })
 
 app.listen(4000, () => {

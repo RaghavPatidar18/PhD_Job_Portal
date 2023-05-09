@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container, Form } from "react-bootstrap";
 import axios from "axios";
-import {useState,useEffect} from "react";
+import {useState,useEffect,useRef} from "react";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 //import CustomFormField from "./CustomFormField";
@@ -13,7 +13,7 @@ import { useNavigate , useLocation } from 'react-router-dom';
 
 
 
-function CustomFormAcademic ({getData,collectDataAcademic}){
+function CustomFormAcademic ({getData,collectDataAcademic,updateForm}){
 
   const [academic,setAcademic]=useState(false);
   const [selectAll,setSelectAll]=useState(false);
@@ -64,6 +64,8 @@ function CustomFormAcademic ({getData,collectDataAcademic}){
   const[isphdcompleted,setisphdcompleted]=useState(false);
   const[phdremarks,setphdremarks]=useState(false);
 
+  const isFirstRender = useRef(true);
+
   const obj={
     board10,
     percentageformat10,
@@ -97,6 +99,55 @@ function CustomFormAcademic ({getData,collectDataAcademic}){
 
 
 useEffect(()=> {
+  if(isFirstRender.current){
+    console.log("did i come here");
+    isFirstRender.current=false;
+
+
+    if(Object.keys(updateForm).length!==0){
+      setAcademic(true);
+      setTenthDetails(true);
+      setTwelfthDetails(true);
+      setBtechDetails(true);
+      setMtechDetails(true);
+      setPhdDetails(true);
+
+      //10th details
+      setboard10(updateForm.board10);
+      setpercentageformat10(updateForm.percentageformat10);
+      setpercentage10(updateForm.percentage10);
+      setyear10(updateForm.year10);
+      setremarks10(updateForm.remarks10);
+      setmarksheet10(updateForm.marksheet10);
+      //12
+      setboard12(updateForm.board12);
+      setpercentageformat12(updateForm.percentageformat12);
+      setpercentage12(updateForm.percentage12);
+      setyear12(updateForm.year12);
+      setremarks12(updateForm.remarks12);
+      setmarksheet12(updateForm.marksheet12);
+      // btech
+      setcollegebtech(updateForm.collegebtech);
+      setbranchbtech(updateForm.branchbtech);
+      setpercentageformatbtech(updateForm.percentageformatbtech);
+      setpercentagebtech(updateForm.percentagebtech);
+      setyearbtech(updateForm.yearbtech);
+      setremarksbtech(updateForm.remarksbtech);
+      setmarksheetbtechurl(updateForm.marksheetbtechurl);
+      //mtech
+      setcollegemtech(updateForm.collegemtech);
+      setbranchmtech(updateForm.branchmtech);
+      setpercentageformatmtech(updateForm.percentageformatmtech);
+      setpercentagemtech(updateForm.percentagemtech);
+      setyearmtech(updateForm.yearmtech);
+      setremarksmtech(updateForm.remarksmtech);
+      setmarksheetmtechurl(updateForm.marksheetmtechurl);
+      //phd
+      setisphdcompleted(updateForm.isphdcompleted);
+      setphdremarks(updateForm.phdremarks);
+    }
+    return;
+  }
   if(getData===true){
     console.log("academic data");
     console.log(obj);
@@ -452,7 +503,324 @@ useEffect(()=> {
 
   return(
     <>
-      <div className="field">
+
+    <div class="max-w-5xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800" style={{width:'80%',marginTop:'50px', position:'relative'}}>
+
+      <div style={{display:'inline-block'}}>
+        <div class="inline-flex items-center gap-x-3">
+          <input type="checkbox" onChange={academicChange} checked={academic===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+          <div class="flex items-center gap-x-2">
+            <h6 style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial'}}>ACADEMIC</h6>
+          </div>
+        </div>
+      </div>
+      <div style={{display:'inline-block', position:'absolute', right:'0', marginRight:'24px'}}>
+        <div class="inline-flex items-center gap-x-3">
+          <input type="checkbox" onChange={selectAllClicked} checked={selectAll===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+          <div class="flex items-center gap-x-2">
+            <h6 style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial'}}>SELECT ALL</h6>
+          </div>
+        </div>
+      </div>
+
+      {academic &&
+        <div>
+          <hr />
+
+          <div>
+
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#cae5fc'}}>
+
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={tenthChange} checked={tenthDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>10th Details</h2>
+                </div>
+              </div>
+              <div class="inline-flex items-center gap-x-3"></div>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={selectAllTenthClicked} checked={allTenthDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Select All</h2>
+                </div>
+              </div>
+
+            </div>
+
+            {tenthDetails && <div>
+              <hr style={{margin:'0'}}/>
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setboard10(!board10)} checked={board10===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Board name</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setpercentageformat10(!percentageformat10)} checked={percentageformat10===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage format</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setpercentage10(!percentage10)} checked={percentage10===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setyear10(!year10)} checked={year10===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Year of Completion</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setremarks10(!remarks10)} checked={remarks10===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Remarks</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setmarksheet10(!marksheet10)} checked={marksheet10===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Marksheet</h2>
+                  </div>
+                </div>
+              </div>
+            </div>}
+
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#cae5fc'}}>
+
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={twelfthChange}  checked={twelfthDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>12th Details</h2>
+                </div>
+              </div>
+              <div class="inline-flex items-center gap-x-3"></div>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={selectAllTwelfthClicked} checked={allTwelfthDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Select All</h2>
+                </div>
+              </div>
+
+            </div>
+
+            {twelfthDetails && <div>
+              <hr style={{margin:'0'}}/>
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setboard12(!board12)} checked={board12===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Board name</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setpercentageformat12(!percentageformat12)} checked={percentageformat12===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage format</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setpercentage12(!percentage12)} checked={percentage12===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=> setyear12(!year12)} checked={year12===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Year of Completion</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setremarks12(!remarks12)} checked={remarks12===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Remarks</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setmarksheet12(!marksheet12)} checked={marksheet12===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Marksheet</h2>
+                  </div>
+                </div>
+              </div>
+            </div>}
+
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#cae5fc'}}>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={btechChange} checked={btechDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Btech Details</h2>
+                </div>
+              </div>
+              <div class="inline-flex items-center gap-x-3"></div>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={selectAllBtechClicked} checked={allBtechDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Select All</h2>
+                </div>
+              </div>
+            </div>
+
+            {btechDetails && <div>
+              <hr style={{margin:'0'}}/>
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setcollegebtech(!collegebtech)} checked={collegebtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>College name</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setbranchbtech(!branchbtech)} checked={branchbtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Branch / Major</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setpercentageformatbtech(!percentageformatbtech)} checked={percentageformatbtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage format</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setpercentagebtech(!percentagebtech)} checked={percentagebtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setyearbtech(!yearbtech)} checked={yearbtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Year of Completion</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setremarksbtech(!remarksbtech)} checked={remarksbtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Remarks</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setmarksheetbtechurl(!marksheetbtechurl)} checked={marksheetbtechurl===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Marksheet</h2>
+                  </div>
+                </div>
+              </div>
+            </div>}
+
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#cae5fc'}}>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={mtechChange} checked={mtechDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Mtech Details</h2>
+                </div>
+              </div>
+              <div class="inline-flex items-center gap-x-3"></div>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={selectAllMtechClicked} checked={allMtechDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Select All</h2>
+                </div>
+              </div>
+            </div>
+
+            {mtechDetails && <div>
+              <hr style={{margin:'0'}}/>
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setcollegemtech(!collegemtech)} checked={collegemtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>College name</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setbranchmtech(!branchmtech)} checked={branchmtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Branch / Major</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setpercentageformatmtech(!percentageformatmtech)} checked={percentageformatmtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage format</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setpercentagemtech(!percentagemtech)} checked={percentagemtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Percentage</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setyearmtech(!yearmtech)} checked={yearmtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Year of Completion</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setremarksmtech(!remarksmtech)} checked={remarksmtech===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Remarks</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setmarksheetmtechurl(!marksheetmtechurl)} checked={marksheetmtechurl===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Marksheet</h2>
+                  </div>
+                </div>
+              </div>
+            </div>}
+
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#cae5fc'}}>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={phdChange} checked={phdDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Phd Details</h2>
+                </div>
+              </div>
+              <div class="inline-flex items-center gap-x-3"></div>
+              <div class="inline-flex items-center gap-x-3">
+                <input type="checkbox" onChange={selectAllPhdClicked} checked={allPhdDetails===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                <div class="flex items-center gap-x-2">
+                  <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Select All</h2>
+                </div>
+              </div>
+            </div>
+
+            {phdDetails && <div>
+              <hr style={{margin:'0'}}/>
+              <div class="grid grid-cols-1 gap-6 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setisphdcompleted(!isphdcompleted)} checked={isphdcompleted===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Phd Complete Status</h2>
+                  </div>
+                </div>
+                <div class="inline-flex items-center gap-x-3">
+                  <input type="checkbox" onChange={()=>setphdremarks(!phdremarks)} checked={phdremarks===true} class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700" />
+                  <div class="flex items-center gap-x-2">
+                    <h2 class="font-medium text-gray-800 dark:text-white " style={{fontSize:'inherit',marginBottom:'0',textTransform:'none',letterSpacing:'initial',fontWeight:'bold'}}>Remarks</h2>
+                  </div>
+                </div>
+              </div>
+            </div>}
+
+          </div>
+
+        </div>
+      }
+
+
+
+
+    </div>
+      {/*<div className="field">
         <div className="form-check item">
           <input className="form-check-input" type="checkbox" name="academic" onChange={academicChange} checked={academic===true}  />
           <label className="form-check-label input-label" style={{fontSize:'1rem'}} >ACADEMIC</label>
@@ -462,84 +830,6 @@ useEffect(()=> {
           </div>
         </div>
         {academic && <div className="data-fields">
-
-          <div>
-            <div style={{display:'flex'}}>
-              <input className="form-check-input" type="checkbox" onChange={tenthChange} checked={tenthDetails===true}  />
-              <label className="form-check-label input-label" style={{fontSize:'1rem'}} >10th Details</label>
-              <div style={{marginLeft:'auto', paddingRight:'10px'}}>
-                <input className='form-check-input' type='checkbox' style={{margin:'0', marginRight:'5px', display:'inline-block',verticalAlign:'middle'}} onChange={selectAllTenthClicked} checked={allTenthDetails===true}/>
-                <label className="form-check-label" style={{fontSize:'1rem', fontWeight:'normal',display:'inline-block',margin:'0',verticalAlign:'middle'}} >Select All </label>
-              </div>
-            </div>
-
-            {tenthDetails && <div>
-              <div className="form-check form-check-inline inline-item" >
-                <input className="form-check-input" type="checkbox" id="personalCheckbox1" onChange={()=> setboard10(!board10)} checked={board10===true} value="board10"/>
-                <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Board name</label>
-              </div>
-              <div className="form-check form-check-inline inline-item" >
-                <input className="form-check-input" type="checkbox" id="personalCheckbox1" onChange={()=> setpercentageformat10(!percentageformat10)} checked={percentageformat10===true} value="percentageformat10" />
-                <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Percentage Format</label>
-              </div>
-              <div className="form-check form-check-inline inline-item" >
-                <input className="form-check-input" type="checkbox" id="personalCheckbox1" onChange={()=> setpercentage10(!percentage10)} checked={percentage10===true} value="percentage10"/>
-                <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Percentage</label>
-              </div>
-              <div className="form-check form-check-inline inline-item" >
-                <input className="form-check-input" type="checkbox" id="personalCheckbox1"  onChange={()=> setyear10(!year10)} checked={year10===true} value="year10"/>
-                <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Year of completion</label>
-              </div>
-              <div className="form-check form-check-inline inline-item" >
-                <input className="form-check-input" type="checkbox" id="personalCheckbox1"  onChange={()=>setremarks10(!remarks10)} checked={remarks10===true} value="remarks10"/>
-                <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Remarks</label>
-              </div>
-              <div className="form-check form-check-inline inline-item" >
-                <input className="form-check-input" type="checkbox" id="personalCheckbox1"  onChange={()=>setmarksheet10(!marksheet10)} checked={marksheet10===true} value="marksheet10"/>
-                <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Marksheet URL</label>
-              </div>
-            </div>}
-
-          </div>
-
-          <div>
-            <div style={{display:'flex'}}>
-              <input className="form-check-input" type="checkbox" onChange={twelfthChange}  checked={twelfthDetails===true}/>
-              <label className="form-check-label input-label" style={{fontSize:'1rem'}} >12th Details</label>
-              <div style={{marginLeft:'auto', paddingRight:'10px'}}>
-                <input className='form-check-input' type='checkbox' style={{margin:'0', marginRight:'5px', display:'inline-block',verticalAlign:'middle'}} onChange={selectAllTwelfthClicked} checked={allTwelfthDetails===true}/>
-                <label className="form-check-label" style={{fontSize:'1rem', fontWeight:'normal',display:'inline-block',margin:'0',verticalAlign:'middle'}} >Select All </label>
-              </div>
-            </div>
-
-            {twelfthDetails &&
-              <div>
-                <div className="form-check form-check-inline inline-item" >
-                  <input className="form-check-input" type="checkbox" id="personalCheckbox1" onChange={()=> setboard12(!board12)} checked={board12===true} value="board12"/>
-                  <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Board</label>
-                </div>
-                <div className="form-check form-check-inline inline-item" >
-                  <input className="form-check-input" type="checkbox" id="personalCheckbox1" onChange={()=> setpercentageformat12(!percentageformat12)} checked={percentageformat12===true} value="percentageformat12" />
-                  <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Percentage Format</label>
-                </div>
-                <div className="form-check form-check-inline inline-item" >
-                  <input className="form-check-input" type="checkbox" id="personalCheckbox1" onChange={()=> setpercentage12(!percentage12)} checked={percentage12===true} value="percentage12"/>
-                  <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Percentage</label>
-                </div>
-                <div className="form-check form-check-inline inline-item" >
-                  <input className="form-check-input" type="checkbox" id="personalCheckbox1"  onChange={()=> setyear12(!year12)} checked={year12===true} value="year12"/>
-                  <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Year of completion</label>
-                </div>
-                <div className="form-check form-check-inline inline-item" >
-                  <input className="form-check-input" type="checkbox" id="personalCheckbox1"  onChange={()=>setremarks10(!remarks12)} checked={remarks12===true} value="remarks12"/>
-                  <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Remarks</label>
-                </div>
-                <div className="form-check form-check-inline inline-item" >
-                  <input className="form-check-input" type="checkbox" id="personalCheckbox1"  onChange={()=>setmarksheet12(!marksheet12)} checked={marksheet12===true} value="marksheet12"/>
-                  <label className="form-check-label checkbox-label" for="personalCheckbox1" style={{fontWeight:'normal', fontSize:'1rem'}}>Marksheet URL</label>
-                </div>
-              </div>}
-          </div>
 
           <div>
             <div style={{display:'flex'}}>
@@ -653,7 +943,7 @@ useEffect(()=> {
 
 
         </div>}
-      </div>
+      </div>*/}
 
 
     </>

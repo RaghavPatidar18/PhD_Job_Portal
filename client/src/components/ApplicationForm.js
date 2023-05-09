@@ -51,19 +51,151 @@ function ApplicationForm({type}){
   }
 }
 
-
-  function submitClicked(){
+function submitClicked(){
   console.log("submit clicked");
-  axios.post(url, {jobFields})
-  .then((response) => {
-    if(response.data.status===200){
-      console.log("submitted");
-      history("/");
+  const dataToSend={};
+
+  //personal data;
+
+  const personalFields=jobFields.jobFields.personal;
+  const personal=[];
+  const personalObj={};
+  Object.keys(personalFields).map((k)=> {
+    if(personalFields[k]===true){
+      personalObj[k]=jobFields.personal[0][k];
     }
-  })
-  .catch((err)=>console.log(err));
+  });
+
+  personal.push(personalObj);
+
+
+
+  const academicFields=jobFields.jobFields.academic;
+  const academic=[];
+  const academicObj={};
+
+  Object.keys(academicFields).map((k)=>{
+    if(academicFields[k]===true){
+      academicObj[k]=jobFields.academic[0][k];
+    }
+  });
+
+  academic.push(academicObj);
+
+
+
+  const experienceFields=jobFields.jobFields.experience;
+  const experience=[];
+  jobFields.experience.map((exp)=> {
+    const experienceObj={};
+    Object.keys(experienceFields).map((k)=>{
+      if(experienceFields[k]===true){
+        experienceObj[k]=exp[k];
+      }
+    });
+    if(Object.keys(experienceObj).length!==0){
+      experience.push(experienceObj);
+    }
+  });
+
+  if(experience.length===0){
+    experience.push({});
+  }
+
+
+  const publicationFields=jobFields.jobFields.publication;
+  const publication=[];
+  jobFields.publication.map((pub)=> {
+    const publicationObj={};
+    Object.keys(publicationFields).map((k)=>{
+      if(publicationFields[k]===true){
+        publicationObj[k]=pub[k];
+      }
+    });
+    if(Object.keys(publicationObj).length!==0){
+      publication.push(publicationObj);
+    }
+  });
+
+  if(publication.length===0){
+    publication.push({});
+  }
+
+
+  const porFields=jobFields.jobFields.por;
+  const por=[];
+  jobFields.por.map((p)=> {
+    const porObj={};
+    Object.keys(porFields).map((k)=>{
+      if(porFields[k]===true){
+        porObj[k]=p[k];
+      }
+    });
+    if(Object.keys(porObj).length!==0){
+      por.push(porObj);
+    }
+  });
+
+  if(por.length===0){
+    por.push({});
+  }
+
+  const referenceFields=jobFields.jobFields.reference;
+  const reference=[];
+  jobFields.reference.map((ref)=> {
+    const referenceObj={};
+    Object.keys(referenceFields).map((k)=>{
+      if(referenceFields[k]===true){
+        referenceObj[k]=ref[k];
+      }
+    });
+    if(Object.keys(referenceObj).length!==0){
+      reference.push(referenceObj);
+    }
+  });
+
+  if(reference.length===0){
+    reference.push({});
+  }
+
+
+  dataToSend.personal=personal;
+  dataToSend.academic=academic;
+  dataToSend.experience=experience;
+  dataToSend.publication=publication;
+  dataToSend.por=por;
+  dataToSend.reference=reference;
+
+  axios.post(url, {dataToSend})
+    .then((response) => {
+      if(response.data.status===200){
+        console.log("submitted");
+        history("/");
+      }
+    })
+    .catch((err)=>console.log(err));
+
+
+
 
 }
+
+
+
+
+
+//   function submitClicked(){
+//   console.log("submit clicked");
+//   axios.post(url, {jobFields})
+//   .then((response) => {
+//     if(response.data.status===200){
+//       console.log("submitted");
+//       history("/");
+//     }
+//   })
+//   .catch((err)=>console.log(err));
+//
+// }
 
   useEffect(()=> {
     getDetails();
@@ -310,7 +442,7 @@ console.log(jobFields);
       </Modal.Footer>
     </Modal>
 
-    <section class="max-w-7xl p-6 mx-auto bg-gray-200 rounded-md shadow-md dark:bg-gray-800" style={{marginTop:'40px',marginBottom:'40px'}}>
+    <section class="max-w-7xl p-6 mx-auto rounded-md shadow-md dark:bg-gray-800" style={{marginTop:'40px',marginBottom:'40px',backgroundColor:'#87CEEB'}}>
       <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white" style={{textAlign:'center'}}>APPLICATION FORM</h2>
 
       {dataRecieved && <form>
@@ -320,7 +452,7 @@ console.log(jobFields);
           <hr />
           <div >
             <h6 style={{textDecoration:'underline'}}>Personal Details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               <div>
                 <label class="text-gray-700 dark:text-gray-200" for="name">Name</label>
                 <input required type="text" value={jobFields.personal[0].name} onChange={(e)=> {const obj=jobFields;obj.personal[0].name=e.target.value; setJobFields({...jobFields,obj});}} id="username" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring" />
@@ -387,7 +519,7 @@ console.log(jobFields);
             <hr></hr>
             <div>
             <h6 style={{textDecoration:'underline'}}>Communication Details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.personal.communication_address && <div >
                 <label class="text-gray-700 dark:text-gray-200"> Address: </label>
                 <input required type="text" value={jobFields.personal[0].communication_address} onChange={(e)=> {const obj=jobFields;obj.personal[0].communication_address=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -419,7 +551,7 @@ console.log(jobFields);
               <hr></hr>
              <div >
             <h6 style={{textDecoration:'underline'}}>Permanent Details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.personal.permanent_address && <div >
                 <label class="text-gray-700 dark:text-gray-200"> Address: </label>
                 <input required type="text" value={jobFields.personal[0].permanent_address} onChange={(e)=> {const obj=jobFields;obj.personal[0].permanent_address=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -451,7 +583,7 @@ console.log(jobFields);
               <hr></hr>
             <div >
             <h6 style={{textDecoration:'underline'}}>Contact Details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.personal.mobile && <div >
                 <label class="text-gray-700 dark:text-gray-200">Mobile No.: </label>
                 <input required type="text" value={jobFields.personal[0].mobile} onChange={(e)=> {const obj=jobFields;obj.personal[0].mobile=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -473,7 +605,7 @@ console.log(jobFields);
           <hr></hr>
           <div>
             <h6 style={{textDecoration:'underline'}}>10th details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.academic.board10 && <div >
                 <label class="text-gray-700 dark:text-gray-200">10th board: </label>
                 <input required type="text" value={jobFields.academic[0].board10} onChange={(e)=> {const obj=jobFields;obj.academic[0].board10=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -508,7 +640,7 @@ console.log(jobFields);
 
           <div>
             <h6 style={{textDecoration:'underline'}}>12th Details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.academic.board12 && <div >
                 <label class="text-gray-700 dark:text-gray-200">12th board: </label>
                 <input required type="text" value={jobFields.academic[0].board12} onChange={(e)=> {const obj=jobFields;obj.academic[0].board12=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -543,7 +675,7 @@ console.log(jobFields);
 
           <div>
             <h6 style={{textDecoration:'underline'}}>Btech details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.academic.collegebtech && <div >
                 <label class="text-gray-700 dark:text-gray-200">College: </label>
                 <input required type="text" value={jobFields.academic[0].collegebtech} onChange={(e)=> {const obj=jobFields;obj.academic[0].collegebtech=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -581,7 +713,7 @@ console.log(jobFields);
 
           <div>
             <h6 style={{textDecoration:'underline'}}>Mtech details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.academic.collegemtech && <div >
                 <label class="text-gray-700 dark:text-gray-200">College: </label>
                 <input required type="text" value={jobFields.academic[0].collegemtech} onChange={(e)=> {const obj=jobFields;obj.academic[0].collegemtech=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -620,7 +752,7 @@ console.log(jobFields);
 
           <div>
             <h6 style={{textDecoration:'underline'}}>Phd details</h6>
-            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+            <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
               {jobFields.jobFields.academic.isphdcompleted && <div >
                 <label class="text-gray-700 dark:text-gray-200">Is Phd Completed? : </label>
                 <select required onChange={(e)=> {const obj=jobFields.academic[0].isphdcompleted=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
@@ -643,7 +775,7 @@ console.log(jobFields);
           <hr></hr>
             {jobFields.experience.map((exp,index) => (
               <div>
-                <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+                <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
                   {jobFields.jobFields.experience.organization && <div>
                     <label class="text-gray-700 dark:text-gray-200">Company Name: </label>
                     <input required type="text" value={exp.organization} onChange={(e)=> {const obj=jobFields;obj.experience[index].organization=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -683,7 +815,7 @@ console.log(jobFields);
           <hr></hr>
           {jobFields.publication.map((pub,index)=> (
             <div>
-              <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+              <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
                 {jobFields.jobFields.publication.title && <div>
                   <label class="text-gray-700 dark:text-gray-200">Title: </label>
                   <input required type="text" value={pub.title} onChange={(e)=> {const obj=jobFields;obj.publication[index].title=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -731,7 +863,7 @@ console.log(jobFields);
           <hr></hr>
           {jobFields.por.map((p,index)=> (
             <div>
-              <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+              <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
                 {jobFields.jobFields.por.organization && <div >
                   <label class="text-gray-700 dark:text-gray-200">Organization: </label>
                   <input required type="text" value={p.organization} onChange={(e)=> {const obj=jobFields;obj.por[index].organization=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -771,7 +903,7 @@ console.log(jobFields);
           <hr></hr>
           {jobFields.reference.map((ref,index)=> (
             <div>
-              <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 bg-gray-100 px-4 py-4">
+              <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3 px-4 py-4" style={{backgroundColor:'#F0F8FF'}}>
                 {jobFields.jobFields.reference.name && <div >
                   <label class="text-gray-700 dark:text-gray-200">Name: </label>
                   <input required type="text" value={ref.name} onChange={(e)=> {const obj=jobFields;obj.reference[index].name=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"></input>
@@ -814,7 +946,7 @@ console.log(jobFields);
 
         <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-3" >
         <div></div>
-        <Button variant="success" size="lg" style={{marginTop:'30px'}} onClick={()=> setShow(true)}>Submit</Button>
+        <Button variant="dark" size="lg" style={{marginTop:'30px'}} onClick={()=> setShow(true)}>Submit</Button>
         <div></div>
         </div>
 

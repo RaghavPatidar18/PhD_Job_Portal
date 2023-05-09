@@ -20,6 +20,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
   const [select,setSelect]=useState(false);
+  const [fileCreated,setFileCreated]=useState(false);
 
   const handleCloseAccept = () => setShowAccept(false);
   const handleShowAccept = () => setShowAccept(true);
@@ -60,7 +61,52 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     .catch((err)=> console.log(err));
   }
 
+  function handleWorkbookCreate(){
+    axios.get(`http://localhost:3000/create-workbook/${application_id}`)
+      .then((res)=>{
+        console.log(res.data);
+        setFileCreated(true);
+
+      })
+  }
+
+  function handleDownload(){
+    console.log("here");
+    // axios.get(`http://localhost:4000/export/${application_id}`)
+    // .then((res)=> {
+    //   if(res.data){
+    //     console.log("success");
+    //
+    //     //setApplicantStatus("Rejected");
+    //     //window.location.reload(false);
+    //   }
+    // })
+    // .catch((err)=> console.log(err));
+    const fileName="book.xlsx";
+    axios({
+        method: 'get',
+        url: `http://localhost:3000/export/${application_id}`,
+        responseType: 'blob',
+        headers: {},
+        })
+        .then((res) => {
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+        })
+        .catch((error) => {
+            alert(error);
+        })
+        setFileCreated(false);
+  }
+
   useEffect(()=>{
+    if(fileCreated===true){
+      handleDownload();
+    }
     if(acceptPressed===true || rejectPressed===true){
       if(acceptPressed===true){
         if(select===true){
@@ -78,7 +124,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     }else{
       setSelect(selectAll);
     }
-  },[selectAll,acceptPressed,rejectPressed])
+  },[selectAll,acceptPressed,rejectPressed,fileCreated])
 
 
   return (
@@ -145,11 +191,20 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
         </td>
 
         <td class="px-4 py-4 text-sm whitespace-nowrap">
-          {applicantStatus!=="Withdrew" && <Link to={`/applicant-detail/${application_id}`}><div class="flex items-center gap-x-6">
-            <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
-              View Applicant Details
+          {applicantStatus!=="Withdrew" &&
+          <div class="flex items-center gap-x-6">
+            <Link to={`/applicant-detail/${application_id}`}><div class="flex items-center gap-x-6">
+              <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                View Applicant Details
+              </button>
+            </div></Link>
+            <button onClick={handleWorkbookCreate} class="text-gray-500 transition-colors duration-200 dark:hover:text-yellow-500 dark:text-gray-300 hover:text-yellow-500 focus:outline-none">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+              </svg>
             </button>
-          </div></Link>}
+          </div>
+        }
         </td>
 
         {/*<td className="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" style={{paddingLeft:'24px',paddingRight:'24px',paddingTop:'14px',paddingBottom:'14px'}}>

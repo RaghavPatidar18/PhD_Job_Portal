@@ -169,24 +169,24 @@ const history = useNavigate();
 
   return(
     <div style={{paddingTop:'50px',width:'75%',margin:'auto',paddingBottom:'50px'}}>
-    <section class="container mx-auto bg-gray-200" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px'}}>
+    <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Personal Details</h2>
       </div>
 
-      <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}} >
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" >
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Personal Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
                   </tr>
                 </thead>
-                {recieved && <tbody class="divide-y divide-gray-200 ">
+                {recieved && <tbody class="divide-y divide-gray-200 " >
                   <tr  >
                     <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Name</td>
                     <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px'}} >{details.student_details.personal[0].name}</td>
@@ -234,13 +234,13 @@ const history = useNavigate();
         </div>
       </div>
 
-      {recieved && checkComDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}} >
+      {recieved && checkComDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Communication Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -275,13 +275,13 @@ const history = useNavigate();
       </div>}
 
 
-      {recieved && checkPermDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}} >
+      {recieved && checkPermDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Permanent Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -315,13 +315,13 @@ const history = useNavigate();
         </div>
       </div>}
 
-      {recieved && checkContactDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}} >
+      {recieved && checkContactDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Contact Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -346,18 +346,18 @@ const history = useNavigate();
 
     </section>
 
-  {recieved && checkAcademicDetails() &&  <section class="container mx-auto bg-gray-200" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px'}}>
+  {recieved && checkAcademicDetails() &&  <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Academic Details</h2>
       </div>
 
-      {recieved && checkTenthDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      {recieved && checkTenthDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>10th Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -395,13 +395,13 @@ const history = useNavigate();
         </div>
       </div>}
 
-      {recieved && checkTwelfthDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      {recieved && checkTwelfthDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>12th Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -439,13 +439,13 @@ const history = useNavigate();
         </div>
       </div>}
 
-      {recieved && checkBtechDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      {recieved && checkBtechDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Btech Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -487,13 +487,13 @@ const history = useNavigate();
         </div>
       </div>}
 
-      {recieved && checkMtechDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      {recieved && checkMtechDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Mtech Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -535,13 +535,13 @@ const history = useNavigate();
         </div>
       </div>}
 
-      {recieved && checkPhdDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      {recieved && checkPhdDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Phd Information</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -569,20 +569,20 @@ const history = useNavigate();
 
 
 
-    {recieved && checkExperienceDetails() && <section class="container mx-auto bg-gray-200" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px'}}>
+    {recieved && checkExperienceDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Experience Details</h2>
       </div>
 
       {recieved && details.student_details.experience.map((exp,index)=> (
 
-      <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Experience {index+1}</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -624,20 +624,20 @@ const history = useNavigate();
     </section>}
 
 
-    {recieved && checkPublicationDetails() && <section class="container mx-auto bg-gray-200" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px'}}>
+    {recieved && checkPublicationDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Publication Details</h2>
       </div>
 
       {recieved && details.student_details.publication.map((pub,index)=> (
 
-      <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Publication {index+1}</div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -684,20 +684,20 @@ const history = useNavigate();
       </div>))}
     </section>}
 
-    {recieved && checkPorDetails() && <section class="container mx-auto bg-gray-200" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px'}}>
+    {recieved && checkPorDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Position of Responsibility Details</h2>
       </div>
 
       {recieved && details.student_details.por.map((p,index)=> (
 
-      <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Position of Responsibility {index+1} </div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
                     <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
                     <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
@@ -736,23 +736,23 @@ const history = useNavigate();
       </div>))}
     </section>}
 
-    {recieved && checkReferenceDetails() && <section class="container mx-auto bg-gray-200" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px'}}>
+    {recieved && checkReferenceDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Reference Details</h2>
       </div>
 
       {recieved && details.student_details.reference.map((ref,index)=> (
 
-      <div class="flex flex-col mt-6 px-4 py-4 bg-white" style={{marginBottom:'50px'}}>
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
           <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Reference {index+1} </div>
             <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
               <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
-                <thead class="bg-gray-50 dark:bg-gray-800 divide-y divide-gray-200">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
                   <tr >
-                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
-                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" >Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px' }}>Value</th>
                   </tr>
                 </thead>
                 {recieved && <tbody class="divide-y divide-gray-200 ">

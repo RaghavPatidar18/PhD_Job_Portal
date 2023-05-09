@@ -140,6 +140,10 @@ function JobDetails({ user, type }) {
     .catch((err)=> console.log(err));
   }
 
+  function handleEdit(){
+    history(`/update-job/${id}`)
+  }
+
   return (
 
     <>
@@ -248,6 +252,7 @@ function JobDetails({ user, type }) {
           QnA
         </button> */}
         {type === "institute" && job.institute_id===user._id && <button onClick={handleShowDelete} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>Delete Job</button>}
+        {type === "institute" && job.institute_id===user._id && <button onClick={handleEdit} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>Edit Job</button>}
 
       </div>
       <Footer />
