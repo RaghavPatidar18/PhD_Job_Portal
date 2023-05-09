@@ -141,7 +141,7 @@ const ExperienceTable = ({ user, type }) => {
               <hr />
               <tr>
                 <td>
-                  <label htmlFor="profile">Title:</label>
+                  <label className="profile-label" htmlFor="profile">Title:</label>
                 </td>
                 <td>
                   <input
@@ -155,7 +155,7 @@ const ExperienceTable = ({ user, type }) => {
               </tr>
               <tr>
                 <td>
-                  <label htmlFor="organization">Organization:</label>
+                  <label className="profile-label" htmlFor="organization">Organization:</label>
                 </td>
                 <td>
                   <input
@@ -169,7 +169,7 @@ const ExperienceTable = ({ user, type }) => {
               </tr>
               <tr>
                 <td>
-                  <label htmlFor="startdate">Start Date:</label>
+                  <label className="profile-label" htmlFor="startdate">Start Date:</label>
                 </td>
                 <td>
                   <input
@@ -183,7 +183,7 @@ const ExperienceTable = ({ user, type }) => {
               </tr>
               <tr>
                 <td>
-                  <label htmlFor="enddate">End Date:</label>
+                  <label className="profile-label" htmlFor="enddate">End Date:</label>
                 </td>
                 <td>
                   <input
@@ -197,7 +197,7 @@ const ExperienceTable = ({ user, type }) => {
               </tr>
               <tr>
                 <td>
-                  <label htmlFor="description">Description:</label>
+                  <label className="profile-label" htmlFor="description">Description:</label>
                 </td>
                 <td>
                   <textarea
@@ -210,7 +210,7 @@ const ExperienceTable = ({ user, type }) => {
               </tr>
               <tr>
                 <td>
-                  <label htmlFor="location">Location:</label>
+                  <label className="profile-label" htmlFor="location">Location:</label>
                 </td>
                 <td>
                   <input
@@ -256,7 +256,7 @@ const ExperienceTable = ({ user, type }) => {
                   <hr/>
                   <tr>
                     <td>
-                      <label htmlFor="profile">Title:</label>
+                      <label className="profile-label" htmlFor="profile">Title:</label>
                     </td>
                     <td>
                       <input
@@ -270,7 +270,7 @@ const ExperienceTable = ({ user, type }) => {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="organization">Organization:</label>
+                      <label className="profile-label" htmlFor="organization">Organization:</label>
                     </td>
                     <td>
                       <input
@@ -284,7 +284,7 @@ const ExperienceTable = ({ user, type }) => {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="startdate">Start Date:</label>
+                      <label className="profile-label" htmlFor="startdate">Start Date:</label>
                     </td>
                     <td>
                       <input
@@ -298,7 +298,7 @@ const ExperienceTable = ({ user, type }) => {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="enddate">End Date:</label>
+                      <label className="profile-label" htmlFor="enddate">End Date:</label>
                     </td>
                     <td>
                       <input
@@ -312,7 +312,7 @@ const ExperienceTable = ({ user, type }) => {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="description">Description:</label>
+                      <label className="profile-label" htmlFor="description">Description:</label>
                     </td>
                     <td>
                       <textarea
@@ -325,7 +325,7 @@ const ExperienceTable = ({ user, type }) => {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="location">Location:</label>
+                      <label className="profile-label" htmlFor="location">Location:</label>
                     </td>
                     <td>
                       <input

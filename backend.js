@@ -22,6 +22,10 @@ const UserExperience = require("./model/experienceSchema");
 const POR = require("./model/porSchema");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const excelJs=require("exceljs");
+const xl=require("excel4node");
+const mime=require("mime");
+const path=require("path");
 
 app.use(cors()); // Use this after the variable declaration
 app.use(cookiParser());
@@ -88,12 +92,12 @@ const applicationSchema = new mongoose.Schema({
   job_id: String,
   status: String,
   student_details: {
-    personal: personalSchemaobj,
-    academic: academicSchemaobj,
-    experience: experienceSchemaobj,
-    publication: publicationSchemaobj,
-    por: porSchemaobj,
-    reference: referenceSchemaobj
+    personal: [Object],
+    academic: [Object],
+    experience: [Object],
+    publication: [Object],
+    por: [Object],
+    reference: [Object]
   },
 });
 const Application = mongoose.model("application", applicationSchema);
@@ -106,6 +110,8 @@ app.post("/job-post", (req, res) => {
   //console.log(req.body);
   const { job, id } = req.body;
   console.log(job);
+  console.log("the job fields are:");
+  console.log(job.fields);
   var obj = {};
   obj = job;
   obj.institute_id = id;
@@ -280,11 +286,18 @@ app.post("/api/verifyOtp", async (req, res) => {
         email: email,
         password: hashedPassword,
       });
+      const d=Date.now();
+      let date_time=new Date(d);
+      let date=date_time.getDate();
+      let month=date_time.getMonth();
+      let year=date_time.getYear();
+      let today=year+"-"+month+"-"+date;
+
       const personals = new Personal({
         email: email,
         name: name,
         fathername: "-",
-        dob: "-",
+        dob: today,
         age: "-",
         category: "-",
         disablity: "-",
@@ -346,20 +359,15 @@ app.post("/api/verifyOtp", async (req, res) => {
       await personals.save();
       await user.save();
 
-      const d = Date.now();
-      let date_time = new Date(d);
-      let date = date_time.getDate();
-      let month = date_time.getMonth();
-      let year = date_time.getYear();
-      let today = year + "-" + month + "-" + date;
-      const experience = new UserExperience({
-        email: email,
-        profile: "-",
-        organization: "-",
-        startdate: today,
-        enddate: today,
-        description: "-",
-        location: "-",
+
+      const experience=new UserExperience({
+        email : email,
+        profile : "-",
+        organization : "-",
+        startdate : today,
+        enddate : today,
+        description : "-",
+        location : "-",
       });
       experience.save();
 
@@ -1000,8 +1008,8 @@ app.get("/jobApplicants/:id", async (req, res) => {
         let obj = {};
         if (student) {
           obj.application_id = await application._id;
-          obj.student_name = await application.student_details.personal.name;
-          obj.student_email = await application.student_details.personal.email;
+          obj.student_name = await application.student_details.personal[0].name;
+          obj.student_email=await application.student_details.personal[0].email;
           obj.student_id = await student._id;
           obj.status = await application.status;
           obj.student = await application.student_details;
@@ -1160,12 +1168,12 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
   const user = await User.findOne({ _id: user_id });
   console.log(user);
   if (job && user) {
-    const academic = await Academic.findOne({ email: user.email });
-    const experience = await UserExperience.findOne({ email: user.email });
-    const personal = await Personal.findOne({ email: user.email });
-    const publication = await Publication.findOne({ email: user.email });
-    const por = await POR.findOne({ email: user.email });
-    const reference = await Reference.findOne({ email: user.email });
+    const academic = await Academic.find({ email: user.email });
+    const experience = await UserExperience.find({ email: user.email });
+    const personal = await Personal.find({ email: user.email });
+    const publication = await Publication.find({ email: user.email });
+    const por = await POR.find({ email: user.email });
+    const reference = await Reference.find({ email: user.email });
 
     let obj = {};
     if (academic && experience && personal && publication) {
@@ -1177,7 +1185,8 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
       obj.por = por;
       obj.reference = reference;
       obj.jobFields = job.fields;
-      console.log(obj);
+      console.log("the job fields are: the second time");
+      console.log(obj.jobFields);
       res.json({ status: 200, dataObject: obj });
     } else {
       res.json({ status: 500 });
@@ -1190,16 +1199,23 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
 app.post("/application-form/:job_id/:user_id", async (req, res) => {
   console.log("posting at application form");
   const { job_id, user_id } = req.params;
-  const { jobFields } = req.body;
-  const obj = {};
-  obj.personal = jobFields.personal;
-  obj.academic = jobFields.academic;
-  obj.experience = jobFields.experience;
-  obj.publication = jobFields.publication;
-  obj.por = jobFields.por;
-  obj.reference = jobFields.reference;
+  // const { jobFields } = req.body;
+  // console.log("jobfields are:");
+  // console.log(jobFields);
+  // const obj = {};
+  // obj.personal = jobFields.personal;
+  // obj.academic = jobFields.academic;
+  // obj.experience = jobFields.experience;
+  // obj.publication = jobFields.publication;
+  // obj.por = jobFields.por;
+  // obj.reference = jobFields.reference;
+  //
+  // console.log("the created obj is");
+  // console.log(obj);
 
-  console.log("the created obj is");
+  const {dataToSend}=req.body;
+  const obj=dataToSend;
+  console.log("i got this data from the application form");
   console.log(obj);
 
   const new_application = new Application({
@@ -1208,6 +1224,9 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
     status: "Pending",
     student_details: obj,
   });
+
+  console.log("checking the new application");
+  console.log(new_application);
   const saved = await new_application.save();
   if (saved) {
     console.log("done");
@@ -1221,6 +1240,8 @@ app.get("/applicant-details/:id", async (req, res) => {
   console.log(Application.schema.obj);
   const { id } = req.params;
   const application = await Application.findOne({ _id: id });
+  console.log("here at applicant-details");
+  console.log(application);
   if (application) {
     const job_id = application.job_id;
     const job = await Job.findOne({ _id: job_id });
@@ -1296,6 +1317,7 @@ app.get('/api/meid', auth, async (req, res) => {
 
 // Get all experiences
 app.get('/api/getexperiences', async (req, res) => {
+  console.log("get experiences");
   const experiences = await Experience.find().populate('comments');
   res.json(experiences);
 });
@@ -1309,6 +1331,8 @@ app.get('/api/getrequests', async (req, res) => {
 
 // Create a new experience
 app.post('/api/createExperiences', async (req, res) => {
+  console.log("create experiences");
+  console.log(req.body);
   const experience = new Experience(req.body);
   await experience.save();
   res.json(experience);
@@ -1319,6 +1343,7 @@ app.post('/api/createExperiences', async (req, res) => {
 app.post("/api/addcomments/:id", async (req, res) => {
   // console.log("inside api");
   // console.log(req.body);
+  console.log("add comments");
   const experience = await Experience.findById(req.params.id);
   const commentnew = new CommentNew({
     experience: experience._id,
@@ -1341,6 +1366,7 @@ app.post("/api/addcomments/:id", async (req, res) => {
 
 // Update an experience
 app.put('/api/experiences/:id', async (req, res) => {
+  console.log(" experiences");
   const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.json(experience);
 });
@@ -1363,6 +1389,7 @@ app.put('/api/experiences/:id', async (req, res) => {
 
 // Get all comments for an experience
 app.get('/api/getcomments/:id', async (req, res) => {
+  console.log("get comments");
   try {
     const comments = await CommentNew.find({ experience: req.params.id })
       .populate('experience', 'companyName')
@@ -1511,6 +1538,116 @@ app.post("/api/registerInstitute", async (req, res) => {
 
 
 });
+
+app.get("/updateJob/:id",async(req,res)=>{
+  const {id}=req.params;
+  const job=await Job.findOne({_id:id});
+  if(job){
+    res.send({status:200,job:job});
+  }else{
+    res.send({status:500});
+  }
+})
+
+app.post("/updateJob",async(req,res)=> {
+  const {job,id}=req.body;
+
+  const current_job=await Job.findOne({_id:id});
+  if(current_job){
+    const new_job=await Job.updateOne({_id:id},{$set: {
+      title:job.title,
+      description:job.description,
+      location:job.location,
+      salary:job.salary,
+      contactEmail:job.contactEmail,
+      qualifications:job.qualifications,
+      college: job.college,
+      responsibilities:job.responsibilities,
+      lastDate:job.lastDate,
+      lastUpdateDate:job.lastUpdateDate,
+      fields:job.fields
+    }});
+
+    if(new_job){
+      res.send({status:200});
+    }else{
+      res.send({status:500});
+    }
+  }else{
+    res.send({status:500})
+  }
+})
+
+
+
+const createWorkbook = async(id) =>{
+
+};
+
+
+app.get("/create-workbook/:id", async(req,res)=>{
+  const {id}=req.params;
+  const application = await Application.findOne({_id:id});
+  var name_of_file="_applicant_details.xlsx";
+  if(application){
+    name_of_file=application.student_details.personal[0].name+name_of_file;
+    console.log("got into application");
+    const student_details=application.student_details;
+    console.log(student_details);
+    const wb=new xl.Workbook();
+    const ws=wb.addWorksheet("data");
+    ws.cell(1,2).string("data field");
+    ws.cell(1,3).string("value");
+    var rowIndex=3;
+    var flag=0;
+    await Object.keys(student_details).map((details)=>{
+      student_details[details].map((stu)=>{
+        Object.keys(stu).map((k)=>{
+          if(flag==0){
+            ws.cell(rowIndex,1).string(details);
+            flag=1;
+          }
+          console.log(k);
+          console.log(stu[k]);
+          ws.cell(rowIndex,2).string(k);
+          ws.cell(rowIndex,3).string(stu[k]);
+          rowIndex++;
+          //ws.cell(:k,value:stu[k]});
+        });
+        if(flag==1){
+          rowIndex++;
+        }
+        flag=0;
+      });
+    });
+    console.log("done till here");
+    await wb.write(name_of_file);
+
+  }
+  res.send({status:200});
+})
+app.get("/export/:id",async(req,res,next)=>{
+  console.log("here");
+  const {id}=req.params;
+  const application=await Application.findOne({_id:id});
+  console.log(application);
+  //await createWorkbook(id);
+    var name_of_file=application.student_details.personal[0].name+"_applicant_details.xlsx";
+    const file=__dirname + `\\${name_of_file}`;
+    const fileName=path.basename(file);
+    const mimeType=mime.getType(file);
+    res.setHeader("Content-Disposition","attachment;filename=" + fileName);
+    res.setHeader("Content-Type", mimeType);
+    console.log("here too");
+    res.download(file,name_of_file);
+
+
+
+    console.log("and afetr");
+    console.log('rwugteiu');
+
+
+})
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");

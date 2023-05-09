@@ -8,12 +8,13 @@ import {useState,useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from 'axios';
 
-function JobCard({job,srNo}) {
+function JobCard({job,srNo,selectAll,deletePressed,length}) {
 
   const [status,setStatus]=useState(job.application_status);
   console.log(srNo);
   console.log(status);
   const [show,setShow]=useState(false);
+  const [select,setSelect]=useState(false);
 
   const handleClose =()=> setShow(false);
   const handleShow=()=> setShow(true);
@@ -31,6 +32,19 @@ function JobCard({job,srNo}) {
     })
     .catch((err)=> console.log(err));
   }
+
+  useEffect(()=>{
+    if(deletePressed===true){
+      if(select===true){
+        handleWithdraw();
+      }
+      if(srNo===length){
+        window.location.reload();
+      }
+    }else{
+      setSelect(selectAll);
+    }
+  },[selectAll,deletePressed])
 
   return (
 
@@ -54,7 +68,7 @@ function JobCard({job,srNo}) {
 
     <td className="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
       <div className="inline-flex items-center gap-x-3">
-        <input type="checkbox" className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
+        <input type="checkbox" onClick={()=>setSelect(!select)} checked={select===true} className="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700"/>
         <span>#{srNo}</span>
       </div>
     </td>
@@ -104,9 +118,9 @@ function JobCard({job,srNo}) {
     <td class="px-4 py-4 text-sm whitespace-nowrap">
       <div className="flex items-center gap-x-6">
         {status!=="Withdrew" && <button onClick={handleShow} className="text-gray-500 transition-colors duration-200 dark:hover:text-red-500 dark:text-gray-300 hover:text-red-500 focus:outline-none">
-          <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-red-500 bg-red-100/60 dark:bg-gray-800">
-            <h2 class="text-sm font-normal text-red-500" style={{marginBottom:'0',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Withdraw Application</h2>
-          </div>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+        </svg>
         </button>}
       </div>
     </td>

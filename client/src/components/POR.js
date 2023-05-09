@@ -130,7 +130,7 @@ const POR = ({ user, type }) => {
             <h4>Add POR</h4>
             <tr>
               <td>
-                <label htmlFor="title">Title:</label>
+                <label className="profile-label" htmlFor="title">Title:</label>
               </td>
               <td>
                 <input
@@ -144,7 +144,7 @@ const POR = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="organization">Organization:</label>
+                <label className="profile-label" htmlFor="organization">Organization:</label>
               </td>
               <td>
                 <input
@@ -158,7 +158,7 @@ const POR = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="startdate">Start Date:</label>
+                <label className="profile-label" htmlFor="startdate">Start Date:</label>
               </td>
               <td>
                 <input
@@ -172,7 +172,7 @@ const POR = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="enddate">End Date:</label>
+                <label className="profile-label" htmlFor="enddate">End Date:</label>
               </td>
               <td>
                 <input
@@ -186,7 +186,7 @@ const POR = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="description">Description:</label>
+                <label className="profile-label" htmlFor="description">Description:</label>
               </td>
               <td>
                 <textarea
@@ -199,7 +199,7 @@ const POR = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="location">Location:</label>
+                <label className="profile-label" htmlFor="location">Location:</label>
               </td>
               <td>
                 <input
@@ -241,7 +241,7 @@ const POR = ({ user, type }) => {
                 <hr/>
                 <tr>
                   <td>
-                    <label htmlFor="title">Title:</label>
+                    <label className="profile-label" htmlFor="title">Title:</label>
                   </td>
                   <td>
                     <input
@@ -255,7 +255,7 @@ const POR = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="organization">Organization:</label>
+                    <label className="profile-label" htmlFor="organization">Organization:</label>
                   </td>
                   <td>
                     <input
@@ -269,7 +269,7 @@ const POR = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="startdate">Start Date:</label>
+                    <label className="profile-label" htmlFor="startdate">Start Date:</label>
                   </td>
                   <td>
                     <input
@@ -283,7 +283,7 @@ const POR = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="enddate">End Date:</label>
+                    <label className="profile-label" htmlFor="enddate">End Date:</label>
                   </td>
                   <td>
                     <input
@@ -297,7 +297,7 @@ const POR = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="description">Description:</label>
+                    <label className="profile-label" htmlFor="description">Description:</label>
                   </td>
                   <td>
                     <textarea
@@ -310,7 +310,7 @@ const POR = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="location">Location:</label>
+                    <label className="profile-label" htmlFor="location">Location:</label>
                   </td>
                   <td>
                     <input
@@ -401,7 +401,7 @@ const POR = ({ user, type }) => {
         )
       )}
 
-      
+
     </div>
   );
 };

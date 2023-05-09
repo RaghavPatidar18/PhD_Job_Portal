@@ -121,6 +121,10 @@ function JobDetails({ user, type }) {
     .catch((err)=> console.log(err));
   }
 
+  function handleEdit(){
+    history(`/update-job/${id}`)
+  }
+
   return (
 
     <>
@@ -178,8 +182,8 @@ function JobDetails({ user, type }) {
 
       <div className="job-details-container">
       <h2 style={{ fontFamily: "Inter, sans-serif", textAlign: "left", marginLeft:"120px" , marginTop:"20px" , fontWeight:"700"}}> {job.title} </h2>
-          
-      
+
+
         <br />
         <div className="job-info" style={{ borderRadius: "0px" }}>
         <div className="sec-1" style={{ display: "flex", flexDirection: "column", marginBottom: "20px" , justifyContent: "space-between"}}>
@@ -209,7 +213,7 @@ function JobDetails({ user, type }) {
   </div>
 </div>
         </div>
-        
+
         <div className="job-details-box" style={{ borderRadius: "0px", fontFamily: "Inter, sans-serif", marginBottom : "40px",marginRight:"80px", marginLeft:"80px", background: "", padding: "40px" }}>
         <h4 style={{ fontFamily: "Inter, sans-serif", textAlign: "left",fontWeight:"700"}}> Qualifications </h4>
   <p style={{ fontSize: "18px" }}>{job.qualifications}</p>
@@ -245,12 +249,13 @@ function JobDetails({ user, type }) {
       style={{
         backgroundColor: "#40a829",
         color: "#fff",
-        padding: "8px 1px" 
+        padding: "8px 1px"
       }}
     >
       Delete Job
     </button>
   )}
+    {type === "institute" && job.institute_id===user._id && <button onClick={handleEdit} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>Edit Job</button>}
 </div>
 
       </div>

@@ -146,7 +146,7 @@ const Signup = () => {
 </div>}
   <div style={{marginTop:'70px', marginBottom:'70px'}}>
       <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
-        <div className="hidden bg-cover lg:block lg:w-1/2" style={{backgroundImage: 'url("https://images.unsplash.com/photo-1606660265514-358ebbadc80d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1575&q=80")'}}></div>
+        <div className="hidden bg-cover lg:block lg:w-1/2" style={{backgroundImage: 'url("https://skilloutlook.com/wp-content/uploads/2020/10/IIT-Ropar-06-Oct-2020.jpg")'}}></div>
         <div class="w-full px-6 py-8 md:px-8 lg:w-1/2">
           <div class="flex justify-center mx-auto">
             <img class="w-auto h-7 sm:h-8" src="https://upload.wikimedia.org/wikipedia/en/f/f9/Indian_Institute_of_Technology_Ropar_logo.png" alt="" />
@@ -165,7 +165,7 @@ const Signup = () => {
               </div>
 
               <span class="w-5/6 px-4 py-3 font-bold text-center">Sign up with Google</span>
-              <a href="/auth/google">Login/Signup with Google</a>
+              {/*<a href="/auth/google">Login/Signup with Google</a>*/}
 
           </a>
           <div class="flex items-center justify-between mt-4">

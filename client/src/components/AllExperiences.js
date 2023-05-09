@@ -37,21 +37,21 @@ const AllExperiences = () => {
           [name]: value,
         }));
       };
-    
+
       const handleAddExperience = () => {
         setExperiences((prevExperiences) => [...prevExperiences, {}]);
       };
-    
+
       const handleRemoveExperience = (index) => {
         setExperiences((prevExperiences) =>
           prevExperiences.filter((exp, i) => i !== index)
         );
       };
-    
+
       const handleFilterByCompanyName = (event) => {
         setFilterByCompanyName(event.target.value);
       };
-    
+
       const handleSearch = () => {
         // Filter experiences by company name
         const filteredExperiences = experiences.filter(
@@ -130,7 +130,7 @@ const AllExperiences = () => {
     return (
         <>
 
-        
+
 
             <section class="bg-white dark:bg-gray-900">
                 <div class="container px-6 py-10 mx-auto">
@@ -159,8 +159,8 @@ const AllExperiences = () => {
 
 
                     {activeForm === false ? (
-  <div className='addexp' style={{ 
-    display: "flex", 
+  <div className='addexp' style={{
+    display: "flex",
     alignItems: "center",
     background: "#FBF9F9",
     padding: "50px 150px",
@@ -169,11 +169,11 @@ const AllExperiences = () => {
     marginLeft: "-80px",
      zIndex: 0
   }}>
-    <p style={{ 
-      fontSize: "1.2rem", 
-      fontWeight: "bold", 
-      marginBottom: "1rem", 
-      color: "#000000" 
+    <p style={{
+      fontSize: "1.2rem",
+      fontWeight: "bold",
+      marginBottom: "1rem",
+      color: "#000000"
     }}>
       Do you have any experience?
     </p>
@@ -199,7 +199,7 @@ const AllExperiences = () => {
       Add Experience
     </button>
   </div>
-  
+
 ) : (
   <div style={{ display: "flex", alignItems: "center" }}>
     <button
@@ -225,9 +225,8 @@ const AllExperiences = () => {
 
                     </div>
 
-                    
 
-            
+
                     <div className='exper'>
   {activeForm === true ? (
     <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
@@ -242,7 +241,7 @@ const AllExperiences = () => {
 
 
                     {/* <div class="grid grid-cols-1 gap-8 mx-auto mt-8 lg:grid-cols-2 xl:mt-10 max-w-7xl" style={{ width: "80%", margin: "0 auto" }}> */}
-                    <hr style={{ 
+                    <hr style={{
   border: "none", // Remove default border
   height: "1px", // Set height to 1px
   background: "#000000", // Custom background color, e.g., black
@@ -251,16 +250,16 @@ const AllExperiences = () => {
 
 
                     <div class="max-w-screen-xl mx-auto">
-                    <h1 style={{ 
+                    <h1 style={{
   fontSize: "2rem", // Increased font size to 3rem
   fontWeight: "bold",
   color: "#000000", // Custom color, e.g., black
   fontFamily: "Arial, sans-serif", // Professional font, e.g., Arial
   textTransform: "uppercase", // Optional: uppercase text
   marginTop: "2rem"
-//   marginBottom: "2rem" 
+//   marginBottom: "2rem"
 }}>
-   
+
   <h1>
           <span className="client">Clients </span>{''}
           <span className="exper">Experiences </span>{''}
@@ -268,12 +267,12 @@ const AllExperiences = () => {
 </h1>
 
   <br />
-  
-  <div className='Filterbox' style={{ 
-  background: "#FFFFFF", 
-  boxShadow: "0px 1px 22px 1px rgba(69, 64, 219, 0.04)", 
-  borderRadius: "20px" 
-}}> 
+
+  <div className='Filterbox' style={{
+  background: "#FFFFFF",
+  boxShadow: "0px 1px 22px 1px rgba(69, 64, 219, 0.04)",
+  borderRadius: "20px"
+}}>
 {/* <img
           src={frame}
           alt="My Image"
@@ -307,13 +306,13 @@ const AllExperiences = () => {
         experience={experience.experience}
         name={experience.name}
       />
-      
-      
+
+
   </div>
-  
+
 
   <div className="col-span-3"></div>
-  
+
 </div>
 
 <hr
