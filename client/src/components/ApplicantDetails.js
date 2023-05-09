@@ -12,7 +12,7 @@ import ModalTemplate from "./ModalTemplate.js";
 import "./css/ApplicantDetails.css";
 import { saveAs } from 'file-saver';
 import {CSVLink} from 'react-csv';
- 
+
 function ApplicantDetails({user,type}){
   // console.log(user);
   const {id}=useParams();
@@ -41,7 +41,7 @@ const history = useNavigate();
               const updatedData = Object.values(response.data.details.student_details).map(val => val ?? defaultVal);
 
               setPersonalData(updatedData);
-              
+
 
               setRecieved(true);
             }
@@ -52,391 +52,760 @@ const history = useNavigate();
 
   },[]);
 
-  
-console.log(personalData);
-  
-  const csvLink = {
-    filename : "file.csv",
-    data : personalData
+  const checkComDetails = ()=> {
+    console.log("dnioenoei");
+    const obj=details.fields.personal;
+    if(obj.communication_city===true || obj.communication_state===true || obj.communication_address===true || obj.communication_country===true || obj.communication_pincode===true){
+      console.log("sngioen");
+      return true;
+    }else{
+      return false;
+    }
   }
 
+  const checkPermDetails = () =>{
+    const obj=details.fields.personal;
+    if(obj.permanent_city===true || obj.permanent_state===true || obj.permanent_address===true || obj.permanent_country===true || obj.permanent_pincode===true){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkContactDetails = ()=> {
+    const obj=details.fields.personal;
+    if(obj.mobile===true || obj.altmobile===true){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkTenthDetails = ()=> {
+    const obj=details.fields.academic;
+    if(obj.board10 || obj.percentageformat10 || obj.percentage10 || obj.year10 || obj.remarks10 || obj.marksheet10){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkTwelfthDetails=()=>{
+    const obj=details.fields.academic;
+    if(obj.board12 || obj.percentageformat12 || obj.percentage12 || obj.year12 || obj.remarks12 || obj.marksheet12){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkBtechDetails=()=>{
+    const obj=details.fields.academic;
+    if(obj.collegebtech || obj.branchbtech || obj.percentageformatbtech || obj.percentagebtech || obj.yearbtech || obj.remarksbtech || obj.marksheetbtechurl){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkMtechDetails=()=>{
+    const obj=details.fields.academic;
+    if(obj.collegemtech || obj.branchmtech || obj.percentageformatmtech || obj.percentagemtech || obj.yearmtech || obj.remarksmtech || obj.marksheetmtech){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkPhdDetails=()=>{
+    const obj=details.fields.academic;
+    if(obj.isphdcompleted || obj.phdremarks){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkAcademicDetails=()=>{
+    const obj=details.fields.academic;
+    const values=Object.values(obj);
+    var flag=values.some(v =>{
+      return v===true;
+    })
+    if(flag){
+      return true;
+    }else{
+      return false;
+    }
+
+  }
+
+  const checkExperienceDetails=()=>{
+    const obj=details.fields.experience;
+    const values=Object.values(obj);
+    var flag=values.some(v =>{
+      return v===true;
+    })
+    if(flag){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  const checkPublicationDetails=()=>{
+    const obj=details.fields.publication;
+    const values=Object.values(obj);
+    var flag=values.some(v =>{
+      return v===true;
+    })
+    return flag;
+  }
+
+  const checkPorDetails=()=>{
+    const obj=details.fields.por;
+    const values=Object.values(obj);
+    var flag=values.some(v =>{
+      return v===true;
+    })
+    return flag;
+  }
+
+  const checkReferenceDetails=()=>{
+    const obj=details.fields.reference;
+    const values=Object.values(obj);
+    var flag=values.some(v =>{
+      return v===true;
+    })
+    return flag;
+  }
 
   return(
-    <>
-    {recieved &&
-    <div className="applicant_form">
-      <h3>Applicant Details</h3>
-      {/* <Button onClick={handleDownload} variant="primary"> Download Data </Button> */}
-      <div style={{ textAlign: 'right' , float: 'right'}}>
-      <CSVLink {...csvLink} className="focus:outline-none w-1/2 text-gray-900 bg-gray-200 border border-black-700 hover:bg-gray-400 focus:ring-4 focus:ring-cyan-300 inline-flex items-center justify-center rounded-lg text-sm  px-2 py-1 text-center sm:w-auto" style={{ marginRight: "80px" }}>Download Data</CSVLink>
-
-        </div>
-
-        <div className="container">
-          <div className="lefthalf">
-      <div className="applicant_field">
-        <h6>Personal</h6>
-        <div>
-          <p>Name: </p>
-          <p>{details.student_details.personal.name}</p>
-        </div>
-        {details.fields.personal.email && <div>
-          <p>Email: </p>
-          <p>{details.student_details.personal.email} </p>
-        </div>}
-        {details.fields.personal.age && <div>
-          <p>Age: </p>
-          <p>{details.student_details.personal.age}</p>
-        </div>}
-        {details.fields.personal.gender && <div>
-          <p>Gender: </p>
-          <p>{details.student_details.personal.gender}</p>
-        </div>}
-        {details.fields.personal.category && <div>
-          <p>Category: </p>
-          <p>{details.student_details.personal.category}</p>
-        </div>}
-        {details.fields.personal.fathername && <div>
-          <p>Father's Name: </p>
-          <p>{details.student_details.personal.fathername}</p>
-        </div>}
-        {details.fields.personal.profile_image_url && <div>
-          <p>Profile image url: </p>
-          <p>{details.student_details.personal.profile_image_url}</p>
-        </div>}
-        {details.fields.personal.dob && <div>
-          <p>Date of Birth: </p>
-          <p>{details.student_details.personal.dob}</p>
-        </div>}
-        {details.fields.personal.married && <div>
-          <p>Married Status: </p>
-          <p>{details.student_details.personal.married}</p>
-        </div>}
-        {details.fields.personal.disablity && <div>
-          <p>Disablity: </p>
-          <p>{details.student_details.personal.disablity}</p>
-        </div>}
-        {details.fields.personal.nationality && <div>
-          <p>Nationality: </p>
-          <p>{details.student_details.personal.nationality}</p>
-        </div>}
-
-        {details.fields.personal.communication_address && <div>
-          <p>communication_address: </p>
-          <p>{details.student_details.personal.communication_address}</p>
-        </div>}
-        {details.fields.personal.communication_city && <div>
-          <p>communication_city: </p>
-          <p>{details.student_details.personal.communication_city}</p>
-        </div>}
-        {details.fields.personal.communication_state && <div>
-          <p>communication_state: </p>
-          <p>{details.student_details.personal.communication_state}</p>
-        </div>}
-        {details.fields.personal.communication_pincode && <div>
-          <p>communication_pincode: </p>
-          <p>{details.student_details.personal.communication_pincode}</p>
-        </div>}
-        {details.fields.personal.communication_country && <div>
-          <p>communication_country: </p>
-          <p>{details.student_details.personal.communication_country}</p>
-        </div>}
-
-        {details.fields.personal.permanent_address && <div>
-          <p>permanent_address: </p>
-          <p>{details.student_details.personal.permanent_address}</p>
-        </div>}
-        {details.fields.personal.permanent_city && <div>
-          <p>permanent_city: </p>
-          <p>{details.student_details.personal.permanent_city}</p>
-        </div>}
-        {details.fields.personal.permanent_state && <div>
-          <p>permanent_state: </p>
-          <p>{details.student_details.personal.permanent_state}</p>
-        </div>}
-        {details.fields.personal.permanent_pincode && <div>
-          <p>permanent_pincode: </p>
-          <p>{details.student_details.personal.permanent_pincode}</p>
-        </div>}
-        {details.fields.personal.permanent_country && <div>
-          <p>permanent_country: </p>
-          <p>{details.student_details.personal.permanent_country}</p>
-        </div>}
-
-        {details.fields.personal.mobile && <div>
-          <p>mobile: </p>
-          <p>{details.student_details.personal.mobile}</p>
-        </div>}
-        {details.fields.personal.altmobile && <div>
-          <p>altmobile: </p>
-          <p>{details.student_details.personal.altmobile}</p>
-        </div>}
-
-
+    <div style={{paddingTop:'50px',width:'75%',margin:'auto',paddingBottom:'50px'}}>
+    <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
+      <div class="flex items-center gap-x-3" style={{width:'100%'}}>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Personal Details</h2>
       </div>
 
-      <hr style={{ width: "24rem" }} />
-
-
-        <div className="applicant_field">
-          <h6>Academic</h6>
-          {details.fields.academic.board10 && <div>
-          <p>board10: </p>
-          <p>{details.student_details.academic.board10}</p>
-          </div>}
-          {details.fields.academic.percentageformat10 && <div>
-          <p>percentageformat10: </p>
-          <p >{details.student_details.academic.percentageformat10}</p>
-          </div>}
-          {details.fields.academic.percentage10 && <div>
-          <p>percentage10: </p>
-          <p >{details.student_details.academic.percentage10}</p>
-          </div>}
-          {details.fields.academic.year10 && <div>
-          <p>year10: </p>
-          <p >{details.student_details.academic.year10}</p>
-          </div>}
-          {details.fields.academic.remarks10 && <div>
-          <p>remarks10: </p>
-          <p >{details.student_details.academic.remarks10}</p>
-          </div>}
-          {details.fields.academic.marksheet10 && <div>
-          <p>marksheet10: </p>
-          <p >{details.student_details.academic.marksheet10}</p>
-          </div>}
-
-          {details.fields.academic.board12 && <div>
-          <p>board12: </p>
-          <p>{details.student_details.academic.board12}</p>
-          </div>}
-          {details.fields.academic.percentageformat12 && <div>
-          <p>percentageformat12: </p>
-          <p >{details.student_details.academic.percentageformat12}</p>
-          </div>}
-          {details.fields.academic.percentage12 && <div>
-          <p>percentage12: </p>
-          <p >{details.student_details.academic.percentage12}</p>
-          </div>}
-          {details.fields.academic.year12 && <div>
-          <p>year12: </p>
-          <p >{details.student_details.academic.year12}</p>
-          </div>}
-          {details.fields.academic.remarks12 && <div>
-          <p>remarks12: </p>
-          <p >{details.student_details.academic.remarks12}</p>
-          </div>}
-          {details.fields.academic.marksheet12 && <div>
-          <p>marksheet12: </p>
-          <p >{details.student_details.academic.marksheet12}</p>
-          </div>}
-
-          {details.fields.academic.collegebtech && <div>
-          <p>collegebtech: </p>
-          <p>{details.student_details.academic.collegebtech}</p>
-          </div>}
-          {details.fields.academic.branchbtech && <div>
-          <p>branchbtech: </p>
-          <p >{details.student_details.academic.branchbtech}</p>
-          </div>}
-          {details.fields.academic.percentageformatbtech && <div>
-          <p>percentageformatbtech: </p>
-          <p >{details.student_details.academic.percentageformatbtech}</p>
-          </div>}
-          {details.fields.academic.percentagebtech && <div>
-          <p>percentagebtech: </p>
-          <p >{details.student_details.academic.percentagebtech}</p>
-          </div>}
-          {details.fields.academic.yearbtech && <div>
-          <p>yearbtech: </p>
-          <p >{details.student_details.academic.yearbtech}</p>
-          </div>}
-          {details.fields.academic.remarksbtech && <div>
-          <p>remarksbtech: </p>
-          <p >{details.student_details.academic.remarksbtech}</p>
-          </div>}
-          {details.fields.academic.marksheetbtechurl && <div>
-          <p>marksheetbtechurl: </p>
-          <p >{details.student_details.academic.marksheetbtechurl}</p>
-          </div>}
-
-          {details.fields.academic.collegemtech && <div>
-          <p>collegemtech: </p>
-          <p>{details.student_details.academic.collegemtech}</p>
-          </div>}
-          {details.fields.academic.branchmtech && <div>
-          <p>branchmtech: </p>
-          <p >{details.student_details.academic.branchmtech}</p>
-          </div>}
-          {details.fields.academic.percentageformatmtech && <div>
-          <p>percentageformatmtech: </p>
-          <p >{details.student_details.academic.percentageformatmtech}</p>
-          </div>}
-          {details.fields.academic.percentagemtech && <div>
-          <p>percentagemtech: </p>
-          <p >{details.student_details.academic.percentagemtech}</p>
-          </div>}
-          {details.fields.academic.yearmtech && <div>
-          <p>yearmtech: </p>
-          <p >{details.student_details.academic.yearmtech}</p>
-          </div>}
-          {details.fields.academic.remarksmtech && <div>
-          <p>remarksmtech: </p>
-          <p >{details.student_details.academic.remarksmtech}</p>
-          </div>}
-          {details.fields.academic.marksheetmtechurl && <div>
-          <p>marksheetmtechurl: </p>
-          <p >{details.student_details.academic.marksheetmtechurl}</p>
-          </div>}
-
-          {details.fields.academic.isphdcompleted && <div>
-          <p>isphdcompleted: </p>
-          <p >{details.student_details.academic.isphdcompleted}</p>
-          </div>}
-          {details.fields.academic.phdremarks && <div>
-          <p>phdremarks: </p>
-          <p >{details.student_details.academic.phdremarks}</p>
-          </div>}
-
-        </div>
-        </div>
-
-        
-
-        <div className="righthalf">
-
-        <div className="applicant_field">
-          <h6>Experience</h6>
-          {details.fields.experience.profile && <div>
-          <p>profile: </p>
-          <p >{details.student_details.experience.profile}</p>
-          </div>}
-          {details.fields.experience.organization && <div>
-          <p>organization: </p>
-          <p >{details.student_details.experience.organization}</p>
-          </div>}
-          {details.fields.experience.location && <div>
-          <p>Location: </p>
-          <p >{details.student_details.experience.location}</p>
-          </div>}
-          {details.fields.experience.startdate && <div>
-          <p>Start date: </p>
-          <p >{details.student_details.experience.startdate}</p>
-          </div>}
-          {details.fields.experience.enddate && <div>
-          <p>End date: </p>
-          <p >{details.student_details.experience.enddate}</p>
-          </div>}
-          {details.fields.experience.description && <div>
-          <p>description: </p>
-          <p >{details.student_details.experience.description}</p>
-          </div>}
-        </div>
-        <hr style={{ width: "24rem" }} />
-
-        <div className="applicant_field">
-          <h6>publication</h6>
-          {details.fields.publication.title && <div>
-          <p>Title: </p>
-          <p >{details.student_details.publication.title}</p>
-          </div>}
-          {details.fields.publication.journal && <div>
-          <p>Journal: </p>
-          <p>{details.student_details.publication.journal}</p>
-          </div>}
-          {details.fields.publication.abstract && <div>
-          <p>abstract: </p>
-          <p>{details.student_details.publication.abstract}</p>
-          </div>}
-          {details.fields.publication.volume && <div>
-          <p>volume: </p>
-          <p >{details.student_details.publication.volume}</p>
-          </div>}
-          {details.fields.publication.pages && <div>
-          <p>pages</p>
-          <p >{details.student_details.publication.pages}</p>
-          </div>}
-          {details.fields.publication.publisher && <div>
-          <p>publisher</p>
-          <p >{details.student_details.publication.publisher}</p>
-          </div>}
-          {details.fields.publication.doi && <div>
-          <p>doi</p>
-          <p >{details.student_details.publication.doi}</p>
-          </div>}
-          {details.fields.publication.url && <div>
-          <p>url</p>
-          <p >{details.student_details.publication.url}</p>
-          </div>}
-        </div>
-
-        <hr style={{ width: "24rem" }} />
-        <div className="applicant_field">
-          <h6>por</h6>
-          {details.fields.por.title && <div>
-          <p>Title: </p>
-          <p >{details.student_details.por.title}</p>
-          </div>}
-          {details.fields.por.organization && <div>
-          <p>organization: </p>
-          <p>{details.student_details.por.organization}</p>
-          </div>}
-          {details.fields.por.location && <div>
-          <p>location: </p>
-          <p>{details.student_details.por.location}</p>
-          </div>}
-          {details.fields.por.startdate && <div>
-          <p>startdate: </p>
-          <p >{details.student_details.por.startdate}</p>
-          </div>}
-          {details.fields.por.enddate && <div>
-          <p>enddate</p>
-          <p >{details.student_details.por.enddate}</p>
-          </div>}
-          {details.fields.por.description && <div>
-          <p>description</p>
-          <p >{details.student_details.por.description}</p>
-          </div>}
-        </div>
-        <hr style={{ width: "24rem" }} />
-
-        <div className="applicant_field">
-          <h6>reference</h6>
-          {details.fields.reference.name && <div>
-          <p>name: </p>
-          <p >{details.student_details.reference.name}</p>
-          </div>}
-          {details.fields.reference.title && <div>
-          <p>title: </p>
-          <p>{details.student_details.reference.title}</p>
-          </div>}
-          {details.fields.reference.affliliation && <div>
-          <p>affliliation: </p>
-          <p>{details.student_details.reference.affliliation}</p>
-          </div>}
-          {details.fields.reference.referenceemail && <div>
-          <p>referenceemail: </p>
-          <p >{details.student_details.reference.referenceemail}</p>
-          </div>}
-          {details.fields.reference.referencephone && <div>
-          <p>referencephone</p>
-          <p >{details.student_details.reference.referencephone}</p>
-          </div>}
-          {details.fields.reference.relationship && <div>
-          <p>relationship</p>
-          <p >{details.student_details.reference.relationship}</p>
-          </div>}
-          {details.fields.reference.description && <div>
-          <p>description</p>
-          <p >{details.student_details.reference.description}</p>
-          </div>}
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" >
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Personal Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 " >
+                  <tr  >
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Name</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px'}} >{details.student_details.personal[0].name}</td>
+                  </tr>
+                  {details.fields.personal.email && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Email</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].email}</td>
+                  </tr>}
+                  {details.fields.personal.fathername && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Father's Name</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].fathername}</td>
+                  </tr>}
+                  {details.fields.personal.age && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Age</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].age}</td>
+                  </tr>}
+                  {details.fields.personal.dob && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Date of Birth</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].dob}</td>
+                  </tr>}
+                  {details.fields.personal.category && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Category</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].category}</td>
+                  </tr>}
+                  {details.fields.personal.disablity && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Disability</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].disability}</td>
+                  </tr>}
+                  {details.fields.personal.married && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Marriage Status</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].married}</td>
+                  </tr>}
+                  {details.fields.personal.nationality && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Nationality</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].nationality}</td>
+                  </tr>}
+                  {details.fields.personal.gender && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Gender</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].gender}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
           </div>
         </div>
+      </div>
+
+      {recieved && checkComDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Communication Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.personal.communication_address && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Address</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].communication_address}</td>
+                  </tr>}
+                  {details.fields.personal.communication_city && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">City</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].communication_city}</td>
+                  </tr>}
+                  {details.fields.personal.communication_state && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">State</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].communication_state}</td>
+                  </tr>}
+                  {details.fields.personal.communication_pincode && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Pincode</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].communication_pincode}</td>
+                  </tr>}
+                  {details.fields.personal.communication_country && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Country</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].communication_country}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
         </div>
+      </div>}
+
+
+      {recieved && checkPermDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Permanent Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.personal.permanent_address && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Address</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].permanent_address}</td>
+                  </tr>}
+                  {details.fields.personal.permanent_city && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">City</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].permanent_city}</td>
+                  </tr>}
+                  {details.fields.personal.permanent_state && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">State</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].permanent_state}</td>
+                  </tr>}
+                  {details.fields.personal.permanent_pincode && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Pincode</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].permanent_pincode}</td>
+                  </tr>}
+                  {details.fields.personal.permanent_country && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Country</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].permanent_country}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>}
+
+      {recieved && checkContactDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}} >
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Contact Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.personal.mobile && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Mobile No.</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].mobile}</td>
+                  </tr>}
+                  {details.fields.personal.altmobile && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Alternate Mobile No.</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.personal[0].altmobile}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>}
+
+
+    </section>
+
+  {recieved && checkAcademicDetails() &&  <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
+      <div class="flex items-center gap-x-3" style={{width:'100%'}}>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Academic Details</h2>
+      </div>
+
+      {recieved && checkTenthDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>10th Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.academic.board10 && <tr >
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Board</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }} >{details.student_details.academic[0].board10}</td>
+                  </tr>}
+                  {details.fields.academic.percentageformat10 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage Format</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentageformat10}</td>
+                  </tr>}
+                  {details.fields.academic.percentage10 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentage10}</td>
+                  </tr>}
+                  {details.fields.academic.year10 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Year of completion</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].year10}</td>
+                  </tr>}
+                  {details.fields.academic.remarks10 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Remarks</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].remarks10}</td>
+                  </tr>}
+                  {details.fields.academic.marksheet10 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Marksheet</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].marksheet10}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>}
+
+      {recieved && checkTwelfthDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>12th Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.academic.board12 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Board</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].board12}</td>
+                  </tr>}
+                  {details.fields.academic.percentageformat12 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage Format</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentageformat12}</td>
+                  </tr>}
+                  {details.fields.academic.percentage12 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentage12}</td>
+                  </tr>}
+                  {details.fields.academic.year12 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Year of completion</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].year12}</td>
+                  </tr>}
+                  {details.fields.academic.remarks12 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Remarks</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].remarks12}</td>
+                  </tr>}
+                  {details.fields.academic.marksheet12 && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Marksheet</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].marksheet12}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>}
+
+      {recieved && checkBtechDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Btech Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.academic.collegebtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>College</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].collegebtech}</td>
+                  </tr>}
+                  {details.fields.academic.branchbtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Branch / Major</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].branchbtech}</td>
+                  </tr>}
+                  {details.fields.academic.percentageformatbtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage Format</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentageformatbtech}</td>
+                  </tr>}
+                  {details.fields.academic.percentagebtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentagebtech}</td>
+                  </tr>}
+                  {details.fields.academic.yearbtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Year of completion</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].yearbtech}</td>
+                  </tr>}
+                  {details.fields.academic.remarksbtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Remarks</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].remarksbtech}</td>
+                  </tr>}
+                  {details.fields.academic.marksheetbtechurl && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Marksheet URL</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].marksheetbtechurl}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>}
+
+      {recieved && checkMtechDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Mtech Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.academic.collegemtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>College</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].collegemtech}</td>
+                  </tr>}
+                  {details.fields.academic.branchmtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Branch / Major</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].branchmtech}</td>
+                  </tr>}
+                  {details.fields.academic.percentageformatmtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage Format</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentageformatmtech}</td>
+                  </tr>}
+                  {details.fields.academic.percentagemtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Percentage</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].percentagemtech}</td>
+                  </tr>}
+                  {details.fields.academic.yearmtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Year of completion</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].yearmtech}</td>
+                  </tr>}
+                  {details.fields.academic.remarksmtech && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Remarks</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].remarksmtech}</td>
+                  </tr>}
+                  {details.fields.academic.marksheetmtechurl && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Marksheet URL</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].marksheetmtechurl}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>}
+
+      {recieved && checkPhdDetails() && <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Phd Information</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.academic.isphdcompleted && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Is Phd Completed?</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].isphdcompleted}</td>
+                  </tr>}
+                  {details.fields.academic.phdremarks && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Phd Remarks</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{details.student_details.academic[0].phdremarks}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>}
+
+
+    </section>}
 
 
 
-    </div>}
-    </>
+
+    {recieved && checkExperienceDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
+      <div class="flex items-center gap-x-3" style={{width:'100%'}}>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Experience Details</h2>
+      </div>
+
+      {recieved && details.student_details.experience.map((exp,index)=> (
+
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Experience {index+1}</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.experience.profile && <tr >
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Profile</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }} >{exp.profile}</td>
+                  </tr>}
+                  {details.fields.experience.organization && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Organization</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{exp.organization}</td>
+                  </tr>}
+                  {details.fields.experience.startdate && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Start Date</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{exp.startdate}</td>
+                  </tr>}
+                  {details.fields.experience.enddate && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">End Date</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{exp.enddate}</td>
+                  </tr>}
+                  {details.fields.experience.description && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Description</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{exp.description}</td>
+                  </tr>}
+                  {details.fields.experience.location && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Location</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{exp.location}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>))}
+
+
+    </section>}
+
+
+    {recieved && checkPublicationDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
+      <div class="flex items-center gap-x-3" style={{width:'100%'}}>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Publication Details</h2>
+      </div>
+
+      {recieved && details.student_details.publication.map((pub,index)=> (
+
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Publication {index+1}</div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.publication.title && <tr >
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Title</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }} >{pub.title}</td>
+                  </tr>}
+                  {details.fields.publication.abstract && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Abstract</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{pub.abstract}</td>
+                  </tr>}
+                  {details.fields.publication.journal && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Journal</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{pub.journal}</td>
+                  </tr>}
+                  {details.fields.publication.volume && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Volume</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{pub.volume}</td>
+                  </tr>}
+                  {details.fields.publication.pages && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Pages</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{pub.pages}</td>
+                  </tr>}
+                  {details.fields.publication.publisher && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Publisher</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{pub.publisher}</td>
+                  </tr>}
+                  {details.fields.publication.doi && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Digital Object Identifier</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{pub.doi}</td>
+                  </tr>}
+                  {details.fields.publication.url && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">URL</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{pub.url}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>))}
+    </section>}
+
+    {recieved && checkPorDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
+      <div class="flex items-center gap-x-3" style={{width:'100%'}}>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Position of Responsibility Details</h2>
+      </div>
+
+      {recieved && details.student_details.por.map((p,index)=> (
+
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Position of Responsibility {index+1} </div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px', }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.por.title && <tr >
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Title</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px',width:'60%' }} >{p.title}</td>
+                  </tr>}
+                  {details.fields.por.organization && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Organization</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{p.organization}</td>
+                  </tr>}
+                  {details.fields.por.location && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Location</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{p.location}</td>
+                  </tr>}
+                  {details.fields.por.startdate && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Start Date</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{p.startdate}</td>
+                  </tr>}
+                  {details.fields.por.enddate && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">End Date</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{p.enddate}</td>
+                  </tr>}
+                  {details.fields.por.description && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Description</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{p.description}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>))}
+    </section>}
+
+    {recieved && checkReferenceDetails() && <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
+      <div class="flex items-center gap-x-3" style={{width:'100%'}}>
+        <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Reference Details</h2>
+      </div>
+
+      {recieved && details.student_details.reference.map((ref,index)=> (
+
+      <div class="flex flex-col mt-6 px-4 py-4 bg-white border md:rounded-lg" style={{marginBottom:'50px'}}>
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+          <div class="text-gray-800 font-medium"style={{padding:'10px'}}>Reference {index+1} </div>
+            <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
+              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 ">
+                <thead class="dark:bg-gray-800 divide-y divide-gray-200" style={{backgroundColor:'#F0F8FF'}}>
+                  <tr >
+                    <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" >Field name</th>
+                    <th scope="col" class="divide-x divide-gray-200 px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400" style={{display:'block', borderLeftWidth:'1px' }}>Value</th>
+                  </tr>
+                </thead>
+                {recieved && <tbody class="divide-y divide-gray-200 ">
+                  {details.fields.reference.name && <tr >
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{width:'40%'}}>Name</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }} >{ref.name}</td>
+                  </tr>}
+                  {details.fields.reference.title && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Title</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{ref.title}</td>
+                  </tr>}
+                  {details.fields.reference.affliliation && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Affliliation</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{ref.affliliation}</td>
+                  </tr>}
+                  {details.fields.reference.referenceemail && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Reference Email</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{ref.referenceemail}</td>
+                  </tr>}
+                  {details.fields.reference.referencephone && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Reference Phone</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{ref.referencephone}</td>
+                  </tr>}
+                  {details.fields.reference.relationship && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Relationship</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{ref.relationship}</td>
+                  </tr>}
+                  {details.fields.reference.description && <tr>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">Description</td>
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal" style={{display:'block', borderLeftWidth:'1px', }}>{ref.description}</td>
+                  </tr>}
+                </tbody>}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>))}
+    </section>}
+
+    </div>
   );
 }
 

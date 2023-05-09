@@ -60,7 +60,7 @@ export default function Profile({ user, type }) {
         <hr style={{ borderWidth: "2px" }} />
         <div className="userProfileData">
           <div className="resume-container">
-            <label style={{fontSize : 'xx-large', width:'10em'}}htmlFor="resume">Upload Resume:</label>
+            <label className="profile-label" style={{fontSize : 'xx-large', width:'10em'}}htmlFor="resume">Upload Resume:</label>
             <input style={{fontSize:'small !important', width:'20rem', height:'4rem'}}type="file" id="resume" onChange={handleResumeChange} />
             <button className="addNewButton"onClick={handleResumeUpload}>Upload</button>
             {resume && (

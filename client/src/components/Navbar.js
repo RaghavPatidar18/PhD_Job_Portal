@@ -80,6 +80,10 @@ function App({ user, type }) {
     }
   }
 
+const handleJobPost = ()=>{
+  window.location.href="/job-post";
+}
+
 
   return (
     <>
@@ -112,10 +116,10 @@ function App({ user, type }) {
               {/* <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Home</Link></Nav.Link> */}
               <Nav.Link><Link to="/" style={{  color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Job Profiles</Link></Nav.Link>
               {/* Only show Job Post option if user is not a student */}
-              {type === "institute" && <Nav.Link><Link to="/job-post" style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Job Post</Link></Nav.Link>}
-              {type === "student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Subscription</Nav.Link>}
-              {type === "student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Experiences</Nav.Link>}
-              {type === "student" && <Nav.Link onClick={handleInterview} style={{ color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Interview Tips</Nav.Link>}
+              {type==="institute" && <Nav.Link onClick={handleJobPost} style={{ color: 'black', textDecoration: 'none' }} >Job Post</Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscribe</Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none' }}>Experiences</Nav.Link>}
+              {type==="student" && <Nav.Link onClick={handleInterview} style={{ color: 'black', textDecoration: 'none' }}>Interview Tips</Nav.Link>}
             </Nav>
             <SubscribePopup show={showPopup} onClose={handlePopupClose} />
 

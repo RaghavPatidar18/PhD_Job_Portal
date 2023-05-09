@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const academicSchema = new Schema({
-    email : String, 
+    email : String,
     board10 : String,
     percentageformat10 : String,
     percentage10 : String,
@@ -31,7 +31,7 @@ const academicSchema = new Schema({
     percentagemtech : String,
     yearmtech :  String,
     remarksmtech : String,
-    marksheetmtech : String,
+    marksheetmtechurl : String,
 
     isphdcompleted : String,
     phdremarks : String,

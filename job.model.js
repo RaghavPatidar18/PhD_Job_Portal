@@ -29,7 +29,7 @@ const jobSchema = new mongoose.Schema({
       profile_image_url : Boolean,
       dob : Boolean,
       category : Boolean,
-      disablity : Boolean,
+      disability : Boolean,
       married : Boolean,
       nationality : Boolean,
       gender : Boolean,
@@ -86,7 +86,7 @@ const jobSchema = new mongoose.Schema({
       percentagemtech : Boolean,
       yearmtech :  Boolean,
       remarksmtech : Boolean,
-      marksheetmtech : Boolean,
+      marksheetmtechurl : Boolean,
 
       isphdcompleted : Boolean,
       phdremarks : Boolean,

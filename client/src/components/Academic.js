@@ -76,28 +76,28 @@ export default function Profile({ user, type }) {
             percentage10: mydata.percentage10==='-' ? '' : mydata.percentage10,
             year10: mydata.year10==='-' ? '' : mydata.year10,
             remarks10: mydata.remarks10==='-' ? '' : mydata.remarks10,
-  
+
             board12: mydata.board12==='-' ? '' : mydata.board12,
             percentageformat12: mydata.percentageformat12==='-' ? '' : mydata.percentageformat12,
             percentage12: mydata.percentage12==='-' ? '' : mydata.percentage12,
             year12: mydata.year12==='-' ? '' : mydata.year12,
             remarks12: mydata.remarks12==='-' ? '' : mydata.remarks12,
-  
+
             collegebtech: mydata.collegebtech==='-' ? '' : mydata.collegebtech,
             branchbtech: mydata.branchbtech==='-' ? '' : mydata.branchbtech,
             percentageformatbtech: mydata.percentageformatbtech==='-' ? '' : mydata.percentageformatbtech,
             percentagebtech: mydata.percentagebtech==='-' ? '' : mydata.percentagebtech,
             yearbtech: mydata.yearbtech==='-' ? '' : mydata.yearbtech,
             remarksbtech: mydata.remarksbtech==='-' ? '' : mydata.remarksbtech,
-            
-  
+
+
             collegemtech: mydata.collegemtech==='-' ? '' : mydata.collegemtech,
             branchmtech: mydata.branchmtech==='-' ? '' : mydata.branchmtech,
             percentageformatmtech: mydata.percentageformatmtech==='-' ? '' : mydata.percentageformatmtech,
             percentagemtech: mydata.percentagemtech==='-' ? '' : mydata.percentagemtech,
             yearmtech: mydata.yearmtech==='-' ? '' : mydata.yearmtech,
             remarksmtech: mydata.remarksmtech==='-' ? '' : mydata.remarksmtech,
-  
+
             isphdcompleted: mydata.isphdcompleted==='-' ? '' : mydata.isphdcompleted,
             phdremarks: mydata.phdremarks==='-' ? '' : mydata.phdremarks,
         });
@@ -239,7 +239,7 @@ export default function Profile({ user, type }) {
                   </td>
                   <td>{collegeBtech}</td>
                 </tr>
-                
+
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
                     Branch :{" "}
@@ -282,7 +282,7 @@ export default function Profile({ user, type }) {
                   </td>
                   <td>{board12}</td>
                 </tr>
-                
+
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
                     Percentage Format :{" "}
@@ -317,7 +317,7 @@ export default function Profile({ user, type }) {
                   </td>
                   <td>{board10}</td>
                 </tr>
-                
+
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
                     Percentage Format :{" "}
@@ -342,7 +342,7 @@ export default function Profile({ user, type }) {
                   </td>
                   <td>{remarks10}</td>
                 </tr>
-                
+
               </table>
             </div>
           </>
@@ -354,7 +354,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="collegemtech">College:</label>
+                    <label className="profile-label" htmlFor="collegemtech">College:</label>
                   </td>
                   <td>
                     <input
@@ -369,7 +369,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="branchmtech">Branch:</label>
+                    <label className="profile-label" htmlFor="branchmtech">Branch:</label>
                   </td>
                   <td>
                     <input
@@ -384,7 +384,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentageformatmtech">Percentage Format:</label>
+                    <label className="profile-label" htmlFor="percentageformatmtech">Percentage Format:</label>
                   </td>
                   <td>
                   <select
@@ -403,7 +403,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentagemtech">Percentage Obtained:</label>
+                    <label className="profile-label" htmlFor="percentagemtech">Percentage Obtained:</label>
                   </td>
                   <td>
                   <input
@@ -418,7 +418,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="yearmtech">Year of completion:</label>
+                    <label className="profile-label" htmlFor="yearmtech">Year of completion:</label>
                   </td>
                   <td>
                   <input
@@ -433,7 +433,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarksmtech">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarksmtech">Add remarks (if any):</label>
                   </td>
                   <td>
                   <input
@@ -451,7 +451,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="collegebtech">College:</label>
+                    <label className="profile-label" htmlFor="collegebtech">College:</label>
                   </td>
                   <td>
                     <input
@@ -466,7 +466,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="branchbtech">Branch:</label>
+                    <label className="profile-label" htmlFor="branchbtech">Branch:</label>
                   </td>
                   <td>
                     <input
@@ -481,7 +481,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentageformatbtech">Percentage Format:</label>
+                    <label className="profile-label" htmlFor="percentageformatbtech">Percentage Format:</label>
                   </td>
                   <td>
                   <select
@@ -500,7 +500,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentagebtech">Percentage Obtained:</label>
+                    <label className="profile-label" htmlFor="percentagebtech">Percentage Obtained:</label>
                   </td>
                   <td>
                   <input
@@ -515,7 +515,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="yearmtech">Year of completion:</label>
+                    <label className="profile-label" htmlFor="yearmtech">Year of completion:</label>
                   </td>
                   <td>
                   <input
@@ -530,7 +530,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarksbtech">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarksbtech">Add remarks (if any):</label>
                   </td>
                   <td>
                   <input
@@ -548,7 +548,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="board12">Board:</label>
+                    <label className="profile-label" htmlFor="board12">Board:</label>
                   </td>
                   <td>
                     <input
@@ -563,7 +563,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentageformat12">Percentage Format:</label>
+                    <label className="profile-label" htmlFor="percentageformat12">Percentage Format:</label>
                   </td>
                   <td>
                   <select
@@ -582,7 +582,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentage12">Percentage Obtained:</label>
+                    <label className="profile-label" htmlFor="percentage12">Percentage Obtained:</label>
                   </td>
                   <td>
                   <input
@@ -597,7 +597,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="year12">Year of completion:</label>
+                    <label className="profile-label" htmlFor="year12">Year of completion:</label>
                   </td>
                   <td>
                   <input
@@ -612,7 +612,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarks12">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarks12">Add remarks (if any):</label>
                   </td>
                   <td>
                   <input
@@ -631,7 +631,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="board10">Board:</label>
+                    <label className="profile-label" htmlFor="board10">Board:</label>
                   </td>
                   <td>
                     <input
@@ -646,7 +646,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentageformat10">Percentage Format:</label>
+                    <label className="profile-label" htmlFor="percentageformat10">Percentage Format:</label>
                   </td>
                   <td>
                   <select
@@ -665,7 +665,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentage10">Percentage Obtained:</label>
+                    <label className="profile-label" htmlFor="percentage10">Percentage Obtained:</label>
                   </td>
                   <td>
                   <input
@@ -680,7 +680,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="year10">Year of completion:</label>
+                    <label className="profile-label" htmlFor="year10">Year of completion:</label>
                   </td>
                   <td>
                   <input
@@ -695,7 +695,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarks10">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarks10">Add remarks (if any):</label>
                   </td>
                   <td>
                   <input

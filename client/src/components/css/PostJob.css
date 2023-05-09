@@ -24,12 +24,12 @@
   margin: auto;
   }
 
-  form{
+  .postJobForm{
   width: 60%;
   margin: auto;
   }
 
-  h3 {
+  .postJobh3 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 28px;
@@ -128,7 +128,7 @@
     flex-wrap: wrap;
     gap: 20px;
   }
-  
+
 
   h3 {
   font-size: 24px;
