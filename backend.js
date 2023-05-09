@@ -22,10 +22,10 @@ const UserExperience = require("./model/experienceSchema");
 const POR = require("./model/porSchema");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const excelJs=require("exceljs");
-const xl=require("excel4node");
-const mime=require("mime");
-const path=require("path");
+const excelJs = require("exceljs");
+const xl = require("excel4node");
+const mime = require("mime");
+const path = require("path");
 
 app.use(cors()); // Use this after the variable declaration
 app.use(cookiParser());
@@ -221,30 +221,30 @@ app.post("/api/sendOtp", async (req, res) => {
 
   // req.session.otp = otp;
 
-// Save the OTP to the user's record in the database
-const mailOptions = {
-  from: "r.patidar181001.2@gmail.com",
-  to: email,
-  subject: "OTP for login",
-  text: `Your OTP is ${otp}`,
-};
 
-transporter.sendMail(mailOptions, (error, info) => {
-  if (error) {
-    //console.log(error);
-    return res.status(200).send({
-      status: 500,
-      message: "Failed to send OTP",
-    });
-  } else {
-    //console.log("OTP sent: " + info.response);
-    return res.status(200).send({
-      status: 200,
-      message: "OTP sent",
-      otp : otp
-    });
-  }
-});
+  const mailOptions = {
+    from: "r.patidar181001.2@gmail.com",
+    to: email,
+    subject: "OTP for login",
+    text: `Your OTP is ${otp}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      //console.log(error);
+      return res.status(200).send({
+        status: 500,
+        message: "Failed to send OTP",
+      });
+    } else {
+      //console.log("OTP sent: " + info.response);
+      return res.status(200).send({
+        status: 200,
+        message: "OTP sent",
+        otp: otp
+      });
+    }
+  });
 });
 
 // Verify OTP and create new user
@@ -291,12 +291,12 @@ app.post("/api/verifyOtp", async (req, res) => {
         email: email,
         password: hashedPassword,
       });
-      const d=Date.now();
-      let date_time=new Date(d);
-      let date=date_time.getDate();
-      let month=date_time.getMonth();
-      let year=date_time.getYear();
-      let today=year+"-"+month+"-"+date;
+      const d = Date.now();
+      let date_time = new Date(d);
+      let date = date_time.getDate();
+      let month = date_time.getMonth();
+      let year = date_time.getYear();
+      let today = year + "-" + month + "-" + date;
 
       const personals = new Personal({
         email: email,
@@ -365,14 +365,14 @@ app.post("/api/verifyOtp", async (req, res) => {
       await user.save();
 
 
-      const experience=new UserExperience({
-        email : email,
-        profile : "-",
-        organization : "-",
-        startdate : today,
-        enddate : today,
-        description : "-",
-        location : "-",
+      const experience = new UserExperience({
+        email: email,
+        profile: "-",
+        organization: "-",
+        startdate: today,
+        enddate: today,
+        description: "-",
+        location: "-",
       });
       experience.save();
 
@@ -1015,7 +1015,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
         if (student) {
           obj.application_id = await application._id;
           obj.student_name = await application.student_details.personal[0].name;
-          obj.student_email=await application.student_details.personal[0].email;
+          obj.student_email = await application.student_details.personal[0].email;
           obj.student_id = await student._id;
           obj.status = await application.status;
           obj.student = await application.student_details;
@@ -1033,7 +1033,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
 
 app.post("/jobApplicantStatusChange", async (req, res) => {
   try {
-    const { application_id, newStatus } = req.body;
+    const { application_id, newStatus ,student_email} = req.body;
     //console.log("here at status change");
     //console.log(application_id);
     //console.log(newStatus);
@@ -1041,6 +1041,35 @@ app.post("/jobApplicantStatusChange", async (req, res) => {
       { _id: application_id },
       { $set: { status: newStatus } }
     );
+    console.log(newStatus);
+    if (newStatus === "Accepted") {
+      // Save the OTP to the user's record in the database
+      const mailOptions = {
+        from: "r.patidar181001.2@gmail.com",
+        to: student_email,
+        subject: "Status Change",
+        text: `You got some changes in status of job you have applied , please login to our platform for check`,
+      };
+
+      console.log("acceptd hai bahi");
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          //console.log(error);
+          return res.status(200).send({
+            status: 500,
+            // message: "Failed to send OTP",
+          });
+        } else {
+          console.log("mail gya");
+          //console.log("OTP sent: " + info.response);
+          return res.status(200).send({
+            status: 200,
+            // message: "OTP sent",
+            // otp: otp
+          });
+        }
+      });
+    }
     res.send("success");
   } catch (err) {
     //console.log(err);
@@ -1218,8 +1247,8 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
   // console.log("the created obj is");
   // console.log(obj);
 
-  const {dataToSend}=req.body;
-  const obj=dataToSend;
+  const { dataToSend } = req.body;
+  const obj = dataToSend;
   console.log("i got this data from the application form");
   console.log(obj);
 
@@ -1578,112 +1607,114 @@ app.post("/api/registerInstitute", async (req, res) => {
 
 });
 
-app.get("/updateJob/:id",async(req,res)=>{
-  const {id}=req.params;
-  const job=await Job.findOne({_id:id});
-  if(job){
-    res.send({status:200,job:job});
-  }else{
-    res.send({status:500});
+app.get("/updateJob/:id", async (req, res) => {
+  const { id } = req.params;
+  const job = await Job.findOne({ _id: id });
+  if (job) {
+    res.send({ status: 200, job: job });
+  } else {
+    res.send({ status: 500 });
   }
 })
 
-app.post("/updateJob",async(req,res)=> {
-  const {job,id}=req.body;
+app.post("/updateJob", async (req, res) => {
+  const { job, id } = req.body;
 
-  const current_job=await Job.findOne({_id:id});
-  if(current_job){
-    const new_job=await Job.updateOne({_id:id},{$set: {
-      title:job.title,
-      description:job.description,
-      location:job.location,
-      salary:job.salary,
-      contactEmail:job.contactEmail,
-      qualifications:job.qualifications,
-      college: job.college,
-      responsibilities:job.responsibilities,
-      lastDate:job.lastDate,
-      lastUpdateDate:job.lastUpdateDate,
-      fields:job.fields
-    }});
+  const current_job = await Job.findOne({ _id: id });
+  if (current_job) {
+    const new_job = await Job.updateOne({ _id: id }, {
+      $set: {
+        title: job.title,
+        description: job.description,
+        location: job.location,
+        salary: job.salary,
+        contactEmail: job.contactEmail,
+        qualifications: job.qualifications,
+        college: job.college,
+        responsibilities: job.responsibilities,
+        lastDate: job.lastDate,
+        lastUpdateDate: job.lastUpdateDate,
+        fields: job.fields
+      }
+    });
 
-    if(new_job){
-      res.send({status:200});
-    }else{
-      res.send({status:500});
+    if (new_job) {
+      res.send({ status: 200 });
+    } else {
+      res.send({ status: 500 });
     }
-  }else{
-    res.send({status:500})
+  } else {
+    res.send({ status: 500 })
   }
 })
 
 
 
-const createWorkbook = async(id) =>{
+const createWorkbook = async (id) => {
 
 };
 
 
-app.get("/create-workbook/:id", async(req,res)=>{
-  const {id}=req.params;
-  const application = await Application.findOne({_id:id});
-  var name_of_file="_applicant_details.xlsx";
-  if(application){
-    name_of_file=application.student_details.personal[0].name+name_of_file;
+app.get("/create-workbook/:id", async (req, res) => {
+  const { id } = req.params;
+  const application = await Application.findOne({ _id: id });
+  var name_of_file = "_applicant_details.xlsx";
+  if (application) {
+    name_of_file = application.student_details.personal[0].name + name_of_file;
     console.log("got into application");
-    const student_details=application.student_details;
+    const student_details = application.student_details;
     console.log(student_details);
-    const wb=new xl.Workbook();
-    const ws=wb.addWorksheet("data");
-    ws.cell(1,2).string("data field");
-    ws.cell(1,3).string("value");
-    var rowIndex=3;
-    var flag=0;
-    await Object.keys(student_details).map((details)=>{
-      student_details[details].map((stu)=>{
-        Object.keys(stu).map((k)=>{
-          if(flag==0){
-            ws.cell(rowIndex,1).string(details);
-            flag=1;
+    const wb = new xl.Workbook();
+    const ws = wb.addWorksheet("data");
+    ws.cell(1, 2).string("data field");
+    ws.cell(1, 3).string("value");
+    var rowIndex = 3;
+    var flag = 0;
+    await Object.keys(student_details).map((details) => {
+      student_details[details].map((stu) => {
+        Object.keys(stu).map((k) => {
+          if (flag == 0) {
+            ws.cell(rowIndex, 1).string(details);
+            flag = 1;
           }
           console.log(k);
           console.log(stu[k]);
-          ws.cell(rowIndex,2).string(k);
-          ws.cell(rowIndex,3).string(stu[k]);
+          ws.cell(rowIndex, 2).string(k);
+          ws.cell(rowIndex, 3).string(stu[k]);
           rowIndex++;
           //ws.cell(:k,value:stu[k]});
         });
-        if(flag==1){
+        if (flag == 1) {
           rowIndex++;
         }
-        flag=0;
+        flag = 0;
       });
     });
     console.log("done till here");
     await wb.write(name_of_file);
 
   }
-  res.send({status:200});
+  res.send({ status: 200 });
 })
-app.get("/export/:id",async(req,res,next)=>{
+app.get("/export/:id", async (req, res, next) => {
   console.log("here");
-  const {id}=req.params;
-  const application=await Application.findOne({_id:id});
+  const { id } = req.params;
+  const application = await Application.findOne({ _id: id });
   console.log(application);
   //await createWorkbook(id);
-    var name_of_file=application.student_details.personal[0].name+"_applicant_details.xlsx";
-    const file=__dirname + `\\${name_of_file}`;
-    const fileName=path.basename(file);
-    const mimeType=mime.getType(file);
-    res.setHeader("Content-Disposition","attachment;filename=" + fileName);
-    res.setHeader("Content-Type", mimeType);
-    console.log("here too");
-    res.download(file,name_of_file);
+  var name_of_file = application.student_details.personal[0].name + "_applicant_details.xlsx";
+  const file = __dirname + `\\${name_of_file}`;
+  const fileName = path.basename(file);
+  const mimeType = mime.getType(file);
+  res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+  res.setHeader("Content-Type", mimeType);
+  console.log("here too");
+  res.download(file, name_of_file);
 
 
 
-    console.log("and afetr");
-    console.log('rwugteiu');
+  console.log("and afetr");
+  console.log('rwugteiu');
 
 
 })

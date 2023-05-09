@@ -14,7 +14,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
   //const [status,setStatus]=useState(status);
 
   const [applicantStatus,setApplicantStatus]=useState(status)
-  console.log(srNo);
+  console.log(srNo); 
   const history = useNavigate();
 
   const [showAccept, setShowAccept] = useState(false);
@@ -31,14 +31,15 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     console.log("sboiw");
     const obj={
       application_id,
-      newStatus:"Accepted"
+      newStatus:"Accepted",
+      student_email
     };
     axios.post("http://localhost:4000/jobApplicantStatusChange", obj)
     .then((res)=> {
       console.log(res.data);
       if(res.data){
         console.log("success");
-        setApplicantStatus("Accepted");
+        setApplicantStatus("Accepted"); 
         //window.location.reload(false);
       }
     })
@@ -48,7 +49,8 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
   function rejectClicked(){
     const obj={
       application_id,
-      newStatus:"Rejected"
+      newStatus:"Rejected",
+      student_email
     };
     axios.post("http://localhost:4000/jobApplicantStatusChange", obj)
     .then((res)=> {
