@@ -15,6 +15,7 @@ const Signup = () => {
   const [showOtpSentAlert,setShowOtpSentAlert]=useState(false);
   const [showInvalidOtpAlert,setShowInvalidOtpAlert]=useState(false);
   const [showOtpFailedAlert,setShowOtpFailedAlert]=useState(false);
+  const [randomotp, setRandomOtp] = useState("");
 
     const userType = new URLSearchParams(location.search).get("userType");
 
@@ -36,6 +37,7 @@ const Signup = () => {
               setShowRegisteredAlert(false);
               setShowInvalidOtpAlert(false);
               setShowOtpFailedAlert(false);
+              setRandomOtp(res.data.otp);
             }else if(res.data.message==="Failed to send OTP"){
               setShowOtpFailedAlert(true);
               setShowOtpSentAlert(false);
@@ -47,7 +49,7 @@ const Signup = () => {
     };
 
     const handleVerifyOtp = () => {
-        axios.post("/api/verifyOtp", { name , email, otp , password ,userType}).then((res) => {
+        axios.post("/api/verifyOtp", { name , email, otp , password ,userType , randomotp}).then((res) => {
             setMessage(res.data.message);
             if (res.data.success) {
                 window.location.href = `/login?userType=${userType}`;

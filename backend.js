@@ -189,6 +189,8 @@ app.post("/api/sendOtp", async (req, res) => {
   const email = req.body.email;
   const userType = req.body.userType;
 
+  const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
   console.log(userType);
 
   if (userType == "student") {
@@ -211,31 +213,32 @@ app.post("/api/sendOtp", async (req, res) => {
     }
   }
 
-  const otp = Math.floor(1000 + Math.random() * 9000).toString();
-  req.session.otp = otp;
-  // Save the OTP to the user's record in the database
-  const mailOptions = {
-    from: "r.patidar181001.2@gmail.com",
-    to: email,
-    subject: "OTP for login",
-    text: `Your OTP is ${otp}`,
-  };
+  // req.session.otp = otp;
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      //console.log(error);
-      return res.status(200).send({
-        status: 500,
-        message: "Failed to send OTP",
-      });
-    } else {
-      //console.log("OTP sent: " + info.response);
-      return res.status(200).send({
-        status: 200,
-        message: "OTP sent",
-      });
-    }
-  });
+// Save the OTP to the user's record in the database
+const mailOptions = {
+  from: "r.patidar181001.2@gmail.com",
+  to: email,
+  subject: "OTP for login",
+  text: `Your OTP is ${otp}`,
+};
+
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    //console.log(error);
+    return res.status(200).send({
+      status: 500,
+      message: "Failed to send OTP",
+    });
+  } else {
+    //console.log("OTP sent: " + info.response);
+    return res.status(200).send({
+      status: 200,
+      message: "OTP sent",
+      otp : otp
+    });
+  }
+});
 });
 
 // Verify OTP and create new user
@@ -244,33 +247,35 @@ app.post("/api/verifyOtp", async (req, res) => {
   const email = req.body.email;
   const otpEntered = req.body.otp;
   const password = req.body.password;
-  const otp = req.session.otp;
+  // const otp = req.session.otp;
+  let otp = req.body.randomotp;
 
   const hashedPassword = bcrypt.hashSync(password, 1);
-  req.session.hashedPassword = hashedPassword;
+  // req.session.hashedPassword = hashedPassword;
 
   //console.log(req.body);
   console.log("aa gya");
-  console.log(req.session);
+  // console.log(req.session);
 
   //console.log(req.body.userType);
 
-  if (otpEntered === -1) {
-    const userInstitute = new UserInstitute({
-      name: name,
-      email: email,
-      password: hashedPassword,
-    });
-    await userInstitute.save();
 
-    console.log("institute registered");
-    return res.status(200).send({
-      status: 200,
-      success: true,
-      message: "OTP verified successfully",
-    });
+  // if (otpEntered === -1) {
+  //   const userInstitute = new UserInstitute({
+  //     name: name,
+  //     email: email,
+  //     password: hashedPassword,
+  //   });
+  //   await userInstitute.save();
 
-  }
+  //   console.log("institute registered");
+  //   return res.status(200).send({
+  //     status: 200,
+  //     success: true,
+  //     message: "OTP verified successfully",
+  //   });
+
+  // }
 
   if (otp == otpEntered) {
     if (req.body.userType == "student") {
@@ -406,6 +411,7 @@ app.post("/api/verifyOtp", async (req, res) => {
         description: '-',
       });
       reference.save();
+
 
 
 
@@ -894,13 +900,13 @@ app.post("/api/:id/:token/:usertype", async (req, res) => {
 });
 
 app.get("/logout", authenticate, async (req, res) => {
-  //console.log("sjbfouwbgro");
+  console.log("sjbfouwbgro");
   try {
     req.rootUser.tokens = req.rootUser.tokens.filter((curelem) => {
       return curelem.token !== req.token;
     });
 
-    //console.log("logout me aa rha");
+    console.log("logout me aa rha");
 
     res.clearCookie("usercookie", { path: "/" });
 
@@ -1038,7 +1044,6 @@ app.post("/jobApplicantStatusChange", async (req, res) => {
 
 app.get("/api/me", auth, async (req, res) => {
   const { _id } = req.user;
-
   try {
     let user = await User.findById(_id);
     if (!user) {
@@ -1296,19 +1301,56 @@ app.get('/api/meid', auth, async (req, res) => {
 
 // Get all experiences
 app.get('/api/getexperiences', async (req, res) => {
-  const experiences = await Experience.find().populate('comments');
+  const experiences = await Experience.find();
   res.json(experiences);
 });
 
-// Get all institutes requests
-app.get('/api/getrequests', async (req, res) => {
-  const requestss = await RegisterInstitute.find();
-  res.json(requestss);
+// Get all subscription status
+app.get('/api/getexperiences', async (req, res) => {
+  const experiences = await Experience.find();
+  res.json(experiences);
+});
+
+app.get('/api/getsubscriptionstatus', auth, async (req, res) => {
+
+  const { _id } = req.user;
+  console.log()
+  const email = "";
+
+  try {
+    let user = await User.findById(_id);
+    if (!user) {
+      user = await UserInstitute.findById(_id);
+      // return res.status(404).json({ error: 'User not found' });
+      email = user.email;
+      try {
+        // Get the email address from the query parameters
+        // const { email } = req.body;
+
+        // Find the user by email address
+        const user = await User.findOne({ email });
+
+        // If the user doesn't exist, return an error response
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Otherwise, return the subscribedToJobAlerts value
+        return res.json({ subscribedToJobAlerts: user.subscribedToJobAlerts });
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 
 // Create a new experience
 app.post('/api/createExperiences', async (req, res) => {
+  console.log(req.body);
   const experience = new Experience(req.body);
   await experience.save();
   res.json(experience);
