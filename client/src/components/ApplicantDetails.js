@@ -182,7 +182,7 @@ const history = useNavigate();
 
   return(
     <div style={{paddingTop:'50px',width:'75%',margin:'auto',paddingBottom:'50px'}}>
-    <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#87CEEB'}}>
+    <section class="container mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",paddingRight:'100px',paddingLeft:'100px',paddingTop:'50px',paddingBottom:'50px',marginBottom:'50px',backgroundColor:'#'}}>
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Personal Details</h2>
       </div>

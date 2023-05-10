@@ -232,11 +232,15 @@ function JobDetails({ user, type }) {
       }}
       className="button"
       style={{
-        backgroundColor: "#7A5CFA",
-        borderRadius: "8px",
+        backgroundColor: "#007FFF",
+        borderRadius: "10px",
         color: "#fff",
-        padding: "8px 1px",
-        marginBottom: "100px"
+        padding: "12px 24px",
+        marginBottom: "100px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        transition: "background-color 0.3s ease",
+        border: "none",
+        cursor: "pointer"
       }}
     >
       {buttonText}
@@ -247,17 +251,40 @@ function JobDetails({ user, type }) {
       onClick={handleShowDelete}
       className="button"
       style={{
-        backgroundColor: "#40a829",
+        backgroundColor: "#FF4136",
         color: "#fff",
-        padding: "8px 1px"
+        padding: "12px 24px",
+        borderRadius: "10px",
+        marginBottom: "20px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        transition: "background-color 0.3s ease",
+        border: "none",
+        cursor: "pointer"
       }}
     >
       Delete Job
     </button>
   )}
-    {type === "institute" && job.institute_id===user._id && <button onClick={handleEdit} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>Edit Job</button>}
+  {type === "institute" && job.institute_id === user._id && (
+    <button
+      onClick={handleEdit}
+      className="button"
+      style={{
+        backgroundColor: "#007FFF",
+        color: "#fff",
+        padding: "12px 24px",
+        borderRadius: "10px",
+        marginBottom: "20px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        transition: "background-color 0.3s ease",
+        border: "none",
+        cursor: "pointer"
+      }}
+    >
+      Edit Job
+    </button>
+  )}
 </div>
-
       </div>
       <Footer />
     </>

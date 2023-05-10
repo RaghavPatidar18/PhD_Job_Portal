@@ -77,6 +77,7 @@ export default function NewInstitute(props) {
                                             onChange={(e) => setEmailId(e.target.value)}
                                             required
                                             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            style={{height: "40px"}}
                                         />
                                     </div>
 
@@ -96,6 +97,7 @@ export default function NewInstitute(props) {
                                             onChange={(e) => setUserName(e.target.value)}
                                             required
                                             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            style={{height: "40px"}}
                                         />
                                     </div>
 
@@ -115,6 +117,7 @@ export default function NewInstitute(props) {
                                             id="companyname"
                                             required
                                             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            style={{height: "40px"}}
                                         />
                                     </div>
 
@@ -134,6 +137,7 @@ export default function NewInstitute(props) {
                                             id="location"
                                             required
                                             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            style={{height: "40px"}}
                                         />
                                     </div>
 
@@ -153,6 +157,7 @@ export default function NewInstitute(props) {
                                             placeholder="10 digit number"
                                             required
                                             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            style={{height: "40px"}}
                                         />
                                     </div>
 
@@ -171,6 +176,7 @@ export default function NewInstitute(props) {
                                             placeholder="Year of Establishment"
                                             required
                                             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                            style={{height: "40px"}}
                                         />
                                     </div>
                                 </div>
@@ -179,15 +185,17 @@ export default function NewInstitute(props) {
                         <div className="flex items-center mt-4 space-x-2 rounded-b border-gray-200 dark:border-gray-600">
                         </div>
 
-                        <button
-                            style={{
-                                backgroundColor: "#1f2937",
-                            }}
-                            type="submit"
-                            className="text-white focus:outline-none bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                            Submit
-                        </button>
+                        <div className="text-center">
+  <button
+    style={{
+      backgroundColor: "#1f2937",
+    }}
+    type="submit"
+    className="text-white focus:outline-none bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" style={{marginTop:"20px"}}
+  >
+    Submit
+  </button>
+</div>
 
                     </form>
                     
