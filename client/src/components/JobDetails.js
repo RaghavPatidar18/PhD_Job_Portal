@@ -5,7 +5,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import './css/JobDetails.css'; // import custom styles
+// import './css/JobDetails.css'; // import custom styles
 import { useNavigate, useLocation } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import Footer from "./Footer";
@@ -54,7 +54,7 @@ function JobDetails({ user, type }) {
     const data = await res.json();
     if (data.status === 200) {
       setJob(data.job);
-      setApplied(data.applied);
+      setApplied(data.applied); 
 
       if (data.applied === true && type === "student") {
         setApplication_id(data.application_id);

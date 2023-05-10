@@ -131,7 +131,7 @@ const userSchema = new mongoose.Schema({
     {
         token: {
             type: String,
-            required: true,
+            required: true, 
         }
     }
 ],
@@ -208,6 +208,8 @@ const commentSchema = new mongoose.Schema({
 
 
 const experiencesSchema = new mongoose.Schema({
+
+  email : String,
 
   name : String,
 

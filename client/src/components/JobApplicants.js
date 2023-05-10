@@ -175,7 +175,6 @@ function JobApplicants({ user, type }) {
                   length={applicants.length}
                   />
 
-
                     ))}
                   </tbody>
                 </table>

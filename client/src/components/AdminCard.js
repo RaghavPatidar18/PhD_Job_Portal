@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
-
+ 
 const AdminCard = ({ name, email, password, companyName, location, year }) => {
   const [showButton, setShowButton] = useState(true);
 

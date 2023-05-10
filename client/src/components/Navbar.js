@@ -25,6 +25,8 @@ function App({ user, type }) {
     window.location.href = `/login?userType=${userType}`;
   };
 
+  // console.log(type);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -114,8 +116,11 @@ const handleJobPost = ()=>{
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {/* <Nav.Link><Link to="/" style={{ color: 'black', textDecoration: 'none' }}>Home</Link></Nav.Link> */}
-              <Nav.Link><Link to="/" style={{  color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Job Profiles</Link></Nav.Link>
+              {type!=="admin" && <Nav.Link><Link to="/" style={{  color: 'black', textDecoration: 'none', fontFamily: 'Open Sans' }}>Job Profiles</Link></Nav.Link>}
               {/* Only show Job Post option if user is not a student */}
+              
+              {/* {type==="admin" && <Nav.Link onClick={handleShow} style={{ color: 'black', textDecoration: 'none'}}>Logout</Nav.Link>}
+              {type==="admin" && <Nav.Link onClick={handleShow} style={{ color: 'black', textDecoration: 'none'}}>Download List</Nav.Link>} */}
               {type==="institute" && <Nav.Link onClick={handleJobPost} style={{ color: 'black', textDecoration: 'none' }} >Job Post</Nav.Link>}
               {type==="student" && <Nav.Link onClick={handleSubscribeClick} style={{ color: 'black', textDecoration: 'none' }}>Subscribe</Nav.Link>}
               {type==="student" && <Nav.Link onClick={handleExperience} style={{ color: 'black', textDecoration: 'none' }}>Experiences</Nav.Link>}
@@ -132,9 +137,17 @@ const handleJobPost = ()=>{
               </NavDropdown>
             </Nav>}
 
+            {type === "admin" && <Nav>
+              <NavDropdown title={"Logout"} id="collasible-nav-dropdown">
+              {/* <NavDropdown.Divider /> */}
+                <NavDropdown.Item onClick={() => handleShow() }>Logout</NavDropdown.Item>
+                {/* <NavDropdown.Item onClick={() => handleShow()}>Download List</NavDropdown.Item> */}
+              </NavDropdown>
+            </Nav>}
+
             {/* {type === "" && <Nav.Link>Login/Signup</Nav.Link>} */}
 
-            {type !== "" && <Nav>
+            {type !== "" && type !=="admin" && <Nav>
               <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="collasible-nav-dropdown">
                 {type !== "institute" && <NavDropdown.Item><Link to="/profile" style={{ color: 'black', textDecoration: 'none' }}>Profile</Link></NavDropdown.Item>}
                 {type !== "institute" && <NavDropdown.Item><Link to="/account" style={{ color: 'black', textDecoration: 'none' }}>Account</Link></NavDropdown.Item>}
