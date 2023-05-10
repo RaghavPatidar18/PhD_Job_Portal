@@ -15,18 +15,18 @@ import "./css/Profile.css";
 import Reference from "./Refrees";
 import ImageUploader from './ImageUploader';
 import axios from "axios";
-async function getName() {
-  const token = localStorage.getItem("usersdatatoken");
-  //   console.log(token);
-  const response = await fetch("/api/mename", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  console.log("inside function of gate name");
-  const data = await response.json();
-  return data.name;
-}
+// async function getName() {
+//   const token = localStorage.getItem("usersdatatoken");
+//   //   console.log(token);
+//   const response = await fetch("/api/mename", {
+//     headers: {
+//       Authorization: `Bearer ${token}`,
+//     },
+//   });
+//   console.log("inside function of gate name");
+//   const data = await response.json();
+//   return data.name;
+// }
 export default function Profile({ user, type }) {
   const [altProfile, setAltProfile] = useState(defaultImage)
   const [isHovered, setIsHovered] = useState(false);
@@ -55,7 +55,7 @@ export default function Profile({ user, type }) {
       history("*");
     }
   }, []);
-  const url = `http://localhost:4000/personal/${user}`;
+  const url = `/personal/${user}`;
   useEffect(() => {
     axios.get(url).then((response) => {
       if (response.status === 200) {

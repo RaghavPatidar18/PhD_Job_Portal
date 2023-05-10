@@ -24,11 +24,11 @@ function ApplicantDetails({ user, type }) {
   const [altProfile, setAltProfile] = useState(defaultImage)
 
   const history = useNavigate();
-  useEffect(() => {
+  useEffect(() => { 
     if (type !== "institute") {
       history("*");
     } else {
-      axios.get(`http://localhost:4000/applicant-details/${id}`)
+      axios.get(`/api/applicant-details/${id}`)
         .then((response) => {
           if (response.data.status === 200) {
             if (response.data.details.institute_id !== user._id) {
@@ -42,7 +42,7 @@ function ApplicantDetails({ user, type }) {
               const defaultVal = "N/A"; // set your default value here
               const updatedData = Object.values(response.data.details.student_details).map(val => val ?? defaultVal);
 
-              if (response.data.details.student_details.personal[0].profile_image_url === "#") {
+              if (response.data.details.student_details.personal[0].profile_image_url === "#" || !response.data.details.student_details.personal[0].profile_image_url) {
                 setAltProfile(defaultImage);
               }
               else {

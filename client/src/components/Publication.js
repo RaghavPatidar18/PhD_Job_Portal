@@ -34,7 +34,7 @@ const Publication = ({ user, type }) => {
   // Fetch all experiences on component mount
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/publications/${user}`)
+      .get(`/publications/${user}`)
       .then((res) => {
         console.log(res);
         setPublication(res.data);
@@ -60,7 +60,7 @@ const Publication = ({ user, type }) => {
   const handleAddSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/publications/${user}`, formData2)
+      .post(`/publications/${user}`, formData2)
       .then((res) => {
         setPublication([...publication, res.data]);
         setShowAddForm(false);
@@ -84,7 +84,7 @@ const Publication = ({ user, type }) => {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:4000/publications/${selectedPublication._id}`,
+        `/publications/${selectedPublication._id}`,
         formData
       )
       .then((res) => {
@@ -148,7 +148,7 @@ const Publication = ({ user, type }) => {
   };
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:4000/publications/${id}`)
+      .delete(`/publications/${id}`)
       .then((res) => {
         const updatedPublication = publication.filter((pub) => pub._id !== id);
         setPublication(updatedPublication);

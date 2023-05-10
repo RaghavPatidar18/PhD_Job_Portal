@@ -17,7 +17,7 @@ function ApplicationForm({type}){
 
   //console.log(job_id);
   //console.log(user_id);
-  const url=`http://localhost:4000/application-form/${job_id}/${user_id}`;
+  const url=`/api/application-form/${job_id}/${user_id}`;
   const [jobFields,setJobFields]=useState({});
   const [dataRecieved,setDataRecieved]=useState(false);
   const history = useNavigate();
@@ -36,18 +36,36 @@ function ApplicationForm({type}){
     history("*");
   }else{
     console.log("i m here");
-    const res=await fetch(url,{
-      method: "GET",
-      headers: {"Content-Type": "application/json",}
-    });
-    const data=await res.json();
-    if(data.status===200){
-      setJobFields(data.dataObject);
-      console.log("sdnio");
-      setDataRecieved(true);
-      //onsole.log(jobFields);
-      console.log(data.dataObject);
+
+    try {
+      const response = await axios.get(`/application-form/${job_id}/${user_id}`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.status === 200) {
+        setJobFields(response.data.dataObject);
+        console.log("sdnio");
+        setDataRecieved(true);
+        console.log(response.data.dataObject);
+      }
+    } catch (error) {
+      console.error(error);
+      // handle error
     }
+
+    // const res=await fetch(url,{
+    //   method: "GET",
+    //   headers: {"Content-Type": "application/json",}
+    // });
+    // const data=await res.json();
+    // if(data.status===200){
+    //   setJobFields(data.dataObject);
+    //   console.log("sdnio");
+    //   setDataRecieved(true);
+    //   //onsole.log(jobFields);
+    //   console.log(data.dataObject);
+    // }
   }
 }
 
@@ -166,7 +184,7 @@ function submitClicked(){
   dataToSend.por=por;
   dataToSend.reference=reference;
 
-  axios.post(url, {dataToSend})
+  axios.post(`/application-form/${job_id}/${user_id}`, {dataToSend})
     .then((response) => {
       if(response.data.status===200){
         console.log("submitted");

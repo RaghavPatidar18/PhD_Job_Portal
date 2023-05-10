@@ -48,7 +48,7 @@ const history=useNavigate();
       isFirstRender.current=false;
 
       if(id!==undefined){
-        axios.get(`http://localhost:4000/updateJob/${id}`)
+        axios.get(`/updateJob/${id}`)
           .then((response)=>{
             if(response.data.status===200){
               const jobDetails=response.data.job;
@@ -118,7 +118,7 @@ const history=useNavigate();
     };
     console.log(job);
     if(id!==undefined){
-      axios.post("http://localhost:4000/updateJob", {job,id})
+      axios.post("/updateJob", {job,id})
       .then((response)=>{
         if(response.data.status===200){
           history("/");
@@ -128,7 +128,7 @@ const history=useNavigate();
     }else{
       const id=user._id
       axios
-        .post("http://localhost:4000/job-post", {job,id})
+        .post("/job-post", {job,id})
         .then((response) => {
           console.log("Job submitted");
           console.log("Job submitted");

@@ -4,35 +4,38 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate, useLocation } from 'react-router-dom';
-
+ 
 
 const ExperienceCard = ({ companyName, experience, name ,date , email }) => {
 
 
   const [altProfile, setAltProfile] = useState(defaultImage)
 
-const history = useNavigate();
-
 useEffect(() => {
 
   console.log(email);
+
+  if(email)
+  {
+    
+    axios.post(`/api/getimage`, { email: email })
+    .then((response) => {
+      if (response.data.status === 200) {
+        // handle success
+        // console.log(response.data.image);
   
-  axios.post(`/api/getimage`, { email: email })
-  .then((response) => {
-    if (response.data.status === 200) {
-      // handle success
-      console.log(response.data.image);
-
-      if (response.data.image === "#") {
-        setAltProfile(defaultImage);
+        if (response.data.image === "#") {
+          setAltProfile(defaultImage);
+        }
+        else {
+          setAltProfile(response.data.image);
+        }
+  
       }
-      else {
-        setAltProfile(response.data.image);
-      }
-
-    }
-  })
-  .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log(err));
+  }
+  
 
 
 }, []);

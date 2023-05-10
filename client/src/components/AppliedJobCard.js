@@ -21,7 +21,7 @@ function JobCard({job,srNo,selectAll,deletePressed,length}) {
 
   function handleWithdraw(){
     const id=job.application_id;
-    axios.post("http://localhost:4000/withdraw-application",{id})
+    axios.post("/withdraw-application",{id})
     .then((response)=> {
       if(response.data.status===200){
         console.log("withdrew");

@@ -127,7 +127,8 @@ app.post("/job-post", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
+app.get("/getjobs", (req, res) => {
+  // console.log("isme aa rha home wale m");
   var email = "";
   var userType = "";
   Job.find({}, (err, jobs) => {
@@ -142,7 +143,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/job-details/:id/:student_id", async (req, res) => {
+app.get("/api/job-details/:id/:student_id", async (req, res) => {
   ////console.log(req.userID);
   //console.log("jsgiuf");
 
@@ -957,7 +958,7 @@ app.post("/apply", async (req, res) => {
   }
 });
 
-app.get("/jobStatus/:id", async (req, res) => {
+app.get("/api/jobStatus/:id", async (req, res) => {
   const { id } = req.params;
   ////console.log("here at job status");
   try {
@@ -1280,7 +1281,7 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
   }
 });
 
-app.get("/applicant-details/:id", async (req, res) => {
+app.get("/api/applicant-details/:id", async (req, res) => {
   console.log(Application.schema.obj);
   const { id } = req.params;
   const application = await Application.findOne({ _id: id });
@@ -1427,13 +1428,31 @@ app.post('/api/createExperiences', async (req, res) => {
 app.post('/api/getimage', async (req, res) => {
   // console.log(req.body);
   const email = req.body.email;
+  console.log(req.body);
+  console.log(email);
 
-  let user = await Personal.findOne({ email : email });
+  if(!req.body)
+  {
+    return res.json({ status:200 , image :  "#" });
+  }
+  else 
+  {
 
-  // console.log(user);
-  // console.log(user.profile_image_url);
+    let user = await Personal.findOne({ email : email });
+  
+    // console.log(user);
+    // console.log(user.profile_image_url);
+  
+    let imagesrc = "#";
+  
+    if(user.profile_image_url)
+    {
+      imagesrc = user.profile_image_url;
+    }
+  
+    return res.json({ status:200 , image :  imagesrc });
+  }
 
-  return res.json({ status:200 , image :  user.profile_image_url });
 
 });
 

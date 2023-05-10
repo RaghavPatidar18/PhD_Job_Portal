@@ -41,30 +41,55 @@ function JobDetails({ user, type }) {
     if (user.email === undefined) {
       // console.log("here at email null");
       setButtonText("Login/Register to Apply");
-      url = `http://localhost:4000/job-details/${id}/""`;
+      url = `/api/job-details/${id}/""`;
     } else {
-      // console.log("sdfbioe");
-      url = `http://localhost:4000/job-details/${id}/${user._id}`;
+      // console.log("sdfbioe"); 
+      url = `/api/job-details/${id}/${user._id}`;
     }
 
-    const res = await fetch(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json", }
-    });
-    const data = await res.json();
-    if (data.status === 200) {
-      setJob(data.job);
-      setApplied(data.applied); 
-
-      if (data.applied === true && type === "student") {
-        setApplication_id(data.application_id);
-        //console.log("here");
-        console.log(data.application_id);
-        setButtonText("Withdraw Application");
-      } else if (data.applied === false && type === "student") {
-        setButtonText("Apply");
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = response.data;
+      if (data.status === 200) {
+        setJob(data.job);
+        setApplied(data.applied);
+    
+        if (data.applied === true && type === "student") {
+          setApplication_id(data.application_id);
+          console.log(data.application_id);
+          setButtonText("Withdraw Application");
+        } else if (data.applied === false && type === "student") {
+          setButtonText("Apply");
+        }
       }
+    } catch (error) {
+      console.error(error);
+      // handle error
     }
+    
+
+    // const res = await fetch(url, {
+    //   method: "GET",
+    //   headers: { "Content-Type": "application/json", }
+    // });
+    // const data = await res.json();
+    // if (data.status === 200) {
+    //   setJob(data.job);
+    //   setApplied(data.applied); 
+
+    //   if (data.applied === true && type === "student") {
+    //     setApplication_id(data.application_id);
+    //     //console.log("here");
+    //     console.log(data.application_id);
+    //     setButtonText("Withdraw Application");
+    //   } else if (data.applied === false && type === "student") {
+    //     setButtonText("Apply");
+    //   }
+    // }
 
 
   }
@@ -94,7 +119,7 @@ function JobDetails({ user, type }) {
   function handleWithdraw(){
     const id=application_id;
     handleCloseWithdraw();
-    axios.post("http://localhost:4000/withdraw-application",{id})
+    axios.post("/withdraw-application",{id})
     .then((response)=> {
       if(response.data.status===200){
         console.log("withdrew");
@@ -108,7 +133,7 @@ function JobDetails({ user, type }) {
   }
 
   function handleDelete(){
-    axios.post("http://localhost:4000/delete-job",{id})
+    axios.post("/delete-job",{id})
     .then((response)=> {
       if(response.data.status===200){
         console.log("deleted");

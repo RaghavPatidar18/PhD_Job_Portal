@@ -31,7 +31,7 @@ export default function Profile({ user, type }) {
   const [permanentCountry, setPermanentCountry] = useState("");
   const [communicationCountry, setcommunicationCountry] = useState("");
 
-  const url = `http://localhost:4000/personal/${user}`;
+  const url = `/personal/${user}`;
   useEffect(() => {
     axios.get(url).then((response) => {
       console.log(response.data);
@@ -141,7 +141,7 @@ export default function Profile({ user, type }) {
     event.preventDefault();
     // save into database
     axios
-      .post("http://localhost:4000/personal", { formValues, user })
+      .post("/personal", { formValues, user })
       .then((response) => {
         if (response.data.status === 200) {
           alert("Your data was saved");

@@ -17,7 +17,7 @@ export default function Profile({ user, type }) {
       reader.onload = () => {
         const data = btoa(reader.result);
         axios
-          .post("http://localhost:4000/resumes", { email: user, resume: data })
+          .post("/resumes", { email: user, resume: data })
           .then((res) => {
             setResumes((resumes) => [...resumes, res.data]);
           })
@@ -33,7 +33,7 @@ export default function Profile({ user, type }) {
 
   const handleResumeDelete = (index, id) => {
     axios
-      .delete(`http://localhost:4000/resumes/${user}/${id}`)
+      .delete(`/resumes/${user}/${id}`)
       .then(() => {
         const newResumes = [...resumes];
         newResumes.splice(index, 1);
@@ -44,7 +44,7 @@ export default function Profile({ user, type }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/resumes/${user}`)
+      .get(`/resumes/${user}`)
       .then((res) => {
         setResumes(res.data);
       })

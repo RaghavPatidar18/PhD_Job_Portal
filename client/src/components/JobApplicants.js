@@ -16,7 +16,7 @@ function JobApplicants({ user, type }) {
   const [applicants, setApplicants] = useState([]);
   const [personalData, setPersonalData] = useState([]);
 
-  const url = `http://localhost:4000/jobApplicants/${id}`;
+  const url = `/jobApplicants/${id}`;
   let count = 1;
 
   const history = useNavigate();

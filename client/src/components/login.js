@@ -20,37 +20,63 @@ const Login = () => {
     }, [location.search]);
 
     const handleLogin = async () => {
-        const data = await fetch("/api/login", {
-            method: "POST",
+
+        const res = await axios.post("/api/login", {
+            email, password, userType
+            }, {
             headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email, password, userType
-            })
-        });
-
-        const res = await data.json();
-        //  console.log(res);
-
-        if (res.status === 201) {
-            console.log("userdatatoken ki value hai : ");
-            console.log(res.result.token);
-            localStorage.setItem("usersdatatoken", res.result.token);
-            setShowLogInAlert(true);
-            if(userType==="admin") 
-            {
-                window.location.href = "/admin";
+            "Content-Type": "application/json"
             }
-            else 
-            {
-                window.location.href = "/";
+            });
+            if (res.status === 201) {
+                console.log("userdatatoken ki value hai : ");
+                console.log(res.data.result.token);
+                localStorage.setItem("usersdatatoken", res.data.result.token);
+                setShowLogInAlert(true);
+                if(userType==="admin") 
+                {
+                    window.location.href = "/admin";
+                }
+                else 
+                {
+                    window.location.href = "/";
+                }
             }
-            // setInpval({...inpval,email:"",password:""});
-        }
-        if (res.success === false) {
-            setShowInvalidUserAlert(true);
-        }
+            if (res.data.success === false) {
+                setShowInvalidUserAlert(true);
+            }
+        
+
+        // const data = await fetch("/api/login", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         email, password, userType
+        //     })
+        // });
+
+        // const res = await data.json();
+        // //  console.log(res);
+
+        // if (res.status === 201) {
+        //     console.log("userdatatoken ki value hai : ");
+        //     console.log(res.result.token);
+        //     localStorage.setItem("usersdatatoken", res.result.token);
+        //     setShowLogInAlert(true);
+        //     if(userType==="admin") 
+        //     {
+        //         window.location.href = "/admin";
+        //     }
+        //     else 
+        //     {
+        //         window.location.href = "/";
+        //     }
+        // }
+        // if (res.success === false) {
+        //     setShowInvalidUserAlert(true);
+        // }
     };
 
 

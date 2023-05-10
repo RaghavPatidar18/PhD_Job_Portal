@@ -18,7 +18,7 @@ function FileUpload({ user, type }) {
 
   const handleSubmit = async (event) => {
     // event.preventDefault();
-    axios.post(`http://localhost:4000/upload-image/${user}`, {image}).then((res)=>{
+    axios.post(`/upload-image/${user}`, {image}).then((res)=>{
         if(res.data.status === 200){
             console.log("Profile picture updated");
         }else{

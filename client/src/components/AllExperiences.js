@@ -10,27 +10,35 @@ import frame from './Frame.png';
 async function getName() {
   const token = localStorage.getItem('usersdatatoken');
   //   console.log(token);
-  const response = await fetch('/api/mename', {
+
+  return axios.get('/api/mename', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  }).then((response) => {
+    console.log(response.data.name); // handle the response data
+    console.log("insidde function of gate name");
+    // console.log(response);
+    return response.data.name;
+    
+  }).catch((error) => {
+    console.log(error); // handle the error
   });
-  console.log("insidde function of gate name");
-  const data = await response.json();
-  return data.name
 }
 
 async function getEmail() {
   const token = localStorage.getItem('usersdatatoken');
-  //   console.log(token);
-  const response = await fetch('/api/me', {
+  return axios.get('/api/me', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  }).then((response) => {
+    console.log(response.data.email); // handle the response data
+    console.log("insidde function of gate email");
+    return response.data.email;
+  }).catch((error) => {
+    console.log(error); // handle the error
   });
-  console.log("insidde function of gate name");
-  const data = await response.json();
-  return data.email
 }
 
 const AllExperiences = () => {
@@ -41,25 +49,6 @@ const AllExperiences = () => {
   const [filterByCompanyName, setFilterByCompanyName] = useState('');
   const [showImage, setShowImage] = useState(true);
 
-  const history = useNavigate();
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setExperiences((prevExperiences) => ({
-      ...prevExperiences,
-      [name]: value,
-    }));
-  };
-
-  const handleAddExperience = () => {
-    setExperiences((prevExperiences) => [...prevExperiences, {}]);
-  };
-
-  const handleRemoveExperience = (index) => {
-    setExperiences((prevExperiences) =>
-      prevExperiences.filter((exp, i) => i !== index)
-    );
-  };
 
   const handleFilterByCompanyName = (event) => {
     setFilterByCompanyName(event.target.value);
@@ -84,8 +73,8 @@ const AllExperiences = () => {
   const handleSubmit = async (e) => {
     setShowImage(false);
     e.preventDefault();
-    const userName = await getName(); 
-    const userEmail = await getEmail();
+    let userName = await getName();
+    let userEmail = await getEmail();
     console.log(userName);
     console.log(userEmail);
     axios.post('/api/createExperiences', {
@@ -100,39 +89,40 @@ const AllExperiences = () => {
     });
   };
 
-  const handleLike = (id) => {
-    axios.put(`/api/experiences/${id}`, {
-      likes: experiences.find((experience) => experience._id === id).likes + 1,
-    }).then((res) => {
-      const updatedExperiences = experiences.map((experience) => {
-        if (experience._id === id) {
-          return { ...experience, likes: res.data.likes };
-        } else {
-          return experience;
-        }
-      });
-      setExperiences(updatedExperiences);
-    });
-  };
+  // const handleLike = (id) => {
+  //   axios.put(`/api/experiences/${id}`, {
+  //     likes: experiences.find((experience) => experience._id === id).likes + 1,
+  //   }).then((res) => {
+  //     const updatedExperiences = experiences.map((experience) => {
+  //       if (experience._id === id) {
+  //         return { ...experience, likes: res.data.likes };
+  //       } else {
+  //         return experience;
+  //       }
+  //     });
+  //     setExperiences(updatedExperiences);
+  //   });
+  // };
 
-  const handleDislike = (id) => {
-    axios.put(`/api/experiences/${id}`, {
-      dislikes: experiences.find((experience) => experience._id === id).dislikes + 1,
-    }).then((res) => {
-      const updatedExperiences = experiences.map((experience) => {
-        if (experience._id === id) {
-          return { ...experience, dislikes: res.data.dislikes };
-        } else {
-          return experience;
-        }
-      });
-      setExperiences(updatedExperiences);
-    });
-  };
+  // const handleDislike = (id) => {
+  //   axios.put(`/api/experiences/${id}`, {
+  //     dislikes: experiences.find((experience) => experience._id === id).dislikes + 1,
+  //   }).then((res) => {
+  //     const updatedExperiences = experiences.map((experience) => {
+  //       if (experience._id === id) {
+  //         return { ...experience, dislikes: res.data.dislikes };
+  //       } else {
+  //         return experience;
+  //       }
+  //     });
+  //     setExperiences(updatedExperiences);
+  //   });
+  // };
 
-  const fetchComments = async (id) => {
-    history(`/allcomment/${id}`);
-  };
+  // const fetchComments = async (id) => {
+  //   history(`/allcomment/${id}`);
+  // };
+
   const handleAdd = () => {
     setActiveForm(true);
     setShowImage(false);
@@ -310,23 +300,23 @@ const AllExperiences = () => {
         {/* </div> */}
       </section>
 
-            <div>
-              {experiences.map((experience) => (
-                <>
+      <div>
+        {experiences.map((experience) => (
+          <>
 
-                  <div >
-                    <ExperienceCard
-                      // key={experience._id}
-                      companyName={experience.companyName}
-                      experience={experience.experience}
-                      name={experience.name}
-                      date={experience.timestamps}
-                      email={experience.email}
-                    />
-                  </div>
-                </>
-              ))}
+            <div >
+              <ExperienceCard
+                // key={experience._id}
+                companyName={experience.companyName}
+                experience={experience.experience}
+                name={experience.name}
+                date={experience.timestamps}
+                email={experience.email}
+              />
             </div>
+          </>
+        ))}
+      </div>
 
       <Footer />
 

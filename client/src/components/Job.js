@@ -34,11 +34,12 @@ function Job() {
   const [salaryFilter, setSalaryFilter] = useState("");
   const [instituteFilter, setInstituteFilter] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
-  const url = 'http://localhost:4000/';
+  // const url = '/';
 
   useEffect(() => {
-    axios.get(url)
+    axios.get("/getjobs")
       .then((response) => {
+        console.log(response);
         setJobs(response.data.jobDetails);
         setFilteredJobs(response.data.jobDetails);
       })

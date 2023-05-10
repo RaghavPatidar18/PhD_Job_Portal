@@ -64,7 +64,7 @@ function CustomizableForm({handleSubmit}){
 
 
   useEffect(()=> {
-    axios.get("http://localhost:4000/custom-form-fields")
+    axios.get("/custom-form-fields")
     .then((res)=> {
       if(res.data.status===200){
         setFormFields(res.data.obj);
