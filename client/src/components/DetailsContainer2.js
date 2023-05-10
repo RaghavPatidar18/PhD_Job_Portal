@@ -33,27 +33,7 @@ function DetailsContainer2() {
       <div className="details-container">
         <h3>Whether you're just starting your career or looking for your next challenge, we're here to help you find your dream job.</h3>
       </div>
-      {/* <div className='categories'>
-        <h1>Job Categories</h1>
-        <div className="category-container">
-          <div className="category-card">
-            <h2>Professor</h2>
-            <p>View job openings for the professors.</p>
-          </div>
-          <div className="category-card">
-            <h2>Research Scientist</h2>
-            <p>View job openings for the Research Scientist.</p>
-          </div>
-          <div className="category-card">
-            <h2>Software Engineer</h2>
-            <p>View job openings for the Software Engineer.</p>
-          </div>
-          <div className="category-card">
-            <h2>Cyber Security</h2>
-            <p>View job openings for the Cybersecurity Expert.</p>
-          </div>
-        </div>
-      </div> */}
+      
     </>
   );
 }
