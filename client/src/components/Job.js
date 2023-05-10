@@ -225,19 +225,11 @@ function Job() {
               </select>
 
               <div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:-mx-2">
-<<<<<<< HEAD
                 <button onClick={handleFilterApply}
                   class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
                   style={{ background: "#4540DB", borderRadius: "20px" }}>
                   Search
                 </button>
-=======
-              <button onClick={handleFilterApply}
-        class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
-        style={{ background: "#4540DB", borderRadius: "20px" }}>
-  Search
-</button>
->>>>>>> 185b589b7da1341c6b8498e8bdda157f6cbfb55d
 
                 <button onClick={handleClearFilters} class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500" style={{ backgroundColor: "rgba(255, 0, 0, 0.6)", borderRadius: "20px" }}>
                   Clear Filters
