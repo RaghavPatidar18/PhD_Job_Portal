@@ -124,7 +124,7 @@ const handleJobPost = ()=>{
             <SubscribePopup show={showPopup} onClose={handlePopupClose} />
 
             {type === "" && <Nav>
-              <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="collasible-nav-dropdown">
+              <NavDropdown title={"Sign In"} id="collasible-nav-dropdown">
               {/* <NavDropdown.Divider /> */}
                 <NavDropdown.Item onClick={() => handleBasic("student")}>Student</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => handleBasic("institute")}>Institute</NavDropdown.Item>
