@@ -1,51 +1,55 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/Personal.css"; // import the CSS file
-import { FaEdit } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
+
 export default function Profile({ user, type }) {
   const [error, setError] = useState("");
   const [resume, setResume] = useState(null);
-  const [coverLetter, setCoverLetter] = useState(null);
   const [resumes, setResumes] = useState([]);
+
   const handleResumeChange = (e) => {
     setResume(e.target.files[0]);
   };
 
-  const handleCoverLetterChange = (e) => {
-    setCoverLetter(e.target.files[0]);
-  };
-
   const handleResumeUpload = () => {
     if (resume != null) {
-      setError("");
-      setResumes((resumes) => [...resumes, resume]);
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = btoa(reader.result);
+        axios
+          .post("http://localhost:4000/resumes", { email: user, resume: data })
+          .then((res) => {
+            setResumes((resumes) => [...resumes, res.data]);
+          })
+          .catch((err) => console.log(err));
+      };
+      reader.readAsBinaryString(resume);
       setResume(null);
+      setError("");
     } else {
       setError("Please choose a file first");
     }
   };
 
-  const handleResumeDelete = (index) => {
-    const newResumes = [...resumes];
-    newResumes.splice(index, 1);
-    setResumes(newResumes);
+  const handleResumeDelete = (index, id) => {
+    axios
+      .delete(`http://localhost:4000/resumes/${user}/${id}`)
+      .then(() => {
+        const newResumes = [...resumes];
+        newResumes.splice(index, 1);
+        setResumes(newResumes);
+      })
+      .catch((err) => console.log(err));
   };
 
-  const handleCoverLetterUpload = () => {
-    if (coverLetter != null) {
-      setError("");
-      setResumes((coverLetter) => [...resumes, coverLetter]);
-      setCoverLetter(null);
-    } else {
-      setError("Choose a cover letter first")
-      setCoverLetter(null);
-    }
-  };
-
-  const handleCoverLetterDelete = () => {
-    setCoverLetter(null);
-  };
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/resumes/${user}`)
+      .then((res) => {
+        setResumes(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [user]);
 
   return (
     <>
@@ -60,9 +64,25 @@ export default function Profile({ user, type }) {
         <hr style={{ borderWidth: "2px" }} />
         <div className="userProfileData">
           <div className="resume-container">
-            <label className="profile-label" style={{fontSize : 'xx-large', width:'10em'}}htmlFor="resume">Upload Resume:</label>
-            <input style={{fontSize:'small !important', width:'20rem', height:'4rem'}}type="file" id="resume" onChange={handleResumeChange} />
-            <button className="addNewButton"onClick={handleResumeUpload}>Upload</button>
+            <label
+              style={{ fontSize: "xx-large", width: "10em" }}
+              htmlFor="resume"
+            >
+              Upload Resume:
+            </label>
+            <input
+              style={{
+                fontSize: "small !important",
+                width: "20rem",
+                height: "4rem",
+              }}
+              type="file"
+              id="resume"
+              onChange={handleResumeChange}
+            />
+            <button className="addNewButton" onClick={handleResumeUpload}>
+              Upload
+            </button>
             {resume && (
               <p className="file-name">
                 {resume.name}{" "}
@@ -70,19 +90,8 @@ export default function Profile({ user, type }) {
               </p>
             )}
           </div>
-          {/* <div className="cover-letter-container">
-          <label style={{fontSize : 'large', width:'10em'}}htmlFor="resume">Upload Cover Letter:</label>
-            <input style={{fontSize:'small !important', width:'20rem', height:'4rem'}}type="file" id="resume" onChange={handleResumeChange} />
-            <button className="addNewButton"onClick={handleCoverLetterUpload}>Upload</button>
-            {coverLetter && (
-              <p className="file-name">
-                {coverLetter.name}{" "}
-                <button onClick={() => setCoverLetter(null)}>Remove</button>
-              </p>
-            )}
-          </div> */}
-          {/* <br/> */}
-          <hr/>
+
+          <hr />
         </div>
         <div className="resumes-container">
           {resumes.map((resume, index) => (
@@ -113,10 +122,14 @@ export default function Profile({ user, type }) {
                   <td>
                     <button
                       className="editButton"
-                      onClick={() =>
-                        (window.location.href = URL.createObjectURL(resume))
-                      }
-                      download
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = URL.createObjectURL(resume);
+                        link.download = resume;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
                     >
                       Download
                     </button>

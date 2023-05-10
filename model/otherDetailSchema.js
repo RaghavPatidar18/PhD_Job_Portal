@@ -3,8 +3,7 @@ const { Schema } = mongoose;
 
 const otherDetailSchema = new Schema({
     email : String,
-    resumeurl : String,
-    coverletterurl : String,
+    resume : String,
 });
 
 

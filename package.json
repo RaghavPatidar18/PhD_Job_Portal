@@ -33,6 +33,7 @@
     "path": "^0.12.7",
     "pdf2json": "^3.0.3",
     "resume-parser": "^1.1.0",
-    "tesseract.js": "^4.0.3"
+    "tesseract.js": "^4.0.3",
+    "uuid": "^9.0.0"
   }
 }

@@ -54,6 +54,7 @@ app.use("/", require(__dirname + "/routes/UserProfile/experienceDetails.js"));
 app.use("/", require(__dirname + "/routes/UserProfile/referenceDetails.js"));
 app.use("/", require(__dirname + "/routes/UserProfile/publicationDetails.js"));
 app.use("/", require(__dirname + "/routes/UserProfile/porDetails.js"));
+app.use("/", require(__dirname + "/routes/UserProfile/resumeManager.js"));
 
 const keysecret = "secret";
 
@@ -323,7 +324,7 @@ app.post("/api/verifyOtp", async (req, res) => {
         communication_city: "-",
         communication_state: "-",
         communication_pincode: "-",
-
+        profile_image_url : "#",
         permanent_address: "-",
         permanent_city: "-",
         permanent_state: "-",
