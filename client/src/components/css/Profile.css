@@ -1,4 +1,4 @@
-section {
+.renderComponent {
   display: grid;
   place-items: center;
   height: max-content;

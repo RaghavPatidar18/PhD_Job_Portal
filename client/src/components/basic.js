@@ -3,8 +3,8 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 import "./css/Basic.css";
- 
-const Basic = () => { 
+
+const Basic = () => {
   const [message, setMessage] = useState("");
 
   const handleLogin = (userType) => {
@@ -28,7 +28,7 @@ const Basic = () => {
           ALUMNI
         </button> */}
       </div>
-      <p>{message}</p>
+      <p className="basic-p">{message}</p>
     </div>
   );
 };

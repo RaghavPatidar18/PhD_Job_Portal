@@ -138,7 +138,7 @@ const ExperienceTable = ({ user, type }) => {
             <hr/>
             <tr>
               <td>
-                <label htmlFor="profile">Name:</label>
+                <label className="profile-label" htmlFor="profile">Name:</label>
               </td>
               <td>
                 <input
@@ -152,7 +152,7 @@ const ExperienceTable = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="title">Title:</label>
+                <label className="profile-label" htmlFor="title">Title:</label>
               </td>
               <td>
                 <input
@@ -166,7 +166,7 @@ const ExperienceTable = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="affliliation">Affliliation:</label>
+                <label className="profile-label" htmlFor="affliliation">Affliliation:</label>
               </td>
               <td>
                 <input
@@ -180,7 +180,7 @@ const ExperienceTable = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="referenceemail">Email:</label>
+                <label className="profile-label" htmlFor="referenceemail">Email:</label>
               </td>
               <td>
                 <input
@@ -194,7 +194,7 @@ const ExperienceTable = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="referencephone">Phone:</label>
+                <label className="profile-label" htmlFor="referencephone">Phone:</label>
               </td>
               <td>
                 <input
@@ -208,7 +208,7 @@ const ExperienceTable = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="relationship">Relation:</label>
+                <label className="profile-label" htmlFor="relationship">Relation:</label>
               </td>
               <td>
                 <input
@@ -222,7 +222,7 @@ const ExperienceTable = ({ user, type }) => {
             </tr>
             <tr>
               <td>
-                <label htmlFor="description">Description:</label>
+                <label className="profile-label" htmlFor="description">Description:</label>
               </td>
               <td>
                 <input
@@ -255,7 +255,7 @@ const ExperienceTable = ({ user, type }) => {
         <br/>
         </div>
       )}
-      
+
       {references.map((ref) =>
         selectedReferences === ref && showEditForm ? (
           <>
@@ -266,7 +266,7 @@ const ExperienceTable = ({ user, type }) => {
                 <hr/>
                 <tr>
                   <td>
-                    <label htmlFor="profile">Name:</label>
+                    <label className="profile-label" htmlFor="profile">Name:</label>
                   </td>
                   <td>
                     <input
@@ -280,7 +280,7 @@ const ExperienceTable = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="title">Title:</label>
+                    <label className="profile-label" htmlFor="title">Title:</label>
                   </td>
                   <td>
                     <input
@@ -294,7 +294,7 @@ const ExperienceTable = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="affliliation">Affliliation:</label>
+                    <label className="profile-label" htmlFor="affliliation">Affliliation:</label>
                   </td>
                   <td>
                     <input
@@ -308,7 +308,7 @@ const ExperienceTable = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="referenceemail">Email ID :</label>
+                    <label className="profile-label" htmlFor="referenceemail">Email ID :</label>
                   </td>
                   <td>
                     <input
@@ -322,7 +322,7 @@ const ExperienceTable = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="referencephone">Contact Number:</label>
+                    <label className="profile-label" htmlFor="referencephone">Contact Number:</label>
                   </td>
                   <td>
                   <input
@@ -336,7 +336,7 @@ const ExperienceTable = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="relationship">Relationship:</label>
+                    <label className="profile-label" htmlFor="relationship">Relationship:</label>
                   </td>
                   <td>
                     <input
@@ -350,7 +350,7 @@ const ExperienceTable = ({ user, type }) => {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="description">Description:</label>
+                    <label className="profile-label" htmlFor="description">Description:</label>
                   </td>
                   <td>
                     <input
@@ -446,7 +446,7 @@ const ExperienceTable = ({ user, type }) => {
         )
       )}
 
-      
+
     </div>
   );
 };

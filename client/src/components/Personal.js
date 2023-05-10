@@ -81,7 +81,7 @@ export default function Profile({ user, type }) {
         setFatherName(myData.fathername);
         setNationality(myData.nationality);
         setMarried(myData.married);
-        setDisability(myData.disablity);
+        setDisability(myData.disability);
 
         setFormValues({
           name: myData.name,
@@ -121,8 +121,8 @@ export default function Profile({ user, type }) {
               : myData.communication_country,
 
           mobile: myData.mobile === "-" ? "" : myData.mobile,
-          altmobile: myData.altmobile === "-" ? "" : myData.altMobile,
-          disability: myData.disability === "-" ? "" : myData.disablity,
+          altmobile: myData.altmobile === "-" ? "" : myData.altmobile,
+          disability: myData.disability === "-" ? "" : myData.disability,
           married: myData.married === "-" ? "" : myData.married,
         });
       }
@@ -131,7 +131,10 @@ export default function Profile({ user, type }) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(name);
+    console.log(value);
     setFormValues({ ...formValues, [name]: value });
+    console.log(formValues);
   };
 
   const handleSubmit = (event) => {

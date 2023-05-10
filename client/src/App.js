@@ -6,7 +6,7 @@ import Profile from "./components/Profile";
 import Job from "./components/Job";
 import JobDetails from "./components/JobDetails"
 import PostJob from "./components/PostJob"
-import Login from "./components/login"; 
+import Login from "./components/login";
 import Signup from "./components/signup";
 import Basic from "./components/basic";
 import PasswordReset from "./components/PasswordReset";
@@ -15,7 +15,7 @@ import Error from "./components/Error";
 import AppliedJob from "./components/AppliedJob";
 import PostedJobs from "./components/PostedJobs";
 import JobApplicants from "./components/JobApplicants";
-import CustomizableForm from "./components/CustomizableForm";
+//import CustomizableForm from "./components/CustomizableForm";
 import ApplicationForm from "./components/ApplicationForm";
 import ApplicantDetails from "./components/ApplicantDetails";
 import CommentSection from "./components/comments";
@@ -25,7 +25,7 @@ import ExpComments from "./components/ExpComment";
 import NewInstitute from "./components/NewInstitute";
 import AddInstitute from "./components/AddInstitute";
 // import Download from "./components/download";
-
+import CustomizableForm from "./components/CustomForm/CustomizableForm";
 
 function Root() {
   const [data, setData] = useState(false);
@@ -79,7 +79,7 @@ function Root() {
           setUser(data.ValidUserOne);
           setUserType(data.userType);
           setHasRecievedData(true);
-          // console.log(data.userType);  
+          // console.log(data.userType);
 
           if(data.userType==="admin") navigate("/admin");
 
@@ -90,19 +90,19 @@ function Root() {
   useEffect(() => {
       ProfileValid();
   }, [])
- 
+
   return (
     <div>
-      {hasRecievedData && <Routes> 
+      {hasRecievedData && <Routes>
 
 
        <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /></>} />
       <Route path="/profile" element={<><PrivateRoute><Navbar user={user} type={userType}/> <Profile user={user.email} type={userType}/></PrivateRoute></>}/>
-      <Route path="/job-details/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></PrivateRoute></> }/>
+      <Route path="/job-details/:id" element={<><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></> }/>
         <Route path="/job-post" element={<><PrivateRoute><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></PrivateRoute></> }/>
     <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/choose-profile" element={<Basic />} /> 
+      <Route path="/choose-profile" element={<Basic />} />
       {/* <Route path="/download" element={<Download />} /> */}
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" />
@@ -119,8 +119,11 @@ function Root() {
 
         <Route path="/comment/:jobPostingId" element={<PrivateRoute><CommentSection /></PrivateRoute>} />
         <Route path="/allcomment/:exp_id" element={<PrivateRoute><ExpComments /></PrivateRoute>} />
-        <Route path="/registerManully" element={<PrivateRoute><NewInstitute /></PrivateRoute>} />
+        <Route path="/registerManully" element={<NewInstitute />} />
         <Route path="/admin" element={<PrivateRoute><AddInstitute /></PrivateRoute>} />
+
+        <Route path="checking" element={<><CustomizableForm /></>} />
+        <Route path="/update-job/:id" element={<><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></> }/>
 
       </Routes>}
       </div>

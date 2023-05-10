@@ -24,12 +24,12 @@
   margin: auto;
   }
 
-  form{
+  .postJobForm{
   width: 60%;
   margin: auto;
   }
 
-  h3 {
+  .postJobh3 {
   text-align: center;
   margin-bottom: 20px;
   font-size: 28px;
@@ -55,9 +55,19 @@
   .inputField {
   margin-top: 20px;
   margin-bottom: 20px;
+  padding-top: 30px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   transition: box-shadow 0.3s ease;
+  }
+
+  .inputField .floating-label {
+    margin-bottom: 18px;
+  }
+  
+  .inputField .form-control {
+    margin-top: 6px;
+    height: 60px;
   }
 
   .inputField:focus-within {
@@ -75,6 +85,8 @@
   margin-bottom: 10px;
   transition: box-shadow 0.3s ease;
   }
+
+ 
 
   .postJobInput:focus {
   outline: none;
@@ -113,9 +125,7 @@
   background-color: #006666;
   }
 
-  textarea {
-  height: 120px;
-  }
+
 
   @media screen and (max-width: 768px) {
   .postJob {
@@ -128,13 +138,11 @@
     flex-wrap: wrap;
     gap: 20px;
   }
-  
+
 
   h3 {
   font-size: 24px;
   }
 
-  textarea {
-  height: 80px;
-  }
+
   }

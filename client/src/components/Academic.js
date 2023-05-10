@@ -481,7 +481,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="collegemtech">College:</label>
+                    <label className="profile-label" htmlFor="collegemtech">College:</label>
                   </td>
                   <td>
                     <input
@@ -496,7 +496,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="branchmtech">Branch:</label>
+                    <label className="profile-label" htmlFor="branchmtech">Branch:</label>
                   </td>
                   <td>
                     <input
@@ -549,7 +549,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="yearmtech">Year of completion:</label>
+                    <label className="profile-label" htmlFor="yearmtech">Year of completion:</label>
                   </td>
                   <td>
                     <input
@@ -564,7 +564,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarksmtech">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarksmtech">Add remarks (if any):</label>
                   </td>
                   <td>
                     <input
@@ -582,7 +582,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="collegebtech">College:</label>
+                    <label className="profile-label" htmlFor="collegebtech">College:</label>
                   </td>
                   <td>
                     <input
@@ -597,7 +597,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="branchbtech">Branch:</label>
+                    <label className="profile-label" htmlFor="branchbtech">Branch:</label>
                   </td>
                   <td>
                     <input
@@ -650,7 +650,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="yearmtech">Year of completion:</label>
+                    <label className="profile-label" htmlFor="yearmtech">Year of completion:</label>
                   </td>
                   <td>
                     <input
@@ -665,7 +665,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarksbtech">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarksbtech">Add remarks (if any):</label>
                   </td>
                   <td>
                     <input
@@ -683,7 +683,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="board12">Board:</label>
+                    <label className="profile-label" htmlFor="board12">Board:</label>
                   </td>
                   <td>
                     <input
@@ -719,7 +719,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentage12">Percentage Obtained:</label>
+                    <label className="profile-label" htmlFor="percentage12">Percentage Obtained:</label>
                   </td>
                   <td>
                     <input
@@ -734,7 +734,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="year12">Year of completion:</label>
+                    <label className="profile-label" htmlFor="year12">Year of completion:</label>
                   </td>
                   <td>
                     <input
@@ -749,7 +749,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarks12">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarks12">Add remarks (if any):</label>
                   </td>
                   <td>
                     <input
@@ -768,7 +768,7 @@ export default function Profile({ user, type }) {
                 <hr />
                 <tr>
                   <td>
-                    <label htmlFor="board10">Board:</label>
+                    <label className="profile-label" htmlFor="board10">Board:</label>
                   </td>
                   <td>
                     <input
@@ -804,7 +804,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="percentage10">Percentage Obtained:</label>
+                    <label className="profile-label" htmlFor="percentage10">Percentage Obtained:</label>
                   </td>
                   <td>
                     <input
@@ -819,7 +819,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="year10">Year of completion:</label>
+                    <label className="profile-label" htmlFor="year10">Year of completion:</label>
                   </td>
                   <td>
                     <input
@@ -834,7 +834,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td>
-                    <label htmlFor="remarks10">Add remarks (if any):</label>
+                    <label className="profile-label" htmlFor="remarks10">Add remarks (if any):</label>
                   </td>
                   <td>
                     <input

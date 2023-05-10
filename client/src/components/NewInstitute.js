@@ -28,7 +28,7 @@ export default function NewInstitute(props) {
             location,
             year,
             phone
-        };
+        }; 
 
         axios.post("/api/registerInstitute", { formData})
         .then((res) => {

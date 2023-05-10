@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 //import './css/Signup.css';
 import Alert from 'react-bootstrap/Alert';
+import lgimage from './lgimage.jpg';
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -114,7 +115,9 @@ const Login = () => {
 
 
                 <div className="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl" >
-                    <div className="hidden bg-cover lg:block lg:w-1/2" style={{ backgroundImage: 'url("https://skilloutlook.com/wp-content/uploads/2020/10/IIT-Ropar-06-Oct-2020.jpg")' }}></div>
+                <div className="hidden bg-cover lg:block lg:w-1/2" style={{ backgroundImage: `url(${lgimage})`, backgroundSize: '100%' }}></div>
+
+
                     <div class="w-full px-6 py-8 md:px-8 lg:w-1/2">
                         <div class="flex justify-center mx-auto">
                             <img class="w-auto h-7 sm:h-8" src="https://upload.wikimedia.org/wikipedia/en/f/f9/Indian_Institute_of_Technology_Ropar_logo.png" alt="" />

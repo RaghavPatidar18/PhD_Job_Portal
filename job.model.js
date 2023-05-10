@@ -29,7 +29,7 @@ const jobSchema = new mongoose.Schema({
       profile_image_url : Boolean,
       dob : Boolean,
       category : Boolean,
-      disablity : Boolean,
+      disability : Boolean,
       married : Boolean,
       nationality : Boolean,
       gender : Boolean,
@@ -86,7 +86,7 @@ const jobSchema = new mongoose.Schema({
       percentagemtech : Boolean,
       yearmtech :  Boolean,
       remarksmtech : Boolean,
-      marksheetmtech : Boolean,
+      marksheetmtechurl : Boolean,
 
       isphdcompleted : Boolean,
       phdremarks : Boolean,
@@ -123,7 +123,7 @@ const jobSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  name : String ,
+  name : String , 
   email: { type: String, unique: true },
   password: String,
   subscribedToJobAlerts: { type: Boolean, default: false },
@@ -137,7 +137,7 @@ const userSchema = new mongoose.Schema({
 ],
 verifytoken:{
     type: String,
-}
+},
 });
 
 const adminSchema = new mongoose.Schema({
@@ -207,7 +207,7 @@ const commentSchema = new mongoose.Schema({
 
 
 
-const experienceSchema = new mongoose.Schema({
+const experiencesSchema = new mongoose.Schema({
 
   name : String,
 
@@ -218,18 +218,6 @@ const experienceSchema = new mongoose.Schema({
   experience: {
     type: String,
     required: true,
-  },
-  comments: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Comment',
-  }],
-  likes: {
-    type: Number,
-    default: 0,
-  },
-  dislikes: {
-    type: Number,
-    default: 0,
   },
 }, {
   timestamps: true,
@@ -245,7 +233,7 @@ const registerInstituteSchema = new mongoose.Schema({
   year : String,
   phone : String
 });
-
+ 
 
 // token generate
 userSchema.methods.generateAuthToken = async function () {
@@ -292,7 +280,7 @@ module.exports = {
   Alumni: mongoose.model('Alumni', userSchema),
   Comment: mongoose.model('Comment',commentSchema),
   CommentNew: mongoose.model('CommentNew',commentSchemaNew),
-  Experience: mongoose.model('Experience',experienceSchema),
+  Experience: mongoose.model('Experience',experiencesSchema),
   RegisterInstitute: mongoose.model('RegisterInstitute', registerInstituteSchema),
   Admin: mongoose.model('Admin',adminSchema)
 };

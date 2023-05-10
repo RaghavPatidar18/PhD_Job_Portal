@@ -86,19 +86,33 @@
     letter-spacing: 3px;
     margin-top: 20px;
     margin-bottom: 20px;
-    padding: 10px 200px;
+    padding: 10px;
     line-height: 1.5;
   }
+  
+  @media only screen and (min-width: 768px) {
+    .details-container h5 {
+      padding: 10px 200px;
+    }
 
+
+
+    
+  }
+  
   .details-container h3 {
     font-family: 'Crimson Pro', serif;
     font-size: 20px;
     opacity: 0.5;
     letter-spacing: 3px;
-    /* margin-top: 200px; */
-    
-    padding: 10px 200px;
+    padding: -10px -10px;
     line-height: 1.5;
+  }
+  
+  @media only screen and (min-width: 768px) {
+    .details-container h3 {
+      padding: 10px 200px;
+    }
   }
   
   
@@ -175,15 +189,21 @@
   }
   
   .carousel-div img {
-    height: 300px;
-    width: 1200px;
-    object-fit: cover;
-  }
-
-  .carousel-div img {
     display: block;
     margin: 0 auto;
+    object-fit: cover;
+    width: 100%;
+    height: auto;
   }
+  
+  @media only screen and (min-width: 768px) {
+    .carousel-div img {
+      height: 300px;
+      width: 1200px;
+    }
+  }
+  
+  
   
   .slick-slide img {
     display: block;

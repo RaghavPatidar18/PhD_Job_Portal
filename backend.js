@@ -22,6 +22,10 @@ const UserExperience = require("./model/experienceSchema");
 const POR = require("./model/porSchema");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const excelJs = require("exceljs");
+const xl = require("excel4node");
+const mime = require("mime");
+const path = require("path");
 
 app.use(cors()); // Use this after the variable declaration
 app.use(cookiParser());
@@ -89,12 +93,12 @@ const applicationSchema = new mongoose.Schema({
   job_id: String,
   status: String,
   student_details: {
-    personal: personalSchemaobj,
-    academic: academicSchemaobj,
-    experience: experienceSchemaobj,
-    publication: publicationSchemaobj,
-    por: porSchemaobj,
-    reference: referenceSchemaobj
+    personal: [Object],
+    academic: [Object],
+    experience: [Object],
+    publication: [Object],
+    por: [Object],
+    reference: [Object]
   },
 });
 const Application = mongoose.model("application", applicationSchema);
@@ -107,6 +111,8 @@ app.post("/job-post", (req, res) => {
   //console.log(req.body);
   const { job, id } = req.body;
   console.log(job);
+  console.log("the job fields are:");
+  console.log(job.fields);
   var obj = {};
   obj = job;
   obj.institute_id = id;
@@ -190,31 +196,41 @@ app.post("/api/sendOtp", async (req, res) => {
   const email = req.body.email;
   const userType = req.body.userType;
 
+  const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
   console.log(userType);
 
-  if (userType == "student") {
-    // Check if the user already exists
-    let user = await User.findOne({ email });
-    if (user) {
-      console.log("i m hetyfiuwbri");
-      console.log(user);
-      return res
-        .status(200)
-        .send({ status: 400, message: "User already exists" });
-    }
-  } else {
-    // Check if the user already exists
-    const user = await UserInstitute.findOne({ email });
+  let user = await User.findOne({ email });  // finsding user in student 
+  if (user) {
+    console.log("i m hetyfiuwbri");
+    console.log(user);
+    return res
+      .status(200)
+      .send({ status: 400, message: "User already exists" });
+  }
+  else if (!user) { // finding user in institute
+    user = await UserInstitute.findOne({ email });
     if (user) {
       return res
         .status(200)
         .send({ status: 400, message: "User already exists" });
     }
   }
+  // if (userType == "student") {
+  //   // Check if the user already exists
+  // } else {
+  //   // Check if the user already exists
+  //   const user = await UserInstitute.findOne({ email });
+  //   if (user) {
+  //     return res
+  //       .status(200)
+  //       .send({ status: 400, message: "User already exists" });
+  //   }
+  // }
 
-  const otp = Math.floor(1000 + Math.random() * 9000).toString();
-  req.session.otp = otp;
-  // Save the OTP to the user's record in the database
+  // req.session.otp = otp;
+
+
   const mailOptions = {
     from: "r.patidar181001.2@gmail.com",
     to: email,
@@ -234,6 +250,7 @@ app.post("/api/sendOtp", async (req, res) => {
       return res.status(200).send({
         status: 200,
         message: "OTP sent",
+        otp: otp
       });
     }
   });
@@ -245,33 +262,35 @@ app.post("/api/verifyOtp", async (req, res) => {
   const email = req.body.email;
   const otpEntered = req.body.otp;
   const password = req.body.password;
-  const otp = req.session.otp;
+  // const otp = req.session.otp;
+  let otp = req.body.randomotp;
 
   const hashedPassword = bcrypt.hashSync(password, 1);
-  req.session.hashedPassword = hashedPassword;
+  // req.session.hashedPassword = hashedPassword;
 
   //console.log(req.body);
   console.log("aa gya");
-  console.log(req.session);
+  // console.log(req.session);
 
   //console.log(req.body.userType);
 
-  if (otpEntered === -1) {
-    const userInstitute = new UserInstitute({
-      name: name,
-      email: email,
-      password: hashedPassword,
-    });
-    await userInstitute.save();
 
-    console.log("institute registered");
-    return res.status(200).send({
-      status: 200,
-      success: true,
-      message: "OTP verified successfully",
-    });
+  // if (otpEntered === -1) {
+  //   const userInstitute = new UserInstitute({
+  //     name: name,
+  //     email: email,
+  //     password: hashedPassword,
+  //   });
+  //   await userInstitute.save();
 
-  }
+  //   console.log("institute registered");
+  //   return res.status(200).send({
+  //     status: 200,
+  //     success: true,
+  //     message: "OTP verified successfully",
+  //   });
+
+  // }
 
   if (otp == otpEntered) {
     if (req.body.userType == "student") {
@@ -281,11 +300,18 @@ app.post("/api/verifyOtp", async (req, res) => {
         email: email,
         password: hashedPassword,
       });
+      const d = Date.now();
+      let date_time = new Date(d);
+      let date = date_time.getDate();
+      let month = date_time.getMonth();
+      let year = date_time.getYear();
+      let today = year + "-" + month + "-" + date;
+
       const personals = new Personal({
         email: email,
         name: name,
         fathername: "-",
-        dob: "-",
+        dob: today,
         age: "-",
         category: "-",
         disablity: "-",
@@ -347,12 +373,7 @@ app.post("/api/verifyOtp", async (req, res) => {
       await personals.save();
       await user.save();
 
-      const d = Date.now();
-      let date_time = new Date(d);
-      let date = date_time.getDate();
-      let month = date_time.getMonth();
-      let year = date_time.getYear();
-      let today = year + "-" + month + "-" + date;
+
       const experience = new UserExperience({
         email: email,
         profile: "-",
@@ -407,6 +428,7 @@ app.post("/api/verifyOtp", async (req, res) => {
         description: '-',
       });
       reference.save();
+
 
 
 
@@ -895,13 +917,13 @@ app.post("/api/:id/:token/:usertype", async (req, res) => {
 });
 
 app.get("/logout", authenticate, async (req, res) => {
-  //console.log("sjbfouwbgro");
+  console.log("sjbfouwbgro");
   try {
     req.rootUser.tokens = req.rootUser.tokens.filter((curelem) => {
       return curelem.token !== req.token;
     });
 
-    //console.log("logout me aa rha");
+    console.log("logout me aa rha");
 
     res.clearCookie("usercookie", { path: "/" });
 
@@ -1001,8 +1023,8 @@ app.get("/jobApplicants/:id", async (req, res) => {
         let obj = {};
         if (student) {
           obj.application_id = await application._id;
-          obj.student_name = await application.student_details.personal.name;
-          obj.student_email = await application.student_details.personal.email;
+          obj.student_name = await application.student_details.personal[0].name;
+          obj.student_email = await application.student_details.personal[0].email;
           obj.student_id = await student._id;
           obj.status = await application.status;
           obj.student = await application.student_details;
@@ -1020,7 +1042,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
 
 app.post("/jobApplicantStatusChange", async (req, res) => {
   try {
-    const { application_id, newStatus } = req.body;
+    const { application_id, newStatus, student_email } = req.body;
     //console.log("here at status change");
     //console.log(application_id);
     //console.log(newStatus);
@@ -1028,6 +1050,35 @@ app.post("/jobApplicantStatusChange", async (req, res) => {
       { _id: application_id },
       { $set: { status: newStatus } }
     );
+    console.log(newStatus);
+    if (newStatus === "Accepted") {
+      // Save the OTP to the user's record in the database
+      const mailOptions = {
+        from: "r.patidar181001.2@gmail.com",
+        to: student_email,
+        subject: "Status Change",
+        text: `You got some changes in status of job you have applied , please login to our platform for check`,
+      };
+
+      console.log("acceptd hai bahi");
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          //console.log(error);
+          return res.status(200).send({
+            status: 500,
+            // message: "Failed to send OTP",
+          });
+        } else {
+          console.log("mail gya");
+          //console.log("OTP sent: " + info.response);
+          return res.status(200).send({
+            status: 200,
+            // message: "OTP sent",
+            // otp: otp
+          });
+        }
+      });
+    }
     res.send("success");
   } catch (err) {
     //console.log(err);
@@ -1039,7 +1090,6 @@ app.post("/jobApplicantStatusChange", async (req, res) => {
 
 app.get("/api/me", auth, async (req, res) => {
   const { _id } = req.user;
-
   try {
     let user = await User.findById(_id);
     if (!user) {
@@ -1161,12 +1211,12 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
   const user = await User.findOne({ _id: user_id });
   console.log(user);
   if (job && user) {
-    const academic = await Academic.findOne({ email: user.email });
-    const experience = await UserExperience.findOne({ email: user.email });
-    const personal = await Personal.findOne({ email: user.email });
-    const publication = await Publication.findOne({ email: user.email });
-    const por = await POR.findOne({ email: user.email });
-    const reference = await Reference.findOne({ email: user.email });
+    const academic = await Academic.find({ email: user.email });
+    const experience = await UserExperience.find({ email: user.email });
+    const personal = await Personal.find({ email: user.email });
+    const publication = await Publication.find({ email: user.email });
+    const por = await POR.find({ email: user.email });
+    const reference = await Reference.find({ email: user.email });
 
     let obj = {};
     if (academic && experience && personal && publication) {
@@ -1178,7 +1228,8 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
       obj.por = por;
       obj.reference = reference;
       obj.jobFields = job.fields;
-      console.log(obj);
+      console.log("the job fields are: the second time");
+      console.log(obj.jobFields);
       res.json({ status: 200, dataObject: obj });
     } else {
       res.json({ status: 500 });
@@ -1191,16 +1242,23 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
 app.post("/application-form/:job_id/:user_id", async (req, res) => {
   console.log("posting at application form");
   const { job_id, user_id } = req.params;
-  const { jobFields } = req.body;
-  const obj = {};
-  obj.personal = jobFields.personal;
-  obj.academic = jobFields.academic;
-  obj.experience = jobFields.experience;
-  obj.publication = jobFields.publication;
-  obj.por = jobFields.por;
-  obj.reference = jobFields.reference;
+  // const { jobFields } = req.body;
+  // console.log("jobfields are:");
+  // console.log(jobFields);
+  // const obj = {};
+  // obj.personal = jobFields.personal;
+  // obj.academic = jobFields.academic;
+  // obj.experience = jobFields.experience;
+  // obj.publication = jobFields.publication;
+  // obj.por = jobFields.por;
+  // obj.reference = jobFields.reference;
+  //
+  // console.log("the created obj is");
+  // console.log(obj);
 
-  console.log("the created obj is");
+  const { dataToSend } = req.body;
+  const obj = dataToSend;
+  console.log("i got this data from the application form");
   console.log(obj);
 
   const new_application = new Application({
@@ -1209,6 +1267,9 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
     status: "Pending",
     student_details: obj,
   });
+
+  console.log("checking the new application");
+  console.log(new_application);
   const saved = await new_application.save();
   if (saved) {
     console.log("done");
@@ -1222,6 +1283,8 @@ app.get("/applicant-details/:id", async (req, res) => {
   console.log(Application.schema.obj);
   const { id } = req.params;
   const application = await Application.findOne({ _id: id });
+  console.log("here at applicant-details");
+  console.log(application);
   if (application) {
     const job_id = application.job_id;
     const job = await Job.findOne({ _id: job_id });
@@ -1297,19 +1360,56 @@ app.get('/api/meid', auth, async (req, res) => {
 
 // Get all experiences
 app.get('/api/getexperiences', async (req, res) => {
-  const experiences = await Experience.find().populate('comments');
+  const experiences = await Experience.find();
   res.json(experiences);
 });
 
-// Get all institutes requests
-app.get('/api/getrequests', async (req, res) => {
-  const requestss = await RegisterInstitute.find();
-  res.json(requestss);
+// Get all subscription status
+app.get('/api/getexperiences', async (req, res) => {
+  const experiences = await Experience.find();
+  res.json(experiences);
+});
+
+app.get('/api/getsubscriptionstatus', auth, async (req, res) => {
+
+  const { _id } = req.user;
+  console.log()
+  const email = "";
+
+  try {
+    let user = await User.findById(_id);
+    if (!user) {
+      user = await UserInstitute.findById(_id);
+      // return res.status(404).json({ error: 'User not found' });
+      email = user.email;
+      try {
+        // Get the email address from the query parameters
+        // const { email } = req.body;
+
+        // Find the user by email address
+        const user = await User.findOne({ email });
+
+        // If the user doesn't exist, return an error response
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Otherwise, return the subscribedToJobAlerts value
+        return res.json({ subscribedToJobAlerts: user.subscribedToJobAlerts });
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
+  }
 });
 
 
 // Create a new experience
 app.post('/api/createExperiences', async (req, res) => {
+  console.log(req.body);
   const experience = new Experience(req.body);
   await experience.save();
   res.json(experience);
@@ -1320,6 +1420,7 @@ app.post('/api/createExperiences', async (req, res) => {
 app.post("/api/addcomments/:id", async (req, res) => {
   // console.log("inside api");
   // console.log(req.body);
+  console.log("add comments");
   const experience = await Experience.findById(req.params.id);
   const commentnew = new CommentNew({
     experience: experience._id,
@@ -1342,6 +1443,7 @@ app.post("/api/addcomments/:id", async (req, res) => {
 
 // Update an experience
 app.put('/api/experiences/:id', async (req, res) => {
+  console.log(" experiences");
   const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.json(experience);
 });
@@ -1364,6 +1466,7 @@ app.put('/api/experiences/:id', async (req, res) => {
 
 // Get all comments for an experience
 app.get('/api/getcomments/:id', async (req, res) => {
+  console.log("get comments");
   try {
     const comments = await CommentNew.find({ experience: req.params.id })
       .populate('experience', 'companyName')
@@ -1512,6 +1615,118 @@ app.post("/api/registerInstitute", async (req, res) => {
 
 
 });
+
+app.get("/updateJob/:id", async (req, res) => {
+  const { id } = req.params;
+  const job = await Job.findOne({ _id: id });
+  if (job) {
+    res.send({ status: 200, job: job });
+  } else {
+    res.send({ status: 500 });
+  }
+})
+
+app.post("/updateJob", async (req, res) => {
+  const { job, id } = req.body;
+
+  const current_job = await Job.findOne({ _id: id });
+  if (current_job) {
+    const new_job = await Job.updateOne({ _id: id }, {
+      $set: {
+        title: job.title,
+        description: job.description,
+        location: job.location,
+        salary: job.salary,
+        contactEmail: job.contactEmail,
+        qualifications: job.qualifications,
+        college: job.college,
+        responsibilities: job.responsibilities,
+        lastDate: job.lastDate,
+        lastUpdateDate: job.lastUpdateDate,
+        fields: job.fields
+      }
+    });
+
+    if (new_job) {
+      res.send({ status: 200 });
+    } else {
+      res.send({ status: 500 });
+    }
+  } else {
+    res.send({ status: 500 })
+  }
+})
+
+
+
+const createWorkbook = async (id) => {
+
+};
+
+
+app.get("/create-workbook/:id", async (req, res) => {
+  const { id } = req.params;
+  const application = await Application.findOne({ _id: id });
+  var name_of_file = "_applicant_details.xlsx";
+  if (application) {
+    name_of_file = application.student_details.personal[0].name + name_of_file;
+    console.log("got into application");
+    const student_details = application.student_details;
+    console.log(student_details);
+    const wb = new xl.Workbook();
+    const ws = wb.addWorksheet("data");
+    ws.cell(1, 2).string("data field");
+    ws.cell(1, 3).string("value");
+    var rowIndex = 3;
+    var flag = 0;
+    await Object.keys(student_details).map((details) => {
+      student_details[details].map((stu) => {
+        Object.keys(stu).map((k) => {
+          if (flag == 0) {
+            ws.cell(rowIndex, 1).string(details);
+            flag = 1;
+          }
+          console.log(k);
+          console.log(stu[k]);
+          ws.cell(rowIndex, 2).string(k);
+          ws.cell(rowIndex, 3).string(stu[k]);
+          rowIndex++;
+          //ws.cell(:k,value:stu[k]});
+        });
+        if (flag == 1) {
+          rowIndex++;
+        }
+        flag = 0;
+      });
+    });
+    console.log("done till here");
+    await wb.write(name_of_file);
+
+  }
+  res.send({ status: 200 });
+})
+app.get("/export/:id", async (req, res, next) => {
+  console.log("here");
+  const { id } = req.params;
+  const application = await Application.findOne({ _id: id });
+  console.log(application);
+  //await createWorkbook(id);
+  var name_of_file = application.student_details.personal[0].name + "_applicant_details.xlsx";
+  const file = __dirname + `\\${name_of_file}`;
+  const fileName = path.basename(file);
+  const mimeType = mime.getType(file);
+  res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+  res.setHeader("Content-Type", mimeType);
+  console.log("here too");
+  res.download(file, name_of_file);
+
+
+
+  console.log("and afetr");
+  console.log('rwugteiu');
+
+
+})
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");
