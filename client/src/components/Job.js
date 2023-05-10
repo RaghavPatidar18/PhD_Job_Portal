@@ -225,19 +225,11 @@ function Job() {
               </select>
 
               <div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:-mx-2">
-<<<<<<< HEAD
                 <button onClick={handleFilterApply}
                   class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
                   style={{ background: "#4540DB", borderRadius: "20px" }}>
                   Search
                 </button>
-=======
-              <button onClick={handleFilterApply}
-        class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
-        style={{ background: "#4540DB", borderRadius: "20px" }}>
-  Search
-</button>
->>>>>>> 8b9aa458e952b44e1792273df06fd5f9f002caf0
 
                 <button onClick={handleClearFilters} class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500" style={{ backgroundColor: "rgba(255, 0, 0, 0.6)", borderRadius: "20px" }}>
                   Clear Filters
@@ -255,22 +247,33 @@ function Job() {
         
        
 
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginLeft: "150px", marginRight: "150px" }}>
-          {filteredJobs?.map(job => (
-            <div key={job._id} style={{ flexBasis: 'calc(25% - 12px)', maxWidth: 'calc(25% - 12px)', marginTop: "20px" }}>
-              <JobCard
-                _id={job._id}
-                title={job.title}
-                college={job.college}
-                location={job.location}
-                salary={job.salary}
-                lastDate={job.lastDate}
-                deleted={job.deleted}
-                description={job.description}
-              />
-            </div>
-          ))}
-        </div>
+        <div style={{
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+  gap: "100px",
+  padding: "0 100px",
+  marginTop:"60px",
+
+  '@media (max-width: 767px)': {
+    padding : "0px"
+  }
+  
+}}>
+  {filteredJobs?.map(job => (
+    <div key={job._id}>
+      <JobCard
+        _id={job._id}
+        title={job.title}
+        college={job.college}
+        location={job.location}
+        salary={job.salary}
+        lastDate={job.lastDate}
+        deleted={job.deleted}
+        description={job.description}
+      />
+    </div>
+  ))}
+</div>
 
 
 
