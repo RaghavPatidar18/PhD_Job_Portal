@@ -19,7 +19,7 @@ import locate from './Location.png'; // import the image file
 
 
 function Job() {
-  
+
   const settings = {
     dots: true,
     infinite: true,
@@ -225,11 +225,11 @@ function Job() {
               </select>
 
               <div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:-mx-2">
-              <button onClick={handleFilterApply}
-        class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
-        style={{ background: "#4540DB", borderRadius: "20px" }}>
-  Search
-</button>
+                <button onClick={handleFilterApply}
+                  class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+                  style={{ background: "#4540DB", borderRadius: "20px" }}>
+                  Search
+                </button>
 
                 <button onClick={handleClearFilters} class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500" style={{ backgroundColor: "rgba(255, 0, 0, 0.6)", borderRadius: "20px" }}>
                   Clear Filters
@@ -244,12 +244,11 @@ function Job() {
           </div>
         </section>
 
-        
-       
-
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginLeft: "150px", marginRight: "150px" }}>
+      </div>
+      <div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginLeft: "auto", marginRight: "auto", maxWidth: "1200px" }}>
           {filteredJobs?.map(job => (
-            <div key={job._id} style={{ flexBasis: 'calc(25% - 12px)', maxWidth: 'calc(25% - 12px)', marginTop: "20px" }}>
+            <div key={job._id} style={{marginLeft : "10px"}}>
               <JobCard
                 _id={job._id}
                 title={job.title}
@@ -262,12 +261,9 @@ function Job() {
               />
             </div>
           ))}
+
         </div>
 
-
-
-
-        
       </div>
       <br></br>
       <br></br>
@@ -275,7 +271,7 @@ function Job() {
 
 
       <DetailsContainer2 />
-     
+
 
       <br></br>
 
