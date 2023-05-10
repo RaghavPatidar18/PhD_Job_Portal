@@ -34,7 +34,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
       newStatus:"Accepted",
       student_email
     };
-    axios.post("http://localhost:4000/jobApplicantStatusChange", obj)
+    axios.post("/jobApplicantStatusChange", obj)
     .then((res)=> {
       console.log(res.data);
       if(res.data){
@@ -52,7 +52,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
       newStatus:"Rejected",
       student_email
     };
-    axios.post("http://localhost:4000/jobApplicantStatusChange", obj)
+    axios.post("/jobApplicantStatusChange", obj)
     .then((res)=> {
       if(res.data){
         console.log("success");
@@ -64,7 +64,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
   }
 
   function handleWorkbookCreate(){
-    axios.get(`http://localhost:3000/create-workbook/${application_id}`)
+    axios.get(`/create-workbook/${application_id}`)
       .then((res)=>{
         console.log(res.data);
         setFileCreated(true);
@@ -87,7 +87,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     const fileName="book.xlsx";
     axios({
         method: 'get',
-        url: `http://localhost:3000/export/${application_id}`,
+        url: `/export/${application_id}`,
         responseType: 'blob',
         headers: {},
         })

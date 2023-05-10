@@ -31,7 +31,7 @@ const POR = ({ user, type }) => {
   // Fetch all experiences on component mount
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/por/${user}`)
+      .get(`/por/${user}`)
       .then((res) => {
         console.log(res);
         setPor(res.data);
@@ -59,7 +59,7 @@ const POR = ({ user, type }) => {
   const handleAddSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/por/${user}`, formData2)
+      .post(`/por/${user}`, formData2)
       .then((res) => {
         setPor([...por, res.data]);
         setShowAddForm(false);
@@ -80,7 +80,7 @@ const POR = ({ user, type }) => {
   const handleEditSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:4000/por/${selectedPor._id}`, formData)
+      .put(`/por/${selectedPor._id}`, formData)
       .then((res) => {
         const index = por.findIndex((pp) => pp._id === res.data._id);
         setPor([...por.slice(0, index), res.data, ...por.slice(index + 1)]);
@@ -106,7 +106,7 @@ const POR = ({ user, type }) => {
   };
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:4000/por/${id}`)
+      .delete(`/por/${id}`)
       .then((res) => {
         const updatedPor = por.filter((pp) => pp._id !== id);
         setPor(updatedPor);

@@ -20,37 +20,63 @@ const Login = () => {
     }, [location.search]);
 
     const handleLogin = async () => {
-        const data = await fetch("/api/login", {
-            method: "POST",
+
+        const res = await axios.post("/api/login", {
+            email, password, userType
+            }, {
             headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email, password, userType
-            })
-        });
-
-        const res = await data.json();
-        //  console.log(res);
-
-        if (res.status === 201) {
-            console.log("userdatatoken ki value hai : ");
-            console.log(res.result.token);
-            localStorage.setItem("usersdatatoken", res.result.token);
-            setShowLogInAlert(true);
-            if(userType==="admin") 
-            {
-                window.location.href = "/admin";
+            "Content-Type": "application/json"
             }
-            else 
-            {
-                window.location.href = "/";
+            });
+            if (res.status === 201) {
+                console.log("userdatatoken ki value hai : ");
+                console.log(res.data.result.token);
+                localStorage.setItem("usersdatatoken", res.data.result.token);
+                setShowLogInAlert(true);
+                if(userType==="admin") 
+                {
+                    window.location.href = "/admin";
+                }
+                else 
+                {
+                    window.location.href = "/";
+                }
             }
-            // setInpval({...inpval,email:"",password:""});
-        }
-        if (res.success === false) {
-            setShowInvalidUserAlert(true);
-        }
+            if (res.data.success === false) {
+                setShowInvalidUserAlert(true);
+            }
+        
+
+        // const data = await fetch("/api/login", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         email, password, userType
+        //     })
+        // });
+
+        // const res = await data.json();
+        // //  console.log(res);
+
+        // if (res.status === 201) {
+        //     console.log("userdatatoken ki value hai : ");
+        //     console.log(res.result.token);
+        //     localStorage.setItem("usersdatatoken", res.result.token);
+        //     setShowLogInAlert(true);
+        //     if(userType==="admin") 
+        //     {
+        //         window.location.href = "/admin";
+        //     }
+        //     else 
+        //     {
+        //         window.location.href = "/";
+        //     }
+        // }
+        // if (res.success === false) {
+        //     setShowInvalidUserAlert(true);
+        // }
     };
 
 
@@ -127,7 +153,7 @@ const Login = () => {
                             Welcome back!
                         </p>
 
-                        <a href="#" class="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        {/* <a href="#" class="flex items-center justify-center mt-4 text-gray-600 transition-colors duration-300 transform border rounded-lg dark:border-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <div class="px-4 py-2">
                                 <svg class="w-6 h-6" viewBox="0 0 40 40">
                                     <path d="M36.3425 16.7358H35V16.6667H20V23.3333H29.4192C28.045 27.2142 24.3525 30 20 30C14.4775 30 10 25.5225 10 20C10 14.4775 14.4775 9.99999 20 9.99999C22.5492 9.99999 24.8683 10.9617 26.6342 12.5325L31.3483 7.81833C28.3717 5.04416 24.39 3.33333 20 3.33333C10.7958 3.33333 3.33335 10.7958 3.33335 20C3.33335 29.2042 10.7958 36.6667 20 36.6667C29.2042 36.6667 36.6667 29.2042 36.6667 20C36.6667 18.8825 36.5517 17.7917 36.3425 16.7358Z" fill="#FFC107" />
@@ -138,7 +164,7 @@ const Login = () => {
                             </div>
 
                             <span class="w-5/6 px-4 py-3 font-bold text-center">Sign in with Google</span>
-                        </a>
+                        </a> */}
 
                         <div class="flex items-center justify-between mt-4">
                             <span class="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>

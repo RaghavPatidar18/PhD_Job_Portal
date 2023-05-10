@@ -31,7 +31,7 @@ const ExperienceTable = ({ user, type }) => {
   // Fetch all experiences on component mount
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/experiences/${user}`)
+      .get(`/experiences/${user}`)
       .then((res) => {
         console.log(res);
         setExperiences(res.data);
@@ -57,7 +57,7 @@ const ExperienceTable = ({ user, type }) => {
   const handleAddSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/experiences/${user}`, formData2)
+      .post(`/experiences/${user}`, formData2)
       .then((res) => {
         setExperiences([...experiences, res.data]);
         setShowAddForm(false);
@@ -79,7 +79,7 @@ const ExperienceTable = ({ user, type }) => {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:4000/experiences/${selectedExperience._id}`,
+        `/experiences/${selectedExperience._id}`,
         formData
       )
       .then((res) => {
@@ -111,7 +111,7 @@ const ExperienceTable = ({ user, type }) => {
   };
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:4000/experiences/${id}`)
+      .delete(`/experiences/${id}`)
       .then((res) => {
         const updatedExperiences = experiences.filter((exp) => exp._id !== id);
         setExperiences(updatedExperiences);
@@ -121,7 +121,7 @@ const ExperienceTable = ({ user, type }) => {
 
   return (
     <>
-    <div style={{ width: "110%", marginLeft: "17rem" }} className="userProfile">
+    <div style={{ width: "100%", marginLeft: "1rem" }} className="userProfile">
       <div className="parent" style={{ marginLeft: "2rem" }}>
         <div className="left">
           <h3

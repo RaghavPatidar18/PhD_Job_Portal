@@ -24,7 +24,7 @@ export default function Profile({ user, type }) {
       const reader = new FileReader();
       reader.onload = () => {
         const data = resume ;
-        
+
         axios
           .post(`http://localhost:4000/add-resumes/${user}`, {data})
           .then((res) => {

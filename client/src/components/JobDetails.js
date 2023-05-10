@@ -5,7 +5,7 @@ import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import './css/JobDetails.css'; // import custom styles
+// import './css/JobDetails.css'; // import custom styles
 import { useNavigate, useLocation } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
 import Footer from "./Footer";
@@ -41,30 +41,55 @@ function JobDetails({ user, type }) {
     if (user.email === undefined) {
       // console.log("here at email null");
       setButtonText("Login/Register to Apply");
-      url = `http://localhost:4000/job-details/${id}/""`;
+      url = `/api/job-details/${id}/""`;
     } else {
-      // console.log("sdfbioe");
-      url = `http://localhost:4000/job-details/${id}/${user._id}`;
+      // console.log("sdfbioe"); 
+      url = `/api/job-details/${id}/${user._id}`;
     }
 
-    const res = await fetch(url, {
-      method: "GET",
-      headers: { "Content-Type": "application/json", }
-    });
-    const data = await res.json();
-    if (data.status === 200) {
-      setJob(data.job);
-      setApplied(data.applied);
-
-      if (data.applied === true && type === "student") {
-        setApplication_id(data.application_id);
-        //console.log("here");
-        console.log(data.application_id);
-        setButtonText("Withdraw Application");
-      } else if (data.applied === false && type === "student") {
-        setButtonText("Apply");
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = response.data;
+      if (data.status === 200) {
+        setJob(data.job);
+        setApplied(data.applied);
+    
+        if (data.applied === true && type === "student") {
+          setApplication_id(data.application_id);
+          console.log(data.application_id);
+          setButtonText("Withdraw Application");
+        } else if (data.applied === false && type === "student") {
+          setButtonText("Apply");
+        }
       }
+    } catch (error) {
+      console.error(error);
+      // handle error
     }
+    
+
+    // const res = await fetch(url, {
+    //   method: "GET",
+    //   headers: { "Content-Type": "application/json", }
+    // });
+    // const data = await res.json();
+    // if (data.status === 200) {
+    //   setJob(data.job);
+    //   setApplied(data.applied); 
+
+    //   if (data.applied === true && type === "student") {
+    //     setApplication_id(data.application_id);
+    //     //console.log("here");
+    //     console.log(data.application_id);
+    //     setButtonText("Withdraw Application");
+    //   } else if (data.applied === false && type === "student") {
+    //     setButtonText("Apply");
+    //   }
+    // }
 
 
   }
@@ -94,7 +119,7 @@ function JobDetails({ user, type }) {
   function handleWithdraw(){
     const id=application_id;
     handleCloseWithdraw();
-    axios.post("http://localhost:4000/withdraw-application",{id})
+    axios.post("/withdraw-application",{id})
     .then((response)=> {
       if(response.data.status===200){
         console.log("withdrew");
@@ -108,7 +133,7 @@ function JobDetails({ user, type }) {
   }
 
   function handleDelete(){
-    axios.post("http://localhost:4000/delete-job",{id})
+    axios.post("/delete-job",{id})
     .then((response)=> {
       if(response.data.status===200){
         console.log("deleted");
@@ -232,11 +257,15 @@ function JobDetails({ user, type }) {
       }}
       className="button"
       style={{
-        backgroundColor: "#7A5CFA",
-        borderRadius: "8px",
+        backgroundColor: "#007FFF",
+        borderRadius: "10px",
         color: "#fff",
-        padding: "8px 1px",
-        marginBottom: "100px"
+        padding: "12px 24px",
+        marginBottom: "100px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        transition: "background-color 0.3s ease",
+        border: "none",
+        cursor: "pointer"
       }}
     >
       {buttonText}
@@ -247,17 +276,40 @@ function JobDetails({ user, type }) {
       onClick={handleShowDelete}
       className="button"
       style={{
-        backgroundColor: "#40a829",
+        backgroundColor: "#FF4136",
         color: "#fff",
-        padding: "8px 1px"
+        padding: "12px 24px",
+        borderRadius: "10px",
+        marginBottom: "20px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        transition: "background-color 0.3s ease",
+        border: "none",
+        cursor: "pointer"
       }}
     >
       Delete Job
     </button>
   )}
-    {type === "institute" && job.institute_id===user._id && <button onClick={handleEdit} className="button" style={{ backgroundColor: "#40a829" , color: "#fff" }}>Edit Job</button>}
+  {type === "institute" && job.institute_id === user._id && (
+    <button
+      onClick={handleEdit}
+      className="button"
+      style={{
+        backgroundColor: "#007FFF",
+        color: "#fff",
+        padding: "12px 24px",
+        borderRadius: "10px",
+        marginBottom: "20px",
+        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        transition: "background-color 0.3s ease",
+        border: "none",
+        cursor: "pointer"
+      }}
+    >
+      Edit Job
+    </button>
+  )}
 </div>
-
       </div>
       <Footer />
     </>

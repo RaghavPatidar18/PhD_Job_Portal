@@ -13,7 +13,7 @@ function FileUpload({user, type}) {
     const formData = new FormData();
     formData.append("resume", file);
     try {
-      const response = await axios.post(`http://localhost:4000/resume-upload/${user}`, formData);
+      const response = await axios.post(`/resume-upload/${user}`, formData);
       console.log(response.data);
     } catch (error) {
       console.error(error);

@@ -10,14 +10,35 @@ import frame from './Frame.png';
 async function getName() {
   const token = localStorage.getItem('usersdatatoken');
   //   console.log(token);
-  const response = await fetch('/api/mename', {
+
+  return axios.get('/api/mename', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
+  }).then((response) => {
+    console.log(response.data.name); // handle the response data
+    console.log("insidde function of gate name");
+    // console.log(response);
+    return response.data.name;
+    
+  }).catch((error) => {
+    console.log(error); // handle the error
   });
-  console.log("insidde function of gate name");
-  const data = await response.json();
-  return data.name
+}
+
+async function getEmail() {
+  const token = localStorage.getItem('usersdatatoken');
+  return axios.get('/api/me', {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((response) => {
+    console.log(response.data.email); // handle the response data
+    console.log("insidde function of gate email");
+    return response.data.email;
+  }).catch((error) => {
+    console.log(error); // handle the error
+  });
 }
 
 const AllExperiences = () => {
@@ -28,25 +49,6 @@ const AllExperiences = () => {
   const [filterByCompanyName, setFilterByCompanyName] = useState('');
   const [showImage, setShowImage] = useState(true);
 
-  const history = useNavigate();
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setExperiences((prevExperiences) => ({
-      ...prevExperiences,
-      [name]: value,
-    }));
-  };
-
-  const handleAddExperience = () => {
-    setExperiences((prevExperiences) => [...prevExperiences, {}]);
-  };
-
-  const handleRemoveExperience = (index) => {
-    setExperiences((prevExperiences) =>
-      prevExperiences.filter((exp, i) => i !== index)
-    );
-  };
 
   const handleFilterByCompanyName = (event) => {
     setFilterByCompanyName(event.target.value);
@@ -71,9 +73,12 @@ const AllExperiences = () => {
   const handleSubmit = async (e) => {
     setShowImage(false);
     e.preventDefault();
-    const userName = await getName();
+    let userName = await getName();
+    let userEmail = await getEmail();
     console.log(userName);
+    console.log(userEmail);
     axios.post('/api/createExperiences', {
+      email: userEmail,
       name: userName,
       companyName: companyName,
       experience: experience,
@@ -84,39 +89,40 @@ const AllExperiences = () => {
     });
   };
 
-  const handleLike = (id) => {
-    axios.put(`/api/experiences/${id}`, {
-      likes: experiences.find((experience) => experience._id === id).likes + 1,
-    }).then((res) => {
-      const updatedExperiences = experiences.map((experience) => {
-        if (experience._id === id) {
-          return { ...experience, likes: res.data.likes };
-        } else {
-          return experience;
-        }
-      });
-      setExperiences(updatedExperiences);
-    });
-  };
+  // const handleLike = (id) => {
+  //   axios.put(`/api/experiences/${id}`, {
+  //     likes: experiences.find((experience) => experience._id === id).likes + 1,
+  //   }).then((res) => {
+  //     const updatedExperiences = experiences.map((experience) => {
+  //       if (experience._id === id) {
+  //         return { ...experience, likes: res.data.likes };
+  //       } else {
+  //         return experience;
+  //       }
+  //     });
+  //     setExperiences(updatedExperiences);
+  //   });
+  // };
 
-  const handleDislike = (id) => {
-    axios.put(`/api/experiences/${id}`, {
-      dislikes: experiences.find((experience) => experience._id === id).dislikes + 1,
-    }).then((res) => {
-      const updatedExperiences = experiences.map((experience) => {
-        if (experience._id === id) {
-          return { ...experience, dislikes: res.data.dislikes };
-        } else {
-          return experience;
-        }
-      });
-      setExperiences(updatedExperiences);
-    });
-  };
+  // const handleDislike = (id) => {
+  //   axios.put(`/api/experiences/${id}`, {
+  //     dislikes: experiences.find((experience) => experience._id === id).dislikes + 1,
+  //   }).then((res) => {
+  //     const updatedExperiences = experiences.map((experience) => {
+  //       if (experience._id === id) {
+  //         return { ...experience, dislikes: res.data.dislikes };
+  //       } else {
+  //         return experience;
+  //       }
+  //     });
+  //     setExperiences(updatedExperiences);
+  //   });
+  // };
 
-  const fetchComments = async (id) => {
-    history(`/allcomment/${id}`);
-  };
+  // const fetchComments = async (id) => {
+  //   history(`/allcomment/${id}`);
+  // };
+
   const handleAdd = () => {
     setActiveForm(true);
     setShowImage(false);
@@ -274,11 +280,7 @@ const AllExperiences = () => {
               boxShadow: "0px 1px 22px 1px rgba(69, 64, 219, 0.04)",
               borderRadius: "20px"
             }}>
-              {/* <img
-          src={frame}
-          alt="My Image"
-          style={{ height: "20px", marginRight: "0px", zIndex: 1 }}
-        /> */}
+
               <input
                 type="text"
                 name="filterByCompanyName"
@@ -289,51 +291,6 @@ const AllExperiences = () => {
               <button onClick={handleSearch}>Search</button>
             </div>
 
-            {experiences.map((experience) => (
-              <>
-                <div className="grid grid-cols-4 gap-4" style={{ marginBottom: "1rem", height: "600px" }}>
-                  <div className="col-span-1 bg-blue-400 h-400 flex flex-col items-center justify-start">
-                    <h1 style={{ fontFamily: 'Lobster', fontStyle: 'normal', fontWeight: 700, fontSize: '100px', lineHeight: '147px', color: 'white' }}>
-                      "
-                    </h1>
-
-
-                  </div>
-
-                  <div style={{ height: "300px", width: "400%", marginLeft: "-200px", marginTop: "100px", backgroundColor: "white", borderRadius: "0.5rem" }}>
-                    <ExperienceCard
-                      // key={experience._id}
-                      companyName={experience.companyName}
-                      experience={experience.experience}
-                      name={experience.name}
-                    />
-
-
-                  </div>
-
-
-                  <div className="col-span-3"></div>
-
-                </div>
-
-                <hr
-                  style={{
-                    background: 'black',
-                    color: 'black',
-                    borderColor: 'black',
-                    height: '3px',
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    marginTop: "-100px",
-                    marginLeft: "300px"
-                  }}
-                />
-
-
-              </>
-            ))}
-
 
           </div>
 
@@ -342,6 +299,24 @@ const AllExperiences = () => {
         </div>
         {/* </div> */}
       </section>
+
+      <div>
+        {experiences.map((experience) => (
+          <>
+
+            <div >
+              <ExperienceCard
+                // key={experience._id}
+                companyName={experience.companyName}
+                experience={experience.experience}
+                name={experience.name}
+                date={experience.timestamps}
+                email={experience.email}
+              />
+            </div>
+          </>
+        ))}
+      </div>
 
       <Footer />
 

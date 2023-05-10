@@ -31,7 +31,7 @@ const ExperienceTable = ({ user, type }) => {
   // Fetch all experiences on component mount
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/references/${user}`)
+      .get(`/references/${user}`)
       .then((res) => {
         console.log(res);
         setReferences(res.data);
@@ -57,7 +57,7 @@ const ExperienceTable = ({ user, type }) => {
   const handleAddSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/references/${user}`, formData2)
+      .post(`/references/${user}`, formData2)
       .then((res) => {
         setReferences([...references, res.data]);
         setShowAddForm(false);
@@ -79,7 +79,7 @@ const ExperienceTable = ({ user, type }) => {
     e.preventDefault();
     axios
       .put(
-        `http://localhost:4000/references/${selectedReferences._id}`,
+        `/references/${selectedReferences._id}`,
         formData
       )
       .then((res) => {
@@ -111,7 +111,7 @@ const ExperienceTable = ({ user, type }) => {
   };
   const handleDelete = (id) => {
     axios
-      .delete(`http://localhost:4000/references/${id}`)
+      .delete(`/references/${id}`)
       .then((res) => {
         const updatedReferences = references.filter((ref) => ref._id !== id);
         setReferences(updatedReferences);

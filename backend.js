@@ -75,6 +75,7 @@ const RegisterInstitute = models.RegisterInstitute;
 const Admin = models.Admin;
 // const RegisterInstitute = models.RegisterInstitute;
 
+
 let personalSchemaobj = Personal.schema.obj;
 let academicSchemaobj = Academic.schema.obj;
 let experienceSchemaobj = UserExperience.schema.obj;
@@ -127,7 +128,8 @@ app.post("/job-post", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
+app.get("/getjobs", (req, res) => {
+  // console.log("isme aa rha home wale m");
   var email = "";
   var userType = "";
   Job.find({}, (err, jobs) => {
@@ -142,7 +144,7 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/job-details/:id/:student_id", async (req, res) => {
+app.get("/api/job-details/:id/:student_id", async (req, res) => {
   ////console.log(req.userID);
   //console.log("jsgiuf");
 
@@ -962,7 +964,7 @@ app.post("/apply", async (req, res) => {
   }
 });
 
-app.get("/jobStatus/:id", async (req, res) => {
+app.get("/api/jobStatus/:id", async (req, res) => {
   const { id } = req.params;
   ////console.log("here at job status");
   try {
@@ -1120,7 +1122,7 @@ app.get("/api/mename", auth, async (req, res) => {
       user = await UserInstitute.findById(_id);
       // return res.status(404).json({ error: 'User not found' });
     }
-    console.log(user.name);
+    console.log(user);
     res.json({ name: user.name });
   } catch (error) {
     //console.error(error);
@@ -1285,7 +1287,7 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
   }
 });
 
-app.get("/applicant-details/:id", async (req, res) => {
+app.get("/api/applicant-details/:id", async (req, res) => {
   console.log(Application.schema.obj);
   const { id } = req.params;
   const application = await Application.findOne({ _id: id });
@@ -1342,6 +1344,12 @@ app.get('/api/getcomments', async (req, res) => {
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
+});
+
+// Get all institutes requests
+app.get('/api/getrequests', async (req, res) => {
+  const requestss = await RegisterInstitute.find();
+  res.json(requestss);
 });
 
 // get me ID
@@ -1415,12 +1423,44 @@ app.get('/api/getsubscriptionstatus', auth, async (req, res) => {
 
 // Create a new experience
 app.post('/api/createExperiences', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const experience = new Experience(req.body);
   await experience.save();
   res.json(experience);
 });
 
+// get photo for experience section
+
+app.post('/api/getimage', async (req, res) => {
+  // console.log(req.body);
+  const email = req.body.email;
+  console.log(req.body);
+  console.log(email);
+
+  if(!req.body)
+  {
+    return res.json({ status:200 , image :  "#" });
+  }
+  else 
+  {
+
+    let user = await Personal.findOne({ email : email });
+  
+    // console.log(user);
+    // console.log(user.profile_image_url);
+  
+    let imagesrc = "#";
+  
+    if(user.profile_image_url)
+    {
+      imagesrc = user.profile_image_url;
+    }
+  
+    return res.json({ status:200 , image :  imagesrc });
+  }
+
+
+});
 
 // Add a comment to an experience
 app.post("/api/addcomments/:id", async (req, res) => {
@@ -1596,25 +1636,28 @@ app.post("/api/registerInstitute", async (req, res) => {
   console.log(newInstitute);
 
   try {
-    let check = await RegisterInstitute.find({ email: email });
-    console.log(check);
-    if (check.length !== 0) {
+    let check1 = await RegisterInstitute.find({ email: email });
+    let check2 = await UserInstitute.find({ email: email });
+    console.log(check1);
+    console.log(check2);
+    if (check1.length !== 0 || check2.length!==0) {
       console.log("inside check");
-      return res.status(500).send({ status: 500 });
+      return res.status(200).send({ status: 400, message: "User already exists" });
     }
     else {
       const insti = new RegisterInstitute(newInstitute);
       insti.save((err) => {
         if (err) {
-          return res.status(500).send({ status: 500, err });
+          return res.status(500).send({ status: 500 , message: "Request Failed", err });
+
         } else {
-          return res.status(200).send({ status: 200 });
+          return res.status(200).send({ status: 200 , message: "Request Succesfull"});
         }
       });
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).send({ status: 500 });
+    return res.status(500).send({ status: 500 , message: "Request Failed"});
   }
 
   console.log("check ke baad ");
