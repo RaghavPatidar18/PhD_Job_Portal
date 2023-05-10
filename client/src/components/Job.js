@@ -3,6 +3,11 @@ import JobCard from "./JobCard";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import './css/Job.css';
+// import React from 'react';
+import Slider from "react-slick";
+import './css/DetailsContainer.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import 'animate.css';
 import DetailsContainer from "./DetailsContainer";
@@ -10,8 +15,20 @@ import DetailsContainer from "./DetailsContainer";
 import DetailsContainer2 from "./DetailsContainer2";
 import Footer from "./Footer";
 import locate from './Location.png'; // import the image file
-function Job() {
 
+
+
+function Job() {
+  
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000 // set the time between each slide transition to 3 seconds (3000 milliseconds)
+  };
   const [jobs, setJobs] = useState([]);
   const [locationFilter, setLocationFilter] = useState("");
   const [salaryFilter, setSalaryFilter] = useState("");
@@ -190,7 +207,7 @@ function Job() {
                 value={salaryFilter}
                 onChange={handleSalaryFilterChange}
               >
-                <img src={locate} alt="My Image" style={{  height: '35px', marginRight: '40px' }} />
+                <img src={locate} alt="My Image" style={{ height: '35px', marginRight: '40px' }} />
                 <option value="">All Salary Ranges</option>
                 <option value="0-9999">Less than 10,000</option>
                 <option value="10000-29999">10,000 - 29,999</option>
@@ -208,15 +225,23 @@ function Job() {
               </select>
 
               <div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:-mx-2">
+<<<<<<< HEAD
+                <button onClick={handleFilterApply}
+                  class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
+                  style={{ background: "#4540DB", borderRadius: "20px" }}>
+                  Search
+                </button>
+=======
               <button onClick={handleFilterApply}
         class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500"
         style={{ background: "#4540DB", borderRadius: "20px" }}>
   Search
 </button>
+>>>>>>> 185b589b7da1341c6b8498e8bdda157f6cbfb55d
 
                 <button onClick={handleClearFilters} class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-blue-500 focus:outline-none focus:bg-blue-500" style={{ backgroundColor: "rgba(255, 0, 0, 0.6)", borderRadius: "20px" }}>
-  Clear Filters
-</button>
+                  Clear Filters
+                </button>
 
 
               </div>
@@ -227,9 +252,12 @@ function Job() {
           </div>
         </section>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
+        
+       
+
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginLeft: "150px", marginRight: "150px" }}>
           {filteredJobs?.map(job => (
-            <div key={job._id} style={{ flexBasis: 'calc(25% - 12px)', maxWidth: 'calc(25% - 12px)' }}>
+            <div key={job._id} style={{ flexBasis: 'calc(25% - 12px)', maxWidth: 'calc(25% - 12px)', marginTop: "20px" }}>
               <JobCard
                 _id={job._id}
                 title={job.title}
@@ -238,21 +266,24 @@ function Job() {
                 salary={job.salary}
                 lastDate={job.lastDate}
                 deleted={job.deleted}
+                description={job.description}
               />
             </div>
           ))}
         </div>
 
 
+
+
+        
       </div>
-
       <br></br>
-
       <br></br>
       <br></br>
 
 
       <DetailsContainer2 />
+     
 
       <br></br>
 

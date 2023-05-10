@@ -167,7 +167,11 @@ const Signup = () => {
               </div>
 
               <span class="w-5/6 px-4 py-3 font-bold text-center">Sign up with Google</span>
+<<<<<<< HEAD
+              
+=======
               {/*<a href="/auth/google">Login/Signup with Google</a>*/}
+>>>>>>> 185b589b7da1341c6b8498e8bdda157f6cbfb55d
 
           </a>
           <div class="flex items-center justify-between mt-4">
