@@ -110,7 +110,7 @@ export default function Profile({ user, type }) {
                               position: "absolute",
                               top: "70%",
                               left: "58%",
-                              color: "white",
+                              color: "white", 
                               transform: "translate(-50%, -50%)",
                               background: "black",
                               border: "1px solid white",

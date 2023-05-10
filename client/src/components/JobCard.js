@@ -75,12 +75,12 @@ function JobCard({ _id, title, college, location, salary, lastDate, deleted, des
               </div>
               <Link
                 to={`/job-details/${_id}`}
-                className="inline-block px-4 py-2 text-md font-bold text-blue transition-colors duration-300 transform bg-blue-50 rounded cursor-pointer hover:bg-blue-500 hover:text-white"
+                // className="inline-block px-4 py-2 text-md font-bold text-blue transition-colors duration-300 transform bg-blue-50 rounded cursor-pointer hover:bg-blue-500 hover:text-white"
                 style={{ textDecoration: 'none', marginRight: '20px' }}
                 tabIndex="0"
                 role="button"
               >
-                View Job
+                View More
               </Link>
 
 

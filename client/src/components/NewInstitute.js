@@ -11,7 +11,7 @@ export default function NewInstitute(props) {
     const [emailid, setEmailId] = useState('');
     // const [password, setPassword] = useState('');
     const [companyName, setCompanyName] = useState('');
-    const [location, setLocation] = useState('');
+    const [location, setLocation] = useState(''); 
     const [year, setYear] = useState('');
     const [phone, setPhone] = useState('');
 
@@ -30,22 +30,18 @@ export default function NewInstitute(props) {
             phone
         }; 
 
-        axios.post("/api/registerInstitute", { formData})
+        axios.post("/api/registerInstitute", { formData })
         .then((res) => {
-            console.log(res);
-            if(res.status===200)
-            {
-                alert("Registration successful!");
-                window.location.href = "/";
-            }
-            else
-            {
-                console.log("nhi hoga")
-                alert("Error registering institute. Please try again later.");
-                window.location.href = "*";
-            }
+          if (res.data.message === "Request Succesfull") {
+            alert("Registration successful!");
+            window.location.href = "/";
+          } else if (res.data.message === "Request Failed" || res.data.message === "User already exists") {
+            alert("Already registered institute. Please with different email.");
+            window.location.href = "/";
+          }
         })
-        .catch((err)=> console.log(err));
+        .catch((err) => console.log(err));
+      
 
     };
 
