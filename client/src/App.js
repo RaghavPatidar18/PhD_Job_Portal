@@ -98,7 +98,7 @@ function Root() {
 
        <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /></>} />
       <Route path="/profile" element={<><PrivateRoute><Navbar user={user} type={userType}/> <Profile user={user.email} type={userType}/></PrivateRoute></>}/>
-      <Route path="/job-details/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></PrivateRoute></> }/>
+      <Route path="/job-details/:id" element={<><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></> }/>
         <Route path="/job-post" element={<><PrivateRoute><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></PrivateRoute></> }/>
     <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
@@ -119,7 +119,7 @@ function Root() {
 
         <Route path="/comment/:jobPostingId" element={<PrivateRoute><CommentSection /></PrivateRoute>} />
         <Route path="/allcomment/:exp_id" element={<PrivateRoute><ExpComments /></PrivateRoute>} />
-        <Route path="/registerManully" element={<PrivateRoute><NewInstitute /></PrivateRoute>} />
+        <Route path="/registerManully" element={<NewInstitute />} />
         <Route path="/admin" element={<PrivateRoute><AddInstitute /></PrivateRoute>} />
 
         <Route path="checking" element={<><CustomizableForm /></>} />

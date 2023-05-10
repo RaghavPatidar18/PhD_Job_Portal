@@ -39,7 +39,7 @@ const Signup = () => {
               setShowOtpFailedAlert(false);
               setRandomOtp(res.data.otp);
             }else if(res.data.message==="Failed to send OTP"){
-              setShowOtpFailedAlert(true);
+              setShowOtpFailedAlert(true); 
               setShowOtpSentAlert(false);
               setShowRegisteredAlert(false);
               setShowInvalidOtpAlert(false);

@@ -199,25 +199,33 @@ app.post("/api/sendOtp", async (req, res) => {
 
   console.log(userType);
 
-  if (userType == "student") {
-    // Check if the user already exists
-    let user = await User.findOne({ email });
-    if (user) {
-      console.log("i m hetyfiuwbri");
-      console.log(user);
-      return res
-        .status(200)
-        .send({ status: 400, message: "User already exists" });
-    }
-  } else {
-    // Check if the user already exists
-    const user = await UserInstitute.findOne({ email });
+  let user = await User.findOne({ email });  // finsding user in student 
+  if (user) {
+    console.log("i m hetyfiuwbri");
+    console.log(user);
+    return res
+      .status(200)
+      .send({ status: 400, message: "User already exists" });
+  }
+  else if (!user) { // finding user in institute
+    user = await UserInstitute.findOne({ email });
     if (user) {
       return res
         .status(200)
         .send({ status: 400, message: "User already exists" });
     }
   }
+  // if (userType == "student") {
+  //   // Check if the user already exists
+  // } else {
+  //   // Check if the user already exists
+  //   const user = await UserInstitute.findOne({ email });
+  //   if (user) {
+  //     return res
+  //       .status(200)
+  //       .send({ status: 400, message: "User already exists" });
+  //   }
+  // }
 
   // req.session.otp = otp;
 
@@ -1033,7 +1041,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
 
 app.post("/jobApplicantStatusChange", async (req, res) => {
   try {
-    const { application_id, newStatus ,student_email} = req.body;
+    const { application_id, newStatus, student_email } = req.body;
     //console.log("here at status change");
     //console.log(application_id);
     //console.log(newStatus);
