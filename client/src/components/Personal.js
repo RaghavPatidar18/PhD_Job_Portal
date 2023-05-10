@@ -127,7 +127,7 @@ export default function Profile({ user, type }) {
         });
       }
     });
-  }, []);
+  }, [isEdit2, isEditMode]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -144,13 +144,14 @@ export default function Profile({ user, type }) {
       .post("http://localhost:4000/personal", { formValues, user })
       .then((response) => {
         if (response.data.status === 200) {
-          alert("Your data was saved");
+          console.log("Your data was saved");
         } else {
           alert("Please try again later!");
         }
       });
     setIsEditMode(false);
-    window.location.reload();
+    setIsEdit2(false);
+    // window.location.reload();
   };
   const handleEdit2 = () => {
     setIsEdit2(true);
@@ -626,7 +627,7 @@ export default function Profile({ user, type }) {
                             color: "white",
                             backgroundColor: "black",
                           }}
-                          type="submit"
+                          onClick={handleSubmit}
                         >
                           Save
                         </button>

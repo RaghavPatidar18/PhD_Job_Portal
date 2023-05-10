@@ -8,44 +8,51 @@ export default function Profile({ user, type }) {
   const [resumes, setResumes] = useState([]);
 
   const handleResumeChange = (e) => {
-    setResume(e.target.files[0]);
+    var reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      console.log(reader.result);
+      setResume(reader.result);
+    };
+    reader.onerror = (error) => {
+      console.log("Error : " + error);
+    };
   };
 
   const handleResumeUpload = () => {
     if (resume != null) {
       const reader = new FileReader();
       reader.onload = () => {
-        const data = btoa(reader.result);
+        const data = resume ;
+        
         axios
-          .post("http://localhost:4000/resumes", { email: user, resume: data })
+          .post(`http://localhost:4000/add-resumes/${user}`, {data})
           .then((res) => {
-            setResumes((resumes) => [...resumes, res.data]);
+            console.log(res);
+            console.log("done");
           })
           .catch((err) => console.log(err));
       };
-      reader.readAsBinaryString(resume);
-      setResume(null);
       setError("");
     } else {
       setError("Please choose a file first");
     }
   };
 
-  const handleResumeDelete = (index, id) => {
+  const handleResumeDelete = () => {
     axios
-      .delete(`http://localhost:4000/resumes/${user}/${id}`)
+      .post(`http://localhost:4000/delete-resumes/${user}`)
       .then(() => {
-        const newResumes = [...resumes];
-        newResumes.splice(index, 1);
-        setResumes(newResumes);
+        console.log("Done");
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/resumes/${user}`)
+      .get(`http://localhost:4000/find-resumes/${user}`)
       .then((res) => {
+        console.log(res.data);
         setResumes(res.data);
       })
       .catch((err) => console.log(err));
@@ -83,30 +90,29 @@ export default function Profile({ user, type }) {
             <button className="addNewButton" onClick={handleResumeUpload}>
               Upload
             </button>
-            {resume && (
+            {/* {resume && (
               <p className="file-name">
                 {resume.name}{" "}
                 <button onClick={() => setResume(null)}>Remove</button>
               </p>
-            )}
+            )} */}
           </div>
 
           <hr />
         </div>
         <div className="resumes-container">
-          {resumes.map((resume, index) => (
-            <div key={index} className="resume-item">
+            <div  className="resume-item">
               <table>
                 <tr>
                   <td>
                     <p style={{}} className="file-name">
-                      {resume.name}{" "}
+                      {resume?.name}{" "}
                     </p>
                   </td>
                   <td>
                     <button
                       className="closeButton"
-                      onClick={() => handleResumeDelete(index)}
+                      onClick={() => handleResumeDelete()}
                     >
                       Delete
                     </button>
@@ -138,7 +144,7 @@ export default function Profile({ user, type }) {
               </table>
               <div className="resume-buttons"></div>
             </div>
-          ))}
+
         </div>
       </div>
     </>

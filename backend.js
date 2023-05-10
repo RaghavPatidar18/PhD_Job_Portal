@@ -19,6 +19,7 @@ const Academic = require("./model/academicSchema");
 const Publication = require("./model/publicationSchema");
 const Reference = require("./model/referenceSchema");
 const UserExperience = require("./model/experienceSchema");
+const OtherDetail = require("./model/otherDetailSchema");
 const POR = require("./model/porSchema");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -369,9 +370,14 @@ app.post("/api/verifyOtp", async (req, res) => {
         isphdcompleted: '-',
         phdremarks: '-',
       });
+      const otherdetails = new OtherDetail({
+        email : email,
+        resume_url : '#',
+      })
       await academics.save();
       await personals.save();
       await user.save();
+      await otherdetails.save();
 
 
       const experience = new UserExperience({

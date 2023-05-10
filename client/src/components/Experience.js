@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./css/Personal.css";
+import { FaTrash, FaEdit, FaPen } from "react-icons/fa";
+import noDataImage from "./NotFound.jpg";
 const ExperienceTable = ({ user, type }) => {
   const bottomRef = useRef(null);
   const [experiences, setExperiences] = useState([]);
@@ -118,10 +120,16 @@ const ExperienceTable = ({ user, type }) => {
   };
 
   return (
-    <div className="userProfile">
-      <div className="parent">
+    <>
+    <div style={{ width: "110%", marginLeft: "17rem" }} className="userProfile">
+      <div className="parent" style={{ marginLeft: "2rem" }}>
         <div className="left">
-          <h3 className="basic">Work Experience</h3>
+          <h3
+            style={{ fontWeight: "400" }}
+            className="text-xxlg leading-6 font-large text-gray-900"
+          >
+            Work Experience
+          </h3>
         </div>
         <div className="right">
           <button className="addNewButton" onClick={handleAdd}>
@@ -129,294 +137,424 @@ const ExperienceTable = ({ user, type }) => {
           </button>
         </div>
       </div>
-      <br />
+      <hr></hr>
+      {experiences.length === 0 && !showAddForm ? (
+        <>
+          <div style={{ display: "block", textAlign: "center" }}>
+            <h3
+              style={{
+                margin: "auto",
+                padding: "auto",
+                width: "30%",
+                height: "20%",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginBottom: "1rem",
+                fontWeight: "normal",
+                textDecoration: "underline",
+              }}
+            >
+              No experiences were found
+            </h3>
+          </div>
+          <div style={{ display: "block", textAlign: "center" }}>
+            <img
+              src={noDataImage}
+              style={{
+                margin: "auto",
+                padding: "auto",
+                width: "40%",
+                height: "30%",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginBottom: "1rem",
+              }}
+            />
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
       {showAddForm && (
-        <div className="userProfileData">
-          <form
-            className="addExperienceForm"
-           onSubmit={handleAddSubmit}
+        <div className="userProfile">
+          <div
+            style={{ width: "100%", marginLeft: "0" }}
+            className="flex my-10 mx-20"
           >
-            <table>
-              <h4>Add Experience</h4>
-              <hr />
-              <tr>
-                <td>
-                  <label className="profile-label" htmlFor="profile">Title:</label>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="profile"
-                    value={formData2.profile}
-                    onChange={handleChange2}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="profile-label" htmlFor="organization">Organization:</label>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="organization"
-                    value={formData2.organization}
-                    onChange={handleChange2}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="profile-label" htmlFor="startdate">Start Date:</label>
-                </td>
-                <td>
-                  <input
-                    type="date"
-                    name="startdate"
-                    value={formData2.startdate}
-                    onChange={handleChange2}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="profile-label" htmlFor="enddate">End Date:</label>
-                </td>
-                <td>
-                  <input
-                    type="date"
-                    name="enddate"
-                    value={formData2.enddate}
-                    onChange={handleChange2}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="profile-label" htmlFor="description">Description:</label>
-                </td>
-                <td>
-                  <textarea
-                    name="description"
-                    value={formData2.description}
-                    onChange={handleChange2}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label className="profile-label" htmlFor="location">Location:</label>
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    name="location"
-                    value={formData2.location}
-                    onChange={handleChange2}
-                    required
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <button
-                    className="closeButton"
-                    onClick={() => setShowAddForm(false)}
-                  >
-                    Cancel
-                  </button>
-                </td>
-                <td>
-                  <button className="addNewButton" type="submit">
-                    Save
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </form>
-          <br/>
-          <br/>
+            <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+              <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  Add new experience
+                </h3>
+              </div>
+              <div className="border-t border-gray-300">
+                <dl>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Organization
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="text"
+                        name="organization"
+                        value={formData2.organization}
+                        onChange={handleChange2}
+                        required
+                      />
+                    </dd>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Work role
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="text"
+                        name="profile"
+                        value={formData2.profile}
+                        onChange={handleChange2}
+                        required
+                      />
+                    </dd>
+                  </div>
+                  <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Start Date
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="date"
+                        name="startdate"
+                        value={formData2.startdate}
+                        onChange={handleChange2}
+                        required
+                      />
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">
+                      End date
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="date"
+                        name="enddate"
+                        value={formData2.enddate}
+                        onChange={handleChange2}
+                        required
+                      />
+                    </dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Location
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="text"
+                        name="location"
+                        value={formData2.location}
+                        onChange={handleChange2}
+                        required
+                      />
+                    </dd>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Description
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="text"
+                        name="description"
+                        value={formData2.description}
+                        onChange={handleChange2}
+                        required
+                      />
+                    </dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      <button
+                        style={{
+                          border: "1px solid grey",
+                          padding: "0.4rem",
+                          width: "4rem",
+                          color: "white",
+                          backgroundColor: "#b54141",
+                        }}
+                        onClick={() => {
+                          setShowAddForm(false);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <button
+                        style={{
+                          border: "1px solid grey",
+                          padding: "0.4rem",
+                          width: "4rem",
+                          color: "white",
+                          backgroundColor: "black",
+                        }}
+                        onClick={handleAddSubmit}
+                      >
+                        Save
+                      </button>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
         </div>
       )}
       {experiences.map((exp) =>
         selectedExperience === exp && showEditForm ? (
           <>
-            <div className="userProfileData">
-              <form
-                className="editExperienceForm"
-                onSubmit={handleEditSubmit}
+            <div className="userProfile">
+              <div
+                style={{ width: "100%", marginLeft: "0" }}
+                className="flex my-10 mx-20"
               >
-                <table>
-                  <h4>Edit Experience</h4>
-                  <hr/>
-                  <tr>
-                    <td>
-                      <label className="profile-label" htmlFor="profile">Title:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="profile"
-                        value={formData.profile}
-                        onChange={handleChange}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label className="profile-label" htmlFor="organization">Organization:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="organization"
-                        value={formData.organization}
-                        onChange={handleChange}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label className="profile-label" htmlFor="startdate">Start Date:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="date"
-                        name="startdate"
-                        value={formData.startdate}
-                        onChange={handleChange}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label className="profile-label" htmlFor="enddate">End Date:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="date"
-                        name="enddate"
-                        value={formData.enddate}
-                        onChange={handleChange}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label className="profile-label" htmlFor="description">Description:</label>
-                    </td>
-                    <td>
-                      <textarea
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        required
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label className="profile-label" htmlFor="location">Location:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name="location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        required
-                      />
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td >
+                <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+                  <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                      {exp.profile}
+                      <span style={{ marginLeft: "1.5rem" }}></span>
                       <button
-                      className="closeButton"
-                        type="button"
-                        onClick={() => setShowEditForm(false)}
+                        style={{
+                          fontSize: "medium",
+                          color: "rgba(59, 50, 179)",
+                        }}
+                        onClick={() => {
+                          setSelectedExperience(exp);
+                          setFormData(exp);
+                          setShowEditForm(true);
+                        }}
                       >
-                        Cancel
+                        <FaPen />
                       </button>
-                    </td>
-                    <td>
-                      <button className="addNewButton"type="submit">Save</button>
-                    </td>
-                  </tr>
-                </table>
-              </form>
+                      <span style={{ marginLeft: "2rem" }}></span>
+                      <button
+                        style={{
+                          fontSize: "medium",
+                          color: "rgba(59, 50, 179)",
+                        }}
+                        onClick={() => handleDelete(exp._id)}
+                      >
+                        <FaTrash style={{ color: "#b54141" }} />
+                      </button>
+                    </h3>
+                  </div>
+                  <div className="border-t border-gray-300">
+                    <dl>
+                      <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Organization
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          <input
+                            type="text"
+                            name="organization"
+                            value={formData.organization}
+                            onChange={handleChange}
+                            required
+                          />
+                        </dd>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Work role
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          <input
+                            type="text"
+                            name="profile"
+                            value={formData.profile}
+                            onChange={handleChange}
+                            required
+                          />
+                        </dd>
+                      </div>
+                      <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Start Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          <input
+                            type="date"
+                            name="startdate"
+                            value={formData.startdate}
+                            onChange={handleChange}
+                            required
+                          />
+                        </dd>
+
+                        <dt className="text-sm font-medium text-gray-500">
+                          End date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          <input
+                            type="date"
+                            name="enddate"
+                            value={formData.enddate}
+                            onChange={handleChange}
+                            required
+                          />
+                        </dd>
+                      </div>
+                      <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Location
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          <input
+                            type="text"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleChange}
+                            required
+                          />
+                        </dd>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Description
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          <input
+                            type="text"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleChange}
+                            required
+                          />
+                        </dd>
+                      </div>
+                      <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          <button
+                            style={{
+                              border: "1px solid grey",
+                              padding: "0.4rem",
+                              width: "4rem",
+                              color: "white",
+                              backgroundColor: "#b54141",
+                            }}
+                            onClick={() => {
+                              setSelectedExperience("");
+                            }}
+                          >
+                            Cancel
+                          </button>
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          <button
+                            style={{
+                              border: "1px solid grey",
+                              padding: "0.4rem",
+                              width: "4rem",
+                              color: "white",
+                              backgroundColor: "black",
+                            }}
+                            onClick={handleEditSubmit}
+                          >
+                            Save
+                          </button>
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </div>
             </div>
           </>
         ) : (
           <>
-            <div className="parent">
-              <div className="left">
-                <h4>{exp.profile}</h4>
+            <div className="userProfile">
+              <div
+                style={{ width: "100%", marginLeft: "0" }}
+                className="flex my-10 mx-20"
+              >
+                <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+                  <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                      {exp.profile}
+                      <span style={{ marginLeft: "1.5rem" }}></span>
+                      <button
+                        style={{
+                          fontSize: "medium",
+                          color: "rgba(59, 50, 179)",
+                        }}
+                        onClick={() => {
+                          setSelectedExperience(exp);
+                          setFormData(exp);
+                          setShowEditForm(true);
+                        }}
+                      >
+                        <FaPen />
+                      </button>
+                      <span style={{ marginLeft: "2rem" }}></span>
+                      <button
+                        style={{
+                          fontSize: "medium",
+                          color: "rgba(59, 50, 179)",
+                        }}
+                        onClick={() => handleDelete(exp._id)}
+                      >
+                        <FaTrash style={{ color: "#b54141" }} />
+                      </button>
+                    </h3>
+                  </div>
+                  <div className="border-t border-gray-300">
+                    <dl>
+                      <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Organization
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {exp.organization}
+                        </dd>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Work role
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {exp.profile}
+                        </dd>
+                      </div>
+                      <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Start Date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {exp.startdate}
+                        </dd>
+
+                        <dt className="text-sm font-medium text-gray-500">
+                          End date
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {exp.enddate}
+                        </dd>
+                      </div>
+                      <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                        <dt className="text-sm font-medium text-gray-500">
+                          Location
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {exp.location}
+                        </dd>
+                        <dt className="text-sm font-medium text-gray-500">
+                          Description
+                        </dt>
+                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                          {exp.description}
+                        </dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
               </div>
-              <div className="right">
-                <button
-                  className="editButton"
-                  onClick={() => {
-                    setSelectedExperience(exp);
-                    setFormData(exp);
-                    setShowEditForm(true);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="closeButton"
-                  onClick={() => handleDelete(exp._id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-            <hr />
-            <div className="userProfileData">
-              <table>
-                <tr>
-                  <td>Organization </td>
-                  <td>:</td>
-                  <td>{exp.organization}</td>
-                </tr>
-                <tr>
-                  <td>Start Date </td>
-                  <td>:</td>
-                  <td>{exp.startdate}</td>
-                </tr>
-                <tr>
-                  <td>End date</td>
-                  <td>:</td>
-                  <td>{exp.enddate}</td>
-                </tr>
-                <tr>
-                  <td>Location</td>
-                  <td>:</td>
-                  <td>{exp.location}</td>
-                </tr>
-                <tr>
-                  <td>Description</td>
-                  <td>:</td>
-                  <td>{exp.description}</td>
-                </tr>
-              </table>
-              <br />
-              <br />
             </div>
           </>
         )
       )}
     </div>
+    </>
   );
 };
 

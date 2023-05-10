@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./css/Personal.css";
-
+import { FaTrash, FaEdit, FaPen } from "react-icons/fa";
+import noDataImage from "./NotFound.jpg";
 const Publication = ({ user, type }) => {
   const bottomRef = useRef(null);
   const [publication, setPublication] = useState([]);
@@ -98,7 +99,7 @@ const Publication = ({ user, type }) => {
         setSelectedPublication(null);
         setFormData({
           title: "",
-          authorlist: [],
+          authorlist: "",
           abstract: "",
           journal: "",
           volume: "",
@@ -109,37 +110,6 @@ const Publication = ({ user, type }) => {
         });
       })
       .catch((err) => console.error(err));
-  };
-
-  const handleAuthorChange2 = (event, index) => {
-    const newAuthors = [...formData2.authorlist];
-    newAuthors[index] = event.target.value;
-    const newFormData = { ...formData2, authorlist: newAuthors };
-    setFormData2(newFormData);
-  };
-  const addNewAuthor2 = () => {
-    const newAuthors = [...formData2.authorlist, ""];
-    const newFormData = { ...formData2, authorlist: newAuthors };
-    setFormData2(newFormData);
-  };
-
-  const handleAuthorChange = (event, index) => {
-    const { name, value } = event.target;
-    const newAuthors = [...formData.authorlist];
-    newAuthors[index][name] = value;
-    console.log("Yha par" + JSON.stringify(newAuthors));
-    setFormData({ ...formData, authorlist: newAuthors });
-  };
-
-  const handleAddAuthor = () => {
-    const newAuthors = [...formData.authorlist, { author: "", author_id: "" }];
-    setFormData({ ...formData, authorlist: newAuthors });
-  };
-
-  const handleDeleteAuthor = (index) => {
-    const newAuthors = [...formData.authorlist];
-    newAuthors.splice(index, 1);
-    setFormData({ ...formData, authorlist: newAuthors });
   };
 
   // Handler for deleting an publication
@@ -157,388 +127,509 @@ const Publication = ({ user, type }) => {
   };
 
   return (
-    <div className="userProfile">
-      <div className="parent">
-        <div className="left">
-          <h3 className="basic">Publications</h3>
+    <>
+      <div
+        style={{ width: "100%", marginLeft: "1rem" }}
+        className="userProfile"
+      >
+        <div className="parent" style={{ marginLeft: "3rem" }}>
+          <div className="left">
+            <h3
+              style={{ fontWeight: "400" }}
+              className="text-xxlg leading-6 font-large text-gray-900"
+            >
+              Publications
+            </h3>
+          </div>
+          <div className="right">
+            <button className="addNewButton" onClick={handleAdd}>
+              Add Publication
+            </button>
+          </div>
         </div>
-        <div className="right">
-          <button className="addNewButton" onClick={handleAdd}>
-            Add Publication
-          </button>
-        </div>
-      </div>
-      <br />
-      {showAddForm && (
-        <>
-        <div className="userProfileData">
-        <form className="addExperienceForm" onSubmit={handleAddSubmit}>
-          <table>
-            <h4>Add Publication</h4>
-            <hr/>
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="title">Title:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData2.title}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            {/* <tr>
-              <td>
-                <label htmlFor="authorlist">Author: (Enter comma separated)</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="author"
-                  value={formData2.author}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr> */}
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="abstract">Abstract:</label>
-              </td>
-              <td>
-                <textarea
-                  type="text"
-                  name="abstract"
-                  value={formData2.abstract}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="volume">Volume:</label>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  name="volume"
-                  value={formData2.volume}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="pages">Pages:</label>
-              </td>
-              <td>
-                <input
-                  type="number"
-                  name="pages"
-                  value={formData2.pages}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="journal">Journal Name:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="journal"
-                  value={formData2.journal}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="publisher">Publisher:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="publisher"
-                  value={formData2.publisher}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="doi">Digital Object Identifier:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="doi"
-                  value={formData2.doi}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <label className="profile-label" htmlFor="url">URL Link:</label>
-              </td>
-              <td>
-                <input
-                  type="text"
-                  name="url"
-                  value={formData2.url}
-                  onChange={handleChange2}
-                  required
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <button
-                  className="closeButton"
-                  onClick={() => setShowAddForm(false)}
-                >
-                  Cancel
-                </button>
-              </td>
-              <td>
-                <button className="addNewButton" type="submit">
-                  Save
-                </button>
-              </td>
-            </tr>
-          </table>
-        </form>
-        </div>
-        <br/>
-        <br/>
-        </>
-      )}
-      {publication.map((pub) =>
-        selectedPublication === pub && showEditForm ? (
-          <>
-            <div className="userProfileData">
-            <form className="editExperienceForm" onSubmit={handleEditSubmit}>
-              <table>
-                <h4>Edit Publication</h4>
-                <hr/>
-                <tr>
-                  <td>
-                    <label className="profile-label" htmlFor="title">Title:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr>
-                <tr>
 
-                </tr>
-                {/* <tr>
-                  <td>
-                    <label htmlFor="abstract">Abstract:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="abstract"
-                      value={formData.abstract}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr> */}
-                <tr>
-                  <td>
-                    <label className="profile-label" htmlFor="volume">Volume:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      name="volume"
-                      value={formData.volume}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label className="profile-label" htmlFor="pages">Pages:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      name="pages"
-                      value={formData.pages}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label className="profile-label" htmlFor="journal">Journal Name:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="journal"
-                      value={formData.journal}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label className="profile-label" htmlFor="publisher">Publisher:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="publisher"
-                      value={formData.publisher}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label className="profile-label" htmlFor="doi">Digital Object Identifier:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="doi"
-                      value={formData.doi}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label className="profile-label" htmlFor="url">URL Link:</label>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="url"
-                      value={formData.url}
-                      onChange={handleChange}
-                      required
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <button
-                      className="closeButton"
-                      onClick={() => setShowEditForm(false)}
-                    >
-                      Cancel
-                    </button>
-                  </td>
-                  <td>
-                    <button className="addNewButton" type="submit">
-                      Save
-                    </button>
-                  </td>
-                </tr>
-              </table>
-            </form>
-            <br/>
-            <br/>
+        <hr></hr>
+        {publication.length === 0 && !showAddForm ? (
+          <>
+                <div style={{ display: "block", textAlign: "center" }}>
+                  <h3
+                    style={{
+                      margin: "auto",
+                      padding: "auto",
+                      width: "30%",
+                      height: "20%",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginBottom: "1rem",
+                      fontWeight : 'normal',
+                      textDecoration : 'underline',
+                    }}
+                  >No publications were found</h3>
+                </div>
+            <div style={{ display: "block", textAlign: "center" }}>
+              <img
+                src={noDataImage}
+                style={{
+                  margin: "auto",
+                  padding: "auto",
+                  width: "40%",
+                  height: "30%",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  marginBottom: "1rem",
+                }}
+              />
             </div>
           </>
         ) : (
-          <>
-            <div className="parent">
-              <div className="left">
-                <h4>{pub.title}</h4>
-              </div>
-              <div className="right">
-                <button
-                  className="editButton"
-                  onClick={() => {
-                    setSelectedPublication(pub);
-                    setFormData(pub);
-                    setShowEditForm(true);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  className="closeButton"
-                  onClick={() => handleDelete(pub._id)}
-                >
-                  Delete
-                </button>
+          <></>
+        )}
+        {showAddForm && (
+          <div className="userProfile">
+            <div
+              style={{ width: "100%", marginLeft: "0" }}
+              className="flex my-10 mx-20"
+            >
+              <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+                <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                  <h3 className="text-lg leading-6 font-medium text-gray-900">
+                    Add new publication
+                  </h3>
+                </div>
+                <div className="border-t border-gray-300">
+                  <dl>
+                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Title/Topic of publication
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          name="title"
+                          value={formData2.title}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+                      <dt className="text-sm font-medium text-gray-500">
+                        Give a breif abstract
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          name="abstract"
+                          value={formData2.abstract}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Volumes published
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="number"
+                          name="volume"
+                          value={formData2.volume}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+
+                      <dt className="text-sm font-medium text-gray-500">
+                        Number of pages
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="number"
+                          name="pages"
+                          value={formData2.pages}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Name of journal
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          name="journal"
+                          value={formData2.journal}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+                      <dt className="text-sm font-medium text-gray-500">
+                        Details of Publisher
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          name="publisher"
+                          value={formData2.publisher}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Digital Object Identifier
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          name="doi"
+                          value={formData2.doi}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+                      <dt className="text-sm font-medium text-gray-500">
+                        Give a URL link
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          name="url"
+                          value={formData2.url}
+                          onChange={handleChange2}
+                          required
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        <button
+                          style={{
+                            border: "1px solid grey",
+                            padding: "0.4rem",
+                            width: "4rem",
+                            color: "white",
+                            backgroundColor: "#b54141",
+                          }}
+                          onClick={() => {
+                            setShowAddForm(false);
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <button
+                          style={{
+                            border: "1px solid grey",
+                            padding: "0.4rem",
+                            width: "4rem",
+                            color: "white",
+                            backgroundColor: "black",
+                          }}
+                          onClick={handleAddSubmit}
+                        >
+                          Save
+                        </button>
+                      </dd>
+                    </div>
+                  </dl>
+                </div>
               </div>
             </div>
-            <hr />
-            <div className="userProfileData">
-              <table>
-                {/* <tr>
-                  <td>Author List </td>
-                  <td>:</td>
-                  <td>{pub.authorlist[0]?.author}</td>
-                </tr> */}
-                <tr>
-                  <td>Journal </td>
-                  <td>:</td>
-                  <td>{pub.journal}</td>
-                </tr>
-                <tr>
-                  <td>Volume Number</td>
-                  <td>:</td>
-                  <td>{pub.volume}</td>
-                </tr>
-                <tr>
-                  <td>Number of Pages</td>
-                  <td>:</td>
-                  <td>{pub.pages}</td>
-                </tr>
-                <tr>
-                  <td>Publisher</td>
-                  <td>:</td>
-                  <td>{pub.publisher}</td>
-                </tr>
-                <tr>
-                  <td>Digitl Object Identifier</td>
-                  <td>:</td>
-                  <td>{pub.doi}</td>
-                </tr>
-                <tr>
-                  <td>URL Link</td>
-                  <td>:</td>
-                  <td>{pub.url}</td>
-                </tr>
-              </table>
-            </div>
-            <br/>
-            <br/>
-          </>
-        )
-      )}
-    </div>
+          </div>
+        )}
+        {publication.map((pub) =>
+          selectedPublication === pub && showEditForm ? (
+            <>
+              <div className="userProfile">
+                <div
+                  style={{ width: "100%", marginLeft: "0" }}
+                  className="flex my-10 mx-20"
+                >
+                  <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+                    <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        {pub.title}
+                        <span style={{ marginLeft: "1.5rem" }}></span>
+                        <button
+                          style={{
+                            fontSize: "medium",
+                            color: "rgba(59, 50, 179)",
+                          }}
+                          onClick={() => {
+                            setSelectedPublication(pub);
+                            setFormData(pub);
+                            setShowEditForm(true);
+                          }}
+                        >
+                          <FaPen />
+                        </button>
+                        <span style={{ marginLeft: "2rem" }}></span>
+                        <button
+                          style={{
+                            fontSize: "medium",
+                            color: "rgba(59, 50, 179)",
+                          }}
+                          onClick={() => handleDelete(pub._id)}
+                        >
+                          <FaTrash style={{ color: "#b54141" }} />
+                        </button>
+                      </h3>
+                    </div>
+                    <div className="border-t border-gray-300">
+                      <dl>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Topic of publication
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="title"
+                              value={formData.title}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Abstract
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="abstract"
+                              value={formData.abstract}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                        </div>
+                        <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Volumes published
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="number"
+                              name="volume"
+                              value={formData.volume}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+
+                          <dt className="text-sm font-medium text-gray-500">
+                            Page count
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="number"
+                              name="pages"
+                              value={formData.pages}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Journal Name
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="journal"
+                              value={formData.journal}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Publisher
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="publisher"
+                              value={formData.publisher}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Digital Object Identifier
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="doi"
+                              value={formData.doi}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            URL Link
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="url"
+                              value={formData.url}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            <button
+                              style={{
+                                border: "1px solid grey",
+                                padding: "0.4rem",
+                                width: "4rem",
+                                color: "white",
+                                backgroundColor: "#b54141",
+                              }}
+                              onClick={() => {
+                                setSelectedPublication("");
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <button
+                              style={{
+                                border: "1px solid grey",
+                                padding: "0.4rem",
+                                width: "4rem",
+                                color: "white",
+                                backgroundColor: "black",
+                              }}
+                              onClick={handleEditSubmit}
+                            >
+                              Save
+                            </button>
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="userProfile">
+                <div
+                  style={{ width: "100%", marginLeft: "0" }}
+                  className="flex my-10 mx-20"
+                >
+                  <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+                    <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                      <h3 className="text-lg leading-6 font-medium text-gray-900">
+                        {pub.title}
+                        <span style={{ marginLeft: "1.5rem" }}></span>
+                        <button
+                          style={{
+                            fontSize: "medium",
+                            color: "rgba(59, 50, 179)",
+                          }}
+                          onClick={() => {
+                            setSelectedPublication(pub);
+                            setFormData(pub);
+                            setShowEditForm(true);
+                          }}
+                        >
+                          <FaPen />
+                        </button>
+                        <span style={{ marginLeft: "2rem" }}></span>
+                        <button
+                          style={{
+                            fontSize: "medium",
+                            color: "rgba(59, 50, 179)",
+                          }}
+                          onClick={() => handleDelete(pub._id)}
+                        >
+                          <FaTrash style={{ color: "#b54141" }} />
+                        </button>
+                      </h3>
+                    </div>
+                    <div className="border-t border-gray-300">
+                      <dl>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Topic of publication
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.title}
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Abstract
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.abstract}
+                          </dd>
+                        </div>
+                        <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Volumes published
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.volume}
+                          </dd>
+
+                          <dt className="text-sm font-medium text-gray-500">
+                            Page count
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.pages}
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Journal Name
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.journal}
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Publisher Details
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.publisher}
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Digital Object Identifier
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.doi}
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            URL Link
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {pub.url}
+                          </dd>
+                        </div>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )
+        )}
+      </div>
+    </>
   );
 };
 
