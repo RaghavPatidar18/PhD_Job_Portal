@@ -1,7 +1,7 @@
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Personal from "./Personal";
 import Academic from "./Academic";
-
+import defaultImage from "./basicProfile.png";
 import Experience from "./Experience";
 import Publication from "./Publication";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,7 @@ import Popup from "reactjs-popup";
 import AutoFillData from "./AutoFillData";
 import "./css/Profile.css";
 import Reference from "./Refrees";
+import ImageUploader from './ImageUploader';
 import axios from "axios";
 async function getName() {
   const token = localStorage.getItem("usersdatatoken");
@@ -27,6 +28,17 @@ async function getName() {
   return data.name;
 }
 export default function Profile({ user, type }) {
+  const [altProfile, setAltProfile] = useState(defaultImage)
+  const [isHovered, setIsHovered] = useState(false);
+  
+  const [popUpImageForm, setPopUpImageForm] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   const [screenWidth] = React.useState(window.innerWidth);
   const [activeComponent, setActiveComponent] = useState("personal");
   const [name, setName] = useState("");
@@ -35,7 +47,9 @@ export default function Profile({ user, type }) {
     setActiveComponent(componentName);
     console.log(activeComponent);
   };
-
+//  useEffect(()=>{
+//   axios.get(`http://localhost:4000/getMyImage/${user}`).then((response))
+//  })
   useEffect(() => {
     if (type === "") {
       history("*");
@@ -47,6 +61,11 @@ export default function Profile({ user, type }) {
       if (response.status === 200) {
         const myData = response.data.personals[0];
         setName(myData.name);
+        if(myData.profile_image_url==='#'){
+          setAltProfile(defaultImage)
+        }else{
+          setAltProfile(myData.profile_image_url)
+        }
       }
     });
   });
@@ -54,47 +73,68 @@ export default function Profile({ user, type }) {
   return (
     <>
       {/* {screenWidth >= 1024 ? ( */}
-        <>
-          {type === "student" ? (
-            <div style={{display : 'flex'}}>
+      <>
+        {type === "student" ? (
+          <div style={{ display: "flex" }}>
             <div className="outer-container">
-              <aside class="flex flex-col w-150 h-screen px-1 py-2 overflow-y-auto bg-white border-r rtl:border-r-2 rtl:border-2 dark:bg-gray-900 dark:border-gray-700">
+              <aside class="flex flex-col w-200 h-screen px-7 py-2 bg-white   rtl:border-2 dark:bg-gray-100 dark:border-gray-200">
                 <div class="relative mt-9">
-                <FontAwesomeIcon
-                        style={{
-                          backgroundColor: "grey",
-                          height: "4rem",
-                          color: "white",
-                          padding: "3rem",
-                          width: "4rem",
-                          borderRadius: "50%",
-                          borderColor:'rgba(59, 50, 179)',
-                          borderWidth:'0.1rem'
-                        }}
-                        icon={faUser}
-                      />
-                </div>
-                <p style={{fontWeight : '500', fontSize : '1.5rem'}}class = "px-8">{name}</p>
-
-                <div class="flex flex-col justify-between flex-1  mt-6">
-                  <nav>
-                  <Popup
+                  <div
+                    style={{
+                      position: "relative",
+                      display: "inline-block",
+                      // opacity: isHovered ? 0.4 : 1,
+                    }}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <img
+                      src={altProfile}
+                      // src={ProfileSettingsImage}
+                      className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block"
+                      alt={defaultImage}
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        borderRadius: "50%",
+                        marginLeft: "2rem",
+                        marginBottom: "1rem",
+                        opacity: isHovered ? "0.5" : "",
+                      }}
+                    />
+                    {isHovered && (
+                      <Popup
                         trigger={
                           <button
-                            className="flex items-center px-7 py-2 navButton"
+                            style={{
+                              position: "absolute",
+                              top: "70%",
+                              left: "58%",
+                              color: "white",
+                              transform: "translate(-50%, -50%)",
+                              background: "black",
+                              border: "1px solid white",
+                              padding: "8px",
+                              zIndex: "1rem",
+                              borderRadius: "5rem",
+                              width: "4rem",
+                            }}
+                            onClick={() => setPopUpImageForm(true)}
                           >
-                            Parse Resume
+                            Edit
                           </button>
                         }
-                        modal
-                        closeOnDocumentClick
-                        overlayStyle={{
+                      
+                        modal closeOnDocumentClick overlayStyle=
+                        {{
                           background: "rgba(0, 0, 0, 0.7)",
                           zIndex: 1000,
                         }}
-                        contentStyle={{
-                          width: "30%",
-                          height: "30%",
+                        contentStyle=
+                        {{
+                          width: "45%",
+                          height: "45%",
+                          padding : '0',
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
@@ -102,106 +142,205 @@ export default function Profile({ user, type }) {
                           boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
                           backgroundColor: "#fff",
                         }}
-                      >
+                        >
                         {(close) => (
                           <>
-                            <AutoFillData user = {user} type={type}onClose={close} />
+                            <ImageUploader
+                              user={user}
+                              type={type}
+                              onClose={close}
+                            />
                           </>
                         )}
                       </Popup>
+                    )}
+                  </div>
+                </div>
+                <p
+                  style={{
+                    fontWeight: "550",
+                    fontSize: "1rem",
+                    marginLeft: "2rem",
+                    width: "100%",
+                  }}
+                  class="px-8"
+                >
+                  {name}
+                </p>
+
+                <div class="flex flex-col justify-between flex-1  mt-6">
+                  <nav>
+                    <Popup
+                      trigger={
+                        <button className="flex items-center px-7 py-2 navButton">
+                          Parse Resume
+                        </button>
+                      }
+                      modal
+                      closeOnDocumentClick
+                      overlayStyle={{
+                        background: "rgba(0, 0, 0, 0.7)",
+                        zIndex: 1000,
+                      }}
+                      contentStyle={{
+                        width: "30%",
+                        height: "30%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        borderRadius: "5px",
+                        boxShadow: "0 0 10px rgba(0, 0, 0, 0.3)",
+                        backgroundColor: "#fff",
+                      }}
+                    >
+                      {(close) => (
+                        <>
+                          <AutoFillData
+                            user={user}
+                            type={type}
+                            onClose={close}
+                          />
+                        </>
+                      )}
+                    </Popup>
                     <button
-                    className= {activeComponent === 'personal' ? 'flex items-center px-1 py-2 active' : 'flex items-center px-1 py-2 navButton'}
-                      onClick={()=>{handleButtonClick("personal")}}
+                      style={{ color: "red !important" }}
+                      className={
+                        activeComponent === "personal"
+                          ? "flex items-center px-1 py-2 active"
+                          : "flex items-center px-1 py-2 navButton"
+                      }
+                      onClick={() => {
+                        handleButtonClick("personal");
+                      }}
                     >
                       <span class="mx-4 font-medium">Personal Details</span>
                     </button>
                     <button
-                    className= {activeComponent === 'academic' ? 'flex items-center px-1 py-2 active' : 'flex items-center px-1 py-2 navButton'}
-                      onClick={()=>{handleButtonClick("academic")}}
+                      className={
+                        activeComponent === "academic"
+                          ? "flex items-center px-1 py-2 active"
+                          : "flex items-center px-1 py-2 navButton"
+                      }
+                      onClick={() => {
+                        handleButtonClick("academic");
+                      }}
                     >
                       <span class="mx-4 font-medium">Education Details</span>
                     </button>
                     <button
-                    className= {activeComponent === 'experience' ? 'flex items-center px-1 py-2 active' : 'flex items-center px-1 py-2 navButton'}
-                      onClick={()=>{handleButtonClick("experience")}}
+                      className={
+                        activeComponent === "experience"
+                          ? "flex items-center px-1 py-2 active"
+                          : "flex items-center px-1 py-2 navButton"
+                      }
+                      onClick={() => {
+                        handleButtonClick("experience");
+                      }}
                     >
                       <span class="mx-4 font-medium">Work Experience</span>
                     </button>
                     <button
-                    className= {activeComponent === 'publication' ? 'flex items-center px-1 py-2 active' : 'flex items-center px-1 py-2 navButton'}
-                      onClick={()=>{handleButtonClick("publication")}}
+                      className={
+                        activeComponent === "publication"
+                          ? "flex items-center px-1 py-2 active"
+                          : "flex items-center px-1 py-2 navButton"
+                      }
+                      onClick={() => {
+                        handleButtonClick("publication");
+                      }}
                     >
                       <span class="mx-4 font-medium">Publications</span>
                     </button>
                     <button
-                    className= {activeComponent === 'references' ? 'flex items-center px-1 py-2 active' : 'flex items-center px-1 py-2 navButton'}
-                      onClick={()=>{handleButtonClick("references")}}
+                      className={
+                        activeComponent === "references"
+                          ? "flex items-center px-1 py-2 active"
+                          : "flex items-center px-1 py-2 navButton"
+                      }
+                      onClick={() => {
+                        handleButtonClick("references");
+                      }}
                     >
                       <span class="mx-4 font-medium">References</span>
                     </button>
                     <button
-                    className= {activeComponent === 'por' ? 'flex items-center px-1 py-2 active' : 'flex items-center px-1 py-2 navButton'}
-                      onClick={()=>{handleButtonClick("por")}}
+                      className={
+                        activeComponent === "por"
+                          ? "flex items-center px-1 py-2 active"
+                          : "flex items-center px-1 py-2 navButton"
+                      }
+                      onClick={() => {
+                        handleButtonClick("por");
+                      }}
                     >
-                      <span class="mx-4 font-medium">Positions of Responsibility</span>
+                      <span class="mx-4 font-medium">
+                        Positions of Responsibility
+                      </span>
                     </button>
                     <button
-                    className= {activeComponent === 'doc' ? 'flex items-center px-1 py-2 active' : 'flex items-center px-1 py-2 navButton'}
-                      onClick={()=>{handleButtonClick("doc")}}
+                      className={
+                        activeComponent === "doc"
+                          ? "flex items-center px-1 py-2 active"
+                          : "flex items-center px-1 py-2 navButton"
+                      }
+                      onClick={() => {
+                        handleButtonClick("doc");
+                      }}
                     >
                       <span class="mx-4 font-medium">Uploaded Documents</span>
                     </button>
-
                   </nav>
                 </div>
               </aside>
             </div>
-            <div className="Profile" style={{marginLeft: '15rem'}}>
-          <section className="renderComponent">
-            {activeComponent === "personal" ? (
-              <>
-                <Personal user={user} type={type} />
-              </>
-            ) : (
-              <></>
-            )}
-            {activeComponent === "academic" ? (
-              <Academic user={user} type={type} />
-            ) : (
-              <></>
-            )}
-            {activeComponent === "experience" ? (
-              <Experience user={user} type={type} />
-            ) : (
-              <></>
-            )}
-            {activeComponent === "publication" ? (
-              <Publication user={user} type={type} />
-            ) : (
-              <></>
-            )}
-            {activeComponent === "references" ? (
-              <Reference user={user} type={type} />
-            ) : (
-              <></>
-            )}
-            {activeComponent === "por" ? (
-              <POR user={user} type={type} />
-            ) : (
-              <></>
-            )}
-            {activeComponent === "doc" ? <OtherDetails /> : <></>}
-          </section>
-        </div>
+            <div className="Profile" style={{ marginLeft: "15rem" }}>
+              <section
+                style={{ padding: "0", margin: "0" }}
+                className="renderComponent"
+              >
+                {activeComponent === "personal" ? (
+                  <>
+                    <Personal user={user} type={type} />
+                  </>
+                ) : (
+                  <></>
+                )}
+                {activeComponent === "academic" ? (
+                  <Academic user={user} type={type} />
+                ) : (
+                  <></>
+                )}
+                {activeComponent === "experience" ? (
+                  <Experience user={user} type={type} />
+                ) : (
+                  <></>
+                )}
+                {activeComponent === "publication" ? (
+                  <Publication user={user} type={type} />
+                ) : (
+                  <></>
+                )}
+                {activeComponent === "references" ? (
+                  <Reference user={user} type={type} />
+                ) : (
+                  <></>
+                )}
+                {activeComponent === "por" ? (
+                  <POR user={user} type={type} />
+                ) : (
+                  <></>
+                )}
+                {activeComponent === "doc" ? <OtherDetails user={user} type={type} /> : <></>}
+              </section>
             </div>
-          ) : (
-            <>{/* INSTITUE PROFILE NAVBAR */}</>
-          )}
-        </>
-      ) : (
-        <>{/* INSTITUTE PROFILE SECTION */}</>
+          </div>
+        ) : (
+          <>{/* INSTITUE PROFILE NAVBAR */}</>
+        )}
+      </>
+      ) : (<>{/* INSTITUTE PROFILE SECTION */}</>
       {/* )} */}
-
     </>
   );
 }
