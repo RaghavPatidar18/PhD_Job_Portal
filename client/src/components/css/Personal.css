@@ -125,7 +125,7 @@ h4 {
   line-height: 1.75;
   padding: 5px 15px;
 }
-label{
+.profile-label{
   font-weight:  100 !important;
   /* font-size: medium !important; */
 }

@@ -1,5 +1,5 @@
 .application_form{
-  width:75%;
+  width:80%;
   padding:20px;
   margin:auto;
   margin-top:50px;
@@ -9,6 +9,7 @@
 }
 
 .application_field{
+  width:80%;
   padding:20px;
   margin:auto;
   margin-top:50px;

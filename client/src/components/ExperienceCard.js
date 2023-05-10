@@ -1,16 +1,7 @@
 import React from "react";
 
-const ExperienceCard = ({ companyName, experience, likes, dislikes, handleLike, handleDislike, fetchComments,name }) => {
+const ExperienceCard = ({ companyName, experience,name }) => {
   return (
-    // <div>
-    //   <p>College Name: {companyName}</p>
-    //   <p>Experience: {experience}</p>
-    //   <p>Likes : {likes}</p>
-    //   <button onClick={() => handleLike(experience._id)}>Like</button>
-    //   <p>Dislikes :{dislikes}</p>
-    //   <button onClick={() => handleDislike(experience._id)}>Dislike</button>
-    //   <button onClick={() => fetchComments(experience._id)}>Comments</button>
-    // </div>
 
     <div class="p-6 bg-gray-100 rounded-lg dark:bg-white-800 md:p-8">
       <div class="flex items-center mt-6">

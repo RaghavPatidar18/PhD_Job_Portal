@@ -89,7 +89,7 @@ export default function Profile({ user, type }) {
         setFatherName(myData.fathername);
         setNationality(myData.nationality);
         setMarried(myData.married);
-        setDisability(myData.disablity);
+        setDisability(myData.disability);
 
         setFormValues({
           name: myData.name,
@@ -129,8 +129,8 @@ export default function Profile({ user, type }) {
               : myData.communication_country,
 
           mobile: myData.mobile === "-" ? "" : myData.mobile,
-          altmobile: myData.altmobile === "-" ? "" : myData.altMobile,
-          disability: myData.disability === "-" ? "" : myData.disablity,
+          altmobile: myData.altmobile === "-" ? "" : myData.altmobile,
+          disability: myData.disability === "-" ? "" : myData.disability,
           married: myData.married === "-" ? "" : myData.married,
         });
       }
@@ -139,7 +139,10 @@ export default function Profile({ user, type }) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    console.log(name);
+    console.log(value);
     setFormValues({ ...formValues, [name]: value });
+    console.log(formValues);
   };
 
   const handleSubmit = (event) => {
@@ -309,7 +312,7 @@ export default function Profile({ user, type }) {
                 </tr>
                 <tr>
                   <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Disablity (if any){" "}
+                    Disability (if any){" "}
                   </td>
                   <td>:</td>
                   <td>{disability}</td>
@@ -334,7 +337,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="name">My name:</label>
+                      <label className="profile-label" htmlFor="name">My name:</label>
                     </td>
                     <td>
                       <input
@@ -348,7 +351,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="age">Age:</label>
+                      <label className="profile-label" htmlFor="age">Age:</label>
                     </td>
                     <td>
                       <input
@@ -363,7 +366,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="dob">Date of Birth:</label>
+                      <label className="profile-label" htmlFor="dob">Date of Birth:</label>
                     </td>
                     <td>
                       <input
@@ -377,7 +380,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="gender">Gender:</label>
+                      <label className="profile-label" htmlFor="gender">Gender:</label>
                     </td>
                     <td>
                       <select
@@ -395,7 +398,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="category">Category:</label>
+                      <label className="profile-label" htmlFor="category">Category:</label>
                     </td>
                     <td>
                       <select
@@ -414,7 +417,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="fathername">Father's Name:</label>
+                      <label className="profile-label" htmlFor="fathername">Father's Name:</label>
                     </td>
                     <td>
                       <input
@@ -429,7 +432,7 @@ export default function Profile({ user, type }) {
 
                   <tr>
                     <td>
-                      <label htmlFor="nationality">Nationality:</label>
+                      <label className="profile-label" htmlFor="nationality">Nationality:</label>
                     </td>
                     <td>
                       <input
@@ -451,7 +454,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="communication_address">Address:</label>
+                      <label className="profile-label" htmlFor="communication_address">Address:</label>
                     </td>
                     <td>
                       <input
@@ -465,7 +468,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="communication_country">Country:</label>
+                      <label className="profile-label" htmlFor="communication_country">Country:</label>
                     </td>
                     <td>
                       <input
@@ -479,7 +482,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="communication_state">State:</label>
+                      <label className="profile-label" htmlFor="communication_state">State:</label>
                     </td>
                     <td>
                       <input
@@ -493,7 +496,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="communication_city">City:</label>
+                      <label className="profile-label" htmlFor="communication_city">City:</label>
                     </td>
                     <td>
                       <input
@@ -508,7 +511,7 @@ export default function Profile({ user, type }) {
 
                   <tr>
                     <td>
-                      <label htmlFor="communication_pincode">Pincode:</label>
+                      <label className="profile-label" htmlFor="communication_pincode">Pincode:</label>
                     </td>
                     <td>
                       <input
@@ -531,7 +534,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="permanent_address">Address:</label>
+                      <label className="profile-label" htmlFor="permanent_address">Address:</label>
                     </td>
                     <td>
                       <input
@@ -545,7 +548,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="permanent_country">Country:</label>
+                      <label className="profile-label" htmlFor="permanent_country">Country:</label>
                     </td>
                     <td>
                       <input
@@ -559,7 +562,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="permanent_state">State:</label>
+                      <label className="profile-label" htmlFor="permanent_state">State:</label>
                     </td>
                     <td>
                       <input
@@ -573,7 +576,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="permanent_city">City:</label>
+                      <label className="profile-label" htmlFor="permanent_city">City:</label>
                     </td>
                     <td>
                       <input
@@ -588,7 +591,7 @@ export default function Profile({ user, type }) {
 
                   <tr>
                     <td>
-                      <label htmlFor="permanent_pincode">Pincode:</label>
+                      <label className="profile-label" htmlFor="permanent_pincode">Pincode:</label>
                     </td>
                     <td>
                       <input
@@ -611,7 +614,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="mobile">Mobile Number:</label>
+                      <label className="profile-label" htmlFor="mobile">Mobile Number:</label>
                     </td>
                     <td>
                       <input
@@ -625,7 +628,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="altmobile">
+                      <label className="profile-label" htmlFor="altmobile">
                         Alternate Mobile Number:
                       </label>
                     </td>
@@ -650,7 +653,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="disability">Disability:</label>
+                      <label className="profile-label" htmlFor="disability">Disability:</label>
                     </td>
                     <td>
                       <select
@@ -668,7 +671,7 @@ export default function Profile({ user, type }) {
                   </tr>
                   <tr>
                     <td>
-                      <label htmlFor="married">Marital Status:</label>
+                      <label className="profile-label" htmlFor="married">Marital Status:</label>
                     </td>
                     <td>
                       <select

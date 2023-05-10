@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef} from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Container } from "react-bootstrap";
 import "./css/PostJob.css";
 import { useNavigate , useLocation } from 'react-router-dom';
-import CustomizableForm from "./CustomizableForm.js";
+import {useParams} from "react-router-dom";
+import CustomizableForm from "./CustomForm/CustomizableForm.js";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,6 +16,9 @@ import { faEnvelope, faUser,faLocationArrow , faBuilding, faMapMarkerAlt, faDoll
 
 
 function PostJob({user,type}) {
+
+  const {id}=useParams();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
@@ -26,13 +30,57 @@ function PostJob({user,type}) {
   const [jobs, setJobs] = useState([]);
   const [showCustomForm,setShowCustomForm]=useState(false);
   const [isActive, setIsActive] = useState(false);
+  const [lastDate,setLastDate]=useState("");
+  const [jobDetails,setJobDetails]=useState({});
+
+  const [gotJobDetails,setGotJobDetails]=useState(false);
+
+  const isFirstRender = useRef(true);
 
 const history=useNavigate();
 
   useEffect(()=> {
-    if(type!="institute"){
+    if(type!=="institute"){
       history("*");
     }
+    if(isFirstRender.current){
+      console.log("did i come here");
+      isFirstRender.current=false;
+
+      if(id!==undefined){
+        axios.get(`http://localhost:4000/updateJob/${id}`)
+          .then((response)=>{
+            if(response.data.status===200){
+              const jobDetails=response.data.job;
+              setTitle(jobDetails.title);
+              setLocation(jobDetails.location);
+              setSalary(jobDetails.salary);
+              setContactEmail(jobDetails.contactEmail);
+              setCollege(jobDetails.college);
+              setQualifications(jobDetails.qualifications);
+              setResponsibilities(jobDetails.responsibilities);
+              setLastDate(jobDetails.lastDate);
+              setDescription(jobDetails.description);
+              setJobDetails(jobDetails);
+            }
+          })
+          .catch((err)=> console.log(err));
+      }
+      return;
+    }
+
+
+    if(id===undefined){
+      setGotJobDetails(true);
+    }else{
+      if(Object.keys(jobDetails).length!==0){
+        setGotJobDetails(true);
+      }
+    }
+
+
+
+
   })
 
   function handleSubmit(personalData,academicData,experienceData,publicationData,porData,referenceData) {
@@ -44,8 +92,14 @@ const history=useNavigate();
       por: porData,
       reference: referenceData
     };
-    const lastDate="";
-    const lastUpdateDate="";
+    const d=Date.now();
+    let date_time=new Date(d);
+    let date=date_time.getDate();
+    let month=date_time.getMonth();
+    let year=date_time.getYear();
+    let today=year+"-"+month+"-"+date;
+
+    const lastUpdateDate=today;
     const deleted=false;
     console.log(fields)
     const job = {
@@ -63,33 +117,52 @@ const history=useNavigate();
       fields
     };
     console.log(job);
-    const id=user._id
-    axios
-      .post("http://localhost:4000/job-post", {job,id})
-      .then((response) => {
-        console.log("Job submitted");
-        console.log("Job submitted");
+    if(id!==undefined){
+      axios.post("http://localhost:4000/updateJob", {job,id})
+      .then((response)=>{
         if(response.data.status===200){
-
-          // Update the jobs state with the new job
-          setJobs([...jobs, job]);
-          // Clear the form inputs
-          setTitle("");
-          setDescription("");
-          setLocation("");
-          setSalary("");
-          setContactEmail("");
-          setCollege("");
-          setQualifications("");
-          setResponsibilities("");
-          window.location.reload();
-        }else{
-          console.log(response.data.err);
+          history("/");
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err)=>console.log(err));
+    }else{
+      const id=user._id
+      axios
+        .post("http://localhost:4000/job-post", {job,id})
+        .then((response) => {
+          console.log("Job submitted");
+          console.log("Job submitted");
+          if(response.data.status===200){
+
+            // Update the jobs state with the new job
+            setJobs([...jobs, job]);
+            // Clear the form inputs
+            setTitle("");
+            setDescription("");
+            setLocation("");
+            setSalary("");
+            setContactEmail("");
+            setCollege("");
+            setQualifications("");
+            setResponsibilities("");
+            setLastDate("");
+            window.location.reload();
+          }else{
+            console.log(response.data.err);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+  }
+
+  const customFormDisplay = ()=> {
+    if(title==="" || description==="" || location==="" || salary==="" || contactEmail==="" || college==="" || qualifications==="" || responsibilities===""){
+      console.log("cannot display, all fields not filled");
+    }else{
+      setShowCustomForm(true);
+    }
   }
 
 
@@ -97,10 +170,10 @@ const history=useNavigate();
 
    return (
     <>
-    <div className="postJob">
+    <div className="postJob" >
       <div className="formDiv">
         <form className="postJobForm">
-          <h3>Post a Job</h3>
+          <h3 classname="postJobh3">Post a Job</h3>
           <div className="inputField">
           <div style={{ display: "flex", alignItems: "center" }}>
         <FontAwesomeIcon icon={faUser} className="input-icon" style={{ marginRight: "20px", marginLeft: "10px" , marginBottom: "0px"  }} size="lg" />
@@ -209,6 +282,30 @@ const history=useNavigate();
     </FloatingLabel>
   </div>
 </div>
+
+<div className="inputField">
+  <div style={{ display: "flex", alignItems: "center" }}>
+    <FontAwesomeIcon
+      icon={faEnvelope}
+      className="input-icon"
+      style={{ marginRight: "14px", marginLeft: "10px", marginBottom: "0px" }}
+      size="lg"
+    />
+    <FloatingLabel
+      controlId="floatingContactEmail"
+      label="Last Date of Application"
+      className="mb-3"
+      style={{ flex: 1 }}
+    >
+      <Form.Control
+        type="date"
+        value={lastDate}
+        onChange={(e) => setLastDate(e.target.value)}
+        required
+      />
+    </FloatingLabel>
+  </div>
+</div>
 <div className="inputField">
   <div style={{ display: "flex", alignItems: "center" }}>
     <FontAwesomeIcon
@@ -277,19 +374,15 @@ const history=useNavigate();
   </div>
 </div>
 
-        {!showCustomForm &&   <div className="buttonContainer">
-            <Button type="submit" variant="primary" onClick={()=> setShowCustomForm(true)}>
-              Next
-            </Button>
-          </div>}
+
         </form>
       </div>
     </div>
 
 
-    {showCustomForm &&
-      <CustomizableForm handleSubmit={handleSubmit}/>
-    }
+
+      {gotJobDetails && <CustomizableForm handleSubmit={handleSubmit} updateForm={jobDetails}/>}
+
 </>
   );
 }
