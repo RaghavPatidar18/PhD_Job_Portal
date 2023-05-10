@@ -29,10 +29,12 @@ section {
   width: 16%;
   bottom : 5% ;
   top : 10px;
+  left : 5% ;
   /* margin: 80px 0px; */
   padding-top : 0px;
   margin-top: 0px;
-  height: 100%;
+  /* padding-left : 50rem ; */
+  height: 100%; 
 }
 
 .Profile {
@@ -137,6 +139,7 @@ p {
   border-radius: 0.4rem !important;
   width : 16rem !important ;
   /* padding  : 0.7rem !important ; */
+  font-weight:  200 !important;
 }
 .navButton {
   width : 16rem !important ;
@@ -151,4 +154,4 @@ p {
   max-width : 17rem ;
   text-align: center;
   position : fixed ;
-}
+} 

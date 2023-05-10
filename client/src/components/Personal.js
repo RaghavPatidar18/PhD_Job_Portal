@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/Personal.css"; // import the CSS file
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPen } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import ImageUploader from "./ImageUploader";
 export default function Profile({ user, type }) {
+  const [isEdit2, setIsEdit2] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
@@ -40,17 +42,7 @@ export default function Profile({ user, type }) {
         if (myData.permanent_address === "-") {
           permanentAddress = "-";
         } else {
-          permanentAddress =
-            myData.permanent_address +
-            ", " +
-            myData.permanent_city +
-            ", " +
-            myData.permanent_state +
-            ", " +
-            myData.permanent_country +
-            " (" +
-            myData.permanent_pincode +
-            ")";
+          permanentAddress = myData.permanent_address;
         }
         if (myData.communication_address === "-") {
           currentAddress = "-";
@@ -157,6 +149,13 @@ export default function Profile({ user, type }) {
     setIsEditMode(false);
     window.location.reload();
   };
+  const handleEdit2 = () => {
+    setIsEdit2(true);
+  };
+  const handleClose2 = () => {
+    setIsEdit2(false);
+  };
+
   const handleEdit = () => {
     setIsEditMode(true);
   };
@@ -188,155 +187,31 @@ export default function Profile({ user, type }) {
   });
   return (
     <>
-      <div className="userProfile">
-        <div className="parent">
-          <div className="left">
-            <h3 className="basic">Basic Details</h3>
-          </div>
-          <div className="right">
-            {isEditMode ? (
-              <>
-                <button className="closeButton" onClick={handleClose}>
-                  {" "}
-                  <IoClose />
-                  <span style={{ paddingLeft: "0.5rem" }}></span>Close
-                </button>
-              </>
-            ) : (
-              <>
-                <button className="editButton" onClick={handleEdit}>
-                  {" "}
-                  <FaEdit />
-                  <span style={{ paddingLeft: "0.5rem" }}></span>Edit
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-        <hr style={{ maxWidth: "70rem" }} />
-        {!isEditMode ? (
-          <>
-            <div className="userProfileData">
-              <table>
-                <tr>
-                  <td style={{ maxWidth: "5rem" }}>
-                    <h5>About</h5>
-                    <hr style={{ width: "24rem" }} />
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Full Name</td>
-                  <td>:</td>
-                  <td>{name}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Age</td>
-                  <td>:</td>
-                  <td>{age}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Date of Birth </td>
-                  <td>:</td>
-                  <td>{dob}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Gender</td>
-                  <td>:</td>
-                  <td>{gender}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Category</td>
-                  <td>:</td>
-                  <td>{category}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Father's Name </td>
-                  <td>:</td>
-                  <td>{fatherName}</td>
-                </tr>
-                <br />
-                <br />
-                <tr>
-                  <td style={{ maxWidth: "5rem" }}>
-                    <h5>Communication Details</h5>
-                    <hr style={{ width: "47rem" }} />
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Permanent Address{" "}
-                  </td>
-                  <td>:</td>
-                  <td>{permanentAddress}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Current Address{" "}
-                  </td>
-                  <td>:</td>
-                  <td>{currentAddress}</td>
-                </tr>
-
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Mobile Number </td>
-                  <td>:</td>
-                  <td>{mobile}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Alternate Mobile Number{" "}
-                  </td>
-                  <td>:</td>
-                  <td>{altMobile}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Nationality</td>
-                  <td>:</td>
-                  <td>{nationality}</td>
-                </tr>
-                <br />
-                <br />
-                <tr>
-                  <td style={{maxWidth:'10rem'}}>
-                    <h5>Additional Details</h5>
-                    <hr style={{width:'18rem'}}/>
-                  </td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>Martial Status </td>
-                  <td>:</td>
-                  <td>{married}</td>
-                </tr>
-                <tr>
-                  <td style={{ color: "rgb(83, 86, 101)" }}>
-                    Disablity (if any){" "}
-                  </td>
-                  <td>:</td>
-                  <td>{disability}</td>
-                </tr>
-              </table>
+      {isEditMode ? (
+        <>
+          {/* <ImageUploader user={user} type={type} /> */}
+          <div
+            style={{ width: "70%" }}
+            className="mr-20  mt-4 flex-1 ml-20 bg-white shadow overflow-hidden sm:rounded-lg"
+          >
+            <div className="flex space-x-3 px-4 py-5 sm:px-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                {" "}
+                Personal Details
+              </h3>
             </div>
-          </>
-        ) : (
-          <>
-            <div className="userProfileData">
-              <form
-                style={{ padding: "0px", margin: "0px", fontSize: "medium" }}
-                onSubmit={handleSubmit}
-              >
-                <table>
-                  <tr>
-                    <td style={{maxWidth : '5rem'}}>
-                  <h4>About</h4>
-                  <hr style={{width: '33rem'}}/>
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="name">My name:</label>
-                    </td>
-                    <td>
+            <form
+              className="meraForm"
+              style={{ padding: "0rem", margin: "0rem", width: "100%" }}
+              onSubmit={handleSubmit}
+            >
+              <div className="border-t border-gray-300">
+                <dl>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Full name
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
                         type="text"
                         id="name"
@@ -344,28 +219,26 @@ export default function Profile({ user, type }) {
                         value={formValues.name}
                         onChange={handleInputChange}
                       />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="age">Age:</label>
-                    </td>
-                    <td>
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">
+                      Father's Name
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
                         type="text"
-                        id="age"
-                        name="age"
-                        pattern="[0-9]{1,3}"
-                        value={formValues.age}
+                        id="fathername"
+                        name="fathername"
+                        value={formValues.fathername}
                         onChange={handleInputChange}
                       />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="dob">Date of Birth:</label>
-                    </td>
-                    <td>
+                    </dd>
+                  </div>
+                  <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Date of Birth
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
                         type="date"
                         id="dob"
@@ -373,13 +246,12 @@ export default function Profile({ user, type }) {
                         value={formValues.dob}
                         onChange={handleInputChange}
                       />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="gender">Gender:</label>
-                    </td>
-                    <td>
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">
+                      Gender
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <select
                         id="gender"
                         name="gender"
@@ -391,13 +263,26 @@ export default function Profile({ user, type }) {
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>
                       </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="category">Category:</label>
-                    </td>
-                    <td>
+                    </dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Nationality
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="text"
+                        id="nationality"
+                        name="nationality"
+                        value={formValues.nationality}
+                        onChange={handleInputChange}
+                      />
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">
+                      Category
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <select
                         id="category"
                         name="category"
@@ -410,267 +295,13 @@ export default function Profile({ user, type }) {
                         <option value="ST">ST</option>
                         <option value="OBC">OBC</option>
                       </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="fathername">Father's Name:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="fathername"
-                        name="fathername"
-                        value={formValues.fathername}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label htmlFor="nationality">Nationality:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="nationality"
-                        name="nationality"
-                        value={formValues.nationality}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <br/>
-                  <br />
-                  <tr>
-                    <td style={{maxWidth:'10rem'}}>
-                      <h4>Communication Details</h4>
-                      <hr style={{width:'30rem'}}/>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="communication_address">Address:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="communication_address"
-                        name="communication_address"
-                        value={formValues.communication_address}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="communication_country">Country:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="communication_country"
-                        name="communication_country"
-                        value={formValues.communication_country}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="communication_state">State:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="communication_state"
-                        name="communication_state"
-                        value={formValues.communication_state}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="communication_city">City:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="communication_city"
-                        name="communication_city"
-                        value={formValues.communication_city}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label htmlFor="communication_pincode">Pincode:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="communication_pincode"
-                        name="communication_pincode"
-                        value={formValues.communication_pincode}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <br />
-                  <br />
-                  <tr>
-                    <td style={{maxWidth:'5rem'}}>
-                  <h4>Permanent Address</h4>
-                  <hr style={{width : '33rem'}}/>
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="permanent_address">Address:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="permanent_address"
-                        name="permanent_address"
-                        value={formValues.permanent_address}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="permanent_country">Country:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="permanent_country"
-                        name="permanent_country"
-                        value={formValues.permanent_country}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="permanent_state">State:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="permanent_state"
-                        name="permanent_state"
-                        value={formValues.permanent_state}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="permanent_city">City:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="permanent_city"
-                        name="permanent_city"
-                        value={formValues.permanent_city}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <label htmlFor="permanent_pincode">Pincode:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="permanent_pincode"
-                        name="permanent_pincode"
-                        value={formValues.permanent_pincode}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <br />
-                  <br />
-                  <tr>
-                    <td style={{maxWidth:'5rem'}}>
-                  <h5>Contact Details</h5>
-                  <hr style={{width : '33rem'}}/>
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="mobile">Mobile Number:</label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="mobile"
-                        name="mobile"
-                        value={formValues.mobile}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="altmobile">
-                        Alternate Mobile Number:
-                      </label>
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        id="altmobile"
-                        name="altmobile"
-                        value={formValues.altmobile}
-                        onChange={handleInputChange}
-                      />
-                    </td>
-                  </tr>
-                  <br />
-                  <br />
-                  <tr>
-                    <td style={{maxWidth:'5rem'}}>
-                  <h4>Other details</h4>
-                  <hr style={{width : '33rem'}}/>
-
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="disability">Disability:</label>
-                    </td>
-                    <td>
-                      <select
-                        defaultValue={formValues.disability}
-                        id="disability"
-                        name="disability"
-                        value={formValues.disability}
-                        onChange={handleInputChange}
-                      >
-                        <option value="">Please select</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label htmlFor="married">Marital Status:</label>
-                    </td>
-                    <td>
+                    </dd>
+                  </div>
+                  <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Married status
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <select
                         id="married"
                         name="married"
@@ -682,16 +313,440 @@ export default function Profile({ user, type }) {
                         <option value="Unmarried">Unmarried</option>
                         <option value="Divorced">Divorced</option>
                       </select>
-                    </td>
-                  </tr>
-                  <br />
-                  <button type="submit">Submit</button>
-                </table>
+                    </dd>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Disablity
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <select
+                        defaultValue={formValues.disability}
+                        id="disability"
+                        name="disability"
+                        value={formValues.disability}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Please select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">Age</dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <input
+                        type="text"
+                        id="age"
+                        name="age"
+                        pattern="[0-9]{1,3}"
+                        value={formValues.age}
+                        onChange={handleInputChange}
+                      />
+                    </dd>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      <button
+                        style={{
+                          border: "1px solid grey",
+                          padding: "0.4rem",
+                          width: "4rem",
+                          color: "white",
+                          backgroundColor: "black",
+                        }}
+                        type="submit"
+                      >
+                        Save
+                      </button>
+                      <span style={{ marginLeft: "2rem" }}></span>
+                      <button
+                        style={{
+                          border: "1px solid grey",
+                          padding: "0.4rem",
+                          width: "4rem",
+                          color: "white",
+                          backgroundColor: "#b54141",
+                        }}
+                        onClick={handleClose}
+                      >
+                        Cancel
+                      </button>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </form>
+          </div>
+        </>
+      ) : (
+        <>
+          <div
+            style={{ width: "70%" }}
+            className="mr-20  mt-4 flex-1 ml-20 bg-white shadow overflow-hidden sm:rounded-lg"
+          >
+            <div className="flex space-x-3 px-4 py-5 sm:px-6">
+              <h3 className="text-lg leading-6 font-medium text-gray-900">
+                {" "}
+                Personal Details <span
+                  style={{ marginLeft: "1.5rem" }}
+                ></span>{" "}
+                <button
+                  style={{ fontSize: "medium", color: "rgba(59, 50, 179)" }}
+                  onClick={handleEdit}
+                >
+                  <FaPen />
+                </button>
+              </h3>
+            </div>
+            <div className="border-t border-gray-300">
+              <dl>
+                <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Full name
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {name}
+                  </dd>
+
+                  <dt className="text-sm font-medium text-gray-500">
+                    Father's Name
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {fatherName}
+                  </dd>
+                </div>
+                <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Date of Birth
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {dob}
+                  </dd>
+
+                  <dt className="text-sm font-medium text-gray-500">Gender</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {gender}
+                  </dd>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Nationality
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {nationality}
+                  </dd>
+
+                  <dt className="text-sm font-medium text-gray-500">
+                    Category
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {category}
+                  </dd>
+                </div>
+                <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">
+                    Married status
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {married}
+                  </dd>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Disablity
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {disability}
+                  </dd>
+                </div>
+                <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                  <dt className="text-sm font-medium text-gray-500">Age</dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {age}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </>
+      )}
+{/* <ImageUploader user={user} type={type} /> */}
+      {isEdit2 ? (
+        <>
+          <div style={{ width: "70%" }} className="flex my-10 mx-20">
+            <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+              <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  Communication Details
+                  <span style={{ marginLeft: "1.5rem" }}></span>
+                  {/* <button
+                  style={{ fontSize: "medium", color: "rgba(59, 50, 179)" }}
+                  onClick={handleEdit2}
+                >
+                  <FaPen />
+                </button> */}
+                </h3>
+              </div>
+              <form
+                className="meraForm"
+                style={{ padding: "0rem", margin: "0rem", width: "100%" }}
+                onSubmit={handleSubmit}
+              >
+                <div className="border-t border-gray-300">
+                  <dl>
+                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Address for communication
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="communication_address"
+                          name="communication_address"
+                          value={formValues.communication_address}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+
+                      <dt className="text-sm font-medium text-gray-500">
+                        City
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="communication_city"
+                          name="communication_city"
+                          value={formValues.communication_city}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        State
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="communication_state"
+                          name="communication_state"
+                          value={formValues.communication_state}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+
+                      <dt className="text-sm font-medium text-gray-500">
+                        PIN Code
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="communication_pincode"
+                          name="communication_pincode"
+                          value={formValues.communication_pincode}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Permanent Address
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="permanent_address"
+                          name="permanent_address"
+                          value={formValues.permanent_address}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+
+                      <dt className="text-sm font-medium text-gray-500">
+                        City
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="permanent_city"
+                          name="permanent_city"
+                          value={formValues.permanent_city}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        State
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="permanent_state"
+                          name="permanent_state"
+                          value={formValues.permanent_state}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+
+                      <dt className="text-sm font-medium text-gray-500">
+                        PIN Code
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="permanent_pincode"
+                          name="permanent_pincode"
+                          value={formValues.permanent_pincode}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+                    </div>
+                    <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <dt className="text-sm font-medium text-gray-500">
+                        Mobile Number
+                      </dt>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <input
+                          type="text"
+                          id="mobile"
+                          name="mobile"
+                          value={formValues.mobile}
+                          onChange={handleInputChange}
+                        />
+                      </dd>
+                      {/* {altMobile && ( */}
+                      {/* <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6"> */}
+                      {/* <dt className="text-sm font-medium text-gray-500"> */}
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        <button
+                          style={{
+                            border: "1px solid grey",
+                            padding: "0.4rem",
+                            width: "4rem",
+                            color: "white",
+                            backgroundColor: "black",
+                          }}
+                          type="submit"
+                        >
+                          Save
+                        </button>
+                        {/* </dt> */}
+                        {/* <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"> */}
+                        <span style={{ marginLeft: "2rem" }}></span>
+
+                        <button
+                          style={{
+                            border: "1px solid grey",
+                            padding: "0.4rem",
+                            width: "4rem",
+                            color: "white",
+                            backgroundColor: "#b54141",
+                          }}
+                          onClick={handleClose2}
+                        >
+                          Cancel
+                        </button>
+                      </dd>
+                      {/* </div> */}
+                      {/* )} */}
+                    </div>
+                  </dl>
+                </div>
               </form>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div style={{ width: "70%" }} className="flex my-10 mx-20">
+            <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
+              <div className="flex space-x-3 px-4 py-5 sm:px-6">
+                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                  Communication Details
+                  <span style={{ marginLeft: "1.5rem" }}></span>
+                  <button
+                    style={{ fontSize: "medium", color: "rgba(59, 50, 179)" }}
+                    onClick={handleEdit2}
+                  >
+                    <FaPen />
+                  </button>
+                </h3>
+              </div>
+              <div className="border-t border-gray-300">
+                <dl>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Address for communication
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {communicationAddress}
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">City</dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {communicationCity}
+                    </dd>
+                  </div>
+                  <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">State</dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {communicationState}
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">
+                      PIN Code
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {communicationPincode}
+                    </dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Permanent Address
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {permanentAddress}
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">City</dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {permanentCity}
+                    </dd>
+                  </div>
+                  <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">State</dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {permanentState}
+                    </dd>
+
+                    <dt className="text-sm font-medium text-gray-500">
+                      PIN Code
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {permanentPincode}
+                    </dd>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                    <dt className="text-sm font-medium text-gray-500">
+                      Mobile Number
+                    </dt>
+                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                      {mobile}
+                    </dd>
+                    {/* {altMobile && ( */}
+                    {/* <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6"> */}
+                    {/* <dt className="text-sm font-medium text-gray-500">
+                  Alternate Mobile Number
+                </dt>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                  {altMobile}
+                </dd> */}
+                    {/* </div> */}
+                    {/* )} */}
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }
