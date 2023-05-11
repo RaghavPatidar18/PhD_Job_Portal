@@ -126,7 +126,7 @@ function App({ user, type }) {
                   Logout ?
               </h3>
               <p class="mt-2 text-gray-500 dark:text-gray-400">
-                  Are you sure you wish to post the job ?
+                  Are you sure you wish to logout ?
               </p>
           </div>
           <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
@@ -198,7 +198,7 @@ function App({ user, type }) {
           {type !== "" && type !== "admin" && <Nav>
             <NavDropdown title={<FontAwesomeIcon icon={faUser} />} id="collasible-nav-dropdown">
               {type !== "institute" && <NavDropdown.Item><Link to="/profile" style={{ color: 'black', textDecoration: 'none' }}>Profile</Link></NavDropdown.Item>}
-              {type !== "institute" && <NavDropdown.Item><Link to="/account" style={{ color: 'black', textDecoration: 'none' }}>Account</Link></NavDropdown.Item>}
+              
               {type === "student" && <NavDropdown.Item><Link to={`/application/${user._id}`} style={{ color: 'black', textDecoration: 'none' }}>My Applications</Link></NavDropdown.Item>}
               {type === "institute" && <NavDropdown.Item><Link to="/job-postings" style={{ color: 'black', textDecoration: 'none' }}>My Job Posting</Link></NavDropdown.Item>}
               <NavDropdown.Divider />

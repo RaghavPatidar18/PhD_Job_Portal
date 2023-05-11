@@ -61,7 +61,7 @@ function JobDetails({ user, type }) {
         if (data.applied === true && type === "student") {
           setApplication_id(data.application_id);
           console.log(data.application_id);
-          setButtonText("Withdraw Application");
+          setButtonText("Withdraw");
         } else if (data.applied === false && type === "student") {
           setButtonText("Apply");
         }
@@ -107,7 +107,7 @@ function JobDetails({ user, type }) {
       // console.log("rgi");
       const student_id = user._id;
       history(`/application-form/${id}/${student_id}`);
-    }else if(buttonText === "Withdraw Application"){
+    }else if(buttonText === "Withdraw"){
       handleShowWithdraw();
     }
   }
