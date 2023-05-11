@@ -92,12 +92,12 @@ const history=useNavigate();
       por: porData,
       reference: referenceData
     };
-    const d=Date.now();
-    let date_time=new Date(d);
-    let date=date_time.getDate();
-    let month=date_time.getMonth();
-    let year=date_time.getYear();
-    let today=year+"-"+month+"-"+date;
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
 
     const lastUpdateDate=today;
     const deleted=false;

@@ -116,7 +116,26 @@ function SubscribePopup(props) {
   };
   return (
     <Modal show={props.show} onHide={props.onClose}>
-      <Modal.Header closeButton>
+    <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
+        <div class="text-center">
+            <h3 class="text-lg font-medium text-gray-800 dark:text-white" id="modal-title">
+                Subscribe
+            </h3>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">
+                Subscribe to get updated !
+            </p>
+        </div>
+        <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
+            <button onClick={handleSubscribe} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                Subscribe
+            </button>
+
+            <button onClick={handleUnsubscribe} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                Unsubscribe
+            </button>
+        </div>
+    </div>
+      {/*<Modal.Header closeButton>
         <Modal.Title>Subscribe</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -135,7 +154,7 @@ function SubscribePopup(props) {
 
 
         </Form>
-      </Modal.Body>
+      </Modal.Body>*/}
     </Modal>
   );
 }
