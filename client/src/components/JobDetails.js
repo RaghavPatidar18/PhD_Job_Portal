@@ -40,7 +40,7 @@ function JobDetails({ user, type }) {
     // console.log(user.email);
     if (user.email === undefined) {
       // console.log("here at email null");
-      setButtonText("Login/Register to Apply");
+      setButtonText("Login/Register");
       url = `/api/job-details/${id}/""`;
     } else {
       // console.log("sdfbioe");
@@ -101,8 +101,8 @@ function JobDetails({ user, type }) {
 
   function applyClicked() {
     // console.log("heheheheh");
-    if (buttonText === "Login/Register to Apply") {
-      history("/choose-profile");
+    if (buttonText === "Login/Register") {
+      history("/");
     } else if (buttonText === "Apply") {
       // console.log("rgi");
       const student_id = user._id;
