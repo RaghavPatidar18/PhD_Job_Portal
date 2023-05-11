@@ -14,7 +14,7 @@ function PostedJobs({user,type}){
   //const { id } = useParams();
   //console.log("here at job postings");
   const [job, setJob] = useState([]);
-  const url = `http://localhost:4000/jobPostings/${user}`;
+  const url = `/jobPostings/${user}`;
   const [selectAll,setSelectAll]=useState(false);
   const history = useNavigate();
   const [show,setShow]=useState(false);

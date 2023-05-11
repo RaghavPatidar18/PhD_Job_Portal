@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const Personal = require("../../model/personalSchema");
+const multer = require('multer');
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const route = express.Router();
 route.use(cors());
@@ -66,5 +69,36 @@ route.post("/personal", async (req, res) => {
     res.status(500).send({status : 500, err})
   }
 });
+
+route.get("/getMyImage/:id" , async(req, res)=>{
+  const {id} = req.params ;
+  const data = Personal.findOne({email : id});
+  if(!data){
+    res.json({ status: 200, personals: data });
+  }else{
+    res.json({status : 404})
+  }
+});
+
+route.post('/upload-image/:id',async (req, res) => {
+  const {image} = req.body ;
+  const {id} = req.params ;
+  try {
+    const filter = {
+      email : id,
+    }
+    const update = {
+      profile_image_url : image,
+    }
+    // console.log(filter);
+    // console.log(update);
+    await Personal.findOneAndUpdate(filter, update);
+    res.status(200).send({status : 200, StatusMessage : 'ok'});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error uploading image.');
+  }
+});
+
 
 module.exports = route;

@@ -14,7 +14,7 @@ function AppliedJob({user,type}){
 
   const { id } = useParams();
   const [job, setJob] = useState([]);
-  const url = `http://localhost:4000/jobStatus/${id}`;
+  const url = `/api/jobStatus/${id}`;
 
   const history = useNavigate();
 

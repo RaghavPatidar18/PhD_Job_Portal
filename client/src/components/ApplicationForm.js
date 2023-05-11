@@ -17,7 +17,7 @@ function ApplicationForm({type}){
 
   //console.log(job_id);
   //console.log(user_id);
-  const url=`http://localhost:4000/application-form/${job_id}/${user_id}`;
+  const url=`/application-form/${job_id}/${user_id}`;
   const [jobFields,setJobFields]=useState({});
   const [dataRecieved,setDataRecieved]=useState(false);
   const history = useNavigate();
@@ -63,7 +63,7 @@ function ApplicationForm({type}){
 
       var publicationErrorArray=[];
       console.log("trying to read the values of publis")
-      console.log(data.dataObject.publisher);
+      console.log(data.dataObject.publication);
       data.dataObject.publication.map((pub,index)=>{
         publicationErrorArray.push(false);
       });
@@ -78,6 +78,19 @@ function ApplicationForm({type}){
 
 
     }
+
+    // const res=await fetch(url,{
+    //   method: "GET",
+    //   headers: {"Content-Type": "application/json",}
+    // });
+    // const data=await res.json();
+    // if(data.status===200){
+    //   setJobFields(data.dataObject);
+    //   console.log("sdnio");
+    //   setDataRecieved(true);
+    //   //onsole.log(jobFields);
+    //   console.log(data.dataObject);
+    // }
   }
 }
 
@@ -196,7 +209,7 @@ function submitClicked(){
   dataToSend.por=por;
   dataToSend.reference=reference;
 
-  axios.post(url, {dataToSend})
+  axios.post(`/application-form/${job_id}/${user_id}`, {dataToSend})
     .then((response) => {
       if(response.data.status===200){
         console.log("submitted");
@@ -477,10 +490,10 @@ const checkFields = () => {
   var flag=0;
   jobFields.personal.map((p,index)=>{
     if(flag===0){
-      Object.values(p).map((p_value)=>{
-        if(flag===0){
+      Object.keys(p).map((p_value)=>{
+        if(flag===0 && jobFields.jobFields.personal[p_value]===true){
           console.log(p_value);
-          if(p_value===undefined || p_value.toString()===""){
+          if(p[p_value]===undefined || p[p_value].toString()===""){
             flag=1;
           }
         }
@@ -496,7 +509,7 @@ const checkFields = () => {
     jobFields.academic.map((p,index)=>{
       if(flag===0){
         Object.keys(p).map((p_value)=>{
-          if(flag===0){
+          if(flag===0 && jobFields.jobFields.academic[p_value]===true){
             console.log(p_value);
             if(p[p_value]===undefined ||p[p_value].toString()===""){
               console.log("this field is empty");
@@ -520,10 +533,10 @@ const checkFields = () => {
   if(flag===0){
     jobFields.publication.map((p,index)=>{
       if(flag===0){
-        Object.values(p).map((p_value)=>{
-          if(flag===0){
+        Object.keys(p).map((p_value)=>{
+          if(flag===0 && jobFields.jobFields.publication[p_value]===true){
             console.log(p_value);
-            if(p_value===undefined || p_value.toString()===""){
+            if(p[p_value]===undefined || p[p_value].toString()===""){
               flag=1;
             }
           }
@@ -539,10 +552,10 @@ const checkFields = () => {
   if(flag===0){
     jobFields.experience.map((p,index)=>{
       if(flag===0){
-        Object.values(p).map((p_value)=>{
-          if(flag===0){
+        Object.keys(p).map((p_value)=>{
+          if(flag===0 && jobFields.jobFields.experience[p_value]===true){
             console.log(p_value);
-            if(p_value===undefined || p_value.toString()===""){
+            if(p[p_value]===undefined || p[p_value].toString()===""){
               flag=1;
             }
           }
@@ -556,11 +569,11 @@ const checkFields = () => {
   }
   if(flag===0){
     jobFields.reference.map((p,index)=>{
-      if(flag===0){
-        Object.values(p).map((p_value)=>{
-          if(flag===0){
+      if(flag===0 ){
+        Object.keys(p).map((p_value)=>{
+          if(flag===0 && jobFields.jobFields.reference[p_value]===true){
             console.log(p_value);
-            if(p_value===undefined || p_value.toString()===""){
+            if(p[p_value]===undefined || p[p_value].toString()===""){
               flag=1;
             }
           }
@@ -575,11 +588,11 @@ const checkFields = () => {
 
   if(flag===0){
     jobFields.por.map((p,index)=>{
-      if(flag===0){
-        Object.values(p).map((p_value)=>{
-          if(flag===0){
+      if(flag===0 ){
+        Object.keys(p).map((p_value)=>{
+          if(flag===0 && jobFields.jobFields.por[p_value]===true){
             console.log(p_value);
-            if(p_value===undefined || p_value.toString()===""){
+            if(p[p_value]===undefined || p[p_value].toString()===""){
               flag=1;
             }
           }
@@ -615,64 +628,84 @@ const checkFields = () => {
     setPersonalError(true);
   }
 
-
-  var tenthUrl=jobFields.academic[0].marksheet10;
-  console.log(tenthUrl);
-    console.log(typeof(tenthUrl));
-  if(tenthUrl.substr(0,7)==="https://" || tenthUrl.substr(0,8)==="https://"){
-    console.log("tenth marksheet url is ok");
-    setTenthMarksheetError(false);
-  }else{
-    setTenthMarksheetError(true);
+  if(jobFields.jobFields.academic.marksheet10===true){
+    var tenthUrl=jobFields.academic[0].marksheet10;
+    console.log(tenthUrl);
+      console.log(typeof(tenthUrl));
+    if(tenthUrl.substr(0,7)==="https://" || tenthUrl.substr(0,8)==="https://"){
+      console.log("tenth marksheet url is ok");
+      setTenthMarksheetError(false);
+    }else{
+      setTenthMarksheetError(true);
+    }
   }
 
-  var twelfthUrl=jobFields.academic[0].marksheet12;
-  if(twelfthUrl.substr(0,7)==="https://" || twelfthUrl.substr(0,8)==="https://"){
-    console.log("twelfth marksheet url is ok");
-    setTwelfthMarksheetError(false);
-  }else{
-    setTwelfthMarksheetError(true);
+
+  if(jobFields.jobFields.academic.marksheet12===true){
+    var twelfthUrl=jobFields.academic[0].marksheet12;
+    if(twelfthUrl.substr(0,7)==="https://" || twelfthUrl.substr(0,8)==="https://"){
+      console.log("twelfth marksheet url is ok");
+      setTwelfthMarksheetError(false);
+    }else{
+      setTwelfthMarksheetError(true);
+    }
   }
 
-  var btechUrl=jobFields.academic[0].marksheetbtechurl;
-  if(btechUrl.substr(0,7)==="https://" || btechUrl.substr(0,8)==="https://"){
-    console.log("btech marksheet url is ok");
-    setBtechMarksheetError(false);
-  }else{
-    setBtechMarksheetError(true);
+
+  if(jobFields.jobFields.academic.marksheetbtechurl===true){
+    var btechUrl=jobFields.academic[0].marksheetbtechurl;
+    if(btechUrl.substr(0,7)==="https://" || btechUrl.substr(0,8)==="https://"){
+      console.log("btech marksheet url is ok");
+      setBtechMarksheetError(false);
+    }else{
+      setBtechMarksheetError(true);
+    }
   }
 
-  var mtechUrl=jobFields.academic[0].marksheetmtechurl;
-  if(mtechUrl.substr(0,7)==="https://" || mtechUrl.substr(0,8)==="https://"){
-    console.log("mtech marksheet url is ok");
-    setMtechMarksheetError(false);
-  }else{
-    setMtechMarksheetError(true);
+
+  if(jobFields.jobFields.academic.marksheetmtechurl===true){
+    var mtechUrl=jobFields.academic[0].marksheetmtechurl;
+    if(mtechUrl.substr(0,7)==="https://" || mtechUrl.substr(0,8)==="https://"){
+      console.log("mtech marksheet url is ok");
+      setMtechMarksheetError(false);
+    }else{
+      setMtechMarksheetError(true);
+    }
   }
+
 
   jobFields.publication.map((pub,index)=>{
-    var url=pub.url;
-    if(url.substr(0,7)==="https://" || url.substr(0,8)==="https://"){
-      console.log(`publication url ${index} is ok`);
-      var publicationErrorArray=publicationError;
-      publicationErrorArray[index]=false;
-      setPublicationError(publicationErrorArray);
-    }else{
-      var publicationErrorArray=publicationError;
-      publicationErrorArray[index]=true;
-      setPublicationError(publicationErrorArray);
+    if(jobFields.jobFields.publication.url===true){
+      var url=pub.url;
+      if(url.substr(0,7)==="https://" || url.substr(0,8)==="https://"){
+        console.log(`publication url ${index} is ok`);
+        var publicationErrorArray=publicationError;
+        publicationErrorArray[index]=false;
+        setPublicationError(publicationErrorArray);
+      }else{
+        var publicationErrorArray=publicationError;
+        publicationErrorArray[index]=true;
+        setPublicationError(publicationErrorArray);
+      }
     }
+
   });
 
   jobFields.reference.map((ref,index)=>{
-    var email=ref.referenceemail;
-    if(email.toLowerCase()===email){
-      if(email.includes("@") && email.includes(".")){
-        if(email.indexOf("@")!==0 && email.indexOf("@")<email.indexOf(".") && email.indexOf(".")!==email.length-1){
-          console.log(`reference email ${index} is right`);
-          var referenceErrorArray=referenceError;
-          referenceErrorArray[index]=false;
-          setReferenceError(referenceErrorArray);
+    if(jobFields.jobFields.reference.referenceemail===true){
+      var email=ref.referenceemail;
+      if(email.toLowerCase()===email){
+        if(email.includes("@") && email.includes(".")){
+          if(email.indexOf("@")!==0 && email.indexOf("@")<email.indexOf(".") && email.indexOf(".")!==email.length-1){
+            console.log(`reference email ${index} is right`);
+            var referenceErrorArray=referenceError;
+            referenceErrorArray[index]=false;
+            setReferenceError(referenceErrorArray);
+          }else{
+            var referenceErrorArray=referenceError;
+            referenceErrorArray[index]=true;
+            setReferenceError(referenceErrorArray);
+          }
         }else{
           var referenceErrorArray=referenceError;
           referenceErrorArray[index]=true;
@@ -683,11 +716,8 @@ const checkFields = () => {
         referenceErrorArray[index]=true;
         setReferenceError(referenceErrorArray);
       }
-    }else{
-      var referenceErrorArray=referenceError;
-      referenceErrorArray[index]=true;
-      setReferenceError(referenceErrorArray);
     }
+
   });
 
 

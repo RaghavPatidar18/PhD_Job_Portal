@@ -98,7 +98,7 @@ function Root() {
 
        <Route path="/" element={<><Navbar user={user} type={userType}/> <Job /></>} />
       <Route path="/profile" element={<><PrivateRoute><Navbar user={user} type={userType}/> <Profile user={user.email} type={userType}/></PrivateRoute></>}/>
-      <Route path="/job-details/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></PrivateRoute></> }/>
+      <Route path="/job-details/:id" element={<><Navbar user={user} type={userType}/> <JobDetails user={user} type={userType}/></> }/>
         <Route path="/job-post" element={<><PrivateRoute><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></PrivateRoute></> }/>
     <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
@@ -107,7 +107,7 @@ function Root() {
         <Route path="/password-reset" element={<PasswordReset />} />
         <Route path="/forgotpassword/:id/:token/:usertype" />
 
-      <Route path="/experiences" element={<><PrivateRoute><Navbar user={user} type={userType}/> <AllExperiences /></PrivateRoute></>} />
+      <Route path="/experiences" element={<><PrivateRoute><Navbar user={user} type={userType} /> <AllExperiences /></PrivateRoute></>} />
       <Route path="/interviewtips" element={<><PrivateRoute><Navbar user={user} type={userType}/> <InterviewTips /></PrivateRoute></>} />
 
         <Route path="/application/:id" element={<><PrivateRoute><Navbar user={user} type={userType}/> <AppliedJob user={user} type={userType}/></PrivateRoute></>} />
@@ -119,8 +119,8 @@ function Root() {
 
         <Route path="/comment/:jobPostingId" element={<PrivateRoute><CommentSection /></PrivateRoute>} />
         <Route path="/allcomment/:exp_id" element={<PrivateRoute><ExpComments /></PrivateRoute>} />
-        <Route path="/registerManully" element={<PrivateRoute><NewInstitute /></PrivateRoute>} />
-        <Route path="/admin" element={<PrivateRoute><AddInstitute /></PrivateRoute>} />
+        <Route path="/registerManully" element={<NewInstitute />} />
+        <Route path="/admin" element={<PrivateRoute><Navbar user={user} type={userType}/><AddInstitute /></PrivateRoute>} />
 
         <Route path="checking" element={<><CustomizableForm /></>} />
         <Route path="/update-job/:id" element={<><Navbar user={user} type={userType}/> <PostJob user={user} type={userType}/></> }/>

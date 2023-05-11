@@ -10,7 +10,7 @@ const personalSchema = new Schema({
     profile_image_url : String,
     dob : String,
     category : String,
-    disability : String,
+    disability : String, 
     married : String,
     nationality : String,
     gender : String,

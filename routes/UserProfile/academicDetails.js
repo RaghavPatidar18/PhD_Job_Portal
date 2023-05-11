@@ -30,39 +30,49 @@ route.get("/academic/:id", async (req, res) => {
 
 route.post("/academic", async (req, res) => {
   try {
-    const { formValues, user } = req.body;
+    const { formValues, user , isedit1, isedit2, isedit3, isedit4} = req.body;
     const filter = { email: user };
     console.log(formValues);
-    const update = {
-        board10 :formValues.board10,
-        percentageformat10 :formValues.percentageformat10,
-        percentage10 :formValues.percentage10,
-        year10 :formValues.year10,
-        remarks10 :formValues.remarks10,
-
-        board12 :formValues.board12,
-        percentageformat12 :formValues.percentageformat12,
-        percentage12 :formValues.percentage12,
-        year12 : formValues.year12 ,
-        remarks12 :formValues.remarks12,
-    
-        collegebtech :formValues.collegebtech,
-        branchbtech :formValues.branchbtech,
-        percentageformatbtech :formValues.percentageformatbtech,
-        percentagebtech :formValues.percentagebtech,
-        yearbtech : formValues.yearbtech ,
-        remarksbtech :formValues.remarksbtech,
-    
+    var update ;
+    if(isedit1){
+      update={
         collegemtech :formValues.collegemtech,
         branchmtech :formValues.branchmtech,
         percentageformatmtech :formValues.percentageformatmtech,
         percentagemtech :formValues.percentagemtech,
         yearmtech : formValues.yearmtech ,
         remarksmtech :formValues.remarksmtech,
-
-        isphdcompleted :formValues.isphdcompleted,
-        phdremarks :formValues.phdremarks,
-    };
+      }
+    }
+    if(isedit2){
+      update={
+        collegebtech :formValues.collegebtech,
+        branchbtech :formValues.branchbtech,
+        percentageformatbtech :formValues.percentageformatbtech,
+        percentagebtech :formValues.percentagebtech,
+        yearbtech : formValues.yearbtech ,
+        remarksbtech :formValues.remarksbtech,
+      }
+    }
+    if(isedit3){
+      update={
+        board12 :formValues.board12,
+        percentageformat12 :formValues.percentageformat12,
+        percentage12 :formValues.percentage12,
+        year12 : formValues.year12 ,
+        remarks12 :formValues.remarks12,
+      }
+    }
+    if(isedit4){
+      update={
+        board10 :formValues.board10,
+        percentageformat10 :formValues.percentageformat10,
+        percentage10 :formValues.percentage10,
+        year10 :formValues.year10,
+        remarks10 :formValues.remarks10,
+      }
+    }
+  
     await Academic.findOneAndUpdate(filter, update);
     res.status(201).send({status : 200});
   } catch (err) {

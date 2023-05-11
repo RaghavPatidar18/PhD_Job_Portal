@@ -179,7 +179,7 @@ function CustomizableForm({handleSubmit,updateForm}){
       <div style={{width:'75%', margin:'auto'}}>
         <form>
         <div>
-          <section class="max-w-7xl p-6 mx-auto rounded-md shadow-md dark:bg-gray-800" style={{marginTop:'40px',marginBottom:'40px',backgroundColor:'#87CEFA'}}>
+          <section class="max-w-7xl p-6 mx-auto rounded-md shadow-md dark:bg-gray-800" style={{marginTop:'40px',marginBottom:'40px',backgroundColor:'#'}}>
             <h2 class="text-lg font-bold text-gray-700 capitalize dark:text-white" style={{textAlign:'center'}}>CHOOSE CUSTOM FORM FIELDS</h2>
             <CustomFormPersonal getData={getData} collectDataPersonal={collectDataPersonal} updateForm={updateFormPersonal}/>
             <CustomFormAcademic getData={getData} collectDataAcademic={collectDataAcademic} updateForm={updateFormAcademic}/>

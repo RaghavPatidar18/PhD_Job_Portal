@@ -49,7 +49,7 @@ function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,inde
   const handleShow = ()=> setShow(true);
 
   function handleDelete(){
-    axios.post("http://localhost:4000/delete-job",{id})
+    axios.post("/delete-job",{id})
     .then((response)=> {
       if(response.data.status===200){
         console.log("deleted");

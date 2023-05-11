@@ -48,7 +48,7 @@ const history=useNavigate();
       isFirstRender.current=false;
 
       if(id!==undefined){
-        axios.get(`http://localhost:4000/updateJob/${id}`)
+        axios.get(`/updateJob/${id}`)
           .then((response)=>{
             if(response.data.status===200){
               const jobDetails=response.data.job;
@@ -118,7 +118,7 @@ const history=useNavigate();
     };
     console.log(job);
     if(id!==undefined){
-      axios.post("http://localhost:4000/updateJob", {job,id})
+      axios.post("/updateJob", {job,id})
       .then((response)=>{
         if(response.data.status===200){
           history("/");
@@ -128,7 +128,7 @@ const history=useNavigate();
     }else{
       const id=user._id
       axios
-        .post("http://localhost:4000/job-post", {job,id})
+        .post("/job-post", {job,id})
         .then((response) => {
           console.log("Job submitted");
           console.log("Job submitted");
@@ -283,6 +283,9 @@ const history=useNavigate();
   </div>
 </div>
 
+
+
+
 <div className="inputField">
   <div style={{ display: "flex", alignItems: "center" }}>
     <FontAwesomeIcon
@@ -306,12 +309,27 @@ const history=useNavigate();
     </FloatingLabel>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div className="inputField">
   <div style={{ display: "flex", alignItems: "center" }}>
     <FontAwesomeIcon
       icon={faFileAlt}
       className="input-icon"
-      style={{ marginRight: "5px", marginLeft: "10px", marginBottom: "0px" }}
+      style={{ marginRight: "17px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
     <FloatingLabel
@@ -321,7 +339,7 @@ const history=useNavigate();
       style={{ flex: 1 }}
     >
       <Form.Control
-        as="textarea"
+        type="text"
         placeholder="Job Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
@@ -335,12 +353,12 @@ const history=useNavigate();
     <FontAwesomeIcon
       icon={faGraduationCap}
       className="input-icon"
-      style={{ marginRight: "-7px", marginLeft: "10px", marginBottom: "0px" }}
+      style={{ marginRight: "10px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
-    <FloatingLabel controlId="floatingQualifications" label="Qualifications" className="mb-3" style={{ flex: 1 }}>
+    <FloatingLabel controlId="floatingQualifications" label="Qualifications" className="mb-3" style={{ flex: 5 }}>
       <Form.Control
-        as="textarea"
+        type="text"
         placeholder="Qualifications"
         value={qualifications}
         onChange={(e) => setQualifications(e.target.value)}
@@ -357,12 +375,12 @@ const history=useNavigate();
     <FontAwesomeIcon
       icon={faTasks}
       className="input-icon"
-      style={{ marginRight: "0px", marginLeft: "10px", marginBottom: "0px" }}
+      style={{ marginRight: "5px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
-    <FloatingLabel controlId="floatingResponsibilities" label="Responsibilities" className="mb-3" style={{ flex: 1 }}>
+    <FloatingLabel controlId="floatingResponsibilities" label="Responsibilities" className="mb" style={{ flex: 1 , marginLeft: "10px" , marginBottom:"20px" }}>
       <Form.Control
-        as="textarea"
+        type="text"
         placeholder="Responsibilities"
         value={responsibilities}
         onChange={(e) => setResponsibilities(e.target.value)}

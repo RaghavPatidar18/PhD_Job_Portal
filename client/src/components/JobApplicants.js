@@ -33,7 +33,7 @@ function JobApplicants({ user, type }) {
   const [mtechMin,setMtechMin]=useState(0);
   const [phdQualificationFilter,setPhdQualificationFilter]=useState("select");
 
-  const url = `http://localhost:4000/jobApplicants/${id}`;
+  const url = `/jobApplicants/${id}`;
   let count = 1;
 
   const history = useNavigate();
