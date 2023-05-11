@@ -1,60 +1,37 @@
 const express = require("express");
 const router = express.Router();
 const OtherDetail = require("../../model/otherDetailSchema");
-const { v4: uuidv4 } = require("uuid");
 
 // Fetch all resumes for a user
-router.get("/resumes/:id", async (req, res) => {
-    const {id} = req.params ;
-    try {
-    const data = await OtherDetail.findOne({ email: id});
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-    res.send(data.resume);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Server error");
+router.get("/fetch-resume/:id", async (req, res) => {
+  const { id } = req.params;
+  const data = await OtherDetail.findOne({ email: id });
+  if (!data) {
+    res.json({ status: 200, others : data });
+  } else {
+    res.json({ status: 501, others : data });
   }
 });
 
-// Delete a resume for a user
-router.delete("/resumes/:user/:id", async (req, res) => {
-  try {
-    const user = await OtherDetail.findOne({ email: req.params.user });
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-    const newResumes = user.resume.filter((resume1) => {
-      return resume1.id !== req.params.id;
-    });
-    user.resume = newResumes;
-    await user.save();
-    res.send(user.resume);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Server error");
-  }
-});
+
 
 // Upload a resume for a user
-router.post("/resumes/:user", async (req, res) => {
-  try {
-    const userdata = await OtherDetail.findOne({ email: req.params.user });
-    if (!userdata) {
-      return res.status(404).send("User not found");
+router.post("/upload-resume/:id", async (req, res) => {
+    const {id} = req.params ;
+  const {resume} = req.body ;
+  console.log(resume);
+  try{
+    const filter={
+        email : id,
     }
-    const newresume = {
-      id: uuidv4(),
-      name: req.body.name,
-      data: req.body.data,
-    };
-    userdata.resume.push(newresume);
-    await user.save();
-    res.send(user.resume);
-  } catch (error) {
+    const update = {
+        resume_url : resume,
+    }
+    await OtherDetail.findOneAndUpdate(filter, update);
+    res.status(200).send({status : 200, StatusMessage : 'ok'});
+  }catch(error){
     console.error(error);
-    res.status(500).send("Server error");
+    res.status(500).send('Error uploading resume.');
   }
 });
 

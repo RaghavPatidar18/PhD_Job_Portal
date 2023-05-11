@@ -78,12 +78,14 @@ export default function Profile({ user, type }) {
           <div style={{ display: "flex" }}>
             <div className="outer-container">
               <aside class="flex flex-col w-200 h-screen px-7 py-2 bg-white   rtl:border-2 dark:bg-gray-100 dark:border-gray-200">
+                <div style={{marginLeft : '1rem'}}>
                 <div class="relative mt-9">
                   <div
                     style={{
                       position: "relative",
                       display: "inline-block",
                       // opacity: isHovered ? 0.4 : 1,
+                      marginLeft : '1rem'
                     }}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
@@ -98,6 +100,8 @@ export default function Profile({ user, type }) {
                         height: "200px",
                         borderRadius: "50%",
                         marginLeft: "2rem",
+                        padding : '0',
+                        margin : '0',
                         marginBottom: "1rem",
                         opacity: isHovered ? "0.5" : "",
                       }}
@@ -108,13 +112,13 @@ export default function Profile({ user, type }) {
                           <button
                             style={{
                               position: "absolute",
-                              top: "70%",
-                              left: "58%",
-                              color: "white", 
+                              top: "50%",
+                              left: "50%",
+                              color: "white",
                               transform: "translate(-50%, -50%)",
-                              background: "black",
+                              background: "gray",
                               border: "1px solid white",
-                              padding: "8px",
+                              padding: "5px",
                               zIndex: "1rem",
                               borderRadius: "5rem",
                               width: "4rem",
@@ -160,14 +164,15 @@ export default function Profile({ user, type }) {
                   style={{
                     fontWeight: "550",
                     fontSize: "1rem",
-                    marginLeft: "2rem",
+                    // marginLeft: "1rem",
                     width: "100%",
+                    textDecoration : 'underline'
                   }}
                   class="px-8"
                 >
                   {name}
                 </p>
-
+                </div>
                 <div class="flex flex-col justify-between flex-1  mt-6">
                   <nav>
                     <Popup

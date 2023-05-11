@@ -4,12 +4,7 @@ const { Schema } = mongoose;
 const publicationSchema = new Schema({
     email : String,
     title : String,
-    authorlist : [
-        {
-            author : String,
-            author_id : String,
-        }
-    ],
+    authorlist : String,
     abstract : String,
     journal : String,
     volume : String,

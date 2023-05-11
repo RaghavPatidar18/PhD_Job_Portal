@@ -127,7 +127,7 @@ export default function Profile({ user, type }) {
         });
       }
     });
-  }, []);
+  }, [isEdit2, isEditMode]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -140,17 +140,16 @@ export default function Profile({ user, type }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     // save into database
-    axios
-      .post("/personal", { formValues, user })
-      .then((response) => {
-        if (response.data.status === 200) {
-          alert("Your data was saved");
-        } else {
-          alert("Please try again later!");
-        }
-      });
+    axios.post("/personal", { formValues, user }).then((response) => {
+      if (response.data.status === 200) {
+        console.log("Your data was saved");
+      } else {
+        alert("Please try again later!");
+      }
+    });
     setIsEditMode(false);
-    window.location.reload();
+    setIsEdit2(false);
+    // window.location.reload();
   };
   const handleEdit2 = () => {
     setIsEdit2(true);
@@ -212,7 +211,7 @@ export default function Profile({ user, type }) {
                 <dl>
                   <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                      Full name
+                      Full name<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -221,11 +220,12 @@ export default function Profile({ user, type }) {
                         name="name"
                         value={formValues.name}
                         onChange={handleInputChange}
+                        required
                       />
                     </dd>
 
                     <dt className="text-sm font-medium text-gray-500">
-                      Father's Name
+                      Father's Name<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -234,12 +234,13 @@ export default function Profile({ user, type }) {
                         name="fathername"
                         value={formValues.fathername}
                         onChange={handleInputChange}
+                        required
                       />
                     </dd>
                   </div>
                   <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                      Date of Birth
+                      Date of Birth<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -248,11 +249,12 @@ export default function Profile({ user, type }) {
                         name="dob"
                         value={formValues.dob}
                         onChange={handleInputChange}
+                        required
                       />
                     </dd>
 
                     <dt className="text-sm font-medium text-gray-500">
-                      Gender
+                      Gender<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <select
@@ -260,6 +262,7 @@ export default function Profile({ user, type }) {
                         name="gender"
                         value={formValues.gender}
                         onChange={handleInputChange}
+                        required
                       >
                         <option value="">Please select</option>
                         <option value="Male">Male</option>
@@ -270,7 +273,7 @@ export default function Profile({ user, type }) {
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                      Nationality
+                      Nationality<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -279,11 +282,12 @@ export default function Profile({ user, type }) {
                         name="nationality"
                         value={formValues.nationality}
                         onChange={handleInputChange}
+                        required
                       />
                     </dd>
 
                     <dt className="text-sm font-medium text-gray-500">
-                      Category
+                      Category<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <select
@@ -291,6 +295,7 @@ export default function Profile({ user, type }) {
                         name="category"
                         value={formValues.category}
                         onChange={handleInputChange}
+                        required
                       >
                         <option value="">Please select</option>
                         <option value="General">General</option>
@@ -302,7 +307,7 @@ export default function Profile({ user, type }) {
                   </div>
                   <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                      Married status
+                      Married status<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <select
@@ -310,6 +315,7 @@ export default function Profile({ user, type }) {
                         name="married"
                         value={formValues.married}
                         onChange={handleInputChange}
+                        required
                       >
                         <option value="">Please select</option>
                         <option value="Married">Married</option>
@@ -318,7 +324,7 @@ export default function Profile({ user, type }) {
                       </select>
                     </dd>
                     <dt className="text-sm font-medium text-gray-500">
-                      Disablity
+                      Disability<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <select
@@ -327,6 +333,7 @@ export default function Profile({ user, type }) {
                         name="disability"
                         value={formValues.disability}
                         onChange={handleInputChange}
+                        required
                       >
                         <option value="">Please select</option>
                         <option value="Yes">Yes</option>
@@ -335,7 +342,9 @@ export default function Profile({ user, type }) {
                     </dd>
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Age</dt>
+                    <dt className="text-sm font-medium text-gray-500">
+                      Age<span style={{ color: "#ff0000" }}> *</span>
+                    </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
                         type="text"
@@ -344,6 +353,7 @@ export default function Profile({ user, type }) {
                         pattern="[0-9]{1,3}"
                         value={formValues.age}
                         onChange={handleInputChange}
+                        required
                       />
                     </dd>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -469,7 +479,7 @@ export default function Profile({ user, type }) {
           </div>
         </>
       )}
-{/* <ImageUploader user={user} type={type} /> */}
+      {/* <ImageUploader user={user} type={type} /> */}
       {isEdit2 ? (
         <>
           <div style={{ width: "70%" }} className="flex my-10 mx-20">
@@ -496,6 +506,7 @@ export default function Profile({ user, type }) {
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
                         Address for communication
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -504,11 +515,12 @@ export default function Profile({ user, type }) {
                           name="communication_address"
                           value={formValues.communication_address}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
 
                       <dt className="text-sm font-medium text-gray-500">
-                        City
+                        City<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -517,12 +529,13 @@ export default function Profile({ user, type }) {
                           name="communication_city"
                           value={formValues.communication_city}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        State
+                        State<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -531,11 +544,12 @@ export default function Profile({ user, type }) {
                           name="communication_state"
                           value={formValues.communication_state}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
 
                       <dt className="text-sm font-medium text-gray-500">
-                        PIN Code
+                        PIN Code<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -544,12 +558,14 @@ export default function Profile({ user, type }) {
                           name="communication_pincode"
                           value={formValues.communication_pincode}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
                         Permanent Address
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -558,11 +574,12 @@ export default function Profile({ user, type }) {
                           name="permanent_address"
                           value={formValues.permanent_address}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
 
                       <dt className="text-sm font-medium text-gray-500">
-                        City
+                        City<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -571,12 +588,13 @@ export default function Profile({ user, type }) {
                           name="permanent_city"
                           value={formValues.permanent_city}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        State
+                        State<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -585,11 +603,12 @@ export default function Profile({ user, type }) {
                           name="permanent_state"
                           value={formValues.permanent_state}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
 
                       <dt className="text-sm font-medium text-gray-500">
-                        PIN Code
+                        PIN Code<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -598,12 +617,14 @@ export default function Profile({ user, type }) {
                           name="permanent_pincode"
                           value={formValues.permanent_pincode}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
                         Mobile Number
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -612,6 +633,7 @@ export default function Profile({ user, type }) {
                           name="mobile"
                           value={formValues.mobile}
                           onChange={handleInputChange}
+                          required
                         />
                       </dd>
                       {/* {altMobile && ( */}
@@ -626,7 +648,7 @@ export default function Profile({ user, type }) {
                             color: "white",
                             backgroundColor: "black",
                           }}
-                          type="submit"
+                          onClick={handleSubmit}
                         >
                           Save
                         </button>

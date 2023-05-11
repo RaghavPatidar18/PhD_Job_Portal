@@ -19,6 +19,7 @@ const Academic = require("./model/academicSchema");
 const Publication = require("./model/publicationSchema");
 const Reference = require("./model/referenceSchema");
 const UserExperience = require("./model/experienceSchema");
+const OtherDetail = require("./model/otherDetailSchema");
 const POR = require("./model/porSchema");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -101,6 +102,7 @@ const applicationSchema = new mongoose.Schema({
     por: [Object],
     reference: [Object]
   },
+  application_date:String,
 });
 const Application = mongoose.model("application", applicationSchema);
 // Getting collections from database
@@ -111,12 +113,20 @@ app.use(bodyParser.json());
 app.post("/job-post", (req, res) => {
   //console.log(req.body);
   const { job, id } = req.body;
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + '-' + mm + '-' + dd;
   console.log(job);
   console.log("the job fields are:");
   console.log(job.fields);
   var obj = {};
   obj = job;
+  obj.createdAt=today;
   obj.institute_id = id;
+  console.log(obj);
   const postJob = new Job(obj);
   postJob.save((err) => {
     if (err) {
@@ -202,7 +212,7 @@ app.post("/api/sendOtp", async (req, res) => {
 
   console.log(userType);
 
-  let user = await User.findOne({ email });  // finsding user in student 
+  let user = await User.findOne({ email });  // finsding user in student
   if (user) {
     console.log("i m hetyfiuwbri");
     console.log(user);
@@ -302,12 +312,12 @@ app.post("/api/verifyOtp", async (req, res) => {
         email: email,
         password: hashedPassword,
       });
-      const d = Date.now();
-      let date_time = new Date(d);
-      let date = date_time.getDate();
-      let month = date_time.getMonth();
-      let year = date_time.getYear();
-      let today = year + "-" + month + "-" + date;
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      var yyyy = today.getFullYear();
+
+      today = yyyy + '-' + mm + '-' + dd;
 
       const personals = new Personal({
         email: email,
@@ -316,7 +326,7 @@ app.post("/api/verifyOtp", async (req, res) => {
         dob: today,
         age: "-",
         category: "-",
-        disablity: "-",
+        disability: "-",
         married: "-",
         nationality: "-",
         gender: "-",
@@ -371,9 +381,14 @@ app.post("/api/verifyOtp", async (req, res) => {
         isphdcompleted: '-',
         phdremarks: '-',
       });
+      const otherdetails = new OtherDetail({
+        email : email,
+        resume_url : '#',
+      })
       await academics.save();
       await personals.save();
       await user.save();
+      await otherdetails.save();
 
 
       const experience = new UserExperience({
@@ -976,6 +991,7 @@ app.get("/api/jobStatus/:id", async (req, res) => {
         obj.application_status = await application.status;
         obj.deleted = await job.deleted;
         obj.application_id = await application._id;
+        obj.application_date=await application.application_date;
         return obj;
       })
     ).then((applicationArray) => {
@@ -995,10 +1011,13 @@ app.get("/jobPostings/:id", async (req, res) => {
     Promise.all(
       jobs.map(async (job) => {
         let obj = {};
+        console.log("the last update date is");
+        console.log(job.lastUpdateDate);
         obj.title = await job.title;
         obj._id = await job._id;
         obj.createdAt = await job.createdAt;
         obj.deleted = await job.deleted;
+        obj.updatedAt=await job.lastUpdateDate;
         return obj;
       })
     ).then((jobArray) => {
@@ -1030,6 +1049,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
           obj.student_id = await student._id;
           obj.status = await application.status;
           obj.student = await application.student_details;
+          obj.application_date=await application.application_date;
         }
         return obj;
       })
@@ -1262,12 +1282,24 @@ app.post("/application-form/:job_id/:user_id", async (req, res) => {
   const obj = dataToSend;
   console.log("i got this data from the application form");
   console.log(obj);
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = yyyy + '-' + mm + '-' + dd;
+
+  console.log(today);
+
+
+
 
   const new_application = new Application({
     student_id: user_id,
     job_id: job_id,
     status: "Pending",
     student_details: obj,
+    application_date:today,
   });
 
   console.log("checking the new application");
@@ -1435,21 +1467,21 @@ app.post('/api/getimage', async (req, res) => {
   {
     return res.json({ status:200 , image :  "#" });
   }
-  else 
+  else
   {
 
     let user = await Personal.findOne({ email : email });
-  
+
     // console.log(user);
     // console.log(user.profile_image_url);
-  
+
     let imagesrc = "#";
-  
+
     if(user.profile_image_url)
     {
       imagesrc = user.profile_image_url;
     }
-  
+
     return res.json({ status:200 , image :  imagesrc });
   }
 
