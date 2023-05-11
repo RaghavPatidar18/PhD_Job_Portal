@@ -9,7 +9,7 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate, useLocation } from 'react-router-dom';
 //import './css/JobCard.css';
 
-function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,index,length}) {
+function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,index,length,updateDate}) {
 
   //const [reload,setReload]=useState(false);
   //const [firstLoad,setFirstLoad]=useState(true);
@@ -25,6 +25,7 @@ function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,inde
       //handleDelete();
       console.log("delete pressed");
       if(select===true){
+        console.log(title);
         console.log("select was true");
         console.log("deleted");
         handleDelete();
@@ -70,7 +71,26 @@ function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,inde
     <>
 
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
+    <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
+        <div class="text-center">
+            <h3 class="text-lg font-medium text-gray-800 dark:text-white" id="modal-title">
+                Delete Job
+            </h3>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">
+                Are you sure you wish to <span style={{fontWeight:'bold'}}>delete</span> this job ?
+            </p>
+        </div>
+        <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
+            <button onClick={handleClose} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                Cancel
+            </button>
+
+            <button onClick={()=> {handleClose(); handleDelete();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                Accept
+            </button>
+        </div>
+    </div>
+      {/*<Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>Are you sure you wish to delete this job?</Modal.Body>
@@ -81,7 +101,7 @@ function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,inde
         <Button variant="danger" onClick={()=> {handleClose(); handleDelete();}}>
           Delete
         </Button>
-      </Modal.Footer>
+      </Modal.Footer>*/}
     </Modal>
 
     {!jobDeleted && <tr>
@@ -100,7 +120,7 @@ function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,inde
       <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{createDate.slice(0,10)}</td>
 
 
-      <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{createDate.slice(0,10)}</td>
+      <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{updateDate}</td>
 
       <td class="px-12 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" style={{paddingLeft:'24px',paddingRight:'24px',paddingTop:'14px',paddingBottom:'14px'}}>
       <Link to={`/job-details/${id}`}>  <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 bg-emerald-100/60 dark:bg-gray-800">

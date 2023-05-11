@@ -25,6 +25,9 @@ function AppliedJob({user,type}){
   const [selectAll,setSelectAll]=useState(false);
   const [deletePressed,setDeletePressed]=useState(false);
   const [show,setShow]=useState(false);
+  const [searchString,setSearchString]=useState("");
+  const [statusFilter,setStatusFilter]=useState("Select Status");
+  const [deleteFilter,setDeleteFilter]=useState("All Jobs");
 
   const handleShow=()=>setShow(true);
   const handleClose=()=>setShow(false);
@@ -41,6 +44,8 @@ function AppliedJob({user,type}){
       })
       .catch((err) => console.log(err));
     }
+
+    console.log(deleteFilter);
   }, []);
 
   const handleMultipleDelete=()=>{
@@ -53,7 +58,26 @@ function AppliedJob({user,type}){
   return(
     <>
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
+    <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
+        <div class="text-center">
+            <h3 class="text-lg font-medium text-gray-800 dark:text-white" id="modal-title">
+                Withdraw Applications
+            </h3>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">
+                Are you sure you wish to <span style={{fontWeight:'bold'}}>withdraw</span> all the selected applications? You will <span style={{fontWeight:'bold'}}>not</span> be able to apply for the corresponding jobs again.
+            </p>
+        </div>
+        <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
+            <button onClick={handleClose} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                Cancel
+            </button>
+
+            <button onClick={handleMultipleDelete} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                Withdraw
+            </button>
+        </div>
+    </div>
+      {/*<Modal.Header closeButton>
         <Modal.Title>Withdraw Applications</Modal.Title>
       </Modal.Header>
       <Modal.Body>Are you sure you wish to withdraw all the selected applications? You will not be able to apply for the corresponding jobs again.</Modal.Body>
@@ -64,7 +88,7 @@ function AppliedJob({user,type}){
         <Button variant="danger" onClick={handleMultipleDelete}>
           Delete
         </Button>
-      </Modal.Footer>
+      </Modal.Footer>*/}
     </Modal>
 
     <div style={{marginTop:'50px'}}>
@@ -73,6 +97,35 @@ function AppliedJob({user,type}){
       <div className="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 className="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Applied Jobs</h2>
         <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400" style={{paddingRight:'12px',paddingLeft:'12px',fontWeight:'normal'}}>{job.length} jobs applied</span>
+      </div>
+
+      <div class="mt-6 md:flex md:items-center md:justify-between">
+      <div class="inline-flex overflow-hidden bg-white  divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
+        <div class="gap-6 mt-4 ">
+        <select  onChange={(e)=> setStatusFilter(e.target.value)} class="inline-block w-full px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+          <option value="Select Status" selected={statusFilter==="Select Status"}>Select Status</option>
+          <option value="Pending" selected={statusFilter==="Pending"}>Pending</option>
+          <option value="Accepted" selected={statusFilter==="Accepted"} >Accepted</option>
+          <option value="Rejected" selected={statusFilter==="Rejected"}>Rejected</option>
+          <option value="Withdrew" selected={statusFilter==="Withdrew"}>Withdrew</option>
+        </select>
+        <select  onChange={(e)=> setDeleteFilter(e.target.value)} class="inline-block w-full px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+          <option value="All Jobs" selected={deleteFilter==="All Jobs"}>All Jobs</option>
+          <option value="Active Jobs" selected={deleteFilter==="Active Jobs"}>Active Jobs</option>
+          <option value="Deleted Jobs" selected={deleteFilter==="Deleted Jobs"} >Deleted Jobs</option>
+        </select>
+        </div>
+      </div>
+
+        <div class="relative flex items-center mt-4 md:mt-0">
+          <span class="absolute">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </span>
+
+          <input type="text" value={searchString} onChange={(e)=> setSearchString(e.target.value)} style={{paddingTop:'6px',paddingBottom:'6px', paddingLeft:'44px',paddingRight:'20px'}} placeholder="Search" class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"/>
+        </div>
       </div>
 
       <div className="flex flex-col mt-6">
@@ -117,16 +170,22 @@ function AppliedJob({user,type}){
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                {job.map((j,index) => (
-                  <AppliedJobCard
-                  job={j}
-                  srNo={index+1}
-                  selectAll={selectAll}
-                  deletePressed={deletePressed}
-                  length={job.length}
-                  />
+                {job.map((j,index) => {
+                  if(j.title.toLowerCase().includes(searchString.toLowerCase()) && ((deleteFilter==="All Jobs") || (deleteFilter==="Active Jobs" && j.deleted===false) || (deleteFilter==="Deleted Jobs" && j.deleted===true))){
+                    if((statusFilter==="Pending" && j.application_status==="Pending") || (statusFilter==="Accepted" && j.application_status==="Accepted") || (statusFilter==="Rejected" && j.application_status==="Rejected") || (statusFilter==="Withdrew" && j.application_status==="Withdrew") || (statusFilter==="Select Status")){
+                      return <AppliedJobCard
+                      job={j}
+                      srNo={index+1}
+                      selectAll={selectAll}
+                      deletePressed={deletePressed}
+                      length={job.length}
+                      />
+                    }
 
-                ))}
+                  }
+
+
+                })}
                 </tbody>
               </table>
             </div>

@@ -9,7 +9,7 @@ import {useState,useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate , useLocation } from 'react-router-dom';
 
-function JobApplicantCard({student_name,student_email,status,application_id,id,srNo,selectAll,acceptPressed,rejectPressed,length}) {
+function JobApplicantCard({student_name,student_email,status,application_id,id,srNo,selectAll,acceptPressed,rejectPressed,length,application_date}) {
 
   //const [status,setStatus]=useState(status);
 
@@ -39,7 +39,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
       if(res.data){
         console.log("success");
         setApplicantStatus("Accepted");
-        //window.location.reload(false);
+        window.location.reload(false);
       }
     })
     .catch((err)=> console.log(err));
@@ -55,7 +55,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
       if(res.data){
         console.log("success");
         setApplicantStatus("Rejected");
-        //window.location.reload(false);
+        window.location.reload(false);
       }
     })
     .catch((err)=> console.log(err));
@@ -129,35 +129,53 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
 
   return (
     <>
+
+
+
+
       <Modal show={showAccept} onHide={handleCloseAccept}>
-        <Modal.Header closeButton>
-          <Modal.Title>{student_name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you wish to accept the applicant for this job?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="dark" onClick={handleCloseAccept}>
-            Close
-          </Button>
-          <Button variant="success" onClick={()=> {handleCloseAccept();acceptClicked();}}>
-            Accept
-          </Button>
-        </Modal.Footer>
+            <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
+                <div class="text-center">
+                    <h3 class="text-lg font-medium text-gray-800 dark:text-white" id="modal-title">
+                        Accept Applicant
+                    </h3>
+                    <p class="mt-2 text-gray-500 dark:text-gray-400">
+                        Are you sure you wish to <span style={{fontWeight:'bold'}}>accept</span> the applicant <span style={{fontWeight:'bold'}}>{student_name}</span> ?
+                    </p>
+                </div>
+                <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
+                    <button onClick={handleCloseAccept} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                        Cancel
+                    </button>
+
+                    <button onClick={()=> {handleCloseAccept();acceptClicked();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                        Accept
+                    </button>
+                </div>
+            </div>
       </Modal>
 
 
       <Modal show={showReject} onHide={handleCloseReject}>
-        <Modal.Header closeButton>
-          <Modal.Title>{student_name}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you wish to reject the applicant for this job?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="dark" onClick={handleCloseReject}>
-            Close
-          </Button>
-          <Button variant="danger" onClick={()=> {handleCloseReject();rejectClicked();}}>
-            Reject
-          </Button>
-        </Modal.Footer>
+      <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
+          <div class="text-center">
+              <h3 class="text-lg font-medium text-gray-800 dark:text-white" id="modal-title">
+                  Reject Applicant
+              </h3>
+              <p class="mt-2 text-gray-500 dark:text-gray-400">
+                  Are you sure you wish to <span style={{fontWeight:'bold'}}>reject</span> the applicant <span style={{fontWeight:'bold'}}>{student_name}</span> ?
+              </p>
+          </div>
+          <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
+              <button onClick={handleCloseReject} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                  Cancel
+              </button>
+
+              <button onClick={()=> {handleCloseReject();rejectClicked();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                  Reject
+              </button>
+          </div>
+      </div>
       </Modal>
 
 
@@ -182,7 +200,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
 
         <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{student_email}</td>
 
-        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">2023-01-01</td>
+        <td className="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{application_date}</td>
 
         <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap" style={{paddingLeft:'24px',paddingRight:'24px',paddingTop:'14px',paddingBottom:'14px'}}>
           <div className={`inline-flex items-center px-3 py-1  rounded-full gap-x-2 dark:bg-gray-800  ${applicantStatus==='Pending'? 'bg-indigo-100/60': ''}   ${applicantStatus==='Accepted'? 'bg-emerald-100/60': ''} ${applicantStatus==='Rejected'? 'bg-red-100/60': ''} ${applicantStatus==='Withdrew'? 'bg-gray-100': ''}`} >
