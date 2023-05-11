@@ -196,11 +196,11 @@ const Publication = ({ user, type }) => {
                     Add new publication
                   </h3>
                 </div>
-                <div className="border-t border-gray-300">
+                <form className="border-t border-gray-300" onSubmit={handleAddSubmit}>
                   <dl>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Title/Topic of publication
+                        Title/Topic of publication<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -212,7 +212,7 @@ const Publication = ({ user, type }) => {
                         />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
-                        Give a breif abstract
+                        Give a breif abstract<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -226,7 +226,7 @@ const Publication = ({ user, type }) => {
                     </div>
                     <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Volumes published
+                        Volumes published<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -239,7 +239,7 @@ const Publication = ({ user, type }) => {
                       </dd>
 
                       <dt className="text-sm font-medium text-gray-500">
-                        Number of pages
+                        Number of pages<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -253,7 +253,7 @@ const Publication = ({ user, type }) => {
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Name of journal
+                        Name of journal<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -265,7 +265,7 @@ const Publication = ({ user, type }) => {
                         />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
-                        Details of Publisher
+                        Details of Publisher<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -279,7 +279,7 @@ const Publication = ({ user, type }) => {
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Digital Object Identifier
+                        Digital Object Identifier<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -291,7 +291,7 @@ const Publication = ({ user, type }) => {
                         />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
-                        Give a URL link
+                        Give a URL link<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -329,14 +329,14 @@ const Publication = ({ user, type }) => {
                             color: "white",
                             backgroundColor: "black",
                           }}
-                          onClick={handleAddSubmit}
+                          type="submit"
                         >
                           Save
                         </button>
                       </dd>
                     </div>
                   </dl>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -379,11 +379,11 @@ const Publication = ({ user, type }) => {
                         </button>
                       </h3>
                     </div>
-                    <div className="border-t border-gray-300">
+                    <form className="border-t border-gray-300" onSubmit={handleEditSubmit}>
                       <dl>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Topic of publication
+                            Topic of publication<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -395,7 +395,7 @@ const Publication = ({ user, type }) => {
                             />
                           </dd>
                           <dt className="text-sm font-medium text-gray-500">
-                            Abstract
+                            Abstract<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -409,7 +409,7 @@ const Publication = ({ user, type }) => {
                         </div>
                         <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Volumes published
+                            Volumes published<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -422,7 +422,7 @@ const Publication = ({ user, type }) => {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Page count
+                            Page count<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -436,7 +436,7 @@ const Publication = ({ user, type }) => {
                         </div>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Journal Name
+                            Journal Name<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -448,7 +448,7 @@ const Publication = ({ user, type }) => {
                             />
                           </dd>
                           <dt className="text-sm font-medium text-gray-500">
-                            Publisher
+                            Publisher<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -462,7 +462,7 @@ const Publication = ({ user, type }) => {
                         </div>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Digital Object Identifier
+                            Digital Object Identifier<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -474,7 +474,7 @@ const Publication = ({ user, type }) => {
                             />
                           </dd>
                           <dt className="text-sm font-medium text-gray-500">
-                            URL Link
+                            URL Link<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -512,14 +512,14 @@ const Publication = ({ user, type }) => {
                                 color: "white",
                                 backgroundColor: "black",
                               }}
-                              onClick={handleEditSubmit}
+                              type="submit"
                             >
                               Save
                             </button>
                           </dd>
                         </div>
                       </dl>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>

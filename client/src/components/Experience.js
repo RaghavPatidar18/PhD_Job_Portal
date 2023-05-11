@@ -187,11 +187,11 @@ const ExperienceTable = ({ user, type }) => {
                   Add new experience
                 </h3>
               </div>
-              <div className="border-t border-gray-300">
+              <form className="border-t border-gray-300" onSubmit = {handleAddSubmit}>
                 <dl>
                   <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                      Organization
+                      Organization<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -203,7 +203,7 @@ const ExperienceTable = ({ user, type }) => {
                       />
                     </dd>
                     <dt className="text-sm font-medium text-gray-500">
-                      Work role
+                      Work role<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -217,7 +217,7 @@ const ExperienceTable = ({ user, type }) => {
                   </div>
                   <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                      Start Date
+                      Start Date<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -230,7 +230,7 @@ const ExperienceTable = ({ user, type }) => {
                     </dd>
 
                     <dt className="text-sm font-medium text-gray-500">
-                      End date
+                      End date<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -244,7 +244,7 @@ const ExperienceTable = ({ user, type }) => {
                   </div>
                   <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                     <dt className="text-sm font-medium text-gray-500">
-                      Location
+                      Location<span style={{ color: "#ff0000" }}> *</span>
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -256,7 +256,7 @@ const ExperienceTable = ({ user, type }) => {
                       />
                     </dd>
                     <dt className="text-sm font-medium text-gray-500">
-                      Description
+                      Description<span style={{ color: "#ff0000" }}> *</span> 
                     </dt>
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -294,18 +294,19 @@ const ExperienceTable = ({ user, type }) => {
                           color: "white",
                           backgroundColor: "black",
                         }}
-                        onClick={handleAddSubmit}
+                        type="submit"
                       >
                         Save
                       </button>
                     </dd>
                   </div>
                 </dl>
-              </div>
+              </form>
             </div>
           </div>
         </div>
       )}
+      
       {experiences.map((exp) =>
         selectedExperience === exp && showEditForm ? (
           <>
@@ -344,11 +345,11 @@ const ExperienceTable = ({ user, type }) => {
                       </button>
                     </h3>
                   </div>
-                  <div className="border-t border-gray-300">
+                  <form className="border-t border-gray-300" onSubmit={handleEditSubmit}>
                     <dl>
-                      <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                      <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6" >
                         <dt className="text-sm font-medium text-gray-500">
-                          Organization
+                          Organization<span style={{ color: "#ff0000" }}> *</span>
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                           <input
@@ -360,7 +361,7 @@ const ExperienceTable = ({ user, type }) => {
                           />
                         </dd>
                         <dt className="text-sm font-medium text-gray-500">
-                          Work role
+                          Work role<span style={{ color: "#ff0000" }}> *</span>
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                           <input
@@ -374,7 +375,7 @@ const ExperienceTable = ({ user, type }) => {
                       </div>
                       <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-500">
-                          Start Date
+                          Start Date<span style={{ color: "#ff0000" }}> *</span>
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                           <input
@@ -387,7 +388,7 @@ const ExperienceTable = ({ user, type }) => {
                         </dd>
 
                         <dt className="text-sm font-medium text-gray-500">
-                          End date
+                          End date<span style={{ color: "#ff0000" }}> *</span>
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                           <input
@@ -401,7 +402,7 @@ const ExperienceTable = ({ user, type }) => {
                       </div>
                       <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                         <dt className="text-sm font-medium text-gray-500">
-                          Location
+                          Location<span style={{ color: "#ff0000" }}> *</span>
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                           <input
@@ -413,7 +414,7 @@ const ExperienceTable = ({ user, type }) => {
                           />
                         </dd>
                         <dt className="text-sm font-medium text-gray-500">
-                          Description
+                          Description<span style={{ color: "#ff0000" }}> *</span>
                         </dt>
                         <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                           <input
@@ -451,14 +452,14 @@ const ExperienceTable = ({ user, type }) => {
                               color: "white",
                               backgroundColor: "black",
                             }}
-                            onClick={handleEditSubmit}
+                            type="submit"
                           >
                             Save
                           </button>
                         </dd>
                       </div>
                     </dl>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>

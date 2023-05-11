@@ -317,7 +317,7 @@ app.post("/api/verifyOtp", async (req, res) => {
         dob: today,
         age: "-",
         category: "-",
-        disablity: "-",
+        disability: "-",
         married: "-",
         nationality: "-",
         gender: "-",

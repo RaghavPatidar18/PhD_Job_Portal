@@ -239,21 +239,21 @@ export default function Profile({ user, type }) {
                       <dl>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            College Name
+                            College Name<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
                               type="text"
                               id="collegemtech"
                               name="collegemtech"
-                              required
                               value={formValues.collegemtech}
                               onChange={handleInputChange}
+                              required
                             />
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Branch of specialization
+                            Branch of specialization<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -268,7 +268,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Format
+                            Percentage Format<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <select
@@ -286,7 +286,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Obtained
+                            Percentage Obtained<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -301,7 +301,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Year of completion
+                            Year of completion<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -315,14 +315,13 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Remarks
+                            Remarks (if any)
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
                               type="text"
                               id="remarksmtech"
                               name="remarksmtech"
-                              required
                               value={formValues.remarksmtech}
                               onChange={handleInputChange}
                             />
@@ -454,7 +453,7 @@ export default function Profile({ user, type }) {
                       <dl>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            College Name
+                            College Name<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -468,7 +467,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Branch of specialization
+                            Branch of specialization<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -483,7 +482,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Format
+                            Percentage Format<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <select
@@ -501,7 +500,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Obtained
+                            Percentage Obtained<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -516,7 +515,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Year of completion
+                            Year of completion<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -530,7 +529,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Remarks
+                            Remarks (if any)
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -669,7 +668,7 @@ export default function Profile({ user, type }) {
                       <dl>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Education board
+                            Education board<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -690,7 +689,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Format
+                            Percentage Format<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <select
@@ -708,7 +707,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Obtained
+                            Percentage Obtained<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -723,7 +722,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Year of completion
+                            Year of completion<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -737,7 +736,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Remarks
+                            Remarks(if any  )
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -874,7 +873,7 @@ export default function Profile({ user, type }) {
                       <dl>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Education board
+                            Education board<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -895,7 +894,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Format
+                            Percentage Format<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <select
@@ -913,7 +912,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Percentage Obtained
+                            Percentage Obtained<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -928,7 +927,7 @@ export default function Profile({ user, type }) {
                         </div>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Year of completion
+                            Year of completion<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -942,7 +941,7 @@ export default function Profile({ user, type }) {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            Remarks
+                            Remarks(if any)
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input

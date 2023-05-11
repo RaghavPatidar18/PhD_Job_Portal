@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import "./css/Personal.css";
 import { FaTrash, FaEdit, FaPen } from "react-icons/fa";
-import noDataImage from './NotFound.jpg';
+import noDataImage from "./NotFound.jpg";
 const ExperienceTable = ({ user, type }) => {
   const bottomRef = useRef(null);
   const [references, setReferences] = useState([]);
@@ -78,10 +78,7 @@ const ExperienceTable = ({ user, type }) => {
   const handleEditSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(
-        `/references/${selectedReferences._id}`,
-        formData
-      )
+      .put(`/references/${selectedReferences._id}`, formData)
       .then((res) => {
         const index = references.findIndex((ref) => ref._id === res.data._id);
         setReferences([
@@ -191,11 +188,15 @@ const ExperienceTable = ({ user, type }) => {
                     Add new reference
                   </h3>
                 </div>
-                <div className="border-t border-gray-300">
+                <form
+                  className="border-t border-gray-300"
+                  onSubmit={handleAddSubmit}
+                >
                   <dl>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
                         Referal person name
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -207,83 +208,87 @@ const ExperienceTable = ({ user, type }) => {
                         />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
-                        Work Title
+                        Work Title<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="title"
-                      value={formData2.title}
-                      onChange={handleChange2}
-                      required
-                    />
+                        <input
+                          type="text"
+                          name="title"
+                          value={formData2.title}
+                          onChange={handleChange2}
+                          required
+                        />
                       </dd>
                     </div>
                     <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                      Affliliation
+                        Affliliation<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="affliliation"
-                      value={formData2.affliliation}
-                      onChange={handleChange2}
-                      required
-                    />
+                        <input
+                          type="text"
+                          name="affliliation"
+                          value={formData2.affliliation}
+                          onChange={handleChange2}
+                          required
+                        />
                       </dd>
 
                       <dt className="text-sm font-medium text-gray-500">
                         Email Id of Referral
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="email"
-                      name="referenceemail"
-                      value={formData2.referenceemail}
-                      onChange={handleChange2}
-                      required
-                    />
+                        <input
+                          type="email"
+                          name="referenceemail"
+                          value={formData2.referenceemail}
+                          onChange={handleChange2}
+                          required
+                        />
                       </dd>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
                         Contact Number
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="number"
-                      name="referencephone"
-                      value={formData2.referencephone}
-                      onChange={handleChange2}
-                      required
-                    />
+                        <input
+                          type="number"
+                          name="referencephone"
+                          value={formData2.referencephone}
+                          onChange={handleChange2}
+                          required
+                        />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
                         Relation with person
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="relationship"
-                      value={formData2.relationship}
-                      onChange={handleChange2}
-                      required
-                    />
+                        <input
+                          type="text"
+                          name="relationship"
+                          value={formData2.relationship}
+                          onChange={handleChange2}
+                          required
+                        />
                       </dd>
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                      Description of work
+                        Description of work
+                        <span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="description"
-                      value={formData2.description}
-                      onChange={handleChange2}
-                      required
-                    />
+                        <input
+                          type="text"
+                          name="description"
+                          value={formData2.description}
+                          onChange={handleChange2}
+                          required
+                        />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
                         <button
@@ -310,14 +315,14 @@ const ExperienceTable = ({ user, type }) => {
                             color: "white",
                             backgroundColor: "black",
                           }}
-                          onClick={handleAddSubmit}
+                          type="submit"
                         >
                           Save
                         </button>
                       </dd>
                     </div>
                   </dl>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -333,7 +338,7 @@ const ExperienceTable = ({ user, type }) => {
                   <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
                     <div className="flex space-x-3 px-4 py-5 sm:px-6">
                       <h3 className="text-lg leading-6 font-medium text-gray-900">
-                        {ref.name}
+                        Editting {ref.name}'s reference
                         <span style={{ marginLeft: "1.5rem" }}></span>
                         <button
                           style={{
@@ -360,133 +365,133 @@ const ExperienceTable = ({ user, type }) => {
                         </button>
                       </h3>
                     </div>
-                    <div className="border-t border-gray-300">
-                  <dl>
-                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Referal person name
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                        />
-                      </dd>
-                      <dt className="text-sm font-medium text-gray-500">
-                        Work Title
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="title"
-                      value={formData.title}
-                      onChange={handleChange}
-                      required
-                    />
-                      </dd>
-                    </div>
-                    <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                      Affliliation
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="affliliation"
-                      value={formData.affliliation}
-                      onChange={handleChange}
-                      required
-                    />
-                      </dd>
+                    <form className="border-t border-gray-300" onSubmit={handleEditSubmit}>
+                      <dl>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Referal person name<span style={{ color: "#ff0000" }}> *</span>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="name"
+                              value={formData.name}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Work Title<span style={{ color: "#ff0000" }}> *</span>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="title"
+                              value={formData.title}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                        </div>
+                        <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Affliliation<span style={{ color: "#ff0000" }}> *</span>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="affliliation"
+                              value={formData.affliliation}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
 
-                      <dt className="text-sm font-medium text-gray-500">
-                        Email Id of Referral
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="email"
-                      name="referenceemail"
-                      value={formData.referenceemail}
-                      onChange={handleChange}
-                      required
-                    />
-                      </dd>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Contact Number
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="number"
-                      name="referencephone"
-                      value={formData.referencephone}
-                      onChange={handleChange}
-                      required
-                    />
-                      </dd>
-                      <dt className="text-sm font-medium text-gray-500">
-                        Relation with person
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="relationship"
-                      value={formData.relationship}
-                      onChange={handleChange}
-                      required
-                    />
-                      </dd>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                      Description of work
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      <input
-                      type="text"
-                      name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      required
-                    />
-                      </dd>
-                      <dt className="text-sm font-medium text-gray-500">
-                        <button
-                          style={{
-                            border: "1px solid grey",
-                            padding: "0.4rem",
-                            width: "4rem",
-                            color: "white",
-                            backgroundColor: "#b54141",
-                          }}
-                          onClick={() => {
-                            setShowEditForm(false);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        <button
-                          style={{
-                            border: "1px solid grey",
-                            padding: "0.4rem",
-                            width: "4rem",
-                            color: "white",
-                            backgroundColor: "black",
-                          }}
-                          onClick={handleEditSubmit}
-                        >
-                          Save
-                        </button>
-                      </dd>
-                    </div>
-                  </dl>
-                </div>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Email Id of Referral<span style={{ color: "#ff0000" }}> *</span>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="email"
+                              name="referenceemail"
+                              value={formData.referenceemail}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Contact Number<span style={{ color: "#ff0000" }}> *</span>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="number"
+                              name="referencephone"
+                              value={formData.referencephone}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Relation with person<span style={{ color: "#ff0000" }}> *</span>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="relationship"
+                              value={formData.relationship}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Description of work<span style={{ color: "#ff0000" }}> *</span>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <input
+                              type="text"
+                              name="description"
+                              value={formData.description}
+                              onChange={handleChange}
+                              required
+                            />
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            <button
+                              style={{
+                                border: "1px solid grey",
+                                padding: "0.4rem",
+                                width: "4rem",
+                                color: "white",
+                                backgroundColor: "#b54141",
+                              }}
+                              onClick={() => {
+                                setShowEditForm(false);
+                              }}
+                            >
+                              Cancel
+                            </button>
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            <button
+                              style={{
+                                border: "1px solid grey",
+                                padding: "0.4rem",
+                                width: "4rem",
+                                color: "white",
+                                backgroundColor: "black",
+                              }}
+                              type="submit"
+                            >
+                              Save
+                            </button>
+                          </dd>
+                        </div>
+                      </dl>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -529,61 +534,60 @@ const ExperienceTable = ({ user, type }) => {
                       </h3>
                     </div>
                     <div className="border-t border-gray-300">
-                  <dl>
-                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Referal person name
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {ref.name}
-                      </dd>
-                      <dt className="text-sm font-medium text-gray-500">
-                        Work Title
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {ref.title}
-                      </dd>
-                    </div>
-                    <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                      Affliliation
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {ref.affliliation}
-                      </dd>
+                      <dl>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Referal person name
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {ref.name}
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Work Title
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {ref.title}
+                          </dd>
+                        </div>
+                        <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Affliliation
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {ref.affliliation}
+                          </dd>
 
-                      <dt className="text-sm font-medium text-gray-500">
-                        Email Id of Referral
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {ref.referenceemail}
-                      </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Email Id of Referral
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {ref.referenceemail}
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Contact Number
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {ref.referencephone}
+                          </dd>
+                          <dt className="text-sm font-medium text-gray-500">
+                            Relation with person
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {ref.relationship}
+                          </dd>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                          <dt className="text-sm font-medium text-gray-500">
+                            Description of work
+                          </dt>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                            {ref.description}
+                          </dd>
+                        </div>
+                      </dl>
                     </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                        Contact Number
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {ref.referencephone}
-                      </dd>
-                      <dt className="text-sm font-medium text-gray-500">
-                        Relation with person
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {ref.relationship}
-                      </dd>
-                    </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                      <dt className="text-sm font-medium text-gray-500">
-                      Description of work
-                      </dt>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                      {ref.description}
-                      </dd>
-                     
-                    </div>
-                  </dl>
-                </div>
                   </div>
                 </div>
               </div>

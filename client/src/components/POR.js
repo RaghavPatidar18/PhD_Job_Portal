@@ -172,18 +172,18 @@ const POR = ({ user, type }) => {
         )}
         {showAddForm && (
           <div className="userProfile">
-            <div style={{ width: "90%",  marginLeft : '0' }} className="flex my-10 mx-20">
+            <div style={{ width: "100%",  marginLeft : '0' }} className="flex my-10 mx-20">
               <div className="my-2 flex-1 bg-white shadow overflow-hidden sm:rounded-lg">
                 <div className="flex space-x-3 px-4 py-5 sm:px-6">
                   <h3 className="text-lg leading-6 font-medium text-gray-900">
                     Add new POR
                   </h3>
                 </div>
-                <div className="border-t border-gray-300">
+                <form className="border-t border-gray-300" onSubmit={handleAddSubmit}>
                   <dl>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Organization
+                        Organization<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                         <input
@@ -195,7 +195,7 @@ const POR = ({ user, type }) => {
                         />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
-                        Title
+                        Title<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -209,7 +209,7 @@ const POR = ({ user, type }) => {
                     </div>
                     <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Start Date
+                        Start Date<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -222,7 +222,7 @@ const POR = ({ user, type }) => {
                       </dd>
 
                       <dt className="text-sm font-medium text-gray-500">
-                        End date
+                        End date<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -236,7 +236,7 @@ const POR = ({ user, type }) => {
                     </div>
                     <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                       <dt className="text-sm font-medium text-gray-500">
-                        Location
+                        Location<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -248,7 +248,7 @@ const POR = ({ user, type }) => {
                     />
                       </dd>
                       <dt className="text-sm font-medium text-gray-500">
-                        Description
+                        Description<span style={{ color: "#ff0000" }}> *</span>
                       </dt>
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                       <input
@@ -286,14 +286,14 @@ const POR = ({ user, type }) => {
                             color: "white",
                             backgroundColor: "black",
                           }}
-                          onClick={handleAddSubmit}
+                          type="submit"
                         >
                           Save
                         </button>
                       </dd>
                     </div>
                   </dl>
-                </div>
+                </form>
               </div>
             </div>
           </div>
@@ -333,11 +333,11 @@ const POR = ({ user, type }) => {
                         </button>
                       </h3>
                     </div>
-                    <div className="border-t border-gray-300">
+                    <form className="border-t border-gray-300" onSubmit={handleEditSubmit}>
                       <dl>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Organization
+                            Organization<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -349,7 +349,7 @@ const POR = ({ user, type }) => {
                             />
                           </dd>
                           <dt className="text-sm font-medium text-gray-500">
-                            Title of responsibility
+                            Title of responsibility<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -363,7 +363,7 @@ const POR = ({ user, type }) => {
                         </div>
                         <div className="bg-white px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Start Date
+                            Start Date<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -376,7 +376,7 @@ const POR = ({ user, type }) => {
                           </dd>
 
                           <dt className="text-sm font-medium text-gray-500">
-                            End date
+                            End date<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -390,7 +390,7 @@ const POR = ({ user, type }) => {
                         </div>
                         <div className="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                           <dt className="text-sm font-medium text-gray-500">
-                            Location
+                            Location<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -402,7 +402,7 @@ const POR = ({ user, type }) => {
                             />
                           </dd>
                           <dt className="text-sm font-medium text-gray-500">
-                            Description
+                            Description<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                             <input
@@ -440,14 +440,14 @@ const POR = ({ user, type }) => {
                                 color: "white",
                                 backgroundColor: "black",
                               }}
-                              onClick={handleEditSubmit}
+                              type="submit"
                             >
                               Save
                             </button>
                           </dd>
                         </div>
                       </dl>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
