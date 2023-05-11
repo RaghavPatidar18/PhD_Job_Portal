@@ -9,6 +9,7 @@ import JobApplicantCard from "./JobApplicantCard";
 import {useParams} from "react-router-dom";
 import { useNavigate , useLocation } from 'react-router-dom';
 import Modal from "react-bootstrap/Modal";
+import {CSVLink} from 'react-csv';
 
 function JobApplicants({ user, type }) {
 
@@ -115,6 +116,8 @@ function JobApplicants({ user, type }) {
     </div>
     </Modal>
 
+    
+
     <Modal show={showReject} onHide={handleCloseReject} >
     <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
         <div class="text-center">
@@ -136,6 +139,7 @@ function JobApplicants({ user, type }) {
         </div>
     </div>
     </Modal>
+    
     {statusFilter && <div style={{display:'block',position:'fixed',zIndex:'1000', top:'0', bottom:'0', left:'0', right:'0', backgroundColor:"rgba(1,1,1,0.5)"}}>
     <div style={{display:'block',position:'fixed', left:'50%',top:'50%', transform:'translate(-50%,-50%)'}}>
       <div class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
@@ -281,7 +285,7 @@ function JobApplicants({ user, type }) {
             </button>
 
             <button onClick={()=> {setQualificationFilter(false);}}type="button" class="w-full px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-              Apply
+              Apply 
             </button>
           </div>
         </div>
@@ -322,6 +326,8 @@ function JobApplicants({ user, type }) {
         </div>
       </div>
 
+      
+
       <div className="flex flex-col mt-6">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -340,6 +346,8 @@ function JobApplicants({ user, type }) {
                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Email</th>
                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Application Date</th>
                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
+                    <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"><CSVLink {...csvLink}>Download All</CSVLink></th>
+
                     <th scope="col" className="relative py-3.5 px-4">
                       <span className="sr-only">View Applicant Detail</span>
                     </th>
