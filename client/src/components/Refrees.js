@@ -451,7 +451,7 @@ const ExperienceTable = ({ user, type }) => {
                             Description of work<span style={{ color: "#ff0000" }}> *</span>
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                            <input
+             q               <input
                               type="text"
                               name="description"
                               value={formData.description}
