@@ -11,7 +11,7 @@ function DetailsContainer() {
           <span className="job-portal">Now</span>
         </h1>
         <h5>
-        786 jobs & 110 candidates are registeresd
+        786+ jobs & 1000+ candidates are registeresd
         </h5>
       </div>
     </>

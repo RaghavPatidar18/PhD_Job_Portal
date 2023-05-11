@@ -277,6 +277,9 @@ app.post("/api/verifyOtp", async (req, res) => {
   // const otp = req.session.otp;
   let otp = req.body.randomotp;
 
+  console.log(otp);
+  console.log(otpEntered);
+
   const hashedPassword = bcrypt.hashSync(password, 1);
   // req.session.hashedPassword = hashedPassword;
 
@@ -304,8 +307,8 @@ app.post("/api/verifyOtp", async (req, res) => {
 
   // }
 
-  if (otp == otpEntered) {
-    if (req.body.userType == "student") {
+  if (otp === otpEntered) {
+    if (req.body.userType === "student") {
       //console.log("student hu vai");
       const user = new User({
         name: name,

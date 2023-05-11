@@ -1,5 +1,6 @@
 import React from "react";
 import "./css/Footer.css";
+import logologo from './logologo.png'; // import the image file
 
 function Footer() {
     const owners = ["Vijay", "Isha", "Raghav", "Rohan"];
@@ -14,10 +15,10 @@ function Footer() {
             <div class="w-full -mx-6 lg:w-2/5">
                 <div class="px-6">
                     <a href="#">
-                        <img class="w-auto h-7" src="https://merakiui.com/images/full-logo.svg" alt=""/>
+                    <img src={logologo} alt="My Image" style={{ height: '35px', marginRight: '40px' }} />
                     </a>
 
-                    <p class="max-w-sm mt-2 text-gray-500 dark:text-gray-400">Join 31,000+ other and never miss out on new tips, tutorials, and more.</p>
+                    <p class="max-w-sm mt-2 text-gray-500 dark:text-gray-400">Join 31,000+ other and never miss opportunity to get job , interview tips , and more.</p>
 
                     <div class="flex mt-6 -mx-2">
                         <a href="#"
@@ -71,15 +72,15 @@ function Footer() {
 
                     <div>
                         <h3 class="text-gray-700 uppercase dark:text-white">Products</h3>
-                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Mega cloud</a>
-                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Aperion UI</a>
-                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">Meraki UI</a>
+                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">IIT cloud</a>
+                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">IIT Ropar UI</a>
+                        <a href="#" class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">IIT Ropar Products</a>
                     </div>
 
                     <div>
                         <h3 class="text-gray-700 uppercase dark:text-white">Contact</h3>
-                        <span class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">+1 526 654 8965</span>
-                        <span class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">example@email.com</span>
+                        <span class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">+91 9926514128</span>
+                        <span class="block mt-2 text-sm text-gray-600 dark:text-gray-400 hover:underline">www.iitrpr.ac.in</span>
                     </div>
                 </div>
             </div>
@@ -88,7 +89,7 @@ function Footer() {
         <hr class="h-px my-6 bg-gray-200 border-none dark:bg-gray-700"/>
 
         <div>
-            <p class="text-center text-gray-500 dark:text-gray-400">© Brand 2020 - All rights reserved</p>
+            <p class="text-center text-gray-500 dark:text-gray-400">© Brand 2023 - All rights reserved</p>
         </div>
     </div>
 </footer>

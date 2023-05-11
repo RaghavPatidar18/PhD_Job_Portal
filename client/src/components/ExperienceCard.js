@@ -4,47 +4,46 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate, useLocation } from 'react-router-dom';
- 
 
-const ExperienceCard = ({ companyName, experience, name ,date , email }) => {
+
+const ExperienceCard = ({ companyName, experience, name, date, email }) => {
 
 
   const [altProfile, setAltProfile] = useState(defaultImage)
 
-useEffect(() => {
+  useEffect(() => {
 
-  console.log(email);
+    // console.log(email);
 
-  if(email)
-  {
-    
-    axios.post(`/api/getimage`, { email: email })
-    .then((response) => {
-      if (response.data.status === 200) {
-        // handle success
-        // console.log(response.data.image);
-  
-        if (response.data.image === "#") {
-          setAltProfile(defaultImage);
-        }
-        else {
-          setAltProfile(response.data.image);
-        }
-  
-      }
-    })
-    .catch((err) => console.log(err));
-  }
-  
+    if (email) {
+
+      axios.post(`/api/getimage`, { email: email })
+        .then((response) => {
+          if (response.data.status === 200) {
+            // handle success
+            // console.log(response.data.image);
+
+            if (response.data.image === "#") {
+              setAltProfile(defaultImage);
+            }
+            else {
+              setAltProfile(response.data.image);
+            }
+
+          }
+        })
+        .catch((err) => console.log(err));
+    }
 
 
-}, []);
+
+  }, []);
 
 
   return (
 
     <>
-      <section class="bg-white dark:bg-gray-900">
+      <section class="bg-black dark:bg-gray-900">
         <div class="relative flex">
           <div class="min-h-screen lg:w-1/3"></div>
           <div class="hidden w-3/4 min-h-screen bg-gray-100 dark:bg-gray-800 lg:block"></div>
@@ -71,13 +70,14 @@ useEffect(() => {
             </div>
 
             <div class="flex items-center justify-between mt-12 lg:justify-start">
-              <button title="left arrow" class="p-2 text-gray-800 transition-colors duration-300 border rounded-full rtl:-scale-x-100 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 hover:bg-gray-100">
+              <button title="left arrow" class="p-2 text-white-800 transition-colors duration-300 border rounded-full rtl:-scale-x-100 bg-white dark:border-white-700 dark:text-white-200 dark:hover:bg-white-800 hover:bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
 
-              <button title="right arrow" class="p-2 text-gray-800 transition-colors duration-300 border rounded-full rtl:-scale-x-100 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 lg:mx-6 hover:bg-gray-100">
+
+              <button title="right arrow" class="p-2 text-gray-800 transition-colors duration-300 border rounded-full rtl:-scale-x-100 bg-white dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800 lg:mx-6 hover:bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>

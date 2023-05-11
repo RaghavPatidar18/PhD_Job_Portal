@@ -137,7 +137,7 @@ function App({ user, type }) {
 
       <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
         {/* <Container> */}
-        {/* <Navbar.Brand href="">Job Portal</Navbar.Brand> */}
+        {/* <Navbar.Brand href="">Job Portal</Navbar.Brand> */} 
         <img src={logologo} alt="My Image" style={{ height: '35px', marginRight: '40px' }} />
 
 

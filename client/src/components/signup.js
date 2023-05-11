@@ -31,7 +31,7 @@ const Signup = () => {
               console.log("rbgiow");
               setShowRegisteredAlert(true);
               setShowOtpSentAlert(false);
-              setShowInvalidOtpAlert(false);
+              setShowInvalidOtpAlert(false); 
               setShowOtpFailedAlert(false);
             }else if(res.data.message==="OTP sent"){
               setShowOtpSentAlert(true);
@@ -50,6 +50,9 @@ const Signup = () => {
     };
 
     const handleVerifyOtp = () => {
+
+        console.log(randomotp);
+        
         axios.post("/api/verifyOtp", { name , email, otp , password ,userType , randomotp}).then((res) => {
             setMessage(res.data.message);
             if (res.data.success) {

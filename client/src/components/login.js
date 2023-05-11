@@ -22,7 +22,7 @@ const Login = () => {
     const handleLogin = async () => {
 
         const res = await axios.post("/api/login", {
-            email, password, userType
+            email, password, userType 
             }, {
             headers: {
             "Content-Type": "application/json"

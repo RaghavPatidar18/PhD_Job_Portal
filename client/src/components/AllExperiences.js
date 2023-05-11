@@ -16,8 +16,8 @@ async function getName() {
       Authorization: `Bearer ${token}`,
     },
   }).then((response) => {
-    console.log(response.data.name); // handle the response data
-    console.log("insidde function of gate name");
+    // console.log(response.data.name); // handle the response data
+    // console.log("insidde function of gate name");
     // console.log(response);
     return response.data.name;
     
@@ -75,8 +75,8 @@ const AllExperiences = () => {
     e.preventDefault();
     let userName = await getName();
     let userEmail = await getEmail();
-    console.log(userName);
-    console.log(userEmail);
+    // console.log(userName);
+    // console.log(userEmail);
     axios.post('/api/createExperiences', {
       email: userEmail,
       name: userName,
@@ -145,8 +145,7 @@ const AllExperiences = () => {
           </h1>
 
           <p class="max-w-2xl mx-auto mt-6 text-center text-gray-500 dark:text-gray-300">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo incidunt ex placeat modi magni quia error
-            alias, adipisci rem similique, at omnis eligendi optio eos harum.
+          "We'd love to hear about your experience on our website! Please take a moment to share your thoughts and let others know what you love about our site. Did you find the information you were looking for? Was the site easy to navigate? Your feedback will help us continue to improve and provide the best possible user experience."
           </p>
 
 
