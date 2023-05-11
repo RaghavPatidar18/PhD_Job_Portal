@@ -43,7 +43,7 @@ function JobDetails({ user, type }) {
       setButtonText("Login/Register to Apply");
       url = `/api/job-details/${id}/""`;
     } else {
-      // console.log("sdfbioe"); 
+      // console.log("sdfbioe");
       url = `/api/job-details/${id}/${user._id}`;
     }
 
@@ -57,7 +57,7 @@ function JobDetails({ user, type }) {
       if (data.status === 200) {
         setJob(data.job);
         setApplied(data.applied);
-    
+
         if (data.applied === true && type === "student") {
           setApplication_id(data.application_id);
           console.log(data.application_id);
@@ -70,7 +70,7 @@ function JobDetails({ user, type }) {
       console.error(error);
       // handle error
     }
-    
+
 
     // const res = await fetch(url, {
     //   method: "GET",
@@ -79,7 +79,7 @@ function JobDetails({ user, type }) {
     // const data = await res.json();
     // if (data.status === 200) {
     //   setJob(data.job);
-    //   setApplied(data.applied); 
+    //   setApplied(data.applied);
 
     //   if (data.applied === true && type === "student") {
     //     setApplication_id(data.application_id);
@@ -169,7 +169,7 @@ function JobDetails({ user, type }) {
                 Cancel
             </button>
 
-            <button onClick={handleWithdraw} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+            <button onClick={handleWithdraw} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                 Withdraw
             </button>
         </div>
@@ -205,7 +205,7 @@ function JobDetails({ user, type }) {
                   Cancel
               </button>
 
-              <button onClick={applyClicked} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+              <button onClick={applyClicked} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                   Apply
               </button>
           </div>
@@ -240,8 +240,8 @@ function JobDetails({ user, type }) {
                   Cancel
               </button>
 
-              <button onClick={()=> {handleCloseDelete(); handleDelete();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                  Apply
+              <button onClick={()=> {handleCloseDelete(); handleDelete();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                  Delete
               </button>
           </div>
       </div>

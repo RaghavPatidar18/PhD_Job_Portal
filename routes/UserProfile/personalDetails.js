@@ -41,7 +41,7 @@ route.post("/personal", async (req, res) => {
       fathername: formValues.fathername,
       age: formValues.age,
       dob: formValues.dob,
-      disablity: formValues.disability,
+      disability: formValues.disability,
       married: formValues.married,
       nationality: formValues.nationality,
       gender: formValues.gender,

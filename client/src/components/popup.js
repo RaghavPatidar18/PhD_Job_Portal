@@ -7,7 +7,7 @@ import axios from "axios";
 //   // console.log(token);
 //   const response = await fetch('/api/me', {
 //     headers: {
-//       Authorization: `Bearer ${token}`, 
+//       Authorization: `Bearer ${token}`,
 //     },
 //   });
 //   const data = await response.json();
@@ -56,7 +56,7 @@ function SubscribePopup(props) {
     } catch (error) {
       console.error(error);
     }
-    
+
 
     // try {
     //   const response = await fetch('/api/subscribe', {
@@ -94,7 +94,7 @@ function SubscribePopup(props) {
     } catch (error) {
       console.error(error);
     }
-    
+
 
     // try {
     //   const response = await fetch('/api/unsubscribe', {
@@ -126,11 +126,11 @@ function SubscribePopup(props) {
             </p>
         </div>
         <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
-            <button onClick={handleSubscribe} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+            <button onClick={handleSubscribe} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-white capitalize transition-colors duration-300 transform border border-gray-200 rounded-md bg-green-600 hover:bg-green-500 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
                 Subscribe
             </button>
 
-            <button onClick={handleUnsubscribe} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+            <button onClick={handleUnsubscribe} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md bg-red-600 hover:bg-red-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                 Unsubscribe
             </button>
         </div>

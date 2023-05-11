@@ -1037,6 +1037,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
   try {
     //console.log("yolo");
     const { id } = req.params;
+    const job=await Job.findOne({_id:id});
     //console.log(id);
     const applications = await Application.find({ job_id: id });
     //console.log(applications);
@@ -1057,7 +1058,7 @@ app.get("/jobApplicants/:id", async (req, res) => {
         return obj;
       })
     ).then((applicantArray) => {
-      res.status(200).send({ status: 200, applicantArray });
+      res.status(200).send({ status: 200, applicantArray, jobTitle:job.title });
     });
   } catch (error) {
     //console.log(error);
@@ -1071,39 +1072,46 @@ app.post("/jobApplicantStatusChange", async (req, res) => {
     //console.log("here at status change");
     //console.log(application_id);
     //console.log(newStatus);
-    const application = await Application.updateOne(
-      { _id: application_id },
-      { $set: { status: newStatus } }
-    );
-    console.log(newStatus);
-    if (newStatus === "Accepted") {
-      // Save the OTP to the user's record in the database
-      const mailOptions = {
-        from: "r.patidar181001.2@gmail.com",
-        to: student_email,
-        subject: "Status Change",
-        text: `You got some changes in status of job you have applied , please login to our platform for check`,
-      };
+    console.log("here at status change");
+    const old_application=await Application.findOne({_id:application_id});
+    console.log(old_application.status);
+    if(old_application.status!="Withdrew"){
+      console.log("it wasn't withdrew");
+      const application = await Application.updateOne(
+        { _id: application_id },
+        { $set: { status: newStatus } }
+      );
+      console.log(newStatus);
+      if (newStatus === "Accepted") {
+        // Save the OTP to the user's record in the database
+        const mailOptions = {
+          from: "r.patidar181001.2@gmail.com",
+          to: student_email,
+          subject: "Status Change",
+          text: `You got some changes in status of job you have applied , please login to our platform for check`,
+        };
 
-      console.log("acceptd hai bahi");
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          //console.log(error);
-          return res.status(200).send({
-            status: 500,
-            // message: "Failed to send OTP",
-          });
-        } else {
-          console.log("mail gya");
-          //console.log("OTP sent: " + info.response);
-          return res.status(200).send({
-            status: 200,
-            // message: "OTP sent",
-            // otp: otp
-          });
-        }
-      });
+        console.log("acceptd hai bahi");
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            //console.log(error);
+            return res.status(200).send({
+              status: 500,
+              // message: "Failed to send OTP",
+            });
+          } else {
+            console.log("mail gya");
+            //console.log("OTP sent: " + info.response);
+            return res.status(200).send({
+              status: 200,
+              // message: "OTP sent",
+              // otp: otp
+            });
+          }
+        });
+      }
     }
+
     res.send("success");
   } catch (err) {
     //console.log(err);
@@ -1779,9 +1787,12 @@ app.get("/create-workbook/:id", async (req, res) => {
     });
     console.log("done till here");
     await wb.write(name_of_file);
-
+    res.send({ status: 200 });
+  }else{
+    res.send({status:500});
   }
-  res.send({ status: 200 });
+
+
 })
 app.get("/export/:id", async (req, res, next) => {
   console.log("here");

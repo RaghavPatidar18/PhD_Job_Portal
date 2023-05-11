@@ -487,6 +487,22 @@ today = yyyy + '-' + mm + '-' + dd;
 
 const checkFields = () => {
 
+  console.log(jobFields);
+
+  var personalErr=false;
+  var tenthErr=false;
+  var twelfthErr=false;
+  var btechErr=false;
+  var mtechErr=false;
+
+  var pubErr=publicationError;
+  pubErr.map((p,index)=>{
+    pubErr[index]=false;
+  })  ;
+  var refErr=referenceError;
+  refErr.map((p,index)=>{
+    refErr[index]=false;
+  }) ;
   var flag=0;
   jobFields.personal.map((p,index)=>{
     if(flag===0){
@@ -617,14 +633,18 @@ const checkFields = () => {
     if(personalEmail.includes("@") && personalEmail.includes(".")){
       if(personalEmail.indexOf("@")!==0 && personalEmail.indexOf("@")<personalEmail.indexOf(".") && personalEmail.indexOf(".")!==personalEmail.length-1){
         console.log("personal email is right");
+        personalErr=false;
         setPersonalError(false);
       }else{
+        personalErr=true;
         setPersonalError(true);
       }
     }else{
+      personalErr=true;
       setPersonalError(true);
     }
   }else{
+    personalErr=true;
     setPersonalError(true);
   }
 
@@ -632,10 +652,13 @@ const checkFields = () => {
     var tenthUrl=jobFields.academic[0].marksheet10;
     console.log(tenthUrl);
       console.log(typeof(tenthUrl));
-    if(tenthUrl.substr(0,7)==="https://" || tenthUrl.substr(0,8)==="https://"){
+    if(tenthUrl.substr(0,7)==="http://" || tenthUrl.substr(0,8)==="https://"){
       console.log("tenth marksheet url is ok");
+      tenthErr=false;
       setTenthMarksheetError(false);
     }else{
+      console.log("not okay 10th marskeet");
+      tenthErr=true;
       setTenthMarksheetError(true);
     }
   }
@@ -643,10 +666,12 @@ const checkFields = () => {
 
   if(jobFields.jobFields.academic.marksheet12===true){
     var twelfthUrl=jobFields.academic[0].marksheet12;
-    if(twelfthUrl.substr(0,7)==="https://" || twelfthUrl.substr(0,8)==="https://"){
+    if(twelfthUrl.substr(0,7)==="http://" || twelfthUrl.substr(0,8)==="https://"){
       console.log("twelfth marksheet url is ok");
+      twelfthErr=false;
       setTwelfthMarksheetError(false);
     }else{
+      twelfthErr=true;
       setTwelfthMarksheetError(true);
     }
   }
@@ -654,10 +679,12 @@ const checkFields = () => {
 
   if(jobFields.jobFields.academic.marksheetbtechurl===true){
     var btechUrl=jobFields.academic[0].marksheetbtechurl;
-    if(btechUrl.substr(0,7)==="https://" || btechUrl.substr(0,8)==="https://"){
+    if(btechUrl.substr(0,7)==="http://" || btechUrl.substr(0,8)==="https://"){
       console.log("btech marksheet url is ok");
+      btechErr=false;
       setBtechMarksheetError(false);
     }else{
+      btechErr=true;
       setBtechMarksheetError(true);
     }
   }
@@ -665,10 +692,12 @@ const checkFields = () => {
 
   if(jobFields.jobFields.academic.marksheetmtechurl===true){
     var mtechUrl=jobFields.academic[0].marksheetmtechurl;
-    if(mtechUrl.substr(0,7)==="https://" || mtechUrl.substr(0,8)==="https://"){
+    if(mtechUrl.substr(0,7)==="http://" || mtechUrl.substr(0,8)==="https://"){
       console.log("mtech marksheet url is ok");
+      mtechErr=false;
       setMtechMarksheetError(false);
     }else{
+      mtechErr=true;
       setMtechMarksheetError(true);
     }
   }
@@ -677,13 +706,15 @@ const checkFields = () => {
   jobFields.publication.map((pub,index)=>{
     if(jobFields.jobFields.publication.url===true){
       var url=pub.url;
-      if(url.substr(0,7)==="https://" || url.substr(0,8)==="https://"){
+      if(url.substr(0,7)==="http://" || url.substr(0,8)==="https://"){
         console.log(`publication url ${index} is ok`);
         var publicationErrorArray=publicationError;
+        pubErr[index]=false;
         publicationErrorArray[index]=false;
         setPublicationError(publicationErrorArray);
       }else{
         var publicationErrorArray=publicationError;
+        pubErr[index]=true;
         publicationErrorArray[index]=true;
         setPublicationError(publicationErrorArray);
       }
@@ -699,20 +730,24 @@ const checkFields = () => {
           if(email.indexOf("@")!==0 && email.indexOf("@")<email.indexOf(".") && email.indexOf(".")!==email.length-1){
             console.log(`reference email ${index} is right`);
             var referenceErrorArray=referenceError;
+            refErr[index]=false;
             referenceErrorArray[index]=false;
             setReferenceError(referenceErrorArray);
           }else{
             var referenceErrorArray=referenceError;
+            refErr[index]=true;
             referenceErrorArray[index]=true;
             setReferenceError(referenceErrorArray);
           }
         }else{
           var referenceErrorArray=referenceError;
+          refErr[index]=true;
           referenceErrorArray[index]=true;
           setReferenceError(referenceErrorArray);
         }
       }else{
         var referenceErrorArray=referenceError;
+        refErr[index]=true;
         referenceErrorArray[index]=true;
         setReferenceError(referenceErrorArray);
       }
@@ -720,15 +755,22 @@ const checkFields = () => {
 
   });
 
+console.log("hereere");
 
-  if(personalError===true || tenthMarksheetError===true || twelfthMarksheetError===true || btechMarksheetError===true || mtechMarksheetError===true){
+console.log(personalErr);
+console.log(tenthErr);
+console.log(twelfthErr);
+console.log(btechErr);
+console.log(mtechErr);
+
+  if(personalErr===true || tenthErr===true || twelfthErr===true || btechErr===true || mtechErr===true){
     console.log('error found');
     setShowError(true);
   }else{
-    var pubError=publicationError.some((pub)=>{
+    var pubError=pubErr.some((pub)=>{
       return pub===true;
     })
-    var refError=referenceError.some((ref)=>{
+    var refError=refErr.some((ref)=>{
       return ref===true;
     })
 
@@ -764,7 +806,7 @@ const checkFields = () => {
                 Cancel
             </button>
 
-            <button onClick={submitClicked} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+            <button onClick={submitClicked} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                 Submit
             </button>
         </div>
@@ -832,6 +874,7 @@ const checkFields = () => {
               {jobFields.jobFields.personal.gender && <div >
                 <label class="text-gray-700 dark:text-gray-200">Gender<span style={{color:'red'}}> *</span> </label>
                 <select required onChange={(e)=> {const obj=jobFields;obj.personal[0].gender=e.target.value; setJobFields({...jobFields,obj});}} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+                  <option value="" selected={jobFields.personal[0].gender===""}>Select Option</option>
                   <option value="Male" selected={jobFields.personal[0].gender==="Male"}>Male</option>
                   <option value="Female" selected={jobFields.personal[0].gender==="Female"}>Female</option>
                   <option value="Other" selected={jobFields.personal[0].gender==="Other"}>Other</option>
@@ -840,6 +883,7 @@ const checkFields = () => {
               {jobFields.jobFields.personal.category && <div >
                 <label class="text-gray-700 dark:text-gray-200">Category<span style={{color:'red'}}> *</span> </label>
                 <select required onChange={(e)=> {const obj=jobFields;obj.personal[0].category=e.target.value; setJobFields({...jobFields,obj});}} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+                  <option value="" selected={jobFields.personal[0].category===""} >Select Option</option>
                   <option value="General" selected={jobFields.personal[0].category==="General"} >General</option>
                   <option value="SC" selected={jobFields.personal[0].category==="SC"}>SC</option>
                   <option value="ST" selected={jobFields.personal[0].category==="ST"}>ST</option>
@@ -853,8 +897,10 @@ const checkFields = () => {
               {jobFields.jobFields.personal.married && <div >
                 <label class="text-gray-700 dark:text-gray-200">Married Status<span style={{color:'red'}}> *</span> </label>
                 <select required onChange={(e)=> {const obj=jobFields;obj.personal[0].married=e.target.value; setJobFields({...jobFields,obj});}} class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
-                  <option value="Yes" selected={jobFields.personal[0].married==="Yes"}>Yes</option>
-                  <option value="No" selected={jobFields.personal[0].married==="No"}>No</option>
+                  <option value="" selected={jobFields.personal[0].married===""}>Select Option</option>
+                  <option value="Married" selected={jobFields.personal[0].married==="Married"}>Married</option>
+                  <option value="Unmarried" selected={jobFields.personal[0].married==="Unmarried"}>Unmarried</option>
+                  <option value="Divorced" selected={jobFields.personal[0].married==="Divorced"}>Divorced</option>
                 </select>
               </div>}
               {jobFields.jobFields.personal.nationality && <div >
@@ -1111,6 +1157,7 @@ const checkFields = () => {
               {jobFields.jobFields.academic.isphdcompleted && <div >
                 <label class="text-gray-700 dark:text-gray-200">Is Phd Completed?<span style={{color:'red'}}> *</span> </label>
                 <select required onChange={(e)=> {const obj=jobFields.academic[0].isphdcompleted=e.target.value; setJobFields({...jobFields,obj});}} className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
+                  <option value="-" selected={jobFields.academic[0].isphdcompleted==="-"}>Select Option</option>
                   <option value="Yes" selected={jobFields.academic[0].isphdcompleted==="Yes"}>Yes</option>
                   <option value="No" selected={jobFields.academic[0].isphdcompleted==="No"}>No</option>
                 </select>

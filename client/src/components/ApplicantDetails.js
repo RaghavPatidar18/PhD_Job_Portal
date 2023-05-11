@@ -27,7 +27,7 @@ function ApplicantDetails({ user, type }) {
   const history = useNavigate();
   // const url = `http://localhost:4000/fetch-resume/${user}`;
 
-  
+
 
   useEffect(() => {
     if (type !== "institute") {
@@ -37,7 +37,7 @@ function ApplicantDetails({ user, type }) {
         .get(`/api/applicant-details/${id}`)
         .then((response) => {
           if (response.data.status === 200) {
-            
+
             if (response.data.details.institute_id !== user._id) {
               history("*");
             } else {
@@ -464,7 +464,7 @@ function ApplicantDetails({ user, type }) {
                             </td>
                           </tr>
                         )}
-                        {details.fields.personal.disablity && (
+                        {details.fields.personal.disability && (
                           <tr>
                             <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-300 whitespace-normal">
                               Disability

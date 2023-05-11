@@ -123,7 +123,7 @@ const jobSchema = new mongoose.Schema({
 });
 
 const userSchema = new mongoose.Schema({
-  name : String , 
+  name : String ,
   email: { type: String, unique: true },
   password: String,
   subscribedToJobAlerts: { type: Boolean, default: false },
@@ -131,7 +131,7 @@ const userSchema = new mongoose.Schema({
     {
         token: {
             type: String,
-            required: true, 
+            required: true,
         }
     }
 ],
@@ -235,7 +235,7 @@ const registerInstituteSchema = new mongoose.Schema({
   year : String,
   phone : String
 });
- 
+
 
 // token generate
 userSchema.methods.generateAuthToken = async function () {
@@ -282,7 +282,7 @@ module.exports = {
   Alumni: mongoose.model('Alumni', userSchema),
   Comment: mongoose.model('Comment',commentSchema),
   CommentNew: mongoose.model('CommentNew',commentSchemaNew),
-  Experience: mongoose.model('Experience',experiencesSchema),
+  Experience: mongoose.model('UserExperience',experiencesSchema),
   RegisterInstitute: mongoose.model('RegisterInstitute', registerInstituteSchema),
   Admin: mongoose.model('Admin',adminSchema)
 };

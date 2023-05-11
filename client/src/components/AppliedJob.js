@@ -26,8 +26,14 @@ function AppliedJob({user,type}){
   const [deletePressed,setDeletePressed]=useState(false);
   const [show,setShow]=useState(false);
   const [searchString,setSearchString]=useState("");
-  const [statusFilter,setStatusFilter]=useState("Select Status");
-  const [deleteFilter,setDeleteFilter]=useState("All Jobs");
+  const [statusFilter,setStatusFilter]=useState(false);
+  const [searchPending,setSearchPending]=useState(false);
+  const [searchAccepted,setSearchAccepted]=useState(false);
+  const [searchRejected,setSearchRejected]=useState(false);
+  const [searchWithdrew,setSearchWithdrew]=useState(false);
+  const [deleteFilter,setDeleteFilter]=useState(false);
+  const [jobActiveFilter,setJobActiveFilter]=useState(false);
+  const [jobDeletedFilter,setJobDeletedFilter]=useState(false);
 
   const handleShow=()=>setShow(true);
   const handleClose=()=>setShow(false);
@@ -45,7 +51,7 @@ function AppliedJob({user,type}){
       .catch((err) => console.log(err));
     }
 
-    console.log(deleteFilter);
+    //console.log(deleteFilter);
   }, []);
 
   const handleMultipleDelete=()=>{
@@ -72,24 +78,80 @@ function AppliedJob({user,type}){
                 Cancel
             </button>
 
-            <button onClick={handleMultipleDelete} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+            <button onClick={handleMultipleDelete} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                 Withdraw
             </button>
         </div>
     </div>
-      {/*<Modal.Header closeButton>
-        <Modal.Title>Withdraw Applications</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>Are you sure you wish to withdraw all the selected applications? You will not be able to apply for the corresponding jobs again.</Modal.Body>
-      <Modal.Footer>
-        <Button variant="dark" onClick={handleClose}>
-          Close
-        </Button>
-        <Button variant="danger" onClick={handleMultipleDelete}>
-          Delete
-        </Button>
-      </Modal.Footer>*/}
     </Modal>
+
+
+    {statusFilter && <div style={{display:'block',position:'fixed',zIndex:'1000', top:'0', bottom:'0', left:'0', right:'0', backgroundColor:"rgba(1,1,1,0.5)"}}>
+    <div style={{display:'block',position:'fixed', left:'50%',top:'50%', transform:'translate(-50%,-50%)'}}>
+      <div class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
+        <h3 class="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white" id="modal-title">
+          Status Filter
+        </h3>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          Search jobs based on your current application status.
+        </p>
+
+        <div class="mt-4" >
+          <label for="emails-list" class="text-sm text-gray-700 dark:text-gray-200" style={{marginLeft:'5px'}}>
+            Status
+          </label>
+          <div className="grid grid-cols-2 mt-3">
+            <button onClick={()=> setSearchPending(!searchPending)}className={`text-sm font-normal text-indigo-500 inline-flex items-center px-3 rounded-full gap-x-2 dark:bg-gray-800 ${searchPending? "bg-indigo-300/60":"bg-indigo-100/60"} hover:bg-indigo-200/60`} style={{margin:'5px',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Pending</button>
+            <button onClick={()=> setSearchAccepted(!searchAccepted)}className={`text-sm font-normal text-emerald-500 inline-flex items-center px-3 rounded-full gap-x-2 dark:bg-gray-800 ${searchAccepted? "bg-emerald-300/60":"bg-emerald-100/60"} hover:bg-emerald-200/60`} style={{margin:'5px',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Accepted</button>
+            <button onClick={()=> setSearchRejected(!searchRejected)} className={`text-sm font-normal text-red-500 inline-flex items-center px-3 rounded-full gap-x-2 dark:bg-gray-800  ${searchRejected? "bg-red-300/60":"bg-red-100/60"} hover:bg-red-200/60`} style={{margin:'5px',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Rejected</button>
+            <button onClick={()=> setSearchWithdrew(!searchWithdrew)}className={`text-sm font-normal text-gray-500 inline-flex items-center px-3 rounded-full gap-x-2 dark:bg-gray-800  ${searchWithdrew? "bg-gray-300":"bg-gray-100"} hover:bg-gray-200`} style={{margin:'5px',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Withdrew</button>
+          </div>
+          <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
+            <button onClick={()=> {setSearchPending(false); setSearchAccepted(false); setSearchRejected(false); setSearchWithdrew(false); }}type="button" class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+              Clear
+            </button>
+
+            <button onClick={()=> {setStatusFilter(false);}}type="button" class="w-full px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>}
+
+    {deleteFilter && <div style={{display:'block',position:'fixed',zIndex:'1000', top:'0', bottom:'0', left:'0', right:'0', backgroundColor:"rgba(1,1,1,0.5)"}}>
+    <div style={{display:'block',position:'fixed', left:'50%',top:'50%', transform:'translate(-50%,-50%)'}}>
+      <div class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
+        <h3 class="text-lg font-medium leading-6 text-gray-800 capitalize dark:text-white" id="modal-title">
+          Job Status Filter
+        </h3>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+          Search jobs based on their current activity status.
+        </p>
+
+        <div class="mt-4" >
+          <label for="emails-list" class="text-sm text-gray-700 dark:text-gray-200" style={{marginLeft:'5px'}}>
+            Status
+          </label>
+          <div className="grid grid-cols-1 mt-3">
+            <button onClick={()=> setJobActiveFilter(!jobActiveFilter)}className={`text-sm font-normal text-emerald-500 inline-flex items-center px-3 rounded-full gap-x-2 dark:bg-gray-800 ${jobActiveFilter? "bg-emerald-300/60":"bg-emerald-100/60"} hover:bg-emerald-200/60`} style={{margin:'5px',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Active</button>
+            <button onClick={()=> setJobDeletedFilter(!jobDeletedFilter)}className={`text-sm font-normal text-red-500 inline-flex items-center px-3 rounded-full gap-x-2 dark:bg-gray-800 ${jobDeletedFilter? "bg-red-300/60":"bg-red-100/60"} hover:bg-red-200/60`} style={{margin:'5px',paddingTop:'12px',paddingBottom:'12px',textTransform:'none',letterSpacing:'initial'}}>Deleted</button>
+            </div>
+          <div class="mt-4 sm:flex sm:items-center sm:-mx-2">
+            <button onClick={()=> {setJobActiveFilter(false); setJobDeletedFilter(false);  }}type="button" class="w-full px-4 py-2 text-sm font-medium tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md sm:w-1/2 sm:mx-2 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+              Clear
+            </button>
+
+            <button onClick={()=> { setDeleteFilter(false);}}type="button" class="w-full px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+              Apply
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>}
+
 
     <div style={{marginTop:'50px'}}>
 
@@ -100,6 +162,17 @@ function AppliedJob({user,type}){
       </div>
 
       <div class="mt-6 md:flex md:items-center md:justify-between">
+      <div class="inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
+          <button onClick={()=> setStatusFilter(true)} class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+              Status Filter
+          </button>
+
+          <button onClick={()=> setDeleteFilter(true)}class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+              Job Status Filter
+          </button>
+      </div>
+
+      {/*<div class="mt-6 md:flex md:items-center md:justify-between">
       <div class="inline-flex overflow-hidden bg-white  divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
         <div class="gap-6 mt-4 ">
         <select  onChange={(e)=> setStatusFilter(e.target.value)} class="inline-block w-full px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
@@ -115,9 +188,9 @@ function AppliedJob({user,type}){
           <option value="Deleted Jobs" selected={deleteFilter==="Deleted Jobs"} >Deleted Jobs</option>
         </select>
         </div>
-      </div>
+      </div>*/}
 
-        <div class="relative flex items-center mt-4 md:mt-0">
+        <div class="relative flex items-center mt-4 md:mt-0" style={{margin:'auto', marginRight:'0'}}>
           <span class="absolute">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
@@ -171,15 +244,23 @@ function AppliedJob({user,type}){
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
                 {job.map((j,index) => {
-                  if(j.title.toLowerCase().includes(searchString.toLowerCase()) && ((deleteFilter==="All Jobs") || (deleteFilter==="Active Jobs" && j.deleted===false) || (deleteFilter==="Deleted Jobs" && j.deleted===true))){
-                    if((statusFilter==="Pending" && j.application_status==="Pending") || (statusFilter==="Accepted" && j.application_status==="Accepted") || (statusFilter==="Rejected" && j.application_status==="Rejected") || (statusFilter==="Withdrew" && j.application_status==="Withdrew") || (statusFilter==="Select Status")){
-                      return <AppliedJobCard
-                      job={j}
-                      srNo={index+1}
-                      selectAll={selectAll}
-                      deletePressed={deletePressed}
-                      length={job.length}
-                      />
+                  console.log("here in map");
+                  if(j.title.toLowerCase().includes(searchString.toLowerCase()) ){
+                    console.log("search filter passed");
+                    if((searchPending===true && j.application_status==="Pending") || (searchAccepted===true && j.application_status==="Accepted") || (searchRejected===true && j.application_status==="Rejected") || (searchWithdrew===true && j.application_status==="Withdrew") ||  (searchWithdrew===false && searchPending===false && searchAccepted===false && searchRejected===false)){
+                      console.log(j);
+                      if((jobActiveFilter===true && j.deleted===false) || (jobDeletedFilter===true && j.deleted===true) || (jobActiveFilter===false && jobDeletedFilter===false)){
+                        console.log("all filters");
+                        console.log(j);
+                        return <AppliedJobCard
+                        job={j}
+                        srNo={index+1}
+                        selectAll={selectAll}
+                        deletePressed={deletePressed}
+                        length={job.length}
+                        />
+                      }
+
                     }
 
                   }

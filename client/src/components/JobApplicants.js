@@ -22,6 +22,7 @@ function JobApplicants({ user, type }) {
   const [searchAccepted,setSearchAccepted]=useState(false);
   const [searchRejected,setSearchRejected]=useState(false);
   const [searchWithdrew,setSearchWithdrew]=useState(false);
+  const [jobTitle,setJobTitle]=useState("");
 
   const [qualificationFilter,setQualificationFilter]=useState(false);
   const [tenthMax,setTenthMax]=useState("select");
@@ -49,13 +50,15 @@ function JobApplicants({ user, type }) {
 
             const defaultVal = "N/A"; // set your default value here
             const updatedData = response.data.applicantArray.map((applicant) => {
-              const studentDataPersonal = Object.values(applicant.student.personal).map(val => val ?? defaultVal);
+              const studentDataPersonal=applicant.student.personal.map((per)=>{Object.values(per).map(val => val ?? defaultVal)});
+              //const studentDataPersonal = Object.values(applicant.student.personal).map(val => val ?? defaultVal);
               const studentDataExperience = Object.values(applicant.student.experience).map(val => val ?? defaultVal);
               const newData = [...Object.values(applicant), ...studentDataPersonal, ...studentDataExperience];
               return newData;
             });
             setPersonalData(updatedData);
             setApplicants(response.data.applicantArray);
+            setJobTitle(response.data.jobTitle);
             console.log(response.data.applicantArray);
           }
 
@@ -109,14 +112,14 @@ function JobApplicants({ user, type }) {
                 Cancel
             </button>
 
-            <button onClick={handleMultipleAccept} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+            <button onClick={handleMultipleAccept} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                 Accept
             </button>
         </div>
     </div>
     </Modal>
 
-    
+
 
     <Modal show={showReject} onHide={handleCloseReject} >
     <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
@@ -133,13 +136,13 @@ function JobApplicants({ user, type }) {
                 Cancel
             </button>
 
-            <button onClick={handleMultipleReject} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-                Accept
+            <button onClick={handleMultipleReject} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                Reject
             </button>
         </div>
     </div>
     </Modal>
-    
+
     {statusFilter && <div style={{display:'block',position:'fixed',zIndex:'1000', top:'0', bottom:'0', left:'0', right:'0', backgroundColor:"rgba(1,1,1,0.5)"}}>
     <div style={{display:'block',position:'fixed', left:'50%',top:'50%', transform:'translate(-50%,-50%)'}}>
       <div class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:max-w-sm sm:p-6 sm:align-middle">
@@ -285,7 +288,7 @@ function JobApplicants({ user, type }) {
             </button>
 
             <button onClick={()=> {setQualificationFilter(false);}}type="button" class="w-full px-4 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md sm:mt-0 sm:w-1/2 sm:mx-2 hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
-              Apply 
+              Apply
             </button>
           </div>
         </div>
@@ -298,6 +301,7 @@ function JobApplicants({ user, type }) {
 
 
     <section className="container px-4 py-4 mx-auto" style={{boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)"}}>
+      <h2 className="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold', textAlign:'center'}}>{jobTitle.toUpperCase()}</h2>
       <div className="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 className="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Job Applicants</h2>
         <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400" style={{paddingRight:'12px',paddingLeft:'12px',fontWeight:'normal'}}>{applicants.length} applicants</span>
@@ -326,7 +330,7 @@ function JobApplicants({ user, type }) {
         </div>
       </div>
 
-      
+
 
       <div className="flex flex-col mt-6">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -348,9 +352,7 @@ function JobApplicants({ user, type }) {
                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">Status</th>
                     <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400"><CSVLink {...csvLink}>Download All</CSVLink></th>
 
-                    <th scope="col" className="relative py-3.5 px-4">
-                      <span className="sr-only">View Applicant Detail</span>
-                    </th>
+
                     <th scope="col" className="relative py-3.5 px-4">
                     <div className="flex items-center gap-x-12">
                         <button onClick={handleShowAccept} className="text-gray-500 transition-colors duration-200 dark:hover:text-emerald-500 dark:text-gray-300 hover:text-emerald-500 focus:outline-none">
@@ -380,6 +382,15 @@ function JobApplicants({ user, type }) {
                     if((searchPending===true && applicant.status==="Pending") || (searchAccepted===true && applicant.status==="Accepted") || (searchRejected===true && applicant.status==="Rejected") || (searchWithdrew===true && applicant.status==="Withdrew") ||  (searchWithdrew===false && searchPending===false && searchAccepted===false && searchRejected===false)){
                       const academic=applicant.student.academic[0];
                       console.log(academic);
+                      console.log(tenthMax);
+                      console.log(tenthMin);
+                      console.log(twelfthMax);
+                      console.log(twelfthMin);
+                      console.log(btechMax);
+                      console.log(btechMin);
+                      console.log(mtechMax);
+                      console.log(mtechMin);
+                      console.log(phdQualificationFilter);
                       if((tenthMax==="select") || (tenthMax==="5 GPA" && (Number(academic.percentage10)/Number(academic.percentageformat10))*5>=tenthMin) || (tenthMax==="10 GPA" && (Number(academic.percentage10)/Number(academic.percentageformat10))*10>=tenthMin) || (tenthMax==="100%" && (Number(academic.percentage10)/Number(academic.percentageformat10))*100>=tenthMin)){
                         if((twelfthMax==="select") || (twelfthMax==="5 GPA" && (Number(academic.percentage12)/Number(academic.percentageformat12))*5>=twelfthMin) || (twelfthMax==="10 GPA" && (Number(academic.percentage12)/Number(academic.percentageformat12))*10>=twelfthMin) || (twelfthMax==="100%" && (Number(academic.percentage12)/Number(academic.percentageformat12))*100>=twelfthMin)){
                           if((btechMax==="select") || (btechMax==="5 GPA" && (Number(academic.percentagebtech)/Number(academic.percentageformatbtech))*5>=btechMin) || (btechMax==="10 GPA" && (Number(academic.percentagebtech)/Number(academic.percentageformatbtech))*10>=btechMin) || (btechMax==="100%" && (Number(academic.percentagebtech)/Number(academic.percentageformatbtech))*100>=btechMin)){

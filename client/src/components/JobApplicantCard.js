@@ -39,7 +39,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
       console.log(res.data);
       if(res.data){
         console.log("success");
-        setApplicantStatus("Accepted");
+        //setApplicantStatus("Accepted");
         window.location.reload(false);
       }
     })
@@ -56,7 +56,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     .then((res)=> {
       if(res.data){
         console.log("success");
-        setApplicantStatus("Rejected");
+        //setApplicantStatus("Rejected");
         window.location.reload(false);
       }
     })
@@ -67,48 +67,37 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
     axios.get(`/create-workbook/${application_id}`)
       .then((res)=>{
         console.log(res.data);
-        setFileCreated(true);
+        if(res.data.status===200){
+          //handleDownload();
+          setTimeout(()=>{
+            console.log("workbook created");
+            console.log("here");
+            const fileName="book.xlsx";
+            axios({
+                method: 'get',
+                url: `/export/${application_id}`,
+                responseType: 'blob',
+                headers: {},
+                })
+                .then((res) => {
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', fileName);
+                    document.body.appendChild(link);
+                    link.click();
+                })
+                .catch((error) => {
+                    alert(error);
+                })
+          },2000);
 
-      })
-  }
-
-  function handleDownload(){
-    console.log("here");
-    // axios.get(`http://localhost:4000/export/${application_id}`)
-    // .then((res)=> {
-    //   if(res.data){
-    //     console.log("success");
-    //
-    //     //setApplicantStatus("Rejected");
-    //     //window.location.reload(false);
-    //   }
-    // })
-    // .catch((err)=> console.log(err));
-    const fileName="book.xlsx";
-    axios({
-        method: 'get',
-        url: `/export/${application_id}`,
-        responseType: 'blob',
-        headers: {},
-        })
-        .then((res) => {
-            const url = window.URL.createObjectURL(new Blob([res.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', fileName);
-            document.body.appendChild(link);
-            link.click();
-        })
-        .catch((error) => {
-            alert(error);
-        })
-        setFileCreated(false);
+        }
+      }).catch((err)=> console.log(err));
   }
 
   useEffect(()=>{
-    if(fileCreated===true){
-      handleDownload();
-    }
+
     if(acceptPressed===true || rejectPressed===true){
       if(acceptPressed===true){
         if(select===true){
@@ -150,7 +139,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
                         Cancel
                     </button>
 
-                    <button onClick={()=> {handleCloseAccept();acceptClicked();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+                    <button onClick={()=> {handleCloseAccept();acceptClicked();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                         Accept
                     </button>
                 </div>
@@ -173,7 +162,7 @@ function JobApplicantCard({student_name,student_email,status,application_id,id,s
                   Cancel
               </button>
 
-              <button onClick={()=> {handleCloseReject();rejectClicked();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
+              <button onClick={()=> {handleCloseReject();rejectClicked();}} class="px-4 sm:mx-2 w-full py-2.5 sm:mt-0 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40">
                   Reject
               </button>
           </div>
