@@ -133,16 +133,13 @@ export default function Profile({ user, type }) {
     const { name, value } = event.target;
     console.log(name);
     console.log(value);
-    const obj=formValues;
-    formValues[name]=value;
-    setFormValues(obj);
+    setFormValues({ ...formValues, [name]: value });
     console.log(formValues);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // save into database
-    console.log(formValues);
     axios.post("/personal", { formValues, user }).then((response) => {
       if (response.data.status === 200) {
         console.log("Your data was saved");
@@ -263,13 +260,14 @@ export default function Profile({ user, type }) {
                       <select
                         id="gender"
                         name="gender"
+                        value={formValues.gender}
                         onChange={handleInputChange}
                         required
                       >
-                        <option value="" selected={formValues.gender===""}>Please select</option>
-                        <option value="Male" selected={formValues.gender==="Male"}>Male</option>
-                        <option value="Female" selected={formValues.gender==="Female"}>Female</option>
-                        <option value="Other" selected={formValues.gender==="Other"}>Other</option>
+                        <option value="">Please select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                       </select>
                     </dd>
                   </div>
@@ -295,14 +293,15 @@ export default function Profile({ user, type }) {
                       <select
                         id="category"
                         name="category"
+                        value={formValues.category}
                         onChange={handleInputChange}
                         required
                       >
-                        <option value="" selected={formValues.category===""}>Please select</option>
-                        <option value="General" selected={formValues.category==="General"}>General</option>
-                        <option value="SC" selected={formValues.category==="SC"}>SC</option>
-                        <option value="ST" selected={formValues.category==="ST"}>ST</option>
-                        <option value="OBC" selected={formValues.category==="OBC"}>OBC</option>
+                        <option value="">Please select</option>
+                        <option value="General">General</option>
+                        <option value="SC">SC</option>
+                        <option value="ST">ST</option>
+                        <option value="OBC">OBC</option>
                       </select>
                     </dd>
                   </div>
@@ -314,13 +313,14 @@ export default function Profile({ user, type }) {
                       <select
                         id="married"
                         name="married"
+                        value={formValues.married}
                         onChange={handleInputChange}
                         required
                       >
-                        <option value="" selected={formValues.married===""}>Please select</option>
-                        <option value="Married" selected={formValues.married==="Married"}>Married</option>
-                        <option value="Unmarried" selected={formValues.married==="Unmarried"}>Unmarried</option>
-                        <option value="Divorced" selected={formValues.married==="Divorced"}>Divorced</option>
+                        <option value="">Please select</option>
+                        <option value="Married">Married</option>
+                        <option value="Unmarried">Unmarried</option>
+                        <option value="Divorced">Divorced</option>
                       </select>
                     </dd>
                     <dt className="text-sm font-medium text-gray-500">
@@ -331,12 +331,13 @@ export default function Profile({ user, type }) {
                         defaultValue={formValues.disability}
                         id="disability"
                         name="disability"
+                        value={formValues.disability}
                         onChange={handleInputChange}
                         required
                       >
-                        <option value="" selected={formValues.disability===""}>Please select</option>
-                        <option value="Yes" selected={formValues.disability==="Yes"}>Yes</option>
-                        <option value="No" selected={formValues.disability==="No"}>No</option>
+                        <option value="">Please select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
                       </select>
                     </dd>
                   </div>
@@ -461,7 +462,7 @@ export default function Profile({ user, type }) {
                     {married}
                   </dd>
                   <dt className="text-sm font-medium text-gray-500">
-                    Disability
+                    Disablity
                   </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {disability}
