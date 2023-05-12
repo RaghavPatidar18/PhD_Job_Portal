@@ -20,6 +20,7 @@ function PostedJobs({user,type}){
   const [show,setShow]=useState(false);
   const [deletePressed,setDeletePressed]=useState(false);
   const [searchString,setSearchString]=useState("");
+  const [numberOfJobs,setNumberOfJobs]=useState(0);
 
   const handleClose = () => setShow(false);
   const handleShow = ()=> setShow(true);
@@ -34,6 +35,13 @@ function PostedJobs({user,type}){
         if(response.data.status===200){
           setJob(response.data.jobArray);
           console.log(response.data.jobArray);
+          var count=0;
+          response.data.jobArray.map((j)=>{
+            if(j.deleted===false){
+              count++;
+            }
+          });
+          setNumberOfJobs(count);
         }
 
       })
@@ -98,7 +106,7 @@ function PostedJobs({user,type}){
 
       <div class="flex items-center gap-x-3" style={{width:'100%'}}>
         <h2 class="text-lg font-medium text-gray-800 dark:text-white" style={{marginBottom:'0',textTransform:'none',letterSpacing:'normal',fontWeight:'bold'}}>Posted Jobs</h2>
-        <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400" style={{paddingRight:'12px',paddingLeft:'12px',fontWeight:'normal'}}>{job.length} jobs</span>
+        <span class="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400" style={{paddingRight:'12px',paddingLeft:'12px',fontWeight:'normal'}}>{numberOfJobs} jobs</span>
       </div>
 
       <div class="mt-6 md:flex md:items-center md:justify-between">

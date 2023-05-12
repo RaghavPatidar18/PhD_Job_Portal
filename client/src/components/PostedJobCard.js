@@ -54,7 +54,7 @@ function PostedJobCard({title,id,createDate,deleted,selectAll,deletePressed,inde
       if(response.data.status===200){
         console.log("deleted");
         setJobDeleted(true);
-        //window.location.reload(false);
+        window.location.reload(false);
       }else{
         console.log("issues");
       }

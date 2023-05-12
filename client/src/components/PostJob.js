@@ -11,6 +11,7 @@ import CustomizableForm from "./CustomForm/CustomizableForm.js";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Modal from "react-bootstrap/Modal";
 import { faEnvelope, faUser,faLocationArrow , faBuilding, faMapMarkerAlt, faDollarSign, faFileAlt, faGraduationCap, faTasks } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -34,6 +35,14 @@ function PostJob({user,type}) {
   const [jobDetails,setJobDetails]=useState({});
 
   const [gotJobDetails,setGotJobDetails]=useState(false);
+
+  const [showSuccess,setShowSuccess]=useState(false);
+  const handleCloseSuccess=()=>{
+    setShowSuccess(false);
+    window.location.href="/";
+  };
+
+
 
   const isFirstRender = useRef(true);
 
@@ -84,6 +93,26 @@ const history=useNavigate();
   })
 
   function handleSubmit(personalData,academicData,experienceData,publicationData,porData,referenceData) {
+
+    if(title!=="" && description!=="" && location!=="" && salary!=="" && college!=="" && qualifications!=="" && responsibilities!=="" && lastDate!=="" ){
+      if(contactEmail.toLowerCase()===contactEmail){
+        if(contactEmail.includes("@") && contactEmail.includes(".")){
+          if(contactEmail.indexOf("@")!==0 && contactEmail.indexOf("@")<contactEmail.indexOf(".") && contactEmail.indexOf(".")!==contactEmail.length-1){
+            console.log("personal email is right");
+          }else{
+            return false;
+          }
+        }else{
+          return false;
+        }
+      }else{
+        return false;
+      }
+    }else{
+      return false;
+    }
+
+
     const fields={
       personal: personalData,
       academic: academicData,
@@ -146,7 +175,9 @@ const history=useNavigate();
             setQualifications("");
             setResponsibilities("");
             setLastDate("");
-            window.location.reload();
+
+            setShowSuccess(true);
+            //window.location.reload();
           }else{
             console.log(response.data.err);
           }
@@ -155,6 +186,7 @@ const history=useNavigate();
           console.log(err);
         });
       }
+      return true;
   }
 
   const customFormDisplay = ()=> {
@@ -170,6 +202,23 @@ const history=useNavigate();
 
    return (
     <>
+    <Modal show={showSuccess} onHide={handleCloseSuccess}>
+    <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
+        <div class="text-center">
+            <h3 class="text-lg font-medium text-gray-800 dark:text-white" id="modal-title">
+                Job Posted Successfully !
+            </h3>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">
+                The job has been posted successfully. Close Modal to get back to homepage.
+            </p>
+        </div>
+        <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
+            <button onClick={handleCloseSuccess} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                close
+            </button>
+        </div>
+    </div>
+    </Modal>
     <div className="postJob" >
       <div className="formDiv">
         <form className="postJobForm">

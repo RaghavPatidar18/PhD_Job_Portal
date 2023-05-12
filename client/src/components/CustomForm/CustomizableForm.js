@@ -36,6 +36,13 @@ function CustomizableForm({handleSubmit,updateForm}){
 
   const [gotUpdateForm,setGotUpdateForm]=useState(false);
 
+  const [errorAlert,setErrorAlert]=useState(false);
+
+  const handleCloseErrorAlert=()=> {
+    setErrorAlert(false);
+    window.location.reload(false);
+  };
+
 
 
 
@@ -74,12 +81,16 @@ function CustomizableForm({handleSubmit,updateForm}){
 
   const handleDataCollection = ()=> {
     console.log("here");
+    console.log("srgbh");
+
     setGetData(true);
+    handleClose();
   }
 
 
 
   useEffect(()=> {
+    console.log("here in useEffect");
     if(isFirstRender.current){
       console.log("did i come here");
       isFirstRender.current=false;
@@ -100,6 +111,7 @@ function CustomizableForm({handleSubmit,updateForm}){
       return;
     }
 
+    console.log("kjreghiuerg");
     const updateFormPersonalLength=Object.keys(updateFormPersonal).length;
     const updateFormPublicationLength=Object.keys(updateFormPublication).length;
     const updateFormPorLength=Object.keys(updateFormPor).length;
@@ -133,7 +145,10 @@ function CustomizableForm({handleSubmit,updateForm}){
       console.log(porData);
       console.log(publicationData);
       console.log(referenceData);
-      handleSubmit(personalData,academicData,experienceData,publicationData,porData,referenceData);
+      var answer=handleSubmit(personalData,academicData,experienceData,publicationData,porData,referenceData);
+      if(answer===false){
+        setErrorAlert(true);
+      }
 
     }else{
       console.log("whyyyyy");
@@ -142,6 +157,23 @@ function CustomizableForm({handleSubmit,updateForm}){
   },[getData,personalData,academicData,experienceData,publicationData,porData,referenceData,updateFormAcademic,updateFormExperience,updateFormPersonal,updateFormPor,updateFormPublication,updateFormReference])
   return(
     <>
+    <Modal show={errorAlert} onHide={handleCloseErrorAlert}>
+    <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
+        <div class="text-center">
+            <h3 class="text-lg font-medium text-gray-800 dark:text-white" id="modal-title">
+                Error Submitting Form
+            </h3>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">
+                Some fields were either filled wrongly or left unanswered !
+            </p>
+        </div>
+        <div class="mt-4 sm:flex sm:items-center sm:justify-between sm:mt-6 sm:-mx-2">
+            <button onClick={handleCloseErrorAlert} class="px-4 sm:mx-2 w-full py-2.5 text-sm font-medium dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800 tracking-wide text-gray-700 capitalize transition-colors duration-300 transform border border-gray-200 rounded-md hover:bg-gray-100 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40">
+                Cancel
+            </button>
+        </div>
+    </div>
+    </Modal>
     <Modal show={show} onHide={handleClose}>
     <div class="relative block overflow-hidden text-left align-middle transform bg-white  sm:max-w-sm rounded-xl dark:bg-gray-900 sm:my-8 sm:w-full sm:p-6" style={{margin:'auto', marginTop:'10px', marginBottom:'10px'}}>
         <div class="text-center">
