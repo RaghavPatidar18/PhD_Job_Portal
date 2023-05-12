@@ -5,6 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 // import CircularProgress from '@mui/material/CircularProgress';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import Alert from 'react-bootstrap/Alert';
+import lgimage from './lgimage.jpg';
 
 const ForgotPassword = () => {
 
@@ -17,6 +19,8 @@ const ForgotPassword = () => {
     const [password, setPassword] = useState("");
 
     const [message, setMessage] = useState("");
+    const [passwordResetAlert,setPasswordResetAlert]=useState(false);
+    const [expiredAlert,setExpiredAlert]=useState(false);
 
     const location = useLocation();
     // const userType = new URLSearchParams(location.search).get("userType");
@@ -58,8 +62,13 @@ const ForgotPassword = () => {
                     setMessage(res.data.message);
                     if (res.data.status == 201) {
                         setPassword("");
+                        setPasswordResetAlert(true);
+                        setExpiredAlert(false);
+                        window.location.href="/";
                         setMessage(true);
                     } else {
+                      setExpiredAlert(true);
+                      setPasswordResetAlert(false);
                         console.log("user Invalid");
                         toast.error("! Token Expired generate new LInk", {
                             position: "top-center"
@@ -78,9 +87,55 @@ const ForgotPassword = () => {
     }, [])
 
     return (
+      <>
+      {passwordResetAlert &&
+
+          <div class="w-full text-white bg-green-500">
+              <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+                  <div class="flex">
+                      <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+                          <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z">
+                          </path>
+                      </svg>
+
+                      <p class="mx-3">Password has been reset!</p>
+                  </div>
+
+                  <button onClick={() => { setPasswordResetAlert(false); }} class="p-1 transition-colors duration-300 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none" style={{ backgroundColor: 'transparent' }}>
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                  </button>
+              </div>
+          </div>
+
+      }
+
+      {expiredAlert &&
+
+          <div class="w-full text-white bg-green-500">
+              <div class="container flex items-center justify-between px-6 py-4 mx-auto">
+                  <div class="flex">
+                      <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current">
+                          <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z">
+                          </path>
+                      </svg>
+
+                      <p class="mx-3">Link has expired!</p>
+                  </div>
+
+                  <button onClick={() => { setExpiredAlert(false); }} class="p-1 transition-colors duration-300 transform rounded-md hover:bg-opacity-25 hover:bg-gray-600 focus:outline-none" style={{ backgroundColor: 'transparent' }}>
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                  </button>
+              </div>
+          </div>
+
+      }
         <div style={{marginTop:'150px'}}>
         <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800 lg:max-w-4xl">
-          <div className="hidden bg-cover lg:block lg:w-1/2" style={{backgroundImage: 'url("https://images.unsplash.com/photo-1606660265514-358ebbadc80d?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1575&q=80")'}}></div>
+          <div className="hidden bg-cover lg:block lg:w-1/2"style={{ backgroundImage: `url(${lgimage})`, backgroundSize: '100%' }}></div>
           <div class="w-full px-6 py-8 md:px-8 lg:w-1/2">
             <div class="flex justify-center mx-auto">
               <img class="w-auto h-7 sm:h-8" src="https://upload.wikimedia.org/wikipedia/en/f/f9/Indian_Institute_of_Technology_Ropar_logo.png" alt=""/>
@@ -136,6 +191,7 @@ const ForgotPassword = () => {
             </section>*/}
 
         </div>
+        </>
     )
 }
 

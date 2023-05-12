@@ -105,7 +105,7 @@ function Root() {
       <Route path="/choose-profile" element={<Basic />} />
       {/* <Route path="/download" element={<Download />} /> */}
         <Route path="/password-reset" element={<PasswordReset />} />
-        <Route path="/forgotpassword/:id/:token/:usertype" />
+        <Route path="/forgotpassword/:id/:token/:usertype" element={<ForgotPassword />}/>
 
       <Route path="/experiences" element={<><PrivateRoute><Navbar user={user} type={userType} /> <AllExperiences /></PrivateRoute></>} />
       <Route path="/interviewtips" element={<><PrivateRoute><Navbar user={user} type={userType}/> <InterviewTips /></PrivateRoute></>} />

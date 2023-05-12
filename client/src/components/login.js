@@ -22,7 +22,7 @@ const Login = () => {
     const handleLogin = async () => {
 
         const res = await axios.post("/api/login", {
-            email, password, userType 
+            email, password, userType
             }, {
             headers: {
             "Content-Type": "application/json"
@@ -33,19 +33,22 @@ const Login = () => {
                 console.log(res.data.result.token);
                 localStorage.setItem("usersdatatoken", res.data.result.token);
                 setShowLogInAlert(true);
-                if(userType==="admin") 
+                if(userType==="admin")
                 {
                     window.location.href = "/admin";
                 }
-                else 
+                else
                 {
                     window.location.href = "/";
                 }
             }
-            if (res.data.success === false) {
+            if (res.data.status === 400) {
                 setShowInvalidUserAlert(true);
+                setTimeout(()=>{
+                  setShowInvalidUserAlert(false);
+                },2000);
             }
-        
+
 
         // const data = await fetch("/api/login", {
         //     method: "POST",
@@ -65,11 +68,11 @@ const Login = () => {
         //     console.log(res.result.token);
         //     localStorage.setItem("usersdatatoken", res.result.token);
         //     setShowLogInAlert(true);
-        //     if(userType==="admin") 
+        //     if(userType==="admin")
         //     {
         //         window.location.href = "/admin";
         //     }
-        //     else 
+        //     else
         //     {
         //         window.location.href = "/";
         //     }

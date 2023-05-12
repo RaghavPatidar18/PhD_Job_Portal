@@ -205,6 +205,7 @@ const transporter = nodemailer.createTransport({
 
 // Send email with OTP to the user's email address
 app.post("/api/sendOtp", async (req, res) => {
+  console.log("here at signup");
   const email = req.body.email;
   const userType = req.body.userType;
 
@@ -528,22 +529,25 @@ app.post("/api/add-institute", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   //console.log("idhr aa gya");
   const { email, password, userType } = req.body;
-  // //console.log(userType);
+  console.log(userType);
   if (userType === "student") {
     const userstudent = await User.findOne({
       email: email,
     });
-    // //console.log("login m aa gya");
-    //   //console.log(res.data);
+    console.log("login m aa gya");
+    console.log(res.data);
+
     if (!userstudent)
-      return res.status(400).send({
+      return res.status(200).send({
+        status: 400,
         success: false,
         message: "Invalid Email or Password",
       });
     const isPasswordValid = bcrypt.compareSync(password, userstudent.password);
 
     if (!isPasswordValid)
-      return res.status(400).send({
+      return res.status(200).send({
+        status:400,
         success: false,
         message: "Invalid Email or Password",
       });
@@ -585,7 +589,8 @@ app.post("/api/login", async (req, res) => {
     // //console.log(userInstitute);
     //   //console.log(res.data);
     if (!userInstitute)
-      return res.status(400).send({
+      return res.status(200).send({
+        status:400,
         success: false,
         message: "Invalid Email or Password",
       });
@@ -595,7 +600,8 @@ app.post("/api/login", async (req, res) => {
     );
 
     if (!isPasswordValid)
-      return res.status(400).send({
+      return res.status(200).send({
+        status:400,
         success: false,
         message: "Invalid Email or Password",
       });
@@ -635,7 +641,8 @@ app.post("/api/login", async (req, res) => {
       email: email,
     });
     if (!useradmin) {
-      return res.status(400).send({
+      return res.status(200).send({
+        status:400,
         success: false,
         message: "Invalid Email or Password",
       });
@@ -763,7 +770,7 @@ app.post("/api/sendpasswordlink", async (req, res) => {
   const { email, userType } = req.body;
 
   if (!email) {
-    res.status(401).json({ status: 401, message: "Enter Your Email" });
+    res.status(200).json({ status: 401, message: "Enter Your Email" });
   }
 
   try {
@@ -791,7 +798,7 @@ app.post("/api/sendpasswordlink", async (req, res) => {
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
             //console.log("error",error);
-            res.status(401).json({ status: 401, message: "email not send" });
+            res.status(200).json({ status: 401, message: "email not send" });
           } else {
             //console.log("Email sent",info.response);
             res
@@ -824,7 +831,7 @@ app.post("/api/sendpasswordlink", async (req, res) => {
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
             //console.log("error",error);
-            res.status(401).json({ status: 401, message: "email not send" });
+            res.status(200).json({ status: 401, message: "email not send" });
           } else {
             //console.log("Email sent",info.response);
             res
@@ -835,7 +842,7 @@ app.post("/api/sendpasswordlink", async (req, res) => {
       }
     }
   } catch (error) {
-    res.status(401).json({ status: 401, message: "invalid user" });
+    res.status(200).json({ status: 401, message: "invalid user" });
   }
 });
 
@@ -843,8 +850,8 @@ app.post("/api/sendpasswordlink", async (req, res) => {
 app.get("/forgotpassword/:id/:token/:usertype", async (req, res) => {
   const { id, token, usertype } = req.params;
 
-  //console.log(usertype);
-  //console.log("link ke baad ka get pe hu");
+  console.log(usertype);
+  console.log("link ke baad ka get pe hu");
 
   try {
     if (usertype == "student") {

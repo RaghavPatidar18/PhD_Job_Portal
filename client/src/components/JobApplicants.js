@@ -49,13 +49,115 @@ function JobApplicants({ user, type }) {
           if (response.data.status === 200) {
 
             const defaultVal = "N/A"; // set your default value here
-            const updatedData = response.data.applicantArray.map((applicant) => {
-              const studentDataPersonal=applicant.student.personal.map((per)=>{Object.values(per).map(val => val ?? defaultVal)});
-              //const studentDataPersonal = Object.values(applicant.student.personal).map(val => val ?? defaultVal);
-              const studentDataExperience = Object.values(applicant.student.experience).map(val => val ?? defaultVal);
-              const newData = [...Object.values(applicant), ...studentDataPersonal, ...studentDataExperience];
-              return newData;
+            console.log(response.data.applicantArray);
+            var allApplicantDetails=[];
+            var updatedData=[["PERSONAL"],["ACADEMIC"],["EXPERIENCE"],["PUBLICATION"],["POR"],["REFERENCE"]];
+            response.data.applicantArray.map((applicant)=>{
+              var applicant_details=[];
+              const personalDataArray=applicant.student.personal;
+              var personal=[];
+              personalDataArray.map((perData)=>{
+                var perArray=Object.values(perData);
+                perArray.unshift("");
+                personal=[...personal,...perArray];
+              })
+
+              applicant_details.push(personal);
+
+              const academicDataArray=applicant.student.academic;
+              var academic=[];
+              academicDataArray.map((acadData)=>{
+                var acadArray=Object.values(acadData);
+                acadArray.unshift("");
+                academic=[...academic,...acadArray];
+              })
+
+              applicant_details.push(academic);
+
+              const experienceDataArray=applicant.student.experience;
+              var experience=[];
+              experienceDataArray.map((expData)=>{
+                var expArray=Object.values(expData);
+                expArray.unshift("");
+                experience=[...experience,...expArray];
+              })
+
+              applicant_details.push(experience);
+
+              const publicationDataArray=applicant.student.publication;
+              var publication=[];
+              publicationDataArray.map((pubData)=>{
+                var pubArray=Object.values(pubData);
+                pubArray.unshift("");
+                publication=[...publication,...pubArray];
+              })
+
+              applicant_details.push(publication);
+
+              const porDataArray=applicant.student.por;
+              var por=[];
+              porDataArray.map((pData)=>{
+                var pArray=Object.values(pData);
+                pArray.unshift("");
+                por=[...por,...pArray];
+              })
+
+              applicant_details.push(por);
+
+              const referenceDataArray=applicant.student.reference;
+              var reference=[];
+              referenceDataArray.map((refData)=>{
+                var refArray=Object.values(refData);
+                refArray.unshift("");
+                reference=[...reference,...refArray];
+              })
+
+              applicant_details.push(reference);
+              allApplicantDetails.push(applicant_details);
             });
+
+            allApplicantDetails.map((k,index)=>{
+              updatedData.splice(index+1,0,k[0]);
+              updatedData.splice(index+1+index+2,0,k[1]);
+              updatedData.splice(index+1+index+2+index+2,0,k[2]);
+              updatedData.splice(index+1+index+2+index+2+index+2,0,k[3]);
+              updatedData.splice(index+1+index+2+index+2+index+2+index+2,0,k[4]);
+              updatedData.push(k[5]);
+            })
+
+            console.log(updatedData);
+
+
+            // const updatedData = response.data.applicantArray.map((applicant) => {
+            //
+            //   const personalDataArray=applicant.student.personal;
+            //   var maxPersonalDataLength=0;
+            //   var personalDataFields;
+            //
+            //   personalDataArray.map((personalData)=>{
+            //     maxPersonalDataLength = Object.keys(personalData).length>maxPersonalDataLength? Object.keys(personalData).length:maxPersonalDataLength;
+            //   });
+            //   var flag=0;
+            //
+            //   personalDataArray.map((personalData)=>{
+            //     if(flag===0){
+            //       if(Object.keys(personalData).length===maxPersonalLength){
+            //         flag=1;
+            //         personalDataFields=Object.keys(personalData);
+            //       }
+            //     }
+            //   });
+            //   personalDataFields.unshift("PERSONAL");
+            //
+            //
+
+
+              //const studentDataPersonal=applicant.student.personal.map((per)=>{Object.values(per).map(val => val ?? defaultVal)});
+              //const studentDataPersonal = Object.values(applicant.student.personal).map(val => val ?? defaultVal);
+              //const studentDataExperience = Object.values(applicant.student.experience).map(val => val ?? defaultVal);
+              //const newData = [...Object.values(applicant), ...studentDataPersonal, ...studentDataExperience];
+              //return newData;
+            //});
             setPersonalData(updatedData);
             setApplicants(response.data.applicantArray);
             setJobTitle(response.data.jobTitle);
