@@ -631,14 +631,14 @@ const checkFields = () => {
   const personalEmail=jobFields.personal[0].email;
   if(personalEmail.toLowerCase()===personalEmail){
     if(personalEmail.includes("@") && personalEmail.includes(".")){
-      if(personalEmail.indexOf("@")!==0 && personalEmail.indexOf("@")<personalEmail.indexOf(".") && personalEmail.indexOf(".")!==personalEmail.length-1){
-        console.log("personal email is right");
-        personalErr=false;
-        setPersonalError(false);
-      }else{
-        personalErr=true;
-        setPersonalError(true);
-      }
+      personalErr=false;
+      setPersonalError(false);
+      // if(personalEmail.indexOf("@")!==0 && personalEmail.indexOf("@")<personalEmail.indexOf(".") && personalEmail.indexOf(".")!==personalEmail.length-1){
+      //   console.log("personal email is right");
+      // }else{
+      //   personalErr=true;
+      //   setPersonalError(true);
+      // }
     }else{
       personalErr=true;
       setPersonalError(true);
@@ -833,7 +833,7 @@ console.log(mtechErr);
     </div>
     </Modal>
 
-    <section class="max-w-7xl p-6 mx-auto rounded-md shadow-md dark:bg-gray-800" style={{marginTop:'40px',marginBottom:'40px',backgroundColor:'#87CEEB'}}>
+    <section class="max-w-7xl p-6 mx-auto rounded-md shadow-md dark:bg-gray-800" style={{marginTop:'40px',marginBottom:'40px',backgroundColor:'#CBC5C5'}}>
       <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white" style={{textAlign:'center'}}>APPLICATION FORM</h2>
 
 

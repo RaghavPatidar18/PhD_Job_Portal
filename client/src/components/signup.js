@@ -21,32 +21,42 @@ const Signup = () => {
     const userType = new URLSearchParams(location.search).get("userType");
 
     const handleSendOtp = () => {
-        axios.post("/api/sendOtp", { email , password , userType})
-        .then((res) => {
-            setMessage(res.data.message);
-            console.log(res.data);
-            console.log(res.data.message);
-            if(res.data.message==="User already exists")
-            {
-              console.log("rbgiow");
-              setShowRegisteredAlert(true);
-              setShowOtpSentAlert(false);
-              setShowInvalidOtpAlert(false); 
-              setShowOtpFailedAlert(false);
-            }else if(res.data.message==="OTP sent"){
-              setShowOtpSentAlert(true);
-              setShowRegisteredAlert(false);
-              setShowInvalidOtpAlert(false);
-              setShowOtpFailedAlert(false);
-              setRandomOtp(res.data.otp);
-            }else if(res.data.message==="Failed to send OTP"){
-              setShowOtpFailedAlert(true); 
-              setShowOtpSentAlert(false);
-              setShowRegisteredAlert(false);
-              setShowInvalidOtpAlert(false);
-            }
-        })
-        .catch((err)=> console.log(err));
+
+        if(userType === "institute" && !email.includes('.ac.in') && !email.includes('.edu'))
+        {
+            alert("If not .ac.in or .edu then please fill the form and wait");
+        }
+        else 
+        {
+            axios.post("/api/sendOtp", { email , password , userType})
+            .then((res) => {
+                setMessage(res.data.message);
+                console.log(res.data);
+                console.log(res.data.message);
+                if(res.data.message==="User already exists")
+                {
+                  console.log("rbgiow");
+                  setShowRegisteredAlert(true);
+                  setShowOtpSentAlert(false);
+                  setShowInvalidOtpAlert(false); 
+                  setShowOtpFailedAlert(false);
+                }else if(res.data.message==="OTP sent"){
+                  setShowOtpSentAlert(true);
+                  setShowRegisteredAlert(false);
+                  setShowInvalidOtpAlert(false);
+                  setShowOtpFailedAlert(false);
+                  setRandomOtp(res.data.otp);
+                }else if(res.data.message==="Failed to send OTP"){
+                  setShowOtpFailedAlert(true); 
+                  setShowOtpSentAlert(false);
+                  setShowRegisteredAlert(false);
+                  setShowInvalidOtpAlert(false);
+                }
+            })
+            .catch((err)=> console.log(err));
+
+        }
+
     };
 
     const handleVerifyOtp = () => {

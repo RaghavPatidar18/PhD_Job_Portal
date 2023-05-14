@@ -19,7 +19,7 @@ function ApplicantDetails({ user, type }) {
   const { id } = useParams();
   // console.log(id);
   const [details, setDetails] = useState({});
-  const [recieved, setRecieved] = useState(false);
+  const [recieved, setRecieved] = useState(false); 
   const [personalData, setPersonalData] = useState([]);
   const [altProfile, setAltProfile] = useState(defaultImage);
   const [resume, setResume] = useState(null);
@@ -72,7 +72,7 @@ function ApplicantDetails({ user, type }) {
                   response.data.details.student_details.personal[0]
                     .profile_image_url
                 );
-              }
+              } 
 
               setPersonalData(updatedData);
 
@@ -293,7 +293,7 @@ function ApplicantDetails({ user, type }) {
             paddingTop: "50px",
             paddingBottom: "50px",
             marginBottom: "50px",
-            backgroundColor: "#87CEEB",
+            backgroundColor: "rgb(178 195 212)",
           }}
         >
           <div class="flex items-center gap-x-3" style={{ width: "100%" }}>
@@ -916,7 +916,7 @@ function ApplicantDetails({ user, type }) {
               paddingTop: "50px",
               paddingBottom: "50px",
               marginBottom: "50px",
-              backgroundColor: "#87CEEB",
+              backgroundColor: "rgb(178 195 212)",
             }}
           >
             <div class="flex items-center gap-x-3" style={{ width: "100%" }}>
@@ -1725,7 +1725,7 @@ function ApplicantDetails({ user, type }) {
               paddingTop: "50px",
               paddingBottom: "50px",
               marginBottom: "50px",
-              backgroundColor: "#87CEEB",
+              backgroundColor: "rgb(178 195 212)",
             }}
           >
             <div class="flex items-center gap-x-3" style={{ width: "100%" }}>
@@ -1903,7 +1903,7 @@ function ApplicantDetails({ user, type }) {
               paddingTop: "50px",
               paddingBottom: "50px",
               marginBottom: "50px",
-              backgroundColor: "#87CEEB",
+              backgroundColor: "rgb(178 195 212)",
             }}
           >
             <div class="flex items-center gap-x-3" style={{ width: "100%" }}>
@@ -2113,7 +2113,7 @@ function ApplicantDetails({ user, type }) {
               paddingTop: "50px",
               paddingBottom: "50px",
               marginBottom: "50px",
-              backgroundColor: "#87CEEB",
+              backgroundColor: "rgb(178 195 212)",
             }}
           >
             <div class="flex items-center gap-x-3" style={{ width: "100%" }}>
@@ -2292,7 +2292,7 @@ function ApplicantDetails({ user, type }) {
               paddingTop: "50px",
               paddingBottom: "50px",
               marginBottom: "50px",
-              backgroundColor: "#87CEEB",
+              backgroundColor: "rgb(178 195 212)",
             }}
           >
             <div class="flex items-center gap-x-3" style={{ width: "100%" }}>

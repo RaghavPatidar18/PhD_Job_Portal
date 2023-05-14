@@ -66,7 +66,7 @@ export default function NewInstitute(props) {
                                             Email ID
                                         </label>
                                         <input
-                                            type="text"
+                                            type="text" 
                                             name="email"
                                             placeholder="Email"
                                             id="email"

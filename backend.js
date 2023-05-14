@@ -138,7 +138,6 @@ app.post("/job-post", (req, res) => {
 });
 
 app.get("/getjobs", (req, res) => {
-  // console.log("isme aa rha home wale m");
   var email = "";
   var userType = "";
   Job.find({}, (err, jobs) => {
@@ -154,34 +153,24 @@ app.get("/getjobs", (req, res) => {
 });
 
 app.get("/api/job-details/:id/:student_id", async (req, res) => {
-  ////console.log(req.userID);
-  //console.log("jsgiuf");
 
   try {
     const { id, student_id } = req.params;
-    //console.log(id);
-    //console.log(student_id);
-
     var applied = false;
     var application_id;
-    ////console.log(id);
     const application = await Application.findOne({
       job_id: id,
       student_id: student_id,
     });
     if (application) {
-      //console.log("sbugfiw");
       applied = true;
       application_id = application._id;
     } else {
-      //console.log("sbfoie");
       applied = false;
     }
 
     const job = await Job.findOne({ _id: id });
     if (job) {
-      //console.log("here at job detaisl");
-      //console.log(job);
       res.status(200).json({
         status: 200,
         job: job,
@@ -229,20 +218,6 @@ app.post("/api/sendOtp", async (req, res) => {
         .send({ status: 400, message: "User already exists" });
     }
   }
-  // if (userType == "student") {
-  //   // Check if the user already exists
-  // } else {
-  //   // Check if the user already exists
-  //   const user = await UserInstitute.findOne({ email });
-  //   if (user) {
-  //     return res
-  //       .status(200)
-  //       .send({ status: 400, message: "User already exists" });
-  //   }
-  // }
-
-  // req.session.otp = otp;
-
 
   const mailOptions = {
     from: "r.patidar181001.2@gmail.com",
@@ -253,13 +228,11 @@ app.post("/api/sendOtp", async (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      //console.log(error);
       return res.status(200).send({
         status: 500,
         message: "Failed to send OTP",
       });
     } else {
-      //console.log("OTP sent: " + info.response);
       return res.status(200).send({
         status: 200,
         message: "OTP sent",
@@ -282,35 +255,10 @@ app.post("/api/verifyOtp", async (req, res) => {
   console.log(otpEntered);
 
   const hashedPassword = bcrypt.hashSync(password, 1);
-  // req.session.hashedPassword = hashedPassword;
-
-  //console.log(req.body);
   console.log("aa gya");
-  // console.log(req.session);
-
-  //console.log(req.body.userType);
-
-
-  // if (otpEntered === -1) {
-  //   const userInstitute = new UserInstitute({
-  //     name: name,
-  //     email: email,
-  //     password: hashedPassword,
-  //   });
-  //   await userInstitute.save();
-
-  //   console.log("institute registered");
-  //   return res.status(200).send({
-  //     status: 200,
-  //     success: true,
-  //     message: "OTP verified successfully",
-  //   });
-
-  // }
-
+  
   if (otp === otpEntered) {
     if (req.body.userType === "student") {
-      //console.log("student hu vai");
       const user = new User({
         name: name,
         email: email,
@@ -462,7 +410,6 @@ app.post("/api/verifyOtp", async (req, res) => {
       await userInstitute.save();
     }
 
-    //console.log("bn gya");
     return res.status(200).send({
       status: 200,
       success: true,
@@ -516,7 +463,6 @@ app.post("/api/add-institute", async (req, res) => {
         message: "Failed to send Mail",
       });
     } else {
-      //console.log("OTP sent: " + info.response);
       return res.status(200).send({
         status: 200,
         message: "Mail sent",
@@ -556,8 +502,6 @@ app.post("/api/login", async (req, res) => {
 
       const token = await userstudent.generateAuthToken();
 
-      //console.log(userstudent);
-
       // cookiegenerate
 
       res.cookie("usercookie", token, {
@@ -569,25 +513,15 @@ app.post("/api/login", async (req, res) => {
         userstudent,
         token,
       };
-      // res.status(201).json({status:201,result})
-
-      // //console.log("Logged in huehue");
 
       res.status(201).json({ status: 201, result });
-      // return res.status(200).send({
-      //   success: true,
-      //   message: "Logged in successfully",
-      //   result : result
-      // });
+      
     }
   } else if (userType === "institute") {
     const userInstitute = await UserInstitute.findOne({
       email,
     });
 
-    // //console.log("login m aa gya : institute");
-    // //console.log(userInstitute);
-    //   //console.log(res.data);
     if (!userInstitute)
       return res.status(200).send({
         status:400,
@@ -610,8 +544,6 @@ app.post("/api/login", async (req, res) => {
 
       const token = await userInstitute.generateAuthToken();
 
-      // //console.log(userInstitute);
-
       // cookiegenerate
 
       res.cookie("usercookie", token, {
@@ -623,16 +555,8 @@ app.post("/api/login", async (req, res) => {
         userInstitute,
         token,
       };
-      // res.status(201).json({status:201,result})
-
-      // //console.log("Logged in huehue");
 
       res.status(201).json({ status: 201, result });
-      // return res.status(200).send({
-      //   success: true,
-      //   message: "Logged in successfully",
-      //   result : result
-      // });
     }
   }
   else {
@@ -669,54 +593,8 @@ app.post("/api/login", async (req, res) => {
 });
 
 
-passport.use(
-  new GoogleStrategy(
-    {
-      clientID: '82066739900-rqo1gjofhmv4lqarkt82sr30nm8383pb.apps.googleusercontent.com', // Replace with your Google client ID
-      clientSecret: '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', // Replace with your Google client secret
-      callbackURL: '/auth/google/callback', // Replace with your callback URL
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      // Use the profile information to create or authenticate a user in your application
-      // You can access the user's information from the profile object
-      const { id, displayName, emails } = profile;
-      // Example: You can save the user's information in your database and call done() to complete the authentication process
-      // Replace this with your actual logic for creating or authenticating a user
-      const user = await User.findOne({ googleId: id });
-      if (user) {
-        return done(null, user);
-      } else {
-        const newUser = new User({
-          googleId: id,
-          displayName: displayName,
-          email: emails[0].value,
-        });
-        await newUser.save();
-        return done(null, newUser);
-      }
-    }
-  )
-);
-
-
-// Initialize Passport
-app.use(passport.initialize());
-
-// Route for starting the Google authentication process
-app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
-
-// Callback route for handling the Google authentication callback
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-  // Redirect to the appropriate page after successful authentication
-  res.redirect('/dashboard'); // Replace with your appropriate redirect URL
-});
-
-
-
-
 // user valid
 app.get("/validuser", authenticate, async (req, res) => {
-  //console.log("done");
   try {
     let ValidUserOne = await User.findOne({ _id: req.userId });
 
@@ -735,29 +613,6 @@ app.get("/validuser", authenticate, async (req, res) => {
       ValidUserOne = await Admin.findOne({ _id: req.userId });
       res.status(201).json({ status: 201, ValidUserOne, userType: "admin" });
     }
-
-
-
-    // if (!ValidUserOne) {
-    //   ValidUserOne = await UserInstitute.findOne({ _id: req.userId });
-    //   if (!ValidUserOne) {
-    //     ValidUserOne = await Admin.findOne({ _id: req.userId });
-    //     if (ValidUserOne) {
-    //       console.log("found admin");
-    //       res
-    //         .status(201)
-    //         .json({ status: 201, ValidUserOne, userType: "admin" });
-    //     }
-
-    //   }
-    //   if (ValidUserOne) {
-    //     res
-    //       .status(201)
-    //       .json({ status: 201, ValidUserOne, userType: "institute" });
-    //   }
-    // } else {
-    //   res.status(201).json({ status: 201, ValidUserOne, userType: "student" });
-    // }
   } catch (error) {
     res.status(401).json({ status: 401, error });
   }
@@ -765,7 +620,6 @@ app.get("/validuser", authenticate, async (req, res) => {
 
 // send email Link For reset Password
 app.post("/api/sendpasswordlink", async (req, res) => {
-  //console.log(req.body)
 
   const { email, userType } = req.body;
 
@@ -898,7 +752,6 @@ app.post("/api/:id/:token/:usertype", async (req, res) => {
 
   try {
     if (usertype == "student") {
-      //console.log("student after password reset");
       const validuser = await User.findOne({ _id: id, verifytoken: token });
 
       const verifyToken = jwt.verify(token, keysecret);
@@ -1076,9 +929,6 @@ app.get("/jobApplicants/:id", async (req, res) => {
 app.post("/jobApplicantStatusChange", async (req, res) => {
   try {
     const { application_id, newStatus, student_email } = req.body;
-    //console.log("here at status change");
-    //console.log(application_id);
-    //console.log(newStatus);
     console.log("here at status change");
     const old_application=await Application.findOne({_id:application_id});
     console.log(old_application.status);
@@ -1101,18 +951,12 @@ app.post("/jobApplicantStatusChange", async (req, res) => {
         console.log("acceptd hai bahi");
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
-            //console.log(error);
             return res.status(200).send({
               status: 500,
-              // message: "Failed to send OTP",
             });
           } else {
-            console.log("mail gya");
-            //console.log("OTP sent: " + info.response);
             return res.status(200).send({
               status: 200,
-              // message: "OTP sent",
-              // otp: otp
             });
           }
         });
@@ -1121,7 +965,6 @@ app.post("/jobApplicantStatusChange", async (req, res) => {
 
     res.send("success");
   } catch (err) {
-    //console.log(err);
     res.send(err);
   }
 });
@@ -1134,11 +977,9 @@ app.get("/api/me", auth, async (req, res) => {
     let user = await User.findById(_id);
     if (!user) {
       user = await UserInstitute.findById(_id);
-      // return res.status(404).json({ error: 'User not found' });
     }
     res.json({ email: user.email });
   } catch (error) {
-    //console.error(error);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -1152,7 +993,6 @@ app.get("/api/mename", auth, async (req, res) => {
     let user = await User.findById(_id);
     if (!user) {
       user = await UserInstitute.findById(_id);
-      // return res.status(404).json({ error: 'User not found' });
     }
     console.log(user);
     res.json({ name: user.name });
@@ -1282,20 +1122,6 @@ app.get("/application-form/:job_id/:user_id", async (req, res) => {
 app.post("/application-form/:job_id/:user_id", async (req, res) => {
   console.log("posting at application form");
   const { job_id, user_id } = req.params;
-  // const { jobFields } = req.body;
-  // console.log("jobfields are:");
-  // console.log(jobFields);
-  // const obj = {};
-  // obj.personal = jobFields.personal;
-  // obj.academic = jobFields.academic;
-  // obj.experience = jobFields.experience;
-  // obj.publication = jobFields.publication;
-  // obj.por = jobFields.por;
-  // obj.reference = jobFields.reference;
-  //
-  // console.log("the created obj is");
-  // console.log(obj);
-
   const { dataToSend } = req.body;
   const obj = dataToSend;
   console.log("i got this data from the application form");
@@ -1362,9 +1188,6 @@ app.post('/api/comments', async (req, res) => {
   console.log("inside backend after submit");
 
   const { text, user, jobPosting } = req.body;
-  // console.log(text);
-  // console.log(user);
-  // console.log(jobPosting);
   const comment = new Comment({ text, user, jobPosting });
   // console.log("1");
 
@@ -1402,18 +1225,6 @@ app.get('/api/meid', auth, async (req, res) => {
   const { _id } = req.user;
 
   res.json({ _id });
-
-  // try {
-  //   let user = await User.findById(_id);
-  //   if (!user) {
-  //     user = await UserInstitute.findById(_id);
-  //     // return res.status(404).json({ error: 'User not found' });
-  //   }
-  //   res.json({ email: user.email });
-  // } catch (error) {
-  //   //console.error(error);
-  //   res.status(500).json({ error: 'Server error' });
-  // }
 });
 
 // Get all experiences
@@ -1438,12 +1249,8 @@ app.get('/api/getsubscriptionstatus', auth, async (req, res) => {
     let user = await User.findById(_id);
     if (!user) {
       user = await UserInstitute.findById(_id);
-      // return res.status(404).json({ error: 'User not found' });
       email = user.email;
       try {
-        // Get the email address from the query parameters
-        // const { email } = req.body;
-
         // Find the user by email address
         const user = await User.findOne({ email });
 
@@ -1490,9 +1297,6 @@ app.post('/api/getimage', async (req, res) => {
 
     let user = await Personal.findOne({ email : email });
 
-    // console.log(user);
-    // console.log(user.profile_image_url);
-
     let imagesrc = "#";
 
     if(user.profile_image_url)
@@ -1508,8 +1312,6 @@ app.post('/api/getimage', async (req, res) => {
 
 // Add a comment to an experience
 app.post("/api/addcomments/:id", async (req, res) => {
-  // console.log("inside api");
-  // console.log(req.body);
   console.log("add comments");
   const experience = await Experience.findById(req.params.id);
   const commentnew = new CommentNew({
@@ -1537,22 +1339,6 @@ app.put('/api/experiences/:id', async (req, res) => {
   const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, { new: true });
   res.json(experience);
 });
-
-// get comments
-// app.get('/api/experiences', async (req, res) => {
-//   try {
-//     console.log("inside get comment api");
-//     const experience = await Experience.findById(req.params.id);
-//     if (!experience) {
-//       return res.status(404).json({ message: 'Experience not found' });
-//     }
-//     const comments = experience.comments;
-//     res.json(comments);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: 'Server error' });
-//   }
-// });
 
 // Get all comments for an experience
 app.get('/api/getcomments/:id', async (req, res) => {
@@ -1815,12 +1601,6 @@ app.get("/export/:id", async (req, res, next) => {
   res.setHeader("Content-Type", mimeType);
   console.log("here too");
   res.download(file, name_of_file);
-
-
-
-  console.log("and afetr");
-  console.log('rwugteiu');
-
 
 })
 

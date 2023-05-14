@@ -225,7 +225,8 @@ const history=useNavigate();
           <h3 classname="postJobh3">Post a Job</h3>
           <div className="inputField">
           <div style={{ display: "flex", alignItems: "center" }}>
-        <FontAwesomeIcon icon={faUser} className="input-icon" style={{ marginRight: "20px", marginLeft: "10px" , marginBottom: "0px"  }} size="lg" />
+<FontAwesomeIcon icon={faUser} className="input-icon" style={{ marginRight: "20px", marginLeft: "10px", marginBottom: "0px" }} size="lg" />
+          <span style={{ color: 'red' }}>*</span>
         <FloatingLabel controlId="floatingTitle" label="Job title" className="mb-3" style={{ flex: 1 }}>
           <Form.Control
             type="text"
@@ -248,6 +249,7 @@ const history=useNavigate();
           style={{ marginRight: "10px", marginLeft: "10px", marginBottom: "0px" }}
           size="lg"
         />
+        <span style={{ color: 'red' }}>*</span>
         <FloatingLabel controlId="floatingCollege" label="College Name" className="mb-3" style={{ flex: 1 }}>
           <Form.Control
             type="text"
@@ -267,6 +269,7 @@ const history=useNavigate();
       style={{ marginRight: "20px", marginLeft: "7.5px", marginBottom: "0px" }}
       size="lg"
     />
+    <span style={{ color: 'red' }}>*</span>
     <FloatingLabel
       controlId="floatingLocation"
       label="Job Location"
@@ -291,6 +294,7 @@ const history=useNavigate();
       style={{ marginRight: "22px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
+    <span style={{ color: 'red' }}>*</span>
     <FloatingLabel
       controlId="floatingSalary"
       label="Salary"
@@ -315,6 +319,7 @@ const history=useNavigate();
       style={{ marginRight: "14px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
+    <span style={{ color: 'red' }}>*</span>
     <FloatingLabel
       controlId="floatingContactEmail"
       label="Contact email"
@@ -343,6 +348,7 @@ const history=useNavigate();
       style={{ marginRight: "14px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
+    <span style={{ color: 'red' }}>*</span>
     <FloatingLabel
       controlId="floatingContactEmail"
       label="Last Date of Application"
@@ -387,6 +393,7 @@ const history=useNavigate();
       className="mb-3"
       style={{ flex: 1 }}
     >
+    {/* <span style={{ color: 'red' }}>*</span> */}
       <Form.Control
         type="text"
         placeholder="Job Description"
@@ -405,6 +412,7 @@ const history=useNavigate();
       style={{ marginRight: "10px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
+    {/* <span style={{ color: 'red' }}>*</span> */}
     <FloatingLabel controlId="floatingQualifications" label="Qualifications" className="mb-3" style={{ flex: 5 }}>
       <Form.Control
         type="text"
@@ -427,6 +435,7 @@ const history=useNavigate();
       style={{ marginRight: "5px", marginLeft: "10px", marginBottom: "0px" }}
       size="lg"
     />
+    {/* <span style={{ color: 'red' }}>*</span> */}
     <FloatingLabel controlId="floatingResponsibilities" label="Responsibilities" className="mb" style={{ flex: 1 , marginLeft: "10px" , marginBottom:"20px" }}>
       <Form.Control
         type="text"
