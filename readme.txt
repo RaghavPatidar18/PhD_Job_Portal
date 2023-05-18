@@ -1,7 +1,5 @@
-Development Engineering Project 
-CP-301 
 
-PhD Job Portal (T18)
+PhD Job Portal 
 
 Readme 
 
