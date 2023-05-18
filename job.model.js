@@ -158,26 +158,6 @@ verifytoken:{
 
 //  db.admins.insertOne({email: "admin@123", password: "1"})  // command to add admins
 
-// const experienceSchema = new mongoose.Schema({
-//   name : String ,
-//   email: { type: String, unique: true },
-//   college : string,
-//   description : string,
-// });
-
-// const commentSchemaNew = new mongoose.Schema({
-//   experience: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'Experience',
-//     required: true,
-//   },
-//   comment: {
-//     type: String,
-//     required: true,
-//   },
-// }, {
-//   timestamps: true,
-// });
 
 const commentSchemaNew = new mongoose.Schema({
   experience: {

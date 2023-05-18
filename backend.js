@@ -1182,37 +1182,6 @@ app.get("/api/applicant-details/:id", async (req, res) => {
 });
 
 
-// POST /api/comments
-app.post('/api/comments', async (req, res) => {
-
-  console.log("inside backend after submit");
-
-  const { text, user, jobPosting } = req.body;
-  const comment = new Comment({ text, user, jobPosting });
-  // console.log("1");
-
-  try {
-    const savedComment = await comment.save();
-    // console.log("2");
-    res.json(savedComment);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
-// GET /api/comments?jobPostingId=<jobPostingId>
-app.get('/api/getcomments', async (req, res) => {
-  const { jobPostingId } = req.query;
-  console.log("3");
-  try {
-    const comments = await Comment.find({ jobPosting: jobPostingId }).populate('user');
-    console.log(comments);
-    res.json(comments);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-
 // Get all institutes requests
 app.get('/api/getrequests', async (req, res) => {
   const requestss = await RegisterInstitute.find();
@@ -1228,12 +1197,6 @@ app.get('/api/meid', auth, async (req, res) => {
 });
 
 // Get all experiences
-app.get('/api/getexperiences', async (req, res) => {
-  const experiences = await Experience.find();
-  res.json(experiences);
-});
-
-// Get all subscription status
 app.get('/api/getexperiences', async (req, res) => {
   const experiences = await Experience.find();
   res.json(experiences);
